@@ -1,0 +1,17 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "globalEnv": [
+    "NEXT_PUBLIC_API_BASE",
+    "NEXT_PUBLIC_COUNTRY",
+    "NEXT_PUBLIC_SITE_URL",
+    "ADMIN_ORIGIN"
+  ],
+  "globalDependencies": [".env"],
+  "tasks": {
+    "build": { "dependsOn": ["^build"], "outputs": [".next/**", "!.next/cache/**"] },
+    "@onn/config#build": { "cache": false },
+    "dev": { "dependsOn": ["^build"], "cache": false, "persistent": true },
+    "test": { "dependsOn": ["^build"] },
+    "typecheck": { "dependsOn": ["^build"] }
+  }
+}

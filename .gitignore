@@ -1,0 +1,12 @@
+node_modules
+.next
+.turbo
+.env
+.env.local
+*.tsbuildinfo
+next-env.d.ts
+
+# Written by packages/config/generate.ts
+packages/config/generated
+packages/ui/tokens.css
+apps/*/public/brand
