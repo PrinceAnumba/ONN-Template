@@ -5,3 +5,4 @@ pnpm-lock.yaml
 generated
 packages/ui/tokens.css
 docs
+packages/mocks/fixtures

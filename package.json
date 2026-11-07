@@ -6,14 +6,15 @@
     "node": ">=22"
   },
   "scripts": {
-    "dev": "turbo run dev --filter=./apps/*",
-    "dev:portal": "turbo run dev --filter=@onn/portal",
+    "dev": "turbo run dev --filter=./apps/* --filter=@onn/mocks",
+    "dev:portal": "turbo run dev --filter=@onn/portal --filter=@onn/mocks",
     "build": "turbo run build",
     "test": "turbo run test",
     "lint": "eslint .",
     "typecheck": "turbo run typecheck",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "mocks:gen": "pnpm --filter @onn/mocks gen"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",

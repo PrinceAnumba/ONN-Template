@@ -1,0 +1,60 @@
+{
+  "name": {
+    "fr": "Stratégie numérique nationale 2030",
+    "en": "National Digital Strategy 2030"
+  },
+  "targets": [
+    {
+      "indicator": "CONN.4G_POP",
+      "name": {
+        "fr": "Couverture 4G de la population",
+        "en": "4G population coverage"
+      },
+      "unit": {
+        "fr": "%",
+        "en": "%"
+      },
+      "target": 98,
+      "targetYear": "2030"
+    },
+    {
+      "indicator": "ACCESS.INTERNET_USERS",
+      "name": {
+        "fr": "Utilisateurs d'Internet",
+        "en": "Internet users"
+      },
+      "unit": {
+        "fr": "%",
+        "en": "%"
+      },
+      "target": 85,
+      "targetYear": "2030"
+    },
+    {
+      "indicator": "SKILLS.BASIC",
+      "name": {
+        "fr": "Compétences numériques de base",
+        "en": "Basic ICT skills"
+      },
+      "unit": {
+        "fr": "%",
+        "en": "%"
+      },
+      "target": 60,
+      "targetYear": "2030"
+    },
+    {
+      "indicator": "GOV.ESERVICES",
+      "name": {
+        "fr": "Services publics en ligne",
+        "en": "E-services online"
+      },
+      "unit": {
+        "fr": "%",
+        "en": "%"
+      },
+      "target": 90,
+      "targetYear": "2030"
+    }
+  ]
+}

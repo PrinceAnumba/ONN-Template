@@ -1,0 +1,98 @@
+[
+  {
+    "slug": "about",
+    "title": {
+      "fr": "À propos",
+      "en": "About"
+    },
+    "blocks": [
+      {
+        "type": "richText",
+        "body": {
+          "fr": "ONN : contenu de démonstration, à remplacer par le texte validé.",
+          "en": "ONN: demo content, to be replaced with approved text."
+        }
+      }
+    ]
+  },
+  {
+    "slug": "methodology",
+    "title": {
+      "fr": "Méthodologie",
+      "en": "Methodology"
+    },
+    "blocks": [
+      {
+        "type": "richText",
+        "body": {
+          "fr": "ONN : contenu de démonstration, à remplacer par le texte validé.",
+          "en": "ONN: demo content, to be replaced with approved text."
+        }
+      }
+    ]
+  },
+  {
+    "slug": "partners",
+    "title": {
+      "fr": "Partenaires",
+      "en": "Partners"
+    },
+    "blocks": [
+      {
+        "type": "richText",
+        "body": {
+          "fr": "ONN : contenu de démonstration, à remplacer par le texte validé.",
+          "en": "ONN: demo content, to be replaced with approved text."
+        }
+      }
+    ]
+  },
+  {
+    "slug": "privacy",
+    "title": {
+      "fr": "Confidentialité",
+      "en": "Privacy"
+    },
+    "blocks": [
+      {
+        "type": "richText",
+        "body": {
+          "fr": "ONN : contenu de démonstration, à remplacer par le texte validé.",
+          "en": "ONN: demo content, to be replaced with approved text."
+        }
+      }
+    ]
+  },
+  {
+    "slug": "terms",
+    "title": {
+      "fr": "Conditions d'utilisation",
+      "en": "Terms of use"
+    },
+    "blocks": [
+      {
+        "type": "richText",
+        "body": {
+          "fr": "ONN : contenu de démonstration, à remplacer par le texte validé.",
+          "en": "ONN: demo content, to be replaced with approved text."
+        }
+      }
+    ]
+  },
+  {
+    "slug": "accessibility",
+    "title": {
+      "fr": "Accessibilité",
+      "en": "Accessibility"
+    },
+    "blocks": [
+      {
+        "type": "richText",
+        "body": {
+          "fr": "ONN : contenu de démonstration, à remplacer par le texte validé.",
+          "en": "ONN: demo content, to be replaced with approved text."
+        }
+      }
+    ]
+  }
+]

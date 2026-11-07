@@ -1,0 +1,275 @@
+[
+  {
+    "code": "TGO",
+    "level": "country",
+    "name": {
+      "fr": "Togo",
+      "en": "Togo"
+    },
+    "iso3": "TGO"
+  },
+  {
+    "code": "TG-01",
+    "level": "adm1",
+    "name": "Maritime",
+    "parent": "TGO"
+  },
+  {
+    "code": "TG-01-01",
+    "level": "adm2",
+    "name": "Agoè-Nyivé",
+    "parent": "TG-01"
+  },
+  {
+    "code": "TG-01-02",
+    "level": "adm2",
+    "name": "Avé",
+    "parent": "TG-01"
+  },
+  {
+    "code": "TG-01-03",
+    "level": "adm2",
+    "name": "Bas-Mono",
+    "parent": "TG-01"
+  },
+  {
+    "code": "TG-01-04",
+    "level": "adm2",
+    "name": "Golfe",
+    "parent": "TG-01"
+  },
+  {
+    "code": "TG-01-05",
+    "level": "adm2",
+    "name": "Lacs",
+    "parent": "TG-01"
+  },
+  {
+    "code": "TG-01-06",
+    "level": "adm2",
+    "name": "Vo",
+    "parent": "TG-01"
+  },
+  {
+    "code": "TG-01-07",
+    "level": "adm2",
+    "name": "Yoto",
+    "parent": "TG-01"
+  },
+  {
+    "code": "TG-01-08",
+    "level": "adm2",
+    "name": "Zio",
+    "parent": "TG-01"
+  },
+  {
+    "code": "TG-02",
+    "level": "adm1",
+    "name": "Plateaux",
+    "parent": "TGO"
+  },
+  {
+    "code": "TG-02-01",
+    "level": "adm2",
+    "name": "Agou",
+    "parent": "TG-02"
+  },
+  {
+    "code": "TG-02-02",
+    "level": "adm2",
+    "name": "Akébou",
+    "parent": "TG-02"
+  },
+  {
+    "code": "TG-02-03",
+    "level": "adm2",
+    "name": "Amou",
+    "parent": "TG-02"
+  },
+  {
+    "code": "TG-02-04",
+    "level": "adm2",
+    "name": "Anié",
+    "parent": "TG-02"
+  },
+  {
+    "code": "TG-02-05",
+    "level": "adm2",
+    "name": "Danyi",
+    "parent": "TG-02"
+  },
+  {
+    "code": "TG-02-06",
+    "level": "adm2",
+    "name": "Est-Mono",
+    "parent": "TG-02"
+  },
+  {
+    "code": "TG-02-07",
+    "level": "adm2",
+    "name": "Haho",
+    "parent": "TG-02"
+  },
+  {
+    "code": "TG-02-08",
+    "level": "adm2",
+    "name": "Kloto",
+    "parent": "TG-02"
+  },
+  {
+    "code": "TG-02-09",
+    "level": "adm2",
+    "name": "Kpélé",
+    "parent": "TG-02"
+  },
+  {
+    "code": "TG-02-10",
+    "level": "adm2",
+    "name": "Moyen-Mono",
+    "parent": "TG-02"
+  },
+  {
+    "code": "TG-02-11",
+    "level": "adm2",
+    "name": "Ogou",
+    "parent": "TG-02"
+  },
+  {
+    "code": "TG-02-12",
+    "level": "adm2",
+    "name": "Wawa",
+    "parent": "TG-02"
+  },
+  {
+    "code": "TG-03",
+    "level": "adm1",
+    "name": "Kara",
+    "parent": "TGO"
+  },
+  {
+    "code": "TG-03-01",
+    "level": "adm2",
+    "name": "Assoli",
+    "parent": "TG-03"
+  },
+  {
+    "code": "TG-03-02",
+    "level": "adm2",
+    "name": "Bassar",
+    "parent": "TG-03"
+  },
+  {
+    "code": "TG-03-03",
+    "level": "adm2",
+    "name": "Binah",
+    "parent": "TG-03"
+  },
+  {
+    "code": "TG-03-04",
+    "level": "adm2",
+    "name": "Dankpen",
+    "parent": "TG-03"
+  },
+  {
+    "code": "TG-03-05",
+    "level": "adm2",
+    "name": "Doufelgou",
+    "parent": "TG-03"
+  },
+  {
+    "code": "TG-03-06",
+    "level": "adm2",
+    "name": "Kéran",
+    "parent": "TG-03"
+  },
+  {
+    "code": "TG-03-07",
+    "level": "adm2",
+    "name": "Kozah",
+    "parent": "TG-03"
+  },
+  {
+    "code": "TG-04",
+    "level": "adm1",
+    "name": "Centrale",
+    "parent": "TGO"
+  },
+  {
+    "code": "TG-04-01",
+    "level": "adm2",
+    "name": "Blitta",
+    "parent": "TG-04"
+  },
+  {
+    "code": "TG-04-02",
+    "level": "adm2",
+    "name": "Mô",
+    "parent": "TG-04"
+  },
+  {
+    "code": "TG-04-03",
+    "level": "adm2",
+    "name": "Sotouboua",
+    "parent": "TG-04"
+  },
+  {
+    "code": "TG-04-04",
+    "level": "adm2",
+    "name": "Tchamba",
+    "parent": "TG-04"
+  },
+  {
+    "code": "TG-04-05",
+    "level": "adm2",
+    "name": "Tchaoudjo",
+    "parent": "TG-04"
+  },
+  {
+    "code": "TG-05",
+    "level": "adm1",
+    "name": "Savanes",
+    "parent": "TGO"
+  },
+  {
+    "code": "TG-05-01",
+    "level": "adm2",
+    "name": "Cinkassé",
+    "parent": "TG-05"
+  },
+  {
+    "code": "TG-05-02",
+    "level": "adm2",
+    "name": "Kpendjal",
+    "parent": "TG-05"
+  },
+  {
+    "code": "TG-05-03",
+    "level": "adm2",
+    "name": "Kpendjal-Ouest",
+    "parent": "TG-05"
+  },
+  {
+    "code": "TG-05-04",
+    "level": "adm2",
+    "name": "Oti",
+    "parent": "TG-05"
+  },
+  {
+    "code": "TG-05-05",
+    "level": "adm2",
+    "name": "Oti-Sud",
+    "parent": "TG-05"
+  },
+  {
+    "code": "TG-05-06",
+    "level": "adm2",
+    "name": "Tandjoaré",
+    "parent": "TG-05"
+  },
+  {
+    "code": "TG-05-07",
+    "level": "adm2",
+    "name": "Tône",
+    "parent": "TG-05"
+  }
+]

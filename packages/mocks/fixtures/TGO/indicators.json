@@ -1,0 +1,3679 @@
+[
+  {
+    "code": "CONN.4G_POP",
+    "name": {
+      "fr": "Couverture 4G de la population",
+      "en": "4G population coverage"
+    },
+    "shortDefinition": {
+      "fr": "Part de la population couverte par un signal 4G.",
+      "en": "Share of the population within reach of a 4G signal."
+    },
+    "synonyms": [
+      "LTE",
+      "mobile coverage"
+    ],
+    "pillar": "CONN",
+    "theme": "COVERAGE",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national",
+      "adm1",
+      "adm2"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": true,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [
+      {
+        "org": "ITU",
+        "code": "i271GA",
+        "name": {
+          "fr": "Couverture 4G de la population",
+          "en": "4G population coverage"
+        },
+        "url": "https://datahub.itu.int/"
+      }
+    ],
+    "definition": {
+      "fr": "Part de la population couverte par un signal 4G. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of the population within reach of a 4G signal. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 45
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "CONN.3G_POP",
+      "CONN.5G_POP"
+    ],
+    "dashboards": [
+      {
+        "slug": "decision-makers",
+        "title": {
+          "fr": "Tableau de bord des décideurs",
+          "en": "Decision-makers dashboard"
+        }
+      },
+      {
+        "slug": "public",
+        "title": {
+          "fr": "Le numérique en bref",
+          "en": "Digital at a glance"
+        }
+      }
+    ]
+  },
+  {
+    "code": "CONN.3G_POP",
+    "name": {
+      "fr": "Couverture 3G de la population",
+      "en": "3G population coverage"
+    },
+    "shortDefinition": {
+      "fr": "Part de la population couverte par un signal 3G.",
+      "en": "Share of the population within reach of a 3G signal."
+    },
+    "synonyms": [],
+    "pillar": "CONN",
+    "theme": "COVERAGE",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national",
+      "adm1",
+      "adm2"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [
+      {
+        "org": "ITU",
+        "code": "i271G",
+        "name": {
+          "fr": "Couverture 3G de la population",
+          "en": "3G population coverage"
+        },
+        "url": "https://datahub.itu.int/"
+      }
+    ],
+    "definition": {
+      "fr": "Part de la population couverte par un signal 3G. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of the population within reach of a 3G signal. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 45
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "CONN.4G_POP",
+      "CONN.5G_POP"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "CONN.5G_POP",
+    "name": {
+      "fr": "Couverture 5G de la population",
+      "en": "5G population coverage"
+    },
+    "shortDefinition": {
+      "fr": "Part de la population couverte par un signal 5G.",
+      "en": "Share of the population within reach of a 5G signal."
+    },
+    "synonyms": [],
+    "pillar": "CONN",
+    "theme": "COVERAGE",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national",
+      "adm1"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Part de la population couverte par un signal 5G. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of the population within reach of a 5G signal. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 45
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "CONN.4G_POP",
+      "CONN.3G_POP"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "CONN.FIBRE_KM",
+    "name": {
+      "fr": "Longueur du réseau de fibre optique",
+      "en": "Fibre backbone length"
+    },
+    "shortDefinition": {
+      "fr": "Kilomètres de fibre optique déployés.",
+      "en": "Kilometres of deployed optical fibre."
+    },
+    "synonyms": [],
+    "pillar": "CONN",
+    "theme": "BACKBONE",
+    "unit": {
+      "fr": "nombre",
+      "en": "count"
+    },
+    "unitVariants": [
+      {
+        "code": "count",
+        "label": {
+          "fr": "nombre",
+          "en": "count"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Kilomètres de fibre optique déployés. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Kilometres of deployed optical fibre. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "CONN.INTL_BW",
+      "CONN.SPEED_MOBILE"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "CONN.INTL_BW",
+    "name": {
+      "fr": "Bande passante internationale",
+      "en": "International bandwidth"
+    },
+    "shortDefinition": {
+      "fr": "Capacité internationale totale utilisée.",
+      "en": "Total used international capacity."
+    },
+    "synonyms": [],
+    "pillar": "CONN",
+    "theme": "BACKBONE",
+    "unit": {
+      "fr": "Gbit/s",
+      "en": "Gbps"
+    },
+    "unitVariants": [
+      {
+        "code": "gbps",
+        "label": {
+          "fr": "Gbit/s",
+          "en": "Gbps"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [
+      {
+        "org": "ITU",
+        "code": "i4214",
+        "name": {
+          "fr": "Bande passante internationale",
+          "en": "International bandwidth"
+        },
+        "url": "https://datahub.itu.int/"
+      }
+    ],
+    "definition": {
+      "fr": "Capacité internationale totale utilisée. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Total used international capacity. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "CONN.FIBRE_KM",
+      "CONN.SPEED_MOBILE"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "CONN.SPEED_MOBILE",
+    "name": {
+      "fr": "Débit mobile médian",
+      "en": "Median mobile download speed"
+    },
+    "shortDefinition": {
+      "fr": "Débit descendant médian mesuré sur mobile.",
+      "en": "Median measured mobile download speed."
+    },
+    "synonyms": [],
+    "pillar": "CONN",
+    "theme": "BACKBONE",
+    "unit": {
+      "fr": "Mbit/s",
+      "en": "Mbps"
+    },
+    "unitVariants": [
+      {
+        "code": "mbps",
+        "label": {
+          "fr": "Mbit/s",
+          "en": "Mbps"
+        }
+      }
+    ],
+    "periodicity": "quarterly",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "UIT",
+        "en": "ITU"
+      },
+      "method": "international"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Débit descendant médian mesuré sur mobile. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Median measured mobile download speed. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "CONN.FIBRE_KM",
+      "CONN.INTL_BW"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "ACCESS.INTERNET_USERS",
+    "name": {
+      "fr": "Utilisateurs d'Internet",
+      "en": "Internet users"
+    },
+    "shortDefinition": {
+      "fr": "Part des personnes ayant utilisé Internet au cours des 3 derniers mois.",
+      "en": "Share of people who used the Internet in the last 3 months."
+    },
+    "synonyms": [
+      "internautes",
+      "online population"
+    ],
+    "pillar": "ACCESS",
+    "theme": "INDIVIDUALS",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      },
+      {
+        "code": "people",
+        "label": {
+          "fr": "personnes",
+          "en": "people"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national",
+      "adm1",
+      "adm2"
+    ],
+    "disaggregations": [
+      "sex",
+      "age_group",
+      "area"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": true,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Enquête nationale TIC",
+        "en": "National ICT survey"
+      },
+      "method": "survey"
+    },
+    "intlRefs": [
+      {
+        "org": "ITU",
+        "code": "i99H",
+        "name": {
+          "fr": "Utilisateurs d'Internet",
+          "en": "Internet users"
+        },
+        "url": "https://datahub.itu.int/"
+      }
+    ],
+    "definition": {
+      "fr": "Part des personnes ayant utilisé Internet au cours des 3 derniers mois. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of people who used the Internet in the last 3 months. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 45
+    },
+    "qualityNotes": {
+      "fr": "Marge d'erreur de ±2 points.",
+      "en": "Margin of error of ±2 points."
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "ACCESS.MOBILE_OWN",
+      "ACCESS.SMARTPHONE",
+      "ACCESS.SOCIAL"
+    ],
+    "dashboards": [
+      {
+        "slug": "decision-makers",
+        "title": {
+          "fr": "Tableau de bord des décideurs",
+          "en": "Decision-makers dashboard"
+        }
+      },
+      {
+        "slug": "analysts",
+        "title": {
+          "fr": "Tableau de bord des analystes",
+          "en": "Analysts dashboard"
+        }
+      }
+    ]
+  },
+  {
+    "code": "ACCESS.MOBILE_OWN",
+    "name": {
+      "fr": "Possession d'un téléphone mobile",
+      "en": "Mobile phone ownership"
+    },
+    "shortDefinition": {
+      "fr": "Part des personnes possédant un téléphone mobile.",
+      "en": "Share of people who own a mobile phone."
+    },
+    "synonyms": [],
+    "pillar": "ACCESS",
+    "theme": "INDIVIDUALS",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national",
+      "adm1"
+    ],
+    "disaggregations": [
+      "sex",
+      "area"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Enquête nationale TIC",
+        "en": "National ICT survey"
+      },
+      "method": "survey"
+    },
+    "intlRefs": [
+      {
+        "org": "ITU",
+        "code": "iMPOwn",
+        "name": {
+          "fr": "Possession d'un téléphone mobile",
+          "en": "Mobile phone ownership"
+        },
+        "url": "https://datahub.itu.int/"
+      }
+    ],
+    "definition": {
+      "fr": "Part des personnes possédant un téléphone mobile. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of people who own a mobile phone. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 45
+    },
+    "qualityNotes": {
+      "fr": "Marge d'erreur de ±2 points.",
+      "en": "Margin of error of ±2 points."
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "ACCESS.INTERNET_USERS",
+      "ACCESS.SMARTPHONE",
+      "ACCESS.SOCIAL"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "ACCESS.SMARTPHONE",
+    "name": {
+      "fr": "Utilisation d'un smartphone",
+      "en": "Smartphone use"
+    },
+    "shortDefinition": {
+      "fr": "Part des personnes utilisant un smartphone.",
+      "en": "Share of people using a smartphone."
+    },
+    "synonyms": [],
+    "pillar": "ACCESS",
+    "theme": "INDIVIDUALS",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national",
+      "adm1"
+    ],
+    "disaggregations": [
+      "sex",
+      "age_group"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Enquête nationale TIC",
+        "en": "National ICT survey"
+      },
+      "method": "survey"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Part des personnes utilisant un smartphone. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of people using a smartphone. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 45
+    },
+    "qualityNotes": {
+      "fr": "Marge d'erreur de ±2 points.",
+      "en": "Margin of error of ±2 points."
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "ACCESS.INTERNET_USERS",
+      "ACCESS.MOBILE_OWN",
+      "ACCESS.SOCIAL"
+    ],
+    "dashboards": [
+      {
+        "slug": "public",
+        "title": {
+          "fr": "Le numérique en bref",
+          "en": "Digital at a glance"
+        }
+      }
+    ]
+  },
+  {
+    "code": "ACCESS.SOCIAL",
+    "name": {
+      "fr": "Utilisateurs de réseaux sociaux",
+      "en": "Social media users"
+    },
+    "shortDefinition": {
+      "fr": "Part des personnes utilisant les réseaux sociaux.",
+      "en": "Share of people using social media."
+    },
+    "synonyms": [],
+    "pillar": "ACCESS",
+    "theme": "INDIVIDUALS",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [
+      "sex",
+      "age_group"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Enquête nationale TIC",
+        "en": "National ICT survey"
+      },
+      "method": "survey"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Part des personnes utilisant les réseaux sociaux. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of people using social media. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "qualityNotes": {
+      "fr": "Marge d'erreur de ±2 points.",
+      "en": "Margin of error of ±2 points."
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "ACCESS.INTERNET_USERS",
+      "ACCESS.MOBILE_OWN",
+      "ACCESS.SMARTPHONE"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "ACCESS.HH_INTERNET",
+    "name": {
+      "fr": "Ménages disposant d'Internet",
+      "en": "Households with Internet"
+    },
+    "shortDefinition": {
+      "fr": "Part des ménages ayant accès à Internet à domicile.",
+      "en": "Share of households with Internet access at home."
+    },
+    "synonyms": [],
+    "pillar": "ACCESS",
+    "theme": "HOUSEHOLDS",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national",
+      "adm1",
+      "adm2"
+    ],
+    "disaggregations": [
+      "area"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": true,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Enquête nationale TIC",
+        "en": "National ICT survey"
+      },
+      "method": "survey"
+    },
+    "intlRefs": [
+      {
+        "org": "ITU",
+        "code": "i4213hh",
+        "name": {
+          "fr": "Ménages disposant d'Internet",
+          "en": "Households with Internet"
+        },
+        "url": "https://datahub.itu.int/"
+      }
+    ],
+    "definition": {
+      "fr": "Part des ménages ayant accès à Internet à domicile. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of households with Internet access at home. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 45
+    },
+    "qualityNotes": {
+      "fr": "Marge d'erreur de ±2 points.",
+      "en": "Margin of error of ±2 points."
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "ACCESS.HH_COMPUTER",
+      "ACCESS.HH_ELECTRICITY"
+    ],
+    "dashboards": [
+      {
+        "slug": "analysts",
+        "title": {
+          "fr": "Tableau de bord des analystes",
+          "en": "Analysts dashboard"
+        }
+      }
+    ]
+  },
+  {
+    "code": "ACCESS.HH_COMPUTER",
+    "name": {
+      "fr": "Ménages disposant d'un ordinateur",
+      "en": "Households with a computer"
+    },
+    "shortDefinition": {
+      "fr": "Part des ménages possédant un ordinateur.",
+      "en": "Share of households with a computer."
+    },
+    "synonyms": [],
+    "pillar": "ACCESS",
+    "theme": "HOUSEHOLDS",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national",
+      "adm1"
+    ],
+    "disaggregations": [
+      "area"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Enquête nationale TIC",
+        "en": "National ICT survey"
+      },
+      "method": "survey"
+    },
+    "intlRefs": [
+      {
+        "org": "ITU",
+        "code": "i422",
+        "name": {
+          "fr": "Ménages disposant d'un ordinateur",
+          "en": "Households with a computer"
+        },
+        "url": "https://datahub.itu.int/"
+      }
+    ],
+    "definition": {
+      "fr": "Part des ménages possédant un ordinateur. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of households with a computer. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 45
+    },
+    "qualityNotes": {
+      "fr": "Marge d'erreur de ±2 points.",
+      "en": "Margin of error of ±2 points."
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "ACCESS.HH_INTERNET",
+      "ACCESS.HH_ELECTRICITY"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "ACCESS.HH_ELECTRICITY",
+    "name": {
+      "fr": "Ménages raccordés à l'électricité",
+      "en": "Households with electricity"
+    },
+    "shortDefinition": {
+      "fr": "Part des ménages raccordés au réseau électrique.",
+      "en": "Share of households connected to electricity."
+    },
+    "synonyms": [],
+    "pillar": "ACCESS",
+    "theme": "HOUSEHOLDS",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national",
+      "adm1",
+      "adm2"
+    ],
+    "disaggregations": [
+      "area"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Enquête nationale TIC",
+        "en": "National ICT survey"
+      },
+      "method": "survey"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Part des ménages raccordés au réseau électrique. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of households connected to electricity. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 45
+    },
+    "qualityNotes": {
+      "fr": "Marge d'erreur de ±2 points.",
+      "en": "Margin of error of ±2 points."
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "ACCESS.HH_INTERNET",
+      "ACCESS.HH_COMPUTER"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "MARKET.MOBILE_SUBS",
+    "name": {
+      "fr": "Abonnements mobiles",
+      "en": "Mobile subscriptions"
+    },
+    "shortDefinition": {
+      "fr": "Abonnements mobiles cellulaires pour 100 habitants.",
+      "en": "Mobile cellular subscriptions per 100 inhabitants."
+    },
+    "synonyms": [],
+    "pillar": "MARKET",
+    "theme": "SUBSCRIPTIONS",
+    "unit": {
+      "fr": "pour 100 habitants",
+      "en": "per 100 inhabitants"
+    },
+    "unitVariants": [
+      {
+        "code": "per100",
+        "label": {
+          "fr": "pour 100 habitants",
+          "en": "per 100 inhabitants"
+        }
+      }
+    ],
+    "periodicity": "quarterly",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [
+      "operator"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [
+      {
+        "org": "ITU",
+        "code": "i911",
+        "name": {
+          "fr": "Abonnements mobiles",
+          "en": "Mobile subscriptions"
+        },
+        "url": "https://datahub.itu.int/"
+      }
+    ],
+    "definition": {
+      "fr": "Abonnements mobiles cellulaires pour 100 habitants. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Mobile cellular subscriptions per 100 inhabitants. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "MARKET.MOBILE_BB",
+      "MARKET.FIXED_BB",
+      "MARKET.MM_ACCOUNTS"
+    ],
+    "dashboards": [
+      {
+        "slug": "analysts",
+        "title": {
+          "fr": "Tableau de bord des analystes",
+          "en": "Analysts dashboard"
+        }
+      }
+    ]
+  },
+  {
+    "code": "MARKET.MOBILE_BB",
+    "name": {
+      "fr": "Haut débit mobile",
+      "en": "Mobile broadband"
+    },
+    "shortDefinition": {
+      "fr": "Abonnements actifs au haut débit mobile pour 100 habitants.",
+      "en": "Active mobile broadband subscriptions per 100 inhabitants."
+    },
+    "synonyms": [],
+    "pillar": "MARKET",
+    "theme": "SUBSCRIPTIONS",
+    "unit": {
+      "fr": "pour 100 habitants",
+      "en": "per 100 inhabitants"
+    },
+    "unitVariants": [
+      {
+        "code": "per100",
+        "label": {
+          "fr": "pour 100 habitants",
+          "en": "per 100 inhabitants"
+        }
+      },
+      {
+        "code": "people",
+        "label": {
+          "fr": "personnes",
+          "en": "people"
+        }
+      }
+    ],
+    "periodicity": "quarterly",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [
+      "operator"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": true,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [
+      {
+        "org": "ITU",
+        "code": "i271mw",
+        "name": {
+          "fr": "Haut débit mobile",
+          "en": "Mobile broadband"
+        },
+        "url": "https://datahub.itu.int/"
+      }
+    ],
+    "definition": {
+      "fr": "Abonnements actifs au haut débit mobile pour 100 habitants. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Active mobile broadband subscriptions per 100 inhabitants. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "MARKET.MOBILE_SUBS",
+      "MARKET.FIXED_BB",
+      "MARKET.MM_ACCOUNTS"
+    ],
+    "dashboards": [
+      {
+        "slug": "analysts",
+        "title": {
+          "fr": "Tableau de bord des analystes",
+          "en": "Analysts dashboard"
+        }
+      }
+    ]
+  },
+  {
+    "code": "MARKET.FIXED_BB",
+    "name": {
+      "fr": "Haut débit fixe",
+      "en": "Fixed broadband"
+    },
+    "shortDefinition": {
+      "fr": "Abonnements au haut débit fixe pour 100 habitants.",
+      "en": "Fixed broadband subscriptions per 100 inhabitants."
+    },
+    "synonyms": [],
+    "pillar": "MARKET",
+    "theme": "SUBSCRIPTIONS",
+    "unit": {
+      "fr": "pour 100 habitants",
+      "en": "per 100 inhabitants"
+    },
+    "unitVariants": [
+      {
+        "code": "per100",
+        "label": {
+          "fr": "pour 100 habitants",
+          "en": "per 100 inhabitants"
+        }
+      }
+    ],
+    "periodicity": "quarterly",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [
+      "operator"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": true,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [
+      {
+        "org": "ITU",
+        "code": "i992b",
+        "name": {
+          "fr": "Haut débit fixe",
+          "en": "Fixed broadband"
+        },
+        "url": "https://datahub.itu.int/"
+      }
+    ],
+    "definition": {
+      "fr": "Abonnements au haut débit fixe pour 100 habitants. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Fixed broadband subscriptions per 100 inhabitants. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "MARKET.MOBILE_SUBS",
+      "MARKET.MOBILE_BB",
+      "MARKET.MM_ACCOUNTS"
+    ],
+    "dashboards": [
+      {
+        "slug": "analysts",
+        "title": {
+          "fr": "Tableau de bord des analystes",
+          "en": "Analysts dashboard"
+        }
+      }
+    ]
+  },
+  {
+    "code": "MARKET.MM_ACCOUNTS",
+    "name": {
+      "fr": "Comptes de monnaie mobile",
+      "en": "Mobile money accounts"
+    },
+    "shortDefinition": {
+      "fr": "Comptes actifs de monnaie mobile pour 100 adultes.",
+      "en": "Active mobile money accounts per 100 adults."
+    },
+    "synonyms": [
+      "mobile wallet",
+      "portefeuille mobile"
+    ],
+    "pillar": "MARKET",
+    "theme": "SUBSCRIPTIONS",
+    "unit": {
+      "fr": "pour 100 habitants",
+      "en": "per 100 inhabitants"
+    },
+    "unitVariants": [
+      {
+        "code": "per100",
+        "label": {
+          "fr": "pour 100 habitants",
+          "en": "per 100 inhabitants"
+        }
+      }
+    ],
+    "periodicity": "quarterly",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Comptes actifs de monnaie mobile pour 100 adultes. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Active mobile money accounts per 100 adults. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "MARKET.MOBILE_SUBS",
+      "MARKET.MOBILE_BB",
+      "MARKET.FIXED_BB"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "MARKET.REVENUE",
+    "name": {
+      "fr": "Revenus du secteur des télécommunications",
+      "en": "Telecom sector revenue"
+    },
+    "shortDefinition": {
+      "fr": "Revenus annuels des opérateurs en part du PIB.",
+      "en": "Annual operator revenue as a share of GDP."
+    },
+    "synonyms": [],
+    "pillar": "MARKET",
+    "theme": "COMPETITION",
+    "unit": {
+      "fr": "% du PIB",
+      "en": "% of GDP"
+    },
+    "unitVariants": [
+      {
+        "code": "pctGdp",
+        "label": {
+          "fr": "% du PIB",
+          "en": "% of GDP"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Revenus annuels des opérateurs en part du PIB. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Annual operator revenue as a share of GDP. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "MARKET.HHI",
+      "MARKET.OPERATORS"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "MARKET.HHI",
+    "name": {
+      "fr": "Concentration du marché mobile",
+      "en": "Mobile market concentration"
+    },
+    "shortDefinition": {
+      "fr": "Indice Herfindahl-Hirschman du marché mobile.",
+      "en": "Herfindahl-Hirschman index of the mobile market."
+    },
+    "synonyms": [],
+    "pillar": "MARKET",
+    "theme": "COMPETITION",
+    "unit": {
+      "fr": "indice",
+      "en": "index"
+    },
+    "unitVariants": [
+      {
+        "code": "hhi",
+        "label": {
+          "fr": "indice",
+          "en": "index"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": false,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Observatoire national du numérique",
+        "en": "National Digital Observatory"
+      },
+      "method": "computed"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Indice Herfindahl-Hirschman du marché mobile. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Herfindahl-Hirschman index of the mobile market. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "MARKET.REVENUE",
+      "MARKET.OPERATORS"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "MARKET.OPERATORS",
+    "name": {
+      "fr": "Opérateurs mobiles actifs",
+      "en": "Active mobile operators"
+    },
+    "shortDefinition": {
+      "fr": "Nombre d'opérateurs mobiles titulaires d'une licence.",
+      "en": "Number of licensed mobile operators."
+    },
+    "synonyms": [],
+    "pillar": "MARKET",
+    "theme": "COMPETITION",
+    "unit": {
+      "fr": "nombre",
+      "en": "count"
+    },
+    "unitVariants": [
+      {
+        "code": "count",
+        "label": {
+          "fr": "nombre",
+          "en": "count"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Nombre d'opérateurs mobiles titulaires d'une licence. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Number of licensed mobile operators. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "MARKET.REVENUE",
+      "MARKET.HHI"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "AFFORD.DATA_2GB",
+    "name": {
+      "fr": "Panier de données de 2 Go",
+      "en": "2 GB data basket"
+    },
+    "shortDefinition": {
+      "fr": "Prix d'un forfait mobile de 2 Go en part du RNB par habitant.",
+      "en": "Price of a 2 GB mobile plan as a share of GNI per capita."
+    },
+    "synonyms": [
+      "coût des données",
+      "data price"
+    ],
+    "pillar": "AFFORD",
+    "theme": "PRICES",
+    "unit": {
+      "fr": "% du RNB par habitant",
+      "en": "% of GNI per capita"
+    },
+    "unitVariants": [
+      {
+        "code": "pctGni",
+        "label": {
+          "fr": "% du RNB par habitant",
+          "en": "% of GNI per capita"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": false,
+    "isHeadline": true,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "UIT",
+        "en": "ITU"
+      },
+      "method": "international"
+    },
+    "intlRefs": [
+      {
+        "org": "ITU",
+        "code": "ipb_mbb2gb",
+        "name": {
+          "fr": "Panier de données de 2 Go",
+          "en": "2 GB data basket"
+        },
+        "url": "https://datahub.itu.int/"
+      }
+    ],
+    "definition": {
+      "fr": "Prix d'un forfait mobile de 2 Go en part du RNB par habitant. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Price of a 2 GB mobile plan as a share of GNI per capita. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "AFFORD.VOICE",
+      "AFFORD.FIXED"
+    ],
+    "dashboards": [
+      {
+        "slug": "decision-makers",
+        "title": {
+          "fr": "Tableau de bord des décideurs",
+          "en": "Decision-makers dashboard"
+        }
+      }
+    ]
+  },
+  {
+    "code": "AFFORD.VOICE",
+    "name": {
+      "fr": "Panier voix et SMS",
+      "en": "Voice and SMS basket"
+    },
+    "shortDefinition": {
+      "fr": "Prix d'un panier voix et SMS en part du RNB par habitant.",
+      "en": "Price of a voice and SMS basket as a share of GNI per capita."
+    },
+    "synonyms": [],
+    "pillar": "AFFORD",
+    "theme": "PRICES",
+    "unit": {
+      "fr": "% du RNB par habitant",
+      "en": "% of GNI per capita"
+    },
+    "unitVariants": [
+      {
+        "code": "pctGni",
+        "label": {
+          "fr": "% du RNB par habitant",
+          "en": "% of GNI per capita"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": false,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "UIT",
+        "en": "ITU"
+      },
+      "method": "international"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Prix d'un panier voix et SMS en part du RNB par habitant. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Price of a voice and SMS basket as a share of GNI per capita. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "AFFORD.DATA_2GB",
+      "AFFORD.FIXED"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "AFFORD.FIXED",
+    "name": {
+      "fr": "Panier haut débit fixe",
+      "en": "Fixed broadband basket"
+    },
+    "shortDefinition": {
+      "fr": "Prix d'un forfait fixe de 5 Go en part du RNB par habitant.",
+      "en": "Price of a 5 GB fixed plan as a share of GNI per capita."
+    },
+    "synonyms": [],
+    "pillar": "AFFORD",
+    "theme": "PRICES",
+    "unit": {
+      "fr": "% du RNB par habitant",
+      "en": "% of GNI per capita"
+    },
+    "unitVariants": [
+      {
+        "code": "pctGni",
+        "label": {
+          "fr": "% du RNB par habitant",
+          "en": "% of GNI per capita"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": false,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "UIT",
+        "en": "ITU"
+      },
+      "method": "international"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Prix d'un forfait fixe de 5 Go en part du RNB par habitant. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Price of a 5 GB fixed plan as a share of GNI per capita. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "AFFORD.DATA_2GB",
+      "AFFORD.VOICE"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "AFFORD.DEVICE",
+    "name": {
+      "fr": "Prix d'un smartphone d'entrée de gamme",
+      "en": "Entry-level smartphone price"
+    },
+    "shortDefinition": {
+      "fr": "Prix médian d'un smartphone d'entrée de gamme.",
+      "en": "Median price of an entry-level smartphone."
+    },
+    "synonyms": [],
+    "pillar": "AFFORD",
+    "theme": "DEVICES",
+    "unit": {
+      "fr": "FCFA",
+      "en": "XOF"
+    },
+    "unitVariants": [
+      {
+        "code": "xof",
+        "label": {
+          "fr": "FCFA",
+          "en": "XOF"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": false,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Enquête nationale TIC",
+        "en": "National ICT survey"
+      },
+      "method": "survey"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Prix médian d'un smartphone d'entrée de gamme. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Median price of an entry-level smartphone. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "qualityNotes": {
+      "fr": "Marge d'erreur de ±2 points.",
+      "en": "Margin of error of ±2 points."
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [],
+    "dashboards": []
+  },
+  {
+    "code": "SKILLS.BASIC",
+    "name": {
+      "fr": "Compétences numériques de base",
+      "en": "Basic ICT skills"
+    },
+    "shortDefinition": {
+      "fr": "Part des personnes disposant de compétences numériques de base.",
+      "en": "Share of people with basic ICT skills."
+    },
+    "synonyms": [],
+    "pillar": "SKILLS",
+    "theme": "LITERACY",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national",
+      "adm1"
+    ],
+    "disaggregations": [
+      "sex",
+      "age_group"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": true,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Enquête nationale TIC",
+        "en": "National ICT survey"
+      },
+      "method": "survey"
+    },
+    "intlRefs": [
+      {
+        "org": "ITU",
+        "code": "iSK_BASIC",
+        "name": {
+          "fr": "Compétences numériques de base",
+          "en": "Basic ICT skills"
+        },
+        "url": "https://datahub.itu.int/"
+      }
+    ],
+    "definition": {
+      "fr": "Part des personnes disposant de compétences numériques de base. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of people with basic ICT skills. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 45
+    },
+    "qualityNotes": {
+      "fr": "Marge d'erreur de ±2 points.",
+      "en": "Margin of error of ±2 points."
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "SKILLS.STANDARD"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "SKILLS.STANDARD",
+    "name": {
+      "fr": "Compétences numériques standard",
+      "en": "Standard ICT skills"
+    },
+    "shortDefinition": {
+      "fr": "Part des personnes disposant de compétences numériques standard.",
+      "en": "Share of people with standard ICT skills."
+    },
+    "synonyms": [],
+    "pillar": "SKILLS",
+    "theme": "LITERACY",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [
+      "sex",
+      "age_group"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Enquête nationale TIC",
+        "en": "National ICT survey"
+      },
+      "method": "survey"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Part des personnes disposant de compétences numériques standard. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of people with standard ICT skills. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "qualityNotes": {
+      "fr": "Marge d'erreur de ±2 points.",
+      "en": "Margin of error of ±2 points."
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "SKILLS.BASIC"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "SKILLS.SCHOOLS",
+    "name": {
+      "fr": "Écoles connectées",
+      "en": "Connected schools"
+    },
+    "shortDefinition": {
+      "fr": "Part des écoles disposant d'Internet à des fins pédagogiques.",
+      "en": "Share of schools with Internet for teaching."
+    },
+    "synonyms": [],
+    "pillar": "SKILLS",
+    "theme": "EDUCATION",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national",
+      "adm1",
+      "adm2"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [
+      {
+        "org": "ITU",
+        "code": "iSCH",
+        "name": {
+          "fr": "Écoles connectées",
+          "en": "Connected schools"
+        },
+        "url": "https://datahub.itu.int/"
+      }
+    ],
+    "definition": {
+      "fr": "Part des écoles disposant d'Internet à des fins pédagogiques. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of schools with Internet for teaching. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 45
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "SKILLS.ICT_GRADS"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "SKILLS.ICT_GRADS",
+    "name": {
+      "fr": "Diplômés en TIC",
+      "en": "ICT graduates"
+    },
+    "shortDefinition": {
+      "fr": "Nombre annuel de diplômés de filières TIC.",
+      "en": "Annual number of ICT graduates."
+    },
+    "synonyms": [],
+    "pillar": "SKILLS",
+    "theme": "EDUCATION",
+    "unit": {
+      "fr": "nombre",
+      "en": "count"
+    },
+    "unitVariants": [
+      {
+        "code": "count",
+        "label": {
+          "fr": "nombre",
+          "en": "count"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [
+      "sex"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Nombre annuel de diplômés de filières TIC. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Annual number of ICT graduates. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "SKILLS.SCHOOLS"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "TRUST.GCI",
+    "name": {
+      "fr": "Indice mondial de cybersécurité",
+      "en": "Global Cybersecurity Index"
+    },
+    "shortDefinition": {
+      "fr": "Score de l'indice mondial de cybersécurité.",
+      "en": "Global Cybersecurity Index score."
+    },
+    "synonyms": [
+      "GCI",
+      "cybersécurité"
+    ],
+    "pillar": "TRUST",
+    "theme": "CYBER",
+    "unit": {
+      "fr": "score",
+      "en": "score"
+    },
+    "unitVariants": [
+      {
+        "code": "score",
+        "label": {
+          "fr": "score",
+          "en": "score"
+        }
+      }
+    ],
+    "periodicity": "biennial",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": true,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "UIT",
+        "en": "ITU"
+      },
+      "method": "international"
+    },
+    "intlRefs": [
+      {
+        "org": "ITU",
+        "code": "GCI",
+        "name": {
+          "fr": "Indice mondial de cybersécurité",
+          "en": "Global Cybersecurity Index"
+        },
+        "url": "https://datahub.itu.int/"
+      }
+    ],
+    "definition": {
+      "fr": "Score de l'indice mondial de cybersécurité. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Global Cybersecurity Index score. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "TRUST.INCIDENTS",
+      "TRUST.SECURE_SERVERS"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "TRUST.INCIDENTS",
+    "name": {
+      "fr": "Incidents de sécurité signalés",
+      "en": "Reported security incidents"
+    },
+    "shortDefinition": {
+      "fr": "Incidents traités par l'équipe nationale de réponse.",
+      "en": "Incidents handled by the national response team."
+    },
+    "synonyms": [],
+    "pillar": "TRUST",
+    "theme": "CYBER",
+    "unit": {
+      "fr": "nombre",
+      "en": "count"
+    },
+    "unitVariants": [
+      {
+        "code": "count",
+        "label": {
+          "fr": "nombre",
+          "en": "count"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": false,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Incidents traités par l'équipe nationale de réponse. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Incidents handled by the national response team. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "TRUST.GCI",
+      "TRUST.SECURE_SERVERS"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "TRUST.SECURE_SERVERS",
+    "name": {
+      "fr": "Serveurs Internet sécurisés",
+      "en": "Secure Internet servers"
+    },
+    "shortDefinition": {
+      "fr": "Serveurs sécurisés par million d'habitants.",
+      "en": "Secure servers per million people."
+    },
+    "synonyms": [],
+    "pillar": "TRUST",
+    "theme": "CYBER",
+    "unit": {
+      "fr": "nombre",
+      "en": "count"
+    },
+    "unitVariants": [
+      {
+        "code": "count",
+        "label": {
+          "fr": "nombre",
+          "en": "count"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "UIT",
+        "en": "ITU"
+      },
+      "method": "international"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Serveurs sécurisés par million d'habitants. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Secure servers per million people. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "TRUST.GCI",
+      "TRUST.INCIDENTS"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "TRUST.ONLINE_TRUST",
+    "name": {
+      "fr": "Confiance dans les services en ligne",
+      "en": "Trust in online services"
+    },
+    "shortDefinition": {
+      "fr": "Part des utilisateurs déclarant avoir confiance dans les services en ligne.",
+      "en": "Share of users who say they trust online services."
+    },
+    "synonyms": [],
+    "pillar": "TRUST",
+    "theme": "DATA",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [
+      "sex"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "in_collection",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Enquête nationale TIC",
+        "en": "National ICT survey"
+      },
+      "method": "survey"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Part des utilisateurs déclarant avoir confiance dans les services en ligne. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of users who say they trust online services. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "qualityNotes": {
+      "fr": "Marge d'erreur de ±2 points.",
+      "en": "Margin of error of ±2 points."
+    },
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "TRUST.DPA_CASES"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "TRUST.DPA_CASES",
+    "name": {
+      "fr": "Plaintes liées aux données personnelles",
+      "en": "Personal data complaints"
+    },
+    "shortDefinition": {
+      "fr": "Plaintes traitées par l'autorité de protection des données.",
+      "en": "Complaints handled by the data protection authority."
+    },
+    "synonyms": [],
+    "pillar": "TRUST",
+    "theme": "DATA",
+    "unit": {
+      "fr": "nombre",
+      "en": "count"
+    },
+    "unitVariants": [
+      {
+        "code": "count",
+        "label": {
+          "fr": "nombre",
+          "en": "count"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": false,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Plaintes traitées par l'autorité de protection des données. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Complaints handled by the data protection authority. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "TRUST.ONLINE_TRUST"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "GOV.ESERVICES",
+    "name": {
+      "fr": "Services publics en ligne",
+      "en": "E-services online"
+    },
+    "shortDefinition": {
+      "fr": "Part des services publics prioritaires disponibles en ligne.",
+      "en": "Share of priority public services available online."
+    },
+    "synonyms": [
+      "e-gouvernement",
+      "e-government"
+    ],
+    "pillar": "GOV",
+    "theme": "EGOV",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": true,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Part des services publics prioritaires disponibles en ligne. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of priority public services available online. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "GOV.EGDI",
+      "GOV.DIGITAL_ID",
+      "GOV.OPEN_DATA"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "GOV.EGDI",
+    "name": {
+      "fr": "Indice de développement de l'e-gouvernement",
+      "en": "E-Government Development Index"
+    },
+    "shortDefinition": {
+      "fr": "Score de l'indice des Nations unies, ramené à 100.",
+      "en": "United Nations index score, scaled to 100."
+    },
+    "synonyms": [],
+    "pillar": "GOV",
+    "theme": "EGOV",
+    "unit": {
+      "fr": "score",
+      "en": "score"
+    },
+    "unitVariants": [
+      {
+        "code": "score",
+        "label": {
+          "fr": "score",
+          "en": "score"
+        }
+      }
+    ],
+    "periodicity": "biennial",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "UIT",
+        "en": "ITU"
+      },
+      "method": "international"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Score de l'indice des Nations unies, ramené à 100. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "United Nations index score, scaled to 100. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "GOV.ESERVICES",
+      "GOV.DIGITAL_ID",
+      "GOV.OPEN_DATA"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "GOV.DIGITAL_ID",
+    "name": {
+      "fr": "Adultes avec une identité numérique",
+      "en": "Adults with a digital ID"
+    },
+    "shortDefinition": {
+      "fr": "Part des adultes disposant d'une identité numérique.",
+      "en": "Share of adults with a digital ID."
+    },
+    "synonyms": [],
+    "pillar": "GOV",
+    "theme": "EGOV",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [
+      "sex"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "in_collection",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Part des adultes disposant d'une identité numérique. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of adults with a digital ID. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "GOV.ESERVICES",
+      "GOV.EGDI",
+      "GOV.OPEN_DATA"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "GOV.OPEN_DATA",
+    "name": {
+      "fr": "Jeux de données ouverts",
+      "en": "Open datasets"
+    },
+    "shortDefinition": {
+      "fr": "Jeux de données publics publiés.",
+      "en": "Public datasets published."
+    },
+    "synonyms": [],
+    "pillar": "GOV",
+    "theme": "EGOV",
+    "unit": {
+      "fr": "nombre",
+      "en": "count"
+    },
+    "unitVariants": [
+      {
+        "code": "count",
+        "label": {
+          "fr": "nombre",
+          "en": "count"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Jeux de données publics publiés. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Public datasets published. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "GOV.ESERVICES",
+      "GOV.EGDI",
+      "GOV.DIGITAL_ID"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "GOV.REG_TRACKER",
+    "name": {
+      "fr": "Maturité de la régulation",
+      "en": "Regulatory maturity"
+    },
+    "shortDefinition": {
+      "fr": "Score de maturité de la régulation des TIC.",
+      "en": "ICT regulatory maturity score."
+    },
+    "synonyms": [],
+    "pillar": "GOV",
+    "theme": "REGULATION",
+    "unit": {
+      "fr": "score",
+      "en": "score"
+    },
+    "unitVariants": [
+      {
+        "code": "score",
+        "label": {
+          "fr": "score",
+          "en": "score"
+        }
+      }
+    ],
+    "periodicity": "biennial",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "UIT",
+        "en": "ITU"
+      },
+      "method": "international"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Score de maturité de la régulation des TIC. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "ICT regulatory maturity score. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "GOV.SPECTRUM"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "GOV.SPECTRUM",
+    "name": {
+      "fr": "Spectre attribué au haut débit mobile",
+      "en": "Spectrum assigned to mobile broadband"
+    },
+    "shortDefinition": {
+      "fr": "Spectre total attribué, en MHz.",
+      "en": "Total assigned spectrum, in MHz."
+    },
+    "synonyms": [],
+    "pillar": "GOV",
+    "theme": "REGULATION",
+    "unit": {
+      "fr": "nombre",
+      "en": "count"
+    },
+    "unitVariants": [
+      {
+        "code": "count",
+        "label": {
+          "fr": "nombre",
+          "en": "count"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "planned",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Spectre total attribué, en MHz. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Total assigned spectrum, in MHz. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 0
+    },
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "GOV.REG_TRACKER"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "ECON.ICT_GDP",
+    "name": {
+      "fr": "Part des TIC dans le PIB",
+      "en": "ICT share of GDP"
+    },
+    "shortDefinition": {
+      "fr": "Valeur ajoutée du secteur des TIC en part du PIB.",
+      "en": "ICT sector value added as a share of GDP."
+    },
+    "synonyms": [],
+    "pillar": "ECON",
+    "theme": "ECONOMY",
+    "unit": {
+      "fr": "% du PIB",
+      "en": "% of GDP"
+    },
+    "unitVariants": [
+      {
+        "code": "pctGdp",
+        "label": {
+          "fr": "% du PIB",
+          "en": "% of GDP"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": true,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Observatoire national du numérique",
+        "en": "National Digital Observatory"
+      },
+      "method": "computed"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Valeur ajoutée du secteur des TIC en part du PIB. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "ICT sector value added as a share of GDP. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "ECON.INDEX",
+      "ECON.ICT_JOBS",
+      "ECON.STARTUPS",
+      "ECON.ECOM"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "ECON.INDEX",
+    "name": {
+      "fr": "Score de l'indice national du numérique",
+      "en": "National index score"
+    },
+    "shortDefinition": {
+      "fr": "Score composite de maturité numérique.",
+      "en": "Composite digital maturity score."
+    },
+    "synonyms": [
+      "indice composite",
+      "composite index"
+    ],
+    "pillar": "ECON",
+    "theme": "ECONOMY",
+    "unit": {
+      "fr": "score",
+      "en": "score"
+    },
+    "unitVariants": [
+      {
+        "code": "score",
+        "label": {
+          "fr": "score",
+          "en": "score"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national",
+      "adm1"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": true,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Observatoire national du numérique",
+        "en": "National Digital Observatory"
+      },
+      "method": "computed"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Score composite de maturité numérique. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Composite digital maturity score. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 45
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "ECON.ICT_GDP",
+      "ECON.ICT_JOBS",
+      "ECON.STARTUPS",
+      "ECON.ECOM"
+    ],
+    "dashboards": [
+      {
+        "slug": "decision-makers",
+        "title": {
+          "fr": "Tableau de bord des décideurs",
+          "en": "Decision-makers dashboard"
+        }
+      }
+    ]
+  },
+  {
+    "code": "ECON.ICT_JOBS",
+    "name": {
+      "fr": "Emplois dans les TIC",
+      "en": "ICT employment"
+    },
+    "shortDefinition": {
+      "fr": "Part des emplois dans le secteur des TIC.",
+      "en": "Share of employment in the ICT sector."
+    },
+    "synonyms": [],
+    "pillar": "ECON",
+    "theme": "ECONOMY",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [
+      "sex"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Enquête nationale TIC",
+        "en": "National ICT survey"
+      },
+      "method": "survey"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Part des emplois dans le secteur des TIC. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of employment in the ICT sector. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "qualityNotes": {
+      "fr": "Marge d'erreur de ±2 points.",
+      "en": "Margin of error of ±2 points."
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "ECON.ICT_GDP",
+      "ECON.INDEX",
+      "ECON.STARTUPS",
+      "ECON.ECOM"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "ECON.STARTUPS",
+    "name": {
+      "fr": "Start-up numériques",
+      "en": "Digital start-ups"
+    },
+    "shortDefinition": {
+      "fr": "Start-up numériques enregistrées.",
+      "en": "Registered digital start-ups."
+    },
+    "synonyms": [],
+    "pillar": "ECON",
+    "theme": "ECONOMY",
+    "unit": {
+      "fr": "nombre",
+      "en": "count"
+    },
+    "unitVariants": [
+      {
+        "code": "count",
+        "label": {
+          "fr": "nombre",
+          "en": "count"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Start-up numériques enregistrées. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Registered digital start-ups. Values in this demo are synthetic."
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "ECON.ICT_GDP",
+      "ECON.INDEX",
+      "ECON.ICT_JOBS",
+      "ECON.ECOM"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "ECON.ECOM",
+    "name": {
+      "fr": "Achats en ligne",
+      "en": "Online purchases"
+    },
+    "shortDefinition": {
+      "fr": "Part des personnes ayant effectué un achat en ligne.",
+      "en": "Share of people who bought something online."
+    },
+    "synonyms": [],
+    "pillar": "ECON",
+    "theme": "ECONOMY",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [
+      "sex"
+    ],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Enquête nationale TIC",
+        "en": "National ICT survey"
+      },
+      "method": "survey"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Part des personnes ayant effectué un achat en ligne. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of people who bought something online. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "qualityNotes": {
+      "fr": "Marge d'erreur de ±2 points.",
+      "en": "Margin of error of ±2 points."
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "ECON.ICT_GDP",
+      "ECON.INDEX",
+      "ECON.ICT_JOBS",
+      "ECON.STARTUPS"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "ECON.GREEN_TOWERS",
+    "name": {
+      "fr": "Sites alimentés à l'énergie solaire",
+      "en": "Solar-powered sites"
+    },
+    "shortDefinition": {
+      "fr": "Part des sites mobiles alimentés à l'énergie solaire.",
+      "en": "Share of mobile sites powered by solar energy."
+    },
+    "synonyms": [],
+    "pillar": "ECON",
+    "theme": "SUSTAIN",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "planned",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "Autorité de régulation",
+        "en": "Regulatory authority"
+      },
+      "method": "administrative"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Part des sites mobiles alimentés à l'énergie solaire. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of mobile sites powered by solar energy. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 0
+    },
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "ECON.EWASTE"
+    ],
+    "dashboards": []
+  },
+  {
+    "code": "ECON.EWASTE",
+    "name": {
+      "fr": "Déchets électroniques collectés",
+      "en": "E-waste collected"
+    },
+    "shortDefinition": {
+      "fr": "Part des déchets électroniques collectés.",
+      "en": "Share of e-waste that is collected."
+    },
+    "synonyms": [],
+    "pillar": "ECON",
+    "theme": "SUSTAIN",
+    "unit": {
+      "fr": "%",
+      "en": "%"
+    },
+    "unitVariants": [
+      {
+        "code": "pct",
+        "label": {
+          "fr": "%",
+          "en": "%"
+        }
+      }
+    ],
+    "periodicity": "annual",
+    "geoLevels": [
+      "national"
+    ],
+    "disaggregations": [],
+    "higherIsBetter": true,
+    "isHeadline": false,
+    "status": "published",
+    "lastUpdated": "2026-10-15",
+    "source": {
+      "org": {
+        "fr": "UIT",
+        "en": "ITU"
+      },
+      "method": "international"
+    },
+    "intlRefs": [],
+    "definition": {
+      "fr": "Part des déchets électroniques collectés. Les valeurs de cette démonstration sont synthétiques.",
+      "en": "Share of e-waste that is collected. Values in this demo are synthetic."
+    },
+    "computation": {
+      "fr": "$$\\text{valeur} = 100 \\times \\frac{N}{P}$$",
+      "en": "$$\\text{value} = 100 \\times \\frac{N}{P}$$"
+    },
+    "coverage": {
+      "from": "2015",
+      "to": "2025",
+      "areas": 1
+    },
+    "nextRelease": "2027-03",
+    "versions": [
+      {
+        "version": 1,
+        "date": "2026-10-15",
+        "note": {
+          "fr": "Publication initiale",
+          "en": "First release"
+        }
+      }
+    ],
+    "licence": "CC BY 4.0",
+    "related": [
+      "ECON.GREEN_TOWERS"
+    ],
+    "dashboards": []
+  }
+]

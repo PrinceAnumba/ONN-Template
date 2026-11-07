@@ -1,0 +1,9 @@
+{
+  "iso3": "TGO",
+  "locales": [
+    "fr",
+    "en"
+  ],
+  "defaultLocale": "fr",
+  "defaultPeerGroup": "WAEMU"
+}

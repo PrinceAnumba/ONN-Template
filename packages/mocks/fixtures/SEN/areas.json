@@ -1,0 +1,372 @@
+[
+  {
+    "code": "SEN",
+    "level": "country",
+    "name": {
+      "fr": "Sénégal",
+      "en": "Senegal",
+      "wo": "Senegaal"
+    },
+    "iso3": "SEN"
+  },
+  {
+    "code": "SN-01",
+    "level": "adm1",
+    "name": "Dakar",
+    "parent": "SEN"
+  },
+  {
+    "code": "SN-01-01",
+    "level": "adm2",
+    "name": "Dakar",
+    "parent": "SN-01"
+  },
+  {
+    "code": "SN-01-02",
+    "level": "adm2",
+    "name": "Guédiawaye",
+    "parent": "SN-01"
+  },
+  {
+    "code": "SN-01-03",
+    "level": "adm2",
+    "name": "Keur Massar",
+    "parent": "SN-01"
+  },
+  {
+    "code": "SN-01-04",
+    "level": "adm2",
+    "name": "Pikine",
+    "parent": "SN-01"
+  },
+  {
+    "code": "SN-01-05",
+    "level": "adm2",
+    "name": "Rufisque",
+    "parent": "SN-01"
+  },
+  {
+    "code": "SN-02",
+    "level": "adm1",
+    "name": "Thiès",
+    "parent": "SEN"
+  },
+  {
+    "code": "SN-02-01",
+    "level": "adm2",
+    "name": "Mbour",
+    "parent": "SN-02"
+  },
+  {
+    "code": "SN-02-02",
+    "level": "adm2",
+    "name": "Thiès",
+    "parent": "SN-02"
+  },
+  {
+    "code": "SN-02-03",
+    "level": "adm2",
+    "name": "Tivaouane",
+    "parent": "SN-02"
+  },
+  {
+    "code": "SN-03",
+    "level": "adm1",
+    "name": "Saint-Louis",
+    "parent": "SEN"
+  },
+  {
+    "code": "SN-03-01",
+    "level": "adm2",
+    "name": "Dagana",
+    "parent": "SN-03"
+  },
+  {
+    "code": "SN-03-02",
+    "level": "adm2",
+    "name": "Podor",
+    "parent": "SN-03"
+  },
+  {
+    "code": "SN-03-03",
+    "level": "adm2",
+    "name": "Saint-Louis",
+    "parent": "SN-03"
+  },
+  {
+    "code": "SN-04",
+    "level": "adm1",
+    "name": "Ziguinchor",
+    "parent": "SEN"
+  },
+  {
+    "code": "SN-04-01",
+    "level": "adm2",
+    "name": "Bignona",
+    "parent": "SN-04"
+  },
+  {
+    "code": "SN-04-02",
+    "level": "adm2",
+    "name": "Oussouye",
+    "parent": "SN-04"
+  },
+  {
+    "code": "SN-04-03",
+    "level": "adm2",
+    "name": "Ziguinchor",
+    "parent": "SN-04"
+  },
+  {
+    "code": "SN-05",
+    "level": "adm1",
+    "name": "Diourbel",
+    "parent": "SEN"
+  },
+  {
+    "code": "SN-05-01",
+    "level": "adm2",
+    "name": "Bambey",
+    "parent": "SN-05"
+  },
+  {
+    "code": "SN-05-02",
+    "level": "adm2",
+    "name": "Diourbel",
+    "parent": "SN-05"
+  },
+  {
+    "code": "SN-05-03",
+    "level": "adm2",
+    "name": "Mbacké",
+    "parent": "SN-05"
+  },
+  {
+    "code": "SN-06",
+    "level": "adm1",
+    "name": "Kaolack",
+    "parent": "SEN"
+  },
+  {
+    "code": "SN-06-01",
+    "level": "adm2",
+    "name": "Guinguinéo",
+    "parent": "SN-06"
+  },
+  {
+    "code": "SN-06-02",
+    "level": "adm2",
+    "name": "Kaolack",
+    "parent": "SN-06"
+  },
+  {
+    "code": "SN-06-03",
+    "level": "adm2",
+    "name": "Nioro du Rip",
+    "parent": "SN-06"
+  },
+  {
+    "code": "SN-07",
+    "level": "adm1",
+    "name": "Louga",
+    "parent": "SEN"
+  },
+  {
+    "code": "SN-07-01",
+    "level": "adm2",
+    "name": "Kébémer",
+    "parent": "SN-07"
+  },
+  {
+    "code": "SN-07-02",
+    "level": "adm2",
+    "name": "Linguère",
+    "parent": "SN-07"
+  },
+  {
+    "code": "SN-07-03",
+    "level": "adm2",
+    "name": "Louga",
+    "parent": "SN-07"
+  },
+  {
+    "code": "SN-08",
+    "level": "adm1",
+    "name": "Fatick",
+    "parent": "SEN"
+  },
+  {
+    "code": "SN-08-01",
+    "level": "adm2",
+    "name": "Fatick",
+    "parent": "SN-08"
+  },
+  {
+    "code": "SN-08-02",
+    "level": "adm2",
+    "name": "Foundiougne",
+    "parent": "SN-08"
+  },
+  {
+    "code": "SN-08-03",
+    "level": "adm2",
+    "name": "Gossas",
+    "parent": "SN-08"
+  },
+  {
+    "code": "SN-09",
+    "level": "adm1",
+    "name": "Kolda",
+    "parent": "SEN"
+  },
+  {
+    "code": "SN-09-01",
+    "level": "adm2",
+    "name": "Kolda",
+    "parent": "SN-09"
+  },
+  {
+    "code": "SN-09-02",
+    "level": "adm2",
+    "name": "Médina Yoro Foulah",
+    "parent": "SN-09"
+  },
+  {
+    "code": "SN-09-03",
+    "level": "adm2",
+    "name": "Vélingara",
+    "parent": "SN-09"
+  },
+  {
+    "code": "SN-10",
+    "level": "adm1",
+    "name": "Matam",
+    "parent": "SEN"
+  },
+  {
+    "code": "SN-10-01",
+    "level": "adm2",
+    "name": "Kanel",
+    "parent": "SN-10"
+  },
+  {
+    "code": "SN-10-02",
+    "level": "adm2",
+    "name": "Matam",
+    "parent": "SN-10"
+  },
+  {
+    "code": "SN-10-03",
+    "level": "adm2",
+    "name": "Ranérou",
+    "parent": "SN-10"
+  },
+  {
+    "code": "SN-11",
+    "level": "adm1",
+    "name": "Sédhiou",
+    "parent": "SEN"
+  },
+  {
+    "code": "SN-11-01",
+    "level": "adm2",
+    "name": "Bounkiling",
+    "parent": "SN-11"
+  },
+  {
+    "code": "SN-11-02",
+    "level": "adm2",
+    "name": "Goudomp",
+    "parent": "SN-11"
+  },
+  {
+    "code": "SN-11-03",
+    "level": "adm2",
+    "name": "Sédhiou",
+    "parent": "SN-11"
+  },
+  {
+    "code": "SN-12",
+    "level": "adm1",
+    "name": "Tambacounda",
+    "parent": "SEN"
+  },
+  {
+    "code": "SN-12-01",
+    "level": "adm2",
+    "name": "Bakel",
+    "parent": "SN-12"
+  },
+  {
+    "code": "SN-12-02",
+    "level": "adm2",
+    "name": "Goudiry",
+    "parent": "SN-12"
+  },
+  {
+    "code": "SN-12-03",
+    "level": "adm2",
+    "name": "Koumpentoum",
+    "parent": "SN-12"
+  },
+  {
+    "code": "SN-12-04",
+    "level": "adm2",
+    "name": "Tambacounda",
+    "parent": "SN-12"
+  },
+  {
+    "code": "SN-13",
+    "level": "adm1",
+    "name": "Kaffrine",
+    "parent": "SEN"
+  },
+  {
+    "code": "SN-13-01",
+    "level": "adm2",
+    "name": "Birkelane",
+    "parent": "SN-13"
+  },
+  {
+    "code": "SN-13-02",
+    "level": "adm2",
+    "name": "Kaffrine",
+    "parent": "SN-13"
+  },
+  {
+    "code": "SN-13-03",
+    "level": "adm2",
+    "name": "Koungheul",
+    "parent": "SN-13"
+  },
+  {
+    "code": "SN-13-04",
+    "level": "adm2",
+    "name": "Malem-Hodar",
+    "parent": "SN-13"
+  },
+  {
+    "code": "SN-14",
+    "level": "adm1",
+    "name": "Kédougou",
+    "parent": "SEN"
+  },
+  {
+    "code": "SN-14-01",
+    "level": "adm2",
+    "name": "Kédougou",
+    "parent": "SN-14"
+  },
+  {
+    "code": "SN-14-02",
+    "level": "adm2",
+    "name": "Salémata",
+    "parent": "SN-14"
+  },
+  {
+    "code": "SN-14-03",
+    "level": "adm2",
+    "name": "Saraya",
+    "parent": "SN-14"
+  }
+]

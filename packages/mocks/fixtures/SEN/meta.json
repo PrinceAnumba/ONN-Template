@@ -1,0 +1,10 @@
+{
+  "iso3": "SEN",
+  "locales": [
+    "fr",
+    "en",
+    "wo"
+  ],
+  "defaultLocale": "fr",
+  "defaultPeerGroup": "ECOWAS"
+}

@@ -1,0 +1,368 @@
+[
+  {
+    "slug": "news-1",
+    "title": {
+      "fr": "Actualité de démonstration : 5G",
+      "en": "Demo news item: 5G"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-12-11",
+    "tags": [
+      "5G"
+    ],
+    "kind": "news"
+  },
+  {
+    "slug": "news-2",
+    "title": {
+      "fr": "Actualité de démonstration : IA",
+      "en": "Demo news item: IA"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-11-16",
+    "tags": [
+      "IA"
+    ],
+    "kind": "news"
+  },
+  {
+    "slug": "watch-3",
+    "title": {
+      "fr": "Actualité de démonstration : cybersécurité",
+      "en": "Demo news item: cybersécurité"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-10-02",
+    "tags": [
+      "cybersécurité"
+    ],
+    "kind": "watch",
+    "sourceUrl": "https://example.org/"
+  },
+  {
+    "slug": "news-4",
+    "title": {
+      "fr": "Actualité de démonstration : fibre",
+      "en": "Demo news item: fibre"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-09-10",
+    "tags": [
+      "fibre"
+    ],
+    "kind": "news"
+  },
+  {
+    "slug": "news-5",
+    "title": {
+      "fr": "Actualité de démonstration : inclusion",
+      "en": "Demo news item: inclusion"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-08-06",
+    "tags": [
+      "inclusion"
+    ],
+    "kind": "news"
+  },
+  {
+    "slug": "watch-6",
+    "title": {
+      "fr": "Actualité de démonstration : 5G",
+      "en": "Demo news item: 5G"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-07-20",
+    "tags": [
+      "5G"
+    ],
+    "kind": "watch",
+    "sourceUrl": "https://example.org/"
+  },
+  {
+    "slug": "news-7",
+    "title": {
+      "fr": "Actualité de démonstration : IA",
+      "en": "Demo news item: IA"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-06-06",
+    "tags": [
+      "IA"
+    ],
+    "kind": "news"
+  },
+  {
+    "slug": "news-8",
+    "title": {
+      "fr": "Actualité de démonstration : cybersécurité",
+      "en": "Demo news item: cybersécurité"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-05-19",
+    "tags": [
+      "cybersécurité"
+    ],
+    "kind": "news"
+  },
+  {
+    "slug": "watch-9",
+    "title": {
+      "fr": "Actualité de démonstration : fibre",
+      "en": "Demo news item: fibre"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-04-06",
+    "tags": [
+      "fibre"
+    ],
+    "kind": "watch",
+    "sourceUrl": "https://example.org/"
+  },
+  {
+    "slug": "news-10",
+    "title": {
+      "fr": "Actualité de démonstration : inclusion",
+      "en": "Demo news item: inclusion"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-03-22",
+    "tags": [
+      "inclusion"
+    ],
+    "kind": "news"
+  },
+  {
+    "slug": "news-11",
+    "title": {
+      "fr": "Actualité de démonstration : 5G",
+      "en": "Demo news item: 5G"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-02-09",
+    "tags": [
+      "5G"
+    ],
+    "kind": "news"
+  },
+  {
+    "slug": "watch-12",
+    "title": {
+      "fr": "Actualité de démonstration : IA",
+      "en": "Demo news item: IA"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-01-01",
+    "tags": [
+      "IA"
+    ],
+    "kind": "watch",
+    "sourceUrl": "https://example.org/"
+  },
+  {
+    "slug": "news-13",
+    "title": {
+      "fr": "Actualité de démonstration : cybersécurité",
+      "en": "Demo news item: cybersécurité"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-12-04",
+    "tags": [
+      "cybersécurité"
+    ],
+    "kind": "news"
+  },
+  {
+    "slug": "news-14",
+    "title": {
+      "fr": "Actualité de démonstration : fibre",
+      "en": "Demo news item: fibre"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-11-06",
+    "tags": [
+      "fibre"
+    ],
+    "kind": "news"
+  },
+  {
+    "slug": "watch-15",
+    "title": {
+      "fr": "Actualité de démonstration : inclusion",
+      "en": "Demo news item: inclusion"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-10-26",
+    "tags": [
+      "inclusion"
+    ],
+    "kind": "watch",
+    "sourceUrl": "https://example.org/"
+  },
+  {
+    "slug": "news-16",
+    "title": {
+      "fr": "Actualité de démonstration : 5G",
+      "en": "Demo news item: 5G"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-09-27",
+    "tags": [
+      "5G"
+    ],
+    "kind": "news"
+  },
+  {
+    "slug": "news-17",
+    "title": {
+      "fr": "Actualité de démonstration : IA",
+      "en": "Demo news item: IA"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-08-10",
+    "tags": [
+      "IA"
+    ],
+    "kind": "news"
+  },
+  {
+    "slug": "watch-18",
+    "title": {
+      "fr": "Actualité de démonstration : cybersécurité",
+      "en": "Demo news item: cybersécurité"
+    },
+    "excerpt": {
+      "fr": "Un texte de démonstration.",
+      "en": "A piece of demo text."
+    },
+    "body": {
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
+      "en": "This demo content does not describe any real event."
+    },
+    "date": "2025-07-09",
+    "tags": [
+      "cybersécurité"
+    ],
+    "kind": "watch",
+    "sourceUrl": "https://example.org/"
+  }
+]

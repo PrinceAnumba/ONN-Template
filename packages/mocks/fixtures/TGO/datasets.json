@@ -1,0 +1,186 @@
+[
+  {
+    "code": "CONN",
+    "title": {
+      "fr": "Connectivité et infrastructures",
+      "en": "Connectivity and infrastructure"
+    },
+    "description": {
+      "fr": "Couverture des réseaux et capacité des infrastructures.",
+      "en": "Network coverage and infrastructure capacity."
+    },
+    "pillar": "CONN",
+    "formats": [
+      "CSV",
+      "JSON"
+    ],
+    "licence": "CC BY 4.0",
+    "updateFrequency": {
+      "fr": "Trimestrielle",
+      "en": "Quarterly"
+    },
+    "lastUpdated": "2026-10-15",
+    "url": "/api/v1/data?indicator=CONN&format=csv"
+  },
+  {
+    "code": "ACCESS",
+    "title": {
+      "fr": "Accès et usages",
+      "en": "Access and use"
+    },
+    "description": {
+      "fr": "Comment les personnes et les ménages accèdent au numérique et l'utilisent.",
+      "en": "How people and households reach and use digital services."
+    },
+    "pillar": "ACCESS",
+    "formats": [
+      "CSV",
+      "JSON"
+    ],
+    "licence": "CC BY 4.0",
+    "updateFrequency": {
+      "fr": "Trimestrielle",
+      "en": "Quarterly"
+    },
+    "lastUpdated": "2026-10-15",
+    "url": "/api/v1/data?indicator=ACCESS&format=csv"
+  },
+  {
+    "code": "MARKET",
+    "title": {
+      "fr": "Marchés",
+      "en": "Markets"
+    },
+    "description": {
+      "fr": "Taille du marché des télécommunications et niveau de concurrence.",
+      "en": "Telecom market size and level of competition."
+    },
+    "pillar": "MARKET",
+    "formats": [
+      "CSV",
+      "JSON"
+    ],
+    "licence": "CC BY 4.0",
+    "updateFrequency": {
+      "fr": "Trimestrielle",
+      "en": "Quarterly"
+    },
+    "lastUpdated": "2026-10-15",
+    "url": "/api/v1/data?indicator=MARKET&format=csv"
+  },
+  {
+    "code": "AFFORD",
+    "title": {
+      "fr": "Accessibilité financière",
+      "en": "Affordability"
+    },
+    "description": {
+      "fr": "Coût des services et des équipements par rapport aux revenus.",
+      "en": "Cost of services and devices relative to income."
+    },
+    "pillar": "AFFORD",
+    "formats": [
+      "CSV",
+      "JSON"
+    ],
+    "licence": "CC BY 4.0",
+    "updateFrequency": {
+      "fr": "Trimestrielle",
+      "en": "Quarterly"
+    },
+    "lastUpdated": "2026-10-15",
+    "url": "/api/v1/data?indicator=AFFORD&format=csv"
+  },
+  {
+    "code": "SKILLS",
+    "title": {
+      "fr": "Compétences",
+      "en": "Skills"
+    },
+    "description": {
+      "fr": "Compétences numériques de la population et formation.",
+      "en": "Digital skills of the population and training."
+    },
+    "pillar": "SKILLS",
+    "formats": [
+      "CSV",
+      "JSON"
+    ],
+    "licence": "CC BY 4.0",
+    "updateFrequency": {
+      "fr": "Trimestrielle",
+      "en": "Quarterly"
+    },
+    "lastUpdated": "2026-10-15",
+    "url": "/api/v1/data?indicator=SKILLS&format=csv"
+  },
+  {
+    "code": "TRUST",
+    "title": {
+      "fr": "Confiance et sécurité",
+      "en": "Trust and security"
+    },
+    "description": {
+      "fr": "Cybersécurité, protection des données et confiance en ligne.",
+      "en": "Cybersecurity, data protection and online trust."
+    },
+    "pillar": "TRUST",
+    "formats": [
+      "CSV",
+      "JSON"
+    ],
+    "licence": "CC BY 4.0",
+    "updateFrequency": {
+      "fr": "Trimestrielle",
+      "en": "Quarterly"
+    },
+    "lastUpdated": "2026-10-15",
+    "url": "/api/v1/data?indicator=TRUST&format=csv"
+  },
+  {
+    "code": "GOV",
+    "title": {
+      "fr": "Gouvernance et régulation",
+      "en": "Governance and regulation"
+    },
+    "description": {
+      "fr": "Services publics en ligne et cadre réglementaire.",
+      "en": "Online public services and the regulatory framework."
+    },
+    "pillar": "GOV",
+    "formats": [
+      "CSV",
+      "JSON"
+    ],
+    "licence": "CC BY 4.0",
+    "updateFrequency": {
+      "fr": "Trimestrielle",
+      "en": "Quarterly"
+    },
+    "lastUpdated": "2026-10-15",
+    "url": "/api/v1/data?indicator=GOV&format=csv"
+  },
+  {
+    "code": "ECON",
+    "title": {
+      "fr": "Économie numérique et durabilité",
+      "en": "Digital economy and sustainability"
+    },
+    "description": {
+      "fr": "Poids du numérique dans l'économie et impact environnemental.",
+      "en": "Weight of digital in the economy and environmental impact."
+    },
+    "pillar": "ECON",
+    "formats": [
+      "CSV",
+      "JSON"
+    ],
+    "licence": "CC BY 4.0",
+    "updateFrequency": {
+      "fr": "Trimestrielle",
+      "en": "Quarterly"
+    },
+    "lastUpdated": "2026-10-15",
+    "url": "/api/v1/data?indicator=ECON&format=csv"
+  }
+]

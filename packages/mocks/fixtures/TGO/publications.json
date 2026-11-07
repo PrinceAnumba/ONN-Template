@@ -1,0 +1,290 @@
+[
+  {
+    "slug": "quarterly-2025-1",
+    "type": "quarterly",
+    "title": {
+      "fr": "Tableau de bord trimestriel 2025",
+      "en": "Quarterly dashboard 2025"
+    },
+    "summary": {
+      "fr": "Une publication de démonstration, sans données réelles.",
+      "en": "A demo publication with no real data."
+    },
+    "date": "2025-01-15",
+    "pillar": "CONN",
+    "coverUrl": "/api/v1/publications/quarterly-2025-1/cover.svg",
+    "fileUrl": "/api/v1/publications/quarterly-2025-1/file.pdf",
+    "fileBytes": 4311046,
+    "verified": true
+  },
+  {
+    "slug": "annual-2025-2",
+    "type": "annual",
+    "title": {
+      "fr": "Rapport annuel du numérique 2025",
+      "en": "Annual digital report 2025"
+    },
+    "summary": {
+      "fr": "Une publication de démonstration, sans données réelles.",
+      "en": "A demo publication with no real data."
+    },
+    "date": "2025-04-15",
+    "pillar": "ACCESS",
+    "coverUrl": "/api/v1/publications/annual-2025-2/cover.svg",
+    "fileUrl": "/api/v1/publications/annual-2025-2/file.pdf",
+    "fileBytes": 1370608,
+    "verified": true
+  },
+  {
+    "slug": "study-2025-3",
+    "type": "study",
+    "title": {
+      "fr": "Étude sur les usages 2025",
+      "en": "Study on digital use 2025"
+    },
+    "summary": {
+      "fr": "Une publication de démonstration, sans données réelles.",
+      "en": "A demo publication with no real data."
+    },
+    "date": "2025-07-15",
+    "pillar": "MARKET",
+    "coverUrl": "/api/v1/publications/study-2025-3/cover.svg",
+    "fileUrl": "/api/v1/publications/study-2025-3/file.pdf",
+    "fileBytes": 3581952,
+    "verified": false
+  },
+  {
+    "slug": "method-2025-4",
+    "type": "method",
+    "title": {
+      "fr": "Note méthodologique 2025",
+      "en": "Methodology note 2025"
+    },
+    "summary": {
+      "fr": "Une publication de démonstration, sans données réelles.",
+      "en": "A demo publication with no real data."
+    },
+    "date": "2025-10-15",
+    "pillar": "AFFORD",
+    "coverUrl": "/api/v1/publications/method-2025-4/cover.svg",
+    "fileUrl": "/api/v1/publications/method-2025-4/file.pdf",
+    "fileBytes": 680398,
+    "verified": true
+  },
+  {
+    "slug": "quarterly-2024-5",
+    "type": "quarterly",
+    "title": {
+      "fr": "Tableau de bord trimestriel 2024",
+      "en": "Quarterly dashboard 2024"
+    },
+    "summary": {
+      "fr": "Une publication de démonstration, sans données réelles.",
+      "en": "A demo publication with no real data."
+    },
+    "date": "2024-01-15",
+    "pillar": "SKILLS",
+    "coverUrl": "/api/v1/publications/quarterly-2024-5/cover.svg",
+    "fileUrl": "/api/v1/publications/quarterly-2024-5/file.pdf",
+    "fileBytes": 1600147,
+    "verified": true
+  },
+  {
+    "slug": "annual-2024-6",
+    "type": "annual",
+    "title": {
+      "fr": "Rapport annuel du numérique 2024",
+      "en": "Annual digital report 2024"
+    },
+    "summary": {
+      "fr": "Une publication de démonstration, sans données réelles.",
+      "en": "A demo publication with no real data."
+    },
+    "date": "2024-04-15",
+    "pillar": "TRUST",
+    "coverUrl": "/api/v1/publications/annual-2024-6/cover.svg",
+    "fileUrl": "/api/v1/publications/annual-2024-6/file.pdf",
+    "fileBytes": 2464481,
+    "verified": false
+  },
+  {
+    "slug": "study-2024-7",
+    "type": "study",
+    "title": {
+      "fr": "Étude sur les usages 2024",
+      "en": "Study on digital use 2024"
+    },
+    "summary": {
+      "fr": "Une publication de démonstration, sans données réelles.",
+      "en": "A demo publication with no real data."
+    },
+    "date": "2024-07-15",
+    "pillar": "GOV",
+    "coverUrl": "/api/v1/publications/study-2024-7/cover.svg",
+    "fileUrl": "/api/v1/publications/study-2024-7/file.pdf",
+    "fileBytes": 2939798,
+    "verified": true
+  },
+  {
+    "slug": "method-2024-8",
+    "type": "method",
+    "title": {
+      "fr": "Note méthodologique 2024",
+      "en": "Methodology note 2024"
+    },
+    "summary": {
+      "fr": "Une publication de démonstration, sans données réelles.",
+      "en": "A demo publication with no real data."
+    },
+    "date": "2024-10-15",
+    "pillar": "ECON",
+    "coverUrl": "/api/v1/publications/method-2024-8/cover.svg",
+    "fileUrl": "/api/v1/publications/method-2024-8/file.pdf",
+    "fileBytes": 4399066,
+    "verified": true
+  },
+  {
+    "slug": "quarterly-2023-9",
+    "type": "quarterly",
+    "title": {
+      "fr": "Tableau de bord trimestriel 2023",
+      "en": "Quarterly dashboard 2023"
+    },
+    "summary": {
+      "fr": "Une publication de démonstration, sans données réelles.",
+      "en": "A demo publication with no real data."
+    },
+    "date": "2023-01-15",
+    "pillar": "CONN",
+    "coverUrl": "/api/v1/publications/quarterly-2023-9/cover.svg",
+    "fileUrl": "/api/v1/publications/quarterly-2023-9/file.pdf",
+    "fileBytes": 3442764,
+    "verified": false
+  },
+  {
+    "slug": "annual-2023-10",
+    "type": "annual",
+    "title": {
+      "fr": "Rapport annuel du numérique 2023",
+      "en": "Annual digital report 2023"
+    },
+    "summary": {
+      "fr": "Une publication de démonstration, sans données réelles.",
+      "en": "A demo publication with no real data."
+    },
+    "date": "2023-04-15",
+    "pillar": "ACCESS",
+    "coverUrl": "/api/v1/publications/annual-2023-10/cover.svg",
+    "fileUrl": "/api/v1/publications/annual-2023-10/file.pdf",
+    "fileBytes": 3393198,
+    "verified": true
+  },
+  {
+    "slug": "study-2023-11",
+    "type": "study",
+    "title": {
+      "fr": "Étude sur les usages 2023",
+      "en": "Study on digital use 2023"
+    },
+    "summary": {
+      "fr": "Une publication de démonstration, sans données réelles.",
+      "en": "A demo publication with no real data."
+    },
+    "date": "2023-07-15",
+    "pillar": "MARKET",
+    "coverUrl": "/api/v1/publications/study-2023-11/cover.svg",
+    "fileUrl": "/api/v1/publications/study-2023-11/file.pdf",
+    "fileBytes": 3647806,
+    "verified": true
+  },
+  {
+    "slug": "method-2023-12",
+    "type": "method",
+    "title": {
+      "fr": "Note méthodologique 2023",
+      "en": "Methodology note 2023"
+    },
+    "summary": {
+      "fr": "Une publication de démonstration, sans données réelles.",
+      "en": "A demo publication with no real data."
+    },
+    "date": "2023-10-15",
+    "pillar": "AFFORD",
+    "coverUrl": "/api/v1/publications/method-2023-12/cover.svg",
+    "fileUrl": "/api/v1/publications/method-2023-12/file.pdf",
+    "fileBytes": 4375787,
+    "verified": false
+  },
+  {
+    "slug": "quarterly-2022-13",
+    "type": "quarterly",
+    "title": {
+      "fr": "Tableau de bord trimestriel 2022",
+      "en": "Quarterly dashboard 2022"
+    },
+    "summary": {
+      "fr": "Une publication de démonstration, sans données réelles.",
+      "en": "A demo publication with no real data."
+    },
+    "date": "2022-01-15",
+    "pillar": "SKILLS",
+    "coverUrl": "/api/v1/publications/quarterly-2022-13/cover.svg",
+    "fileUrl": "/api/v1/publications/quarterly-2022-13/file.pdf",
+    "fileBytes": 3614101,
+    "verified": true
+  },
+  {
+    "slug": "annual-2022-14",
+    "type": "annual",
+    "title": {
+      "fr": "Rapport annuel du numérique 2022",
+      "en": "Annual digital report 2022"
+    },
+    "summary": {
+      "fr": "Une publication de démonstration, sans données réelles.",
+      "en": "A demo publication with no real data."
+    },
+    "date": "2022-04-15",
+    "pillar": "TRUST",
+    "coverUrl": "/api/v1/publications/annual-2022-14/cover.svg",
+    "fileUrl": "/api/v1/publications/annual-2022-14/file.pdf",
+    "fileBytes": 3836574,
+    "verified": true
+  },
+  {
+    "slug": "study-2022-15",
+    "type": "study",
+    "title": {
+      "fr": "Étude sur les usages 2022",
+      "en": "Study on digital use 2022"
+    },
+    "summary": {
+      "fr": "Une publication de démonstration, sans données réelles.",
+      "en": "A demo publication with no real data."
+    },
+    "date": "2022-07-15",
+    "pillar": "GOV",
+    "coverUrl": "/api/v1/publications/study-2022-15/cover.svg",
+    "fileUrl": "/api/v1/publications/study-2022-15/file.pdf",
+    "fileBytes": 2803425,
+    "verified": false
+  },
+  {
+    "slug": "method-2022-16",
+    "type": "method",
+    "title": {
+      "fr": "Note méthodologique 2022",
+      "en": "Methodology note 2022"
+    },
+    "summary": {
+      "fr": "Une publication de démonstration, sans données réelles.",
+      "en": "A demo publication with no real data."
+    },
+    "date": "2022-10-15",
+    "pillar": "ECON",
+    "coverUrl": "/api/v1/publications/method-2022-16/cover.svg",
+    "fileUrl": "/api/v1/publications/method-2022-16/file.pdf",
+    "fileBytes": 4019613,
+    "verified": true
+  }
+]

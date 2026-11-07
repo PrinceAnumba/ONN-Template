@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Phase 1 of the build is done: monorepo, country config, token generation and two minimal apps. `docs/onn-frontend-prompt.md` is the source of truth for scope, tokens, API contract, component specs, budgets and acceptance. Its numbers are requirements; use them as given, and read the relevant section before building a page or component rather than working from this summary.
+Phases 1 and 2 of the build are done: monorepo, country config, tokens, API client and mock server. The apps are still minimal shells. `docs/onn-frontend-prompt.md` is the source of truth for scope, tokens, API contract, component specs, budgets and acceptance. Its numbers are requirements; use them as given, and read the relevant section before building a page or component rather than working from this summary.
 
 Sections below describe the system the brief specifies, so parts of it don't exist yet. As each phase lands, check this file against the code and replace anything that has drifted.
 
@@ -39,12 +39,13 @@ pnpm test                                 # Vitest
 pnpm lint
 pnpm typecheck
 pnpm format
+pnpm mocks:gen --country=SEN --seed=42    # rewrite fixtures deterministically
 pnpm --filter @onn/config exec vitest run -t "deriveInk"   # single test by name
 ```
 
-Added in later phases: `pnpm mocks:gen --country=SEN --seed=42` (2), `pnpm storybook` (4), `pnpm e2e` and `pnpm lhci` (8).
+Added in later phases: `pnpm storybook` (4), `pnpm e2e` and `pnpm lhci` (8).
 
-Environment (`.env.example`, read from the repo root): `NEXT_PUBLIC_API_BASE` (empty = mocks), `NEXT_PUBLIC_COUNTRY` (picks config and fixtures), `NEXT_PUBLIC_SITE_URL`, `ADMIN_ORIGIN` (where the portal forwards `/admin`).
+Environment (`.env.example`, read from the repo root): `NEXT_PUBLIC_API_BASE` (empty = mocks), `NEXT_PUBLIC_COUNTRY` (picks config and fixtures), `NEXT_PUBLIC_SITE_URL`, `ADMIN_ORIGIN` (where the portal forwards `/admin`), `MOCK_API_ORIGIN`, `MOCK_PORT`, `MOCK_LATENCY` (`0` turns off the delay).
 
 Versions are pinned on purpose: Next 15 (brief), TypeScript 5.9 (`typescript-eslint` doesn't support 7) and ESLint 9 (`eslint-plugin-jsx-a11y` doesn't support 10). pnpm blocks install scripts unless listed under `allowBuilds` in `pnpm-workspace.yaml`.
 
@@ -70,12 +71,13 @@ Design decisions that span packages:
 - **Tokens are generated.** `packages/config/tokens.ts` builds `tokens.css` from `brand`, deriving `--onn-primary-ink` in OKLCH to reach 4.5:1 on white. Don't edit `tokens.css` by hand.
 - **Two zones, one domain.** The portal rewrites `/admin` to `ADMIN_ORIGIN`; the admin app has `basePath: "/admin"`, so its own routes don't repeat the prefix.
 - **Fonts.** Source Sans 3 lives in `packages/ui/fonts` as separate Latin and Latin Extended families in one font stack, so Latin Extended downloads only when a glyph needs it. Next's font preload manifest is empty on Windows builds (its plugin matches a forward-slash path), so check preload on a Linux build.
-- **The frontend owns the API contract** in `packages/api-client/types.ts`; the backend implements it and MSW serves it until then. All calls go through one `apiFetch` wrapper (locale, 15 s timeout, one retry on network failure but not on 4xx, `Problem` parsed into `ApiError`).
+- **The frontend owns the API contract** in `packages/api-client/types.ts`; the backend implements it and the mock server serves it until then. Any change to the brief's contract goes in `docs/api-contract-changes.md`. All calls go through one `apiFetch` wrapper (locale, 15 s timeout, one retry on network failure but not on 4xx, `Problem` parsed into `ApiError`).
 - **Data fetching split.** Server Components fetch with `next: { revalidate: 300, tags: ["indicator:<code>"] }` so the backend's publish webhook can call `revalidateTag`. Client islands use TanStack Query (`staleTime` 5 min, `gcTime` 30 min).
 - **No data in markup.** Every number on screen comes from the API client, with its source, reference year and a link to its metadata.
 - **URL is the state for data views.** Typed with `nuqs`: `i`, `a`, `c`, `y`, `d`, `u`, `v`, `l`. Defaults are omitted, every combination survives reload and sharing, and invalid values fall back to defaults with a toast.
 - **SSR first, hydrate later.** Public pages stay readable with JavaScript disabled. `ChartFrame` renders an SSR SVG (ECharts SSR) and hydrates near the viewport; `ChoroplethMap` uses `d3-geo` SVG on the server and MapLibre on the client, sharing classification code so colours match.
 - **Lite mode** is stored in a cookie so the server can render it: no MapLibre, no chart hydration, no images except logos, tables before charts.
+- **Mock server.** `pnpm dev` starts `packages/mocks/server.ts` on :4000. Server code calls it directly; the browser uses relative `/api/v1` and `/geo` paths that both apps rewrite to it. Fixtures in `packages/mocks/fixtures/{ISO3}` are generated and committed, so change `catalog.ts`, `geography.ts` or `fixtures.ts` and regenerate rather than editing them. Stored text is `{fr, en}`, and the handlers pick the language and set `fallback`, so add new text in that form. Boundaries are placeholder rectangles, there are no adm3 areas yet, and XLSX downloads return 501.
 - **Mocks are stateful for admin.** An in-memory store lets the workflow be clicked end to end: a value published in admin must appear on the portal mock. Every page shows the `DemoRibbon` when mocks are on.
 - **Admin roles.** Hide what a role cannot do rather than disabling it. Disable with a tooltip only when the rule depends on data (e.g. approving your own submission).
 

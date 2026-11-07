@@ -1,0 +1,234 @@
+[
+  {
+    "code": "CONN",
+    "icon": "antenna",
+    "name": {
+      "fr": "Connectivité et infrastructures",
+      "en": "Connectivity and infrastructure"
+    },
+    "description": {
+      "fr": "Couverture des réseaux et capacité des infrastructures.",
+      "en": "Network coverage and infrastructure capacity."
+    },
+    "themes": [
+      {
+        "code": "COVERAGE",
+        "name": {
+          "fr": "Couverture",
+          "en": "Coverage"
+        }
+      },
+      {
+        "code": "BACKBONE",
+        "name": {
+          "fr": "Réseaux de transport",
+          "en": "Backbone networks"
+        }
+      }
+    ],
+    "order": 1
+  },
+  {
+    "code": "ACCESS",
+    "icon": "users",
+    "name": {
+      "fr": "Accès et usages",
+      "en": "Access and use"
+    },
+    "description": {
+      "fr": "Comment les personnes et les ménages accèdent au numérique et l'utilisent.",
+      "en": "How people and households reach and use digital services."
+    },
+    "themes": [
+      {
+        "code": "INDIVIDUALS",
+        "name": {
+          "fr": "Individus",
+          "en": "Individuals"
+        }
+      },
+      {
+        "code": "HOUSEHOLDS",
+        "name": {
+          "fr": "Ménages",
+          "en": "Households"
+        }
+      }
+    ],
+    "order": 2
+  },
+  {
+    "code": "MARKET",
+    "icon": "chart",
+    "name": {
+      "fr": "Marchés",
+      "en": "Markets"
+    },
+    "description": {
+      "fr": "Taille du marché des télécommunications et niveau de concurrence.",
+      "en": "Telecom market size and level of competition."
+    },
+    "themes": [
+      {
+        "code": "SUBSCRIPTIONS",
+        "name": {
+          "fr": "Abonnements",
+          "en": "Subscriptions"
+        }
+      },
+      {
+        "code": "COMPETITION",
+        "name": {
+          "fr": "Concurrence",
+          "en": "Competition"
+        }
+      }
+    ],
+    "order": 3
+  },
+  {
+    "code": "AFFORD",
+    "icon": "wallet",
+    "name": {
+      "fr": "Accessibilité financière",
+      "en": "Affordability"
+    },
+    "description": {
+      "fr": "Coût des services et des équipements par rapport aux revenus.",
+      "en": "Cost of services and devices relative to income."
+    },
+    "themes": [
+      {
+        "code": "PRICES",
+        "name": {
+          "fr": "Prix des services",
+          "en": "Service prices"
+        }
+      },
+      {
+        "code": "DEVICES",
+        "name": {
+          "fr": "Équipements",
+          "en": "Devices"
+        }
+      }
+    ],
+    "order": 4
+  },
+  {
+    "code": "SKILLS",
+    "icon": "graduation",
+    "name": {
+      "fr": "Compétences",
+      "en": "Skills"
+    },
+    "description": {
+      "fr": "Compétences numériques de la population et formation.",
+      "en": "Digital skills of the population and training."
+    },
+    "themes": [
+      {
+        "code": "LITERACY",
+        "name": {
+          "fr": "Culture numérique",
+          "en": "Digital literacy"
+        }
+      },
+      {
+        "code": "EDUCATION",
+        "name": {
+          "fr": "Éducation",
+          "en": "Education"
+        }
+      }
+    ],
+    "order": 5
+  },
+  {
+    "code": "TRUST",
+    "icon": "shield",
+    "name": {
+      "fr": "Confiance et sécurité",
+      "en": "Trust and security"
+    },
+    "description": {
+      "fr": "Cybersécurité, protection des données et confiance en ligne.",
+      "en": "Cybersecurity, data protection and online trust."
+    },
+    "themes": [
+      {
+        "code": "CYBER",
+        "name": {
+          "fr": "Cybersécurité",
+          "en": "Cybersecurity"
+        }
+      },
+      {
+        "code": "DATA",
+        "name": {
+          "fr": "Protection des données",
+          "en": "Data protection"
+        }
+      }
+    ],
+    "order": 6
+  },
+  {
+    "code": "GOV",
+    "icon": "landmark",
+    "name": {
+      "fr": "Gouvernance et régulation",
+      "en": "Governance and regulation"
+    },
+    "description": {
+      "fr": "Services publics en ligne et cadre réglementaire.",
+      "en": "Online public services and the regulatory framework."
+    },
+    "themes": [
+      {
+        "code": "EGOV",
+        "name": {
+          "fr": "Administration en ligne",
+          "en": "E-government"
+        }
+      },
+      {
+        "code": "REGULATION",
+        "name": {
+          "fr": "Régulation",
+          "en": "Regulation"
+        }
+      }
+    ],
+    "order": 7
+  },
+  {
+    "code": "ECON",
+    "icon": "leaf",
+    "name": {
+      "fr": "Économie numérique et durabilité",
+      "en": "Digital economy and sustainability"
+    },
+    "description": {
+      "fr": "Poids du numérique dans l'économie et impact environnemental.",
+      "en": "Weight of digital in the economy and environmental impact."
+    },
+    "themes": [
+      {
+        "code": "ECONOMY",
+        "name": {
+          "fr": "Économie",
+          "en": "Economy"
+        }
+      },
+      {
+        "code": "SUSTAIN",
+        "name": {
+          "fr": "Durabilité",
+          "en": "Sustainability"
+        }
+      }
+    ],
+    "order": 8
+  }
+]

@@ -2,7 +2,27 @@
   "name": "@onn/mocks",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "exports": {
-    ".": "./index.ts"
+    ".": "./index.ts",
+    "./handlers": "./handlers.ts"
+  },
+  "scripts": {
+    "dev": "tsx watch server.ts",
+    "start": "tsx server.ts",
+    "gen": "tsx generate.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@onn/api-client": "workspace:*",
+    "@onn/config": "workspace:*",
+    "msw": "^2"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.23.15",
+    "typescript": "~5.9.3",
+    "vitest": "^5.1.0"
   }
 }

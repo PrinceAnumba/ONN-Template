@@ -4,14 +4,30 @@
     "NEXT_PUBLIC_API_BASE",
     "NEXT_PUBLIC_COUNTRY",
     "NEXT_PUBLIC_SITE_URL",
-    "ADMIN_ORIGIN"
+    "ADMIN_ORIGIN",
+    "MOCK_API_ORIGIN",
+    "MOCK_PORT",
+    "MOCK_LATENCY"
   ],
   "globalDependencies": [".env"],
   "tasks": {
-    "build": { "dependsOn": ["^build"], "outputs": [".next/**", "!.next/cache/**"] },
-    "@onn/config#build": { "cache": false },
-    "dev": { "dependsOn": ["^build"], "cache": false, "persistent": true },
-    "test": { "dependsOn": ["^build"] },
-    "typecheck": { "dependsOn": ["^build"] }
+    "build": {
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**"]
+    },
+    "@onn/config#build": {
+      "cache": false
+    },
+    "dev": {
+      "dependsOn": ["^build"],
+      "cache": false,
+      "persistent": true
+    },
+    "test": {
+      "dependsOn": ["^build"]
+    },
+    "typecheck": {
+      "dependsOn": ["^build"]
+    }
   }
 }

@@ -1,0 +1,228 @@
+[
+  {
+    "slug": "decision-makers",
+    "title": {
+      "fr": "Tableau de bord des décideurs",
+      "en": "Decision-makers dashboard"
+    },
+    "description": {
+      "fr": "Les indicateurs clés pour le pilotage de la stratégie numérique.",
+      "en": "The key indicators for steering the digital strategy."
+    },
+    "audience": "decision",
+    "widgets": [
+      {
+        "id": "users",
+        "type": "kpi",
+        "title": {
+          "fr": "Utilisateurs d'Internet",
+          "en": "Internet users"
+        },
+        "indicators": [
+          "ACCESS.INTERNET_USERS"
+        ],
+        "span": 1
+      },
+      {
+        "id": "coverage",
+        "type": "kpi",
+        "title": {
+          "fr": "Couverture 4G",
+          "en": "4G coverage"
+        },
+        "indicators": [
+          "CONN.4G_POP"
+        ],
+        "span": 1
+      },
+      {
+        "id": "price",
+        "type": "kpi",
+        "title": {
+          "fr": "Coût de 2 Go",
+          "en": "Cost of 2 GB"
+        },
+        "indicators": [
+          "AFFORD.DATA_2GB"
+        ],
+        "span": 1
+      },
+      {
+        "id": "trend",
+        "type": "line",
+        "title": {
+          "fr": "Évolution des usages",
+          "en": "Use over time"
+        },
+        "indicators": [
+          "ACCESS.INTERNET_USERS"
+        ],
+        "span": 2,
+        "compare": "peer:ECOWAS"
+      },
+      {
+        "id": "index",
+        "type": "radar",
+        "title": {
+          "fr": "Score par pilier",
+          "en": "Score by pillar"
+        },
+        "indicators": [
+          "ECON.INDEX"
+        ],
+        "span": 1
+      },
+      {
+        "id": "map",
+        "type": "map",
+        "title": {
+          "fr": "Couverture par région",
+          "en": "Coverage by region"
+        },
+        "indicators": [
+          "CONN.4G_POP"
+        ],
+        "span": 3
+      }
+    ]
+  },
+  {
+    "slug": "analysts",
+    "title": {
+      "fr": "Tableau de bord des analystes",
+      "en": "Analysts dashboard"
+    },
+    "description": {
+      "fr": "Marchés, prix et ventilations détaillées.",
+      "en": "Markets, prices and detailed breakdowns."
+    },
+    "audience": "analyst",
+    "widgets": [
+      {
+        "id": "bb",
+        "type": "line",
+        "title": {
+          "fr": "Haut débit",
+          "en": "Broadband"
+        },
+        "indicators": [
+          "MARKET.MOBILE_BB",
+          "MARKET.FIXED_BB"
+        ],
+        "span": 2
+      },
+      {
+        "id": "share",
+        "type": "donut",
+        "title": {
+          "fr": "Parts de marché",
+          "en": "Market shares"
+        },
+        "indicators": [
+          "MARKET.MOBILE_SUBS"
+        ],
+        "span": 1,
+        "dims": {
+          "operator": "*"
+        }
+      },
+      {
+        "id": "gender",
+        "type": "bar",
+        "title": {
+          "fr": "Écart entre les sexes",
+          "en": "Gender gap"
+        },
+        "indicators": [
+          "ACCESS.INTERNET_USERS"
+        ],
+        "span": 1,
+        "dims": {
+          "sex": "*"
+        }
+      },
+      {
+        "id": "market",
+        "type": "treemap",
+        "title": {
+          "fr": "Abonnements par opérateur",
+          "en": "Subscriptions by operator"
+        },
+        "indicators": [
+          "MARKET.MOBILE_BB"
+        ],
+        "span": 2,
+        "dims": {
+          "operator": "*"
+        }
+      },
+      {
+        "id": "table",
+        "type": "table",
+        "title": {
+          "fr": "Détail régional",
+          "en": "Regional detail"
+        },
+        "indicators": [
+          "ACCESS.HH_INTERNET"
+        ],
+        "span": 3
+      }
+    ]
+  },
+  {
+    "slug": "public",
+    "title": {
+      "fr": "Le numérique en bref",
+      "en": "Digital at a glance"
+    },
+    "description": {
+      "fr": "Une vue simple de la situation du numérique.",
+      "en": "A simple view of the state of digital."
+    },
+    "audience": "public",
+    "widgets": [
+      {
+        "id": "intro",
+        "type": "text",
+        "title": {
+          "fr": "À propos",
+          "en": "About"
+        },
+        "indicators": [],
+        "span": 3,
+        "body": {
+          "fr": "Ce tableau de bord présente des données de démonstration.",
+          "en": "This dashboard shows demo data."
+        }
+      },
+      {
+        "id": "target",
+        "type": "target",
+        "title": {
+          "fr": "Objectif de couverture",
+          "en": "Coverage target"
+        },
+        "indicators": [
+          "CONN.4G_POP"
+        ],
+        "span": 1
+      },
+      {
+        "id": "stack",
+        "type": "stacked",
+        "title": {
+          "fr": "Usages par âge",
+          "en": "Use by age"
+        },
+        "indicators": [
+          "ACCESS.SMARTPHONE"
+        ],
+        "span": 2,
+        "dims": {
+          "age_group": "*"
+        }
+      }
+    ]
+  }
+]

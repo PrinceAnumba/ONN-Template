@@ -2,7 +2,27 @@
   "name": "@onn/api-client",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "exports": {
-    ".": "./index.ts"
+    ".": "./index.ts",
+    "./hooks": "./hooks.ts",
+    "./types": "./types.ts"
+  },
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.107.1"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "react": "^19.3.1",
+    "typescript": "~5.9.3",
+    "vitest": "^5.1.0"
   }
 }

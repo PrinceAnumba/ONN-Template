@@ -1,0 +1,78 @@
+{
+  "mission": {
+    "fr": "Les données de référence sur le numérique : Togo.",
+    "en": "Reference data on digital development: Togo."
+  },
+  "lastUpdated": "2026-10-15",
+  "exampleChips": [
+    {
+      "label": {
+        "fr": "Utilisateurs d'Internet",
+        "en": "Internet users"
+      },
+      "href": "/data/ACCESS.INTERNET_USERS"
+    },
+    {
+      "label": {
+        "fr": "Couverture 4G par région",
+        "en": "4G coverage by region"
+      },
+      "href": "/map?i=CONN.4G_POP"
+    },
+    {
+      "label": {
+        "fr": "Écart entre femmes et hommes",
+        "en": "Gender gap"
+      },
+      "href": "/data/ACCESS.INTERNET_USERS?d=sex:*"
+    },
+    {
+      "label": {
+        "fr": "Coût de 2 Go",
+        "en": "Cost of 2 GB"
+      },
+      "href": "/data/AFFORD.DATA_2GB?c=peer:WAEMU"
+    },
+    {
+      "label": {
+        "fr": "Région à la loupe",
+        "en": "A region up close"
+      },
+      "href": "/data?a=TG-01"
+    }
+  ],
+  "featuredIndicators": [
+    "CONN.4G_POP",
+    "ACCESS.INTERNET_USERS",
+    "ACCESS.HH_INTERNET",
+    "MARKET.MOBILE_BB",
+    "MARKET.FIXED_BB",
+    "AFFORD.DATA_2GB",
+    "SKILLS.BASIC",
+    "TRUST.GCI"
+  ],
+  "mapTeaserIndicator": "CONN.4G_POP",
+  "benchmarkIndicator": "ACCESS.INTERNET_USERS",
+  "partners": [
+    {
+      "name": "Partenaire A",
+      "logo": "/brand/logo.svg",
+      "lastSubmission": "2026-06-15"
+    },
+    {
+      "name": "Partenaire B",
+      "logo": "/brand/logo.svg",
+      "lastSubmission": "2026-07-15"
+    },
+    {
+      "name": "Partenaire C",
+      "logo": "/brand/logo.svg",
+      "lastSubmission": "2026-08-15"
+    },
+    {
+      "name": "Partenaire D",
+      "logo": "/brand/logo.svg",
+      "lastSubmission": "2026-09-15"
+    }
+  ]
+}

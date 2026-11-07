@@ -5,7 +5,8 @@
   "type": "module",
   "exports": {
     ".": "./country.config.ts",
-    "./schema": "./schema.ts"
+    "./schema": "./schema.ts",
+    "./countries/*": "./countries/*.ts"
   },
   "scripts": {
     "build": "tsx generate.ts",
