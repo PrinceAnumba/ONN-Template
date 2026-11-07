@@ -81,14 +81,14 @@ Design decisions that span packages:
 
 ## Conventions enforced by tooling
 
-- CSS Modules + custom properties from tokens; no runtime CSS-in-JS. No dark mode in v1. Use logical properties (`margin-inline-start`) so RTL works.
+- Tailwind v4 utilities and shadcn components; no runtime CSS-in-JS. No dark mode in v1. Use logical utilities (`ms-*`, `ps-*`, `text-start`) so RTL works.
 - ESLint forbids string literals in JSX text and in `aria-label`, `title`, `alt` and `placeholder`: all UI text goes through `next-intl` ICU messages, and translated fragments are never concatenated. A test fails on any missing message.
 - Every component lives in `packages/ui` or `packages/charts`, with a Storybook story covering default, loading, empty, error, long text, RTL and mobile, plus a Playwright/axe check.
 - Keep MapLibre, ECharts modules, KaTeX, Tiptap and Scalar code-split and out of the home bundle. CI fails on budget overruns (§9), e.g. home first-load JS ≤ 170 KB gzipped.
 
 ## Design rules (§2)
 
-- Use tokens only; no hard-coded colours, spacing, radii, shadows or durations in components.
+- Use tokens only; no hard-coded colours, spacing, radii, shadows or durations in components. `packages/ui/base.css` maps tokens to Tailwind utilities (`bg-primary`, `text-h2`, `bg-cat-1`, `rounded-pill`) and to shadcn's variable names. Tailwind's default colours are removed, so `bg-red-500` compiles to nothing; don't use arbitrary values to get around that.
 - Type scale, 12-column grid and breakpoints (640, 768, 1024, 1280) are fixed in §2. Container max is 1280px, gutters 24px (16px under 640px).
 - Chart colour roles: focus = `--onn-primary`; comparison = `--onn-compare` dashed 2px; peer band = primary at 12% opacity; categorical = Okabe-Ito in the §2 order; no-data = 45° grey hatch; map = 5 sequential steps.
 
@@ -130,6 +130,9 @@ Layers: Vitest unit, Testing Library + Storybook interaction, Playwright e2e (Ch
 ## Spec decisions
 
 These resolve contradictions and gaps in the brief. Follow them over the brief's wording, and don't re-open them without asking.
+
+- **Styling:** the user chose Tailwind and shadcn over the brief's CSS Modules. Token values, the §6 component specs and the budgets are unchanged, so a shadcn component is a starting point: edit it until it matches §6 (`Button` still needs the 36/44/48px sizes, the spec's variants and `--onn-focus`; `Combobox` must meet the APG behaviour). Check each new component's client JS against the budgets.
+- **Adding shadcn components:** run `pnpm dlx shadcn@latest add <name>` from `packages/ui`, then replace `from "cn"` with `from "@onn/ui/lib/utils"` because the CLI leaves that import unresolved. Keep `optimizePackageImports: ["radix-ui"]` in both Next configs; without it one Button adds 80 KB.
 
 - **Mocks:** one standalone mock server reuses the MSW handlers and holds the shared store for both apps, and calls each app's `revalidateTag` on publish. In-memory browser/Node MSW can't share state across apps, and its browser worker would compete with Serwist for the service-worker scope. MSW stays for unit tests and Storybook.
 - **Chart contrast:** keep the Okabe-Ito palette, draw charts on white only (`#CC79A7` and `--onn-compare` fall below 3:1 on `--onn-surface-2`), and give `#E69F00`, `#56B4E9` and `#F0E442` a darker outline or direct labels because they fail 3:1 on white.

@@ -8,6 +8,8 @@ const adminOrigin = process.env.ADMIN_ORIGIN ?? "http://localhost:3001";
 
 const config: NextConfig = {
   transpilePackages: ["@onn/config", "@onn/ui"],
+  // Without this the radix-ui barrel adds 80 KB to any page importing a shadcn component.
+  experimental: { optimizePackageImports: ["radix-ui"] },
   eslint: { ignoreDuringBuilds: true },
   // Multi-zones: the admin app is served under /admin on the same domain.
   async rewrites() {

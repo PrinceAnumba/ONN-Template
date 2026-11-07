@@ -1,4 +1,12 @@
+@import "tailwindcss";
+@import "tw-animate-css";
 @import "./tokens.css";
+
+/* Components in this package; apps are detected from their own directory. */
+@source ".";
+
+/* v1 is light only (brief §2). Keeps shadcn's dark: classes from following the OS setting. */
+@custom-variant dark (&:is(.dark *));
 
 :root {
   --onn-font-stack:
@@ -11,6 +19,26 @@
   --type-h2: 26px;
   --type-h3: 20px;
   --type-kpi: 36px;
+
+  /* shadcn's variable names, pointed at the generated tokens. */
+  --background: var(--onn-surface);
+  --foreground: var(--onn-ink);
+  --card: var(--onn-surface);
+  --card-foreground: var(--onn-ink);
+  --popover: var(--onn-surface);
+  --popover-foreground: var(--onn-ink);
+  --primary: var(--onn-primary-ink);
+  --primary-foreground: #ffffff;
+  --secondary: var(--onn-surface-2);
+  --secondary-foreground: var(--onn-ink);
+  --muted: var(--onn-surface-2);
+  --muted-foreground: var(--onn-muted);
+  --accent: var(--onn-surface-2);
+  --accent-foreground: var(--onn-ink);
+  --destructive: var(--onn-negative);
+  --border: var(--onn-line);
+  --input: var(--onn-line);
+  --ring: var(--onn-primary-ink);
 }
 
 @media (max-width: 767.98px) {
@@ -29,85 +57,134 @@
   }
 }
 
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+@theme inline {
+  /* Default palette removed so colour utilities can only be tokens. */
+  --color-*: initial;
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-brand: var(--onn-primary);
+  --color-brand-secondary: var(--onn-secondary);
+  --color-brand-accent: var(--onn-accent);
+  --color-surface-2: var(--onn-surface-2);
+  --color-positive: var(--onn-positive);
+  --color-negative: var(--onn-negative);
+  --color-at-risk: var(--onn-at-risk);
+  --color-compare: var(--onn-compare);
+  --color-peer-band: var(--onn-peer-band);
+  --color-cat-1: var(--onn-cat-1);
+  --color-cat-2: var(--onn-cat-2);
+  --color-cat-3: var(--onn-cat-3);
+  --color-cat-4: var(--onn-cat-4);
+  --color-cat-5: var(--onn-cat-5);
+  --color-cat-6: var(--onn-cat-6);
+  --color-cat-7: var(--onn-cat-7);
+  --color-cat-8: var(--onn-cat-8);
+  --color-seq-1: var(--onn-seq-1);
+  --color-seq-2: var(--onn-seq-2);
+  --color-seq-3: var(--onn-seq-3);
+  --color-seq-4: var(--onn-seq-4);
+  --color-seq-5: var(--onn-seq-5);
+
+  --font-sans: var(--onn-font-stack);
+
+  --text-display: var(--type-display);
+  --text-display--line-height: 1.1;
+  --text-display--font-weight: 700;
+  --text-h1: var(--type-h1);
+  --text-h1--line-height: 1.15;
+  --text-h1--font-weight: 700;
+  --text-h2: var(--type-h2);
+  --text-h2--line-height: 1.2;
+  --text-h2--font-weight: 600;
+  --text-h3: var(--type-h3);
+  --text-h3--line-height: 1.25;
+  --text-h3--font-weight: 600;
+  --text-kpi: var(--type-kpi);
+  --text-kpi--line-height: 1;
+  --text-kpi--font-weight: 600;
+  --text-sm: 14px;
+  --text-sm--line-height: 1.45;
+  --text-xs: 12px;
+  --text-xs--line-height: 1.4;
+
+  --radius-*: initial;
+  --radius-sm: var(--onn-radius-input);
+  --radius-md: var(--onn-radius-input);
+  --radius-lg: var(--onn-radius-card);
+  --radius-xl: var(--onn-radius-card);
+  --radius-pill: var(--onn-radius-pill);
+
+  --shadow-*: initial;
+  --shadow-xs: var(--onn-shadow-1);
+  --shadow-sm: var(--onn-shadow-1);
+  --shadow-md: var(--onn-shadow-2);
+  --shadow-lg: var(--onn-shadow-2);
+
+  --ease-onn: var(--onn-ease);
+  --breakpoint-2xl: initial;
 }
 
-body {
-  margin: 0;
-  background: var(--onn-surface);
-  color: var(--onn-ink);
-  font-family: var(--onn-font-stack);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.5;
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  h1 {
+    @apply text-h1;
+  }
+
+  h2 {
+    @apply text-h2;
+  }
+
+  h3 {
+    @apply text-h3;
+  }
+
+  :focus-visible {
+    border-radius: 2px;
+    box-shadow: var(--onn-focus);
+    outline: none;
+  }
 }
 
-h1,
-h2,
-h3 {
-  margin: 0;
-}
-
-h1 {
-  font-size: var(--type-h1);
-  font-weight: 700;
-  line-height: 1.15;
-}
-
-h2 {
-  font-size: var(--type-h2);
-  font-weight: 600;
-  line-height: 1.2;
-}
-
-h3 {
-  font-size: var(--type-h3);
-  font-weight: 600;
-  line-height: 1.25;
-}
-
-.onn-display {
-  font-size: var(--type-display);
-  font-weight: 700;
-  line-height: 1.1;
-}
-
-.onn-small {
-  font-size: 14px;
-  line-height: 1.45;
-}
-
-.onn-caption {
-  color: var(--onn-muted);
-  font-size: 12px;
-  line-height: 1.4;
-}
-
-.onn-kpi {
-  font-size: var(--type-kpi);
-  font-variant-numeric: tabular-nums;
-  font-weight: 600;
-  line-height: 1;
-}
-
-.onn-container {
+@utility onn-container {
   width: 100%;
   max-width: 1280px;
   margin-inline: auto;
   padding-inline: var(--onn-gutter);
 }
 
-.onn-grid {
+@utility onn-grid {
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 24px;
-}
-
-:focus-visible {
-  border-radius: 2px;
-  box-shadow: var(--onn-focus);
-  outline: none;
 }
