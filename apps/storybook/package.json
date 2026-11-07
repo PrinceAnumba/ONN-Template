@@ -1,0 +1,36 @@
+{
+  "name": "@onn/storybook",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "storybook": "storybook dev -p 6006 --no-open",
+    "build-storybook": "storybook build -o storybook-static --quiet",
+    "test-storybook": "test-storybook",
+    "check-states": "node check-states.mjs"
+  },
+  "devDependencies": {
+    "@storybook/addon-a11y": "8.6.19",
+    "@storybook/addon-essentials": "8.6.19",
+    "@storybook/addon-interactions": "8.6.19",
+    "@storybook/react": "8.6.19",
+    "@storybook/react-vite": "8.6.19",
+    "@storybook/test": "8.6.19",
+    "@storybook/test-runner": "^0.22.1",
+    "@tailwindcss/vite": "^4.3.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "axe-playwright": "^2.2.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "storybook": "8.6.19",
+    "typescript": "~5.9.3",
+    "vite": "^6.4.5"
+  },
+  "dependencies": {
+    "@onn/api-client": "workspace:*",
+    "@onn/charts": "workspace:*",
+    "@onn/config": "workspace:*",
+    "@onn/ui": "workspace:*"
+  }
+}

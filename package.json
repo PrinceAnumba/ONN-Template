@@ -14,7 +14,10 @@
     "typecheck": "turbo run typecheck",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "mocks:gen": "pnpm --filter @onn/mocks gen"
+    "mocks:gen": "pnpm --filter @onn/mocks gen",
+    "storybook": "pnpm --filter @onn/config --filter @onn/charts build && pnpm --filter @onn/storybook storybook",
+    "build-storybook": "pnpm --filter @onn/config --filter @onn/charts build && pnpm --filter @onn/storybook build-storybook",
+    "check:stories": "pnpm --filter @onn/storybook check-states"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",

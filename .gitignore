@@ -10,3 +10,5 @@ next-env.d.ts
 packages/config/generated
 packages/ui/tokens.css
 apps/*/public/brand
+apps/storybook/storybook-static
+apps/*/public/vendor

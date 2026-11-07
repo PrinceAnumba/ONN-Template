@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Phases 1 to 3 of the build are done: monorepo, country config, tokens, API client, mock server, and the app shells with selector bar and URL state. Public pages and admin screens are still placeholders. `docs/onn-frontend-prompt.md` is the source of truth for scope, tokens, API contract, component specs, budgets and acceptance. Its numbers are requirements; use them as given, and read the relevant section before building a page or component rather than working from this summary.
+Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Public pages and admin screens are still placeholders.
 
 Sections below describe the system the brief specifies, so parts of it don't exist yet. As each phase lands, check this file against the code and replace anything that has drifted.
 
@@ -41,9 +41,12 @@ pnpm typecheck
 pnpm format
 pnpm mocks:gen --country=SEN --seed=42    # rewrite fixtures deterministically
 pnpm --filter @onn/portal exec vitest run url-state   # one test file
+pnpm storybook                            # :6006
+pnpm build-storybook
+pnpm check:stories                        # every §6 component has every state
 ```
 
-Added in later phases: `pnpm storybook` (4), `pnpm e2e` and `pnpm lhci` (8).
+Story interaction and axe tests: serve `apps/storybook/storybook-static` on :6006 (e.g. `npx http-server storybook-static -p 6006`), then run `pnpm --filter @onn/storybook test-storybook --url http://localhost:6006`. Added in Phase 8: `pnpm e2e` and `pnpm lhci`.
 
 Environment (`.env.example`, read from the repo root): `NEXT_PUBLIC_API_BASE` (empty = mocks), `NEXT_PUBLIC_COUNTRY` (picks config and fixtures), `NEXT_PUBLIC_SITE_URL`, `ADMIN_ORIGIN` (where the portal forwards `/admin`), `MOCK_API_ORIGIN`, `MOCK_PORT`, `MOCK_LATENCY` (`0` turns off the delay).
 
@@ -125,9 +128,40 @@ WCAG 2.2 AA: one h1 per page, skip link, `--onn-focus` on every interactive elem
 - Target device: Android Go, 360 × 640, 2 GB RAM, Slow 4G/3G.
 - Key budgets: LCP < 2.5 s, CLS < 0.1, INP < 200 ms; first-load JS ≤ 170 KB (home), ≤ 230 KB (indicator); map JS after interaction ≤ 320 KB; home transfer ≤ 900 KB; fonts ≤ 2 files and ≤ 90 KB; adm1 TopoJSON ≤ 150 KB; Lighthouse ≥ 90 / 100 / 100 / 100.
 
+## Charts and maps
+
+- **Charts are data.** A chart is a serialisable `ChartSpec` (`packages/charts/spec.ts`). `buildOption()` turns it into an ECharts option on the server (`ssr.ts`, SVG at 800 and 360 px wide) and again on the client, because ECharts formatters are functions and can't cross the server/client boundary. Never put a function in a spec.
+- `Chart` (server-safe) renders both SVGs and hands them to `ChartFrame` (client), which hydrates within 200 px of the viewport and loads one runtime from `runtime/` per chart kind. Lite mode passes `lite` and never hydrates.
+- `chartTable()` is the single source for the hidden table, "View as table" and CSV export, so they always match the plot.
+- Colours for ECharts, MapLibre and PNG export come from `@onn/config/tokens` (generated). The three Okabe-Ito colours under 3:1 get `categoricalBorder` outlines.
+- Maps use `choropleth()` for classes and fills, shared by `ChoroplethSvg` (server) and `ChoroplethMap` (MapLibre, lazy), so colours always match.
+- MapLibre's worker isn't bundled: `@onn/charts` `build` copies it to `apps/*/public/vendor/maplibre`. Pass `workerUrl` with the basePath in the admin app.
+- `packages/ui/base.css` has `@source "../charts"`; without it, chart classes aren't generated in the apps.
+- `packages/ui` and `packages/charts` stay free of next-intl: components take translated labels as props.
+
+## Accessibility lessons from the story tests
+
+- Use `useRestoreFocus(open)` from `@onn/ui/lib/use-restore-focus` as `onCloseAutoFocus` on any controlled Radix dialog. Radix alone returned focus to `<body>`.
+- Scrollable regions (drawer bodies, tables) need `tabIndex={0}`.
+- Never hide a label with `invisible`: it leaves the accessible name. Use `opacity-0`.
+- An open `listbox` must contain options; put empty-state text outside it in a `role="status"`.
+
 ## Keeping bundles small
 
-Trust measured downloads over the build table: at Phase 3 `next build` reported 115 KB for a home page that really downloaded 159 KB. Measured gzipped JS is 145 KB on home and 159 KB on data routes.
+Trust measured downloads over the build table: at Phase 3 `next build` reported 115 KB for a home page that really downloaded 159 KB.
+
+Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. Third-party code measured with esbuild:
+
+| Code                                                            | Gzipped |
+| --------------------------------------------------------------- | ------- |
+| ECharts core + SVG renderer                                     | 101 KB  |
+| + line + grid (smallest usable line chart)                      | 150 KB  |
+| Current line runtime (+ tooltip, legend, markLine, labelLayout) | 173 KB  |
+| MapLibre client chunk (plus its worker)                         | 293 KB  |
+
+So the indicator budget (230 KB with ECharts) and map budget (320 KB with MapLibre) can't be met as specified. That is an open decision for the user; don't silently change libraries or budgets.
+
+- If `next build` fails with a missing `vendor-chunks/*` module after dependency changes, delete `apps/*/.next` (stale cache).
 
 - Don't use a route group with a client layout (a `(data)/layout.tsx`). Next merges its client code into the parent layout, so it reaches every page. Each selector route has a one-line `layout.tsx` exporting `DataShell` instead.
 - Use `Link` from `@/i18n/navigation`, which turns prefetch off.

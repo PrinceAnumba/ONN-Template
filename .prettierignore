@@ -6,3 +6,5 @@ generated
 packages/ui/tokens.css
 docs
 packages/mocks/fixtures
+apps/storybook/storybook-static
+apps/*/public/vendor

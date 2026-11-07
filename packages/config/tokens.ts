@@ -4,6 +4,8 @@ import type { CountryConfig } from "./schema";
 const toOklch = converter("oklch");
 
 export const MIN_TEXT_CONTRAST = 4.5;
+/** WCAG 2.2 non-text contrast, used for chart marks (brief §9). */
+export const MIN_MARK_CONTRAST = 3;
 const LIGHTNESS_STEP = 0.005;
 
 const CATEGORICAL = [
@@ -17,17 +19,30 @@ const CATEGORICAL = [
   "#000000",
 ];
 const SURFACE_2 = "#F5F7FA";
+const STATIC = {
+  muted: "#5B6472",
+  line: "#DDE2E8",
+  surface: "#FFFFFF",
+  surface2: SURFACE_2,
+  positive: "#1A7F37",
+  negative: "#C62828",
+  atRisk: "#B26A00",
+  compare: "#8A94A6",
+};
 
-/** Darkens a colour in OKLCH until it reaches 4.5:1 on white. */
-export function deriveInk(color: string): { ink: string; adjusted: boolean } {
+/** Darkens a colour in OKLCH until it reaches `min` contrast on white (4.5:1 by default). */
+export function deriveInk(
+  color: string,
+  min = MIN_TEXT_CONTRAST,
+): { ink: string; adjusted: boolean } {
   const start = toOklch(color);
   if (!start) throw new Error(`Invalid colour: ${color}`);
-  if (wcagContrast(color, "#FFFFFF") >= MIN_TEXT_CONTRAST) {
+  if (wcagContrast(color, "#FFFFFF") >= min) {
     return { ink: color.toUpperCase(), adjusted: false };
   }
   for (let l = start.l; l > 0; l -= LIGHTNESS_STEP) {
     const candidate = formatHex(clampChroma({ ...start, l }, "oklch"));
-    if (wcagContrast(candidate, "#FFFFFF") >= MIN_TEXT_CONTRAST) {
+    if (wcagContrast(candidate, "#FFFFFF") >= min) {
       return { ink: candidate.toUpperCase(), adjusted: true };
     }
   }
@@ -39,6 +54,28 @@ export function sequentialScale(ink: string): string[] {
   const scale = interpolate([SURFACE_2, ink], "oklch");
   return [0, 0.25, 0.5, 0.75, 1].map((t) => formatHex(scale(t)).toUpperCase());
 }
+
+/** Literal colours for code that can't read CSS variables: ECharts, MapLibre, PNG export. */
+export function chartTokens(brand: CountryConfig["brand"]) {
+  const { ink } = deriveInk(brand.primary);
+  return {
+    ...STATIC,
+    primary: brand.primary.toUpperCase(),
+    primaryInk: ink,
+    ink: brand.neutralDark.toUpperCase(),
+    /** Text colour that reaches 4.5:1 on a primary-filled mark. */
+    onPrimary:
+      wcagContrast(brand.primary, "#FFFFFF") >= MIN_TEXT_CONTRAST
+        ? "#FFFFFF"
+        : brand.neutralDark.toUpperCase(),
+    categorical: CATEGORICAL,
+    /** Outline per categorical colour: a darker edge where the fill is under 3:1 on white. */
+    categoricalBorder: CATEGORICAL.map((color) => deriveInk(color, MIN_MARK_CONTRAST).ink),
+    sequential: sequentialScale(ink),
+  };
+}
+
+export type ChartTokens = ReturnType<typeof chartTokens>;
 
 export function renderTokensCss(brand: CountryConfig["brand"]): {
   css: string;
@@ -52,14 +89,14 @@ export function renderTokensCss(brand: CountryConfig["brand"]): {
     `--onn-secondary: ${brand.secondary};`,
     `--onn-accent: ${brand.accent};`,
     `--onn-ink: ${brand.neutralDark};`,
-    "--onn-muted: #5B6472;",
-    "--onn-line: #DDE2E8;",
-    "--onn-surface: #FFFFFF;",
+    `--onn-muted: ${STATIC.muted};`,
+    `--onn-line: ${STATIC.line};`,
+    `--onn-surface: ${STATIC.surface};`,
     `--onn-surface-2: ${SURFACE_2};`,
-    "--onn-positive: #1A7F37;",
-    "--onn-negative: #C62828;",
-    "--onn-at-risk: #B26A00;",
-    "--onn-compare: #8A94A6;",
+    `--onn-positive: ${STATIC.positive};`,
+    `--onn-negative: ${STATIC.negative};`,
+    `--onn-at-risk: ${STATIC.atRisk};`,
+    `--onn-compare: ${STATIC.compare};`,
     "--onn-scrim: rgb(15 28 46 / .4);",
     `--onn-peer-band: color-mix(in srgb, ${brand.primary} 12%, transparent);`,
     `--onn-focus: 0 0 0 2px #fff, 0 0 0 4px ${ink};`,

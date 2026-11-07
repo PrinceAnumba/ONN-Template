@@ -3,7 +3,7 @@ import { describe, expect, it } from "vitest";
 import SEN from "./countries/SEN";
 import TGO from "./countries/TGO";
 import { countrySchema, type CountryConfig } from "./schema";
-import { deriveInk, renderTokensCss, sequentialScale } from "./tokens";
+import { chartTokens, deriveInk, renderTokensCss, sequentialScale } from "./tokens";
 
 const clone = (config: CountryConfig) => structuredClone(config);
 
@@ -89,5 +89,21 @@ describe("sequentialScale", () => {
     expect(scale).toHaveLength(5);
     expect(scale[0]).toBe("#F5F7FA");
     expect(scale[4]).toBe("#00853F");
+  });
+});
+
+describe("chartTokens", () => {
+  it("outlines categorical colours that fail 3:1, and only those", () => {
+    const { categorical, categoricalBorder } = chartTokens(SEN.brand);
+    categoricalBorder.forEach((border, i) => {
+      expect(wcagContrast(border, "#FFFFFF")).toBeGreaterThanOrEqual(3);
+      const fill = categorical[i] as string;
+      if (wcagContrast(fill, "#FFFFFF") >= 3) expect(border).toBe(fill);
+    });
+    expect(categoricalBorder[1]).not.toBe(categorical[1]);
+  });
+
+  it("picks readable text for primary marks", () => {
+    expect(chartTokens({ ...SEN.brand, primary: "#FFCC00" }).onPrimary).toBe(SEN.brand.neutralDark);
   });
 });

@@ -156,23 +156,29 @@ export function Combobox({
           <ChevronDownIcon aria-hidden className="text-muted-foreground me-2 size-4" />
         </div>
       </div>
+      {open && flat.length === 0 && (
+        <div
+          role="status"
+          className="bg-popover text-muted-foreground z-40 mt-1 w-full rounded-md border p-3 text-sm shadow-md md:absolute"
+        >
+          {noResultsLabel}
+        </div>
+      )}
       <div
         ref={listRef}
         id={listId}
         role="listbox"
         tabIndex={-1}
         aria-label={label}
-        hidden={!open}
+        hidden={!open || flat.length === 0}
         // Keeps focus in the input so the blur handler doesn't close before a click lands.
         onMouseDown={(event) => event.preventDefault()}
         className={cn(
-          "bg-popover z-40 mt-1 max-h-[360px] w-full overflow-y-auto rounded-md border shadow-md md:absolute",
+          "bg-popover z-40 mt-1 max-h-[360px] w-full rounded-md border shadow-md md:absolute",
+          flat.length > 0 && "overflow-y-auto",
           "max-md:max-h-none max-md:flex-1 max-md:border-0 max-md:shadow-none",
         )}
       >
-        {flat.length === 0 && (
-          <div className="text-muted-foreground p-3 text-sm">{noResultsLabel}</div>
-        )}
         {visible.map((group, groupIndex) => (
           <div key={group.label ?? groupIndex} role="group" aria-label={group.label}>
             {group.label && (

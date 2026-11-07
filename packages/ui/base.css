@@ -4,6 +4,7 @@
 
 /* Components in this package; apps are detected from their own directory. */
 @source ".";
+@source "../charts";
 
 /* v1 is light only (brief §2). Keeps shadcn's dark: classes from following the OS setting. */
 @custom-variant dark (&:is(.dark *));
@@ -188,4 +189,46 @@
   display: grid;
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: 24px;
+}
+
+/* Skeleton shimmer: a 1.4 s sweep, static grey under reduced motion (brief §8). */
+@utility onn-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--onn-line) 0%,
+    color-mix(in srgb, var(--onn-line) 40%, white) 50%,
+    var(--onn-line) 100%
+  );
+  background-size: 200% 100%;
+  animation: onn-shimmer 1.4s linear infinite;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    background: var(--onn-line);
+  }
+}
+
+@keyframes onn-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+@utility onn-prose {
+  & p + p {
+    margin-top: var(--s-2);
+  }
+
+  & a {
+    color: var(--onn-primary-ink);
+    text-decoration: underline;
+  }
+
+  & ul {
+    list-style: disc;
+    padding-inline-start: var(--s-5);
+  }
 }

@@ -4,7 +4,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { z } from "zod";
 import { countrySchema } from "./schema";
-import { renderTokensCss } from "./tokens";
+import { chartTokens, renderTokensCss } from "./tokens";
 
 const here = dirname(fileURLToPath(import.meta.url));
 const root = join(here, "..", "..");
@@ -31,6 +31,11 @@ if (config.iso3 !== iso3) fail(`${iso3}.ts declares iso3 "${config.iso3}"`);
 
 mkdirSync(join(here, "generated"), { recursive: true });
 writeFileSync(join(here, "generated", "country.json"), JSON.stringify(config, null, 2));
+
+writeFileSync(
+  join(here, "generated", "tokens.json"),
+  JSON.stringify(chartTokens(config.brand), null, 2),
+);
 
 const { css, inkAdjusted, ink } = renderTokensCss(config.brand);
 writeFileSync(join(root, "packages", "ui", "tokens.css"), css);

@@ -47,7 +47,7 @@ export function NewsletterForm() {
           aria-describedby={status === "error" ? `${id}-error` : undefined}
           className="text-foreground h-11 min-w-0 flex-1 rounded-md bg-white px-3"
         />
-        <Button type="submit" variant="outline" disabled={status === "sending"} className="h-11">
+        <Button type="submit" variant="secondary" disabled={status === "sending"} className="h-11">
           <span className="text-foreground">{t("subscribe")}</span>
         </Button>
       </div>

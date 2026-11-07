@@ -1,0 +1,19 @@
+/* The apps load these through next/font; Storybook declares them directly. */
+@font-face {
+  font-family: "Source Sans 3";
+  src: url("../../../packages/ui/fonts/source-sans-3-latin-wght-normal.woff2") format("woff2");
+  font-weight: 200 900;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Source Sans 3 Ext";
+  src: url("../../../packages/ui/fonts/source-sans-3-latin-ext-wght-normal.woff2") format("woff2");
+  font-weight: 200 900;
+  font-display: swap;
+}
+
+:root {
+  --font-source-sans: "Source Sans 3";
+  --font-source-sans-ext: "Source Sans 3 Ext";
+}

@@ -123,7 +123,7 @@ export function SelectorBar({ data }: { data: SelectorData }) {
         </div>
         <Button
           ref={sheetTrigger}
-          variant="outline"
+          variant="secondary"
           onClick={() => {
             setSheetMounted(true);
             setSheetOpen(true);

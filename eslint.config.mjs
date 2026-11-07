@@ -10,6 +10,8 @@ import tseslint from "typescript-eslint";
 export default tseslint.config(
   {
     ignores: [
+      "**/storybook-static/**",
+      "apps/*/public/vendor/**",
       "**/.next/**",
       "**/.turbo/**",
       "**/node_modules/**",
@@ -43,6 +45,11 @@ export default tseslint.config(
         },
       ],
     },
+  },
+  {
+    // Stories are fixtures, written in English.
+    files: ["**/*.stories.tsx", "**/*.stories-helpers.tsx"],
+    rules: { "react/jsx-no-literals": "off", "no-restricted-syntax": "off" },
   },
   prettier,
 );

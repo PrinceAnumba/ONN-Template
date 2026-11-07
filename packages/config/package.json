@@ -6,7 +6,8 @@
   "exports": {
     ".": "./country.config.ts",
     "./schema": "./schema.ts",
-    "./countries/*": "./countries/*.ts"
+    "./countries/*": "./countries/*.ts",
+    "./tokens": "./chart-tokens.ts"
   },
   "scripts": {
     "build": "tsx generate.ts",
