@@ -109,7 +109,7 @@ export function MapLibreView({
         id: "outline",
         type: "line",
         source: "areas",
-        paint: { "line-color": chartTokens.surface, "line-width": 1 },
+        paint: { "line-color": chartTokens.compare, "line-width": 0.75 },
       });
       instance.addLayer({
         id: "hover",

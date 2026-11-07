@@ -53,20 +53,28 @@ describe("countrySchema", () => {
 
 describe("deriveInk", () => {
   it("keeps a colour that already passes", () => {
-    expect(deriveInk("#00853F")).toEqual({ ink: "#00853F", adjusted: false });
+    expect(deriveInk("#0B5D33")).toEqual({ ink: "#0B5D33", adjusted: false });
+  });
+
+  it("checks text ink against surface-2, the darker background", () => {
+    // #00853F is 4.73:1 on white but 4.42:1 on #F5F7FA.
+    const { ink, adjusted } = deriveInk("#00853F");
+    expect(adjusted).toBe(true);
+    expect(wcagContrast(ink, "#F5F7FA")).toBeGreaterThanOrEqual(4.5);
   });
 
   it.each(["#FFCC00", "#56B4E9", "#E69F00", "#FF0000", "#F0E442"])(
-    "darkens %s to at least 4.5:1 on white",
+    "darkens %s to at least 4.5:1 on both backgrounds",
     (color) => {
       const { ink, adjusted } = deriveInk(color);
       expect(adjusted).toBe(true);
+      expect(wcagContrast(ink, "#F5F7FA")).toBeGreaterThanOrEqual(4.5);
       expect(wcagContrast(ink, "#FFFFFF")).toBeGreaterThanOrEqual(4.5);
     },
   );
 
   it("stops as soon as it passes rather than going to black", () => {
-    expect(wcagContrast(deriveInk("#FFCC00").ink, "#FFFFFF")).toBeLessThan(4.7);
+    expect(wcagContrast(deriveInk("#FFCC00").ink, "#F5F7FA")).toBeLessThan(4.7);
   });
 });
 

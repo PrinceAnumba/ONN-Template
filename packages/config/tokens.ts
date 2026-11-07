@@ -30,19 +30,23 @@ const STATIC = {
   compare: "#8A94A6",
 };
 
-/** Darkens a colour in OKLCH until it reaches `min` contrast on white (4.5:1 by default). */
+/**
+ * Darkens a colour in OKLCH until it reaches `min` contrast on `background`. Text ink is checked
+ * against --onn-surface-2, the darker page background, so it also passes on white.
+ */
 export function deriveInk(
   color: string,
   min = MIN_TEXT_CONTRAST,
+  background = SURFACE_2,
 ): { ink: string; adjusted: boolean } {
   const start = toOklch(color);
   if (!start) throw new Error(`Invalid colour: ${color}`);
-  if (wcagContrast(color, "#FFFFFF") >= min) {
+  if (wcagContrast(color, background) >= min) {
     return { ink: color.toUpperCase(), adjusted: false };
   }
   for (let l = start.l; l > 0; l -= LIGHTNESS_STEP) {
     const candidate = formatHex(clampChroma({ ...start, l }, "oklch"));
-    if (wcagContrast(candidate, "#FFFFFF") >= min) {
+    if (wcagContrast(candidate, background) >= min) {
       return { ink: candidate.toUpperCase(), adjusted: true };
     }
   }
@@ -70,7 +74,9 @@ export function chartTokens(brand: CountryConfig["brand"]) {
         : brand.neutralDark.toUpperCase(),
     categorical: CATEGORICAL,
     /** Outline per categorical colour: a darker edge where the fill is under 3:1 on white. */
-    categoricalBorder: CATEGORICAL.map((color) => deriveInk(color, MIN_MARK_CONTRAST).ink),
+    categoricalBorder: CATEGORICAL.map(
+      (color) => deriveInk(color, MIN_MARK_CONTRAST, STATIC.surface).ink,
+    ),
     sequential: sequentialScale(ink),
   };
 }

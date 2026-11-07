@@ -130,5 +130,54 @@
       "contributor": "Contributor",
       "reader": "Reader"
     }
+  },
+  "Home": {
+    "explore": "Explore",
+    "examples": "Examples",
+    "keyFigures": "Key figures",
+    "asOf": "As of {year}",
+    "flag": {
+      "E": "Estimate",
+      "P": "Provisional"
+    },
+    "change": {
+      "up": "Up {change} on the previous period",
+      "down": "Down {change} on the previous period",
+      "flat": "Little change on the previous period"
+    },
+    "targetCaption": "{current} of {target} by {year}",
+    "status": {
+      "on_track": "On track",
+      "at_risk": "At risk",
+      "off_track": "Off track"
+    },
+    "sourceYear": "Source: {source}, {year}.",
+    "metadata": "Metadata",
+    "mapTitle": "Explore the map",
+    "mapIndicator": "{indicator}, {year}",
+    "highest": "Highest:",
+    "lowest": "Lowest:",
+    "openMap": "Open the map",
+    "benchmarkTitle": "{indicator}, {group}, {year}",
+    "compareMore": "Compare more",
+    "peerNote": "Peer data: ITU DataHub / World Bank, retrieved {date}.",
+    "dashboards": "Dashboards",
+    "audience": {
+      "decision": "Decision-makers",
+      "analyst": "Analysts",
+      "public": "Everyone"
+    },
+    "publications": "Latest publications",
+    "publicationType": {
+      "quarterly": "Quarterly",
+      "annual": "Annual",
+      "study": "Study",
+      "method": "Methodology"
+    },
+    "downloadPdf": "Download PDF ({size})",
+    "news": "News and technology watch",
+    "seeAll": "See all",
+    "partners": "Data partners",
+    "lastSubmission": "Last submission {date}"
   }
 }

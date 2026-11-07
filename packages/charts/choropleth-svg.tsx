@@ -1,15 +1,47 @@
-import { geoMercator, geoPath } from "d3-geo";
-import type { FeatureCollection, Geometry } from "geojson";
+import { geoArea, geoMercator, geoPath } from "d3-geo";
+import type { Feature, FeatureCollection, Geometry } from "geojson";
 import { feature } from "topojson-client";
 import type { GeometryCollection, Topology } from "topojson-specification";
 
 export type AreaFeatures = FeatureCollection<Geometry, Record<string, string>>;
 
+/**
+ * d3-geo reads ring winding on the sphere: a counter-clockwise exterior ring (the GeoJSON
+ * standard, and common in official boundary files) means "the whole globe except this shape".
+ * Reverses any polygon whose area exceeds a hemisphere, so either winding draws correctly.
+ */
+export function rewind<T extends Feature>(area: T): T {
+  if (geoArea(area) <= 2 * Math.PI) return area;
+  const geometry = area.geometry;
+  if (geometry.type === "Polygon") {
+    return {
+      ...area,
+      geometry: {
+        ...geometry,
+        coordinates: geometry.coordinates.map((ring) => [...ring].reverse()),
+      },
+    };
+  }
+  if (geometry.type === "MultiPolygon") {
+    return {
+      ...area,
+      geometry: {
+        ...geometry,
+        coordinates: geometry.coordinates.map((polygon) =>
+          polygon.map((ring) => [...ring].reverse()),
+        ),
+      },
+    };
+  }
+  return area;
+}
+
 export function toFeatures(topology: unknown, objectName = "areas"): AreaFeatures {
   const topo = topology as Topology<{ [key: string]: GeometryCollection }>;
   const object = topo.objects[objectName];
   if (!object) throw new Error(`Topology has no object "${objectName}"`);
-  return feature(topo, object) as unknown as AreaFeatures;
+  const collection = feature(topo, object) as unknown as AreaFeatures;
+  return { ...collection, features: collection.features.map(rewind) };
 }
 
 export interface ChoroplethSvgProps {
@@ -81,8 +113,9 @@ export function ChoroplethSvg({
             key={code}
             d={path(area) ?? undefined}
             fill={fill ?? `url(#${hatch})`}
-            stroke={code === selected ? "var(--onn-primary-ink)" : "var(--onn-surface)"}
-            strokeWidth={code === selected ? 3 : 1}
+            // Grey boundaries keep the lightest class visible on any background.
+            stroke={code === selected ? "var(--onn-primary-ink)" : "var(--onn-compare)"}
+            strokeWidth={code === selected ? 3 : 0.75}
           >
             <title>{labels[code] ?? area.properties.name ?? code}</title>
           </path>

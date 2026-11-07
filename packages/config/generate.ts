@@ -41,7 +41,7 @@ const { css, inkAdjusted, ink } = renderTokensCss(config.brand);
 writeFileSync(join(root, "packages", "ui", "tokens.css"), css);
 if (inkAdjusted) {
   console.warn(
-    `[config] Warning: brand.primary ${config.brand.primary} is under 4.5:1 on white; --onn-primary-ink darkened to ${ink}.`,
+    `[config] Warning: brand.primary ${config.brand.primary} is under 4.5:1 on --onn-surface-2; --onn-primary-ink darkened to ${ink}.`,
   );
 }
 

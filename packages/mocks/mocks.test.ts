@@ -267,6 +267,12 @@ describe("portal endpoints", () => {
     await get(path);
   });
 
+  it("lists publications newest first", async () => {
+    const page = await get<Page<{ date: string }>>("/publications");
+    const dates = page.items.map((item) => item.date);
+    expect(dates).toEqual([...dates].sort().reverse());
+  });
+
   it("resolves publication and news detail from their lists", async () => {
     const publications = await get<Page<{ slug: string; fileUrl: string }>>("/publications");
     const publication = publications.items[0];

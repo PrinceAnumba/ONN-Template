@@ -11,7 +11,8 @@
     "./classify": "./classify.ts",
     "./choropleth-svg": "./choropleth-svg.tsx",
     "./choropleth-map": "./choropleth-map.tsx",
-    "./map-legend": "./map-legend.tsx"
+    "./map-legend": "./map-legend.tsx",
+    "./ssr": "./ssr.ts"
   },
   "dependencies": {
     "@onn/api-client": "workspace:*",

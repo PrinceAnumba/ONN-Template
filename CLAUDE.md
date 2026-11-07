@@ -144,6 +144,7 @@ WCAG 2.2 AA: one h1 per page, skip link, `--onn-focus` on every interactive elem
 - Use `useRestoreFocus(open)` from `@onn/ui/lib/use-restore-focus` as `onCloseAutoFocus` on any controlled Radix dialog. Radix alone returned focus to `<body>`.
 - Scrollable regions (drawer bodies, tables) need `tabIndex={0}`.
 - Never hide a label with `invisible`: it leaves the accessible name. Use `opacity-0`.
+- Anything with `position: absolute` (including `sr-only` text) inside a horizontal scroller needs a positioned ancestor inside the scroller, or it escapes the clip and widens the page; phones then zoom out. KpiCard is `relative` for this.
 - An open `listbox` must contain options; put empty-state text outside it in a `role="status"`.
 
 ## Keeping bundles small
@@ -159,7 +160,7 @@ Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. Third-party cod
 | Current line runtime (+ tooltip, legend, markLine, labelLayout) | 173 KB  |
 | MapLibre client chunk (plus its worker)                         | 293 KB  |
 
-So the indicator budget (230 KB with ECharts) and map budget (320 KB with MapLibre) can't be met as specified. That is an open decision for the user; don't silently change libraries or budgets.
+So the indicator budget (230 KB with ECharts) and map budget (320 KB with MapLibre) can't be met as specified. The user decided how to handle both; see Spec decisions.
 
 - If `next build` fails with a missing `vendor-chunks/*` module after dependency changes, delete `apps/*/.next` (stale cache).
 
@@ -187,9 +188,15 @@ These resolve contradictions and gaps in the brief. Follow them over the brief's
 
 - **Mocks:** one standalone mock server reuses the MSW handlers and holds the shared store for both apps, and calls each app's `revalidateTag` on publish. In-memory browser/Node MSW can't share state across apps, and its browser worker would compete with Serwist for the service-worker scope. MSW stays for unit tests and Storybook.
 - **Chart contrast:** keep the Okabe-Ito palette, draw charts on white only (`#CC79A7` and `--onn-compare` fall below 3:1 on `--onn-surface-2`), and give `#E69F00`, `#56B4E9` and `#F0E442` a darker outline or direct labels because they fail 3:1 on white.
+- **Ink contrast:** `--onn-primary-ink` is derived against `--onn-surface-2`, not white as the brief says, because text on the grey hero failed (SEN #00853F is 4.42:1 there). Passing on surface-2 also passes on white.
+- **Map boundaries:** region outlines use `--onn-compare`, because the lowest map class equals `--onn-surface-2` and vanished on grey cards. The brief's colour scale itself is unchanged; the user was told it is under 3:1.
+- **Map geometry winding:** `toFeatures()` rewinds polygons for d3-geo, which reads a counter-clockwise ring as the whole globe minus the shape. Keep it: official boundary files come in either winding.
 - **Primary buttons:** always use `--onn-primary-ink` as the background. It equals `--onn-primary` when that already reaches 4.5:1 with white, so no extra token is needed.
 - **At risk pill:** `#B26A00` is 4.24:1 on white, so use it as the background or border with `--onn-ink` text.
 - **Contract and config gaps:** add what the brief's screens need but its types omit (`fallback`, `Pillar` description, indicator synonyms, source and international fields on summaries, catalogue filters, `latest` status, sparkline data, `/home`, `/index` and `/targets` responses, multi-year benchmark, admin types, plus config keys for data protection law and authority, social links and SSO name). Record each one as a contract change for the backend team.
+- **Chart budget:** the user chose to keep ECharts. First-load JS is measured up to when the page is usable; the server SVG is on screen before ECharts loads near the viewport. Never import ECharts into a page's initial bundle.
+- **Map:** the user chose an interactive SVG map by default (d3-geo, the same SVG as the no-JS view). MapLibre loads only when `features.basemap` is on.
+- **Home stays light:** sections are Server Components, the hero selector has no URL state, benchmark bars are HTML and thumbnails are server SVG. Home has about 24 KB of budget left after the Phase 3 shell.
 - **Admin routing:** serve admin under `/admin` with Next.js multi-zones, with its locale in a cookie rather than the path.
 - **Admin role access:** the brief doesn't say which role sees which section, so `apps/admin/lib/sections.ts` holds an assumed mapping that the user should confirm.
 - **Lite mode:** on first visit use the `Save-Data` request header, then the cookie. `navigator.connection` and Background Sync aren't available in WebKit, so queued forms also retry on page load.

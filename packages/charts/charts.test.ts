@@ -4,6 +4,9 @@ import { choropleth, classIndex, classify } from "./classify";
 import { barIsHorizontal, buildOption, donutSlices, startsAtZero } from "./options";
 import type { BarSpec, DonutSpec, LineSpec } from "./spec";
 import { renderChartSvg } from "./ssr";
+import { geoArea } from "d3-geo";
+import topology from "../mocks/fixtures/SEN/geo/adm1.topo.json";
+import { toFeatures } from "./choropleth-svg";
 import { chartTable, tableToCsv } from "./table";
 
 const ctx = { tokens: chartTokens, animate: false };
@@ -198,5 +201,13 @@ describe("classification", () => {
     expect(noData).toBe(1);
     expect(classes.reduce((sum, item) => sum + item.count, 0)).toBe(5);
     expect(fills.D).toBe(chartTokens.sequential[4]);
+  });
+});
+
+describe("map geometry", () => {
+  it("rewinds inside-out polygons so each region covers only itself", () => {
+    for (const area of toFeatures(topology).features) {
+      expect(geoArea(area)).toBeLessThan(0.01);
+    }
   });
 });

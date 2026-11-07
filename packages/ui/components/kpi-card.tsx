@@ -12,6 +12,8 @@ export interface KpiCardProps {
   /** Left out when the value carries its unit. */
   unit?: string;
   year: string;
+  /** Organisation the figure comes from. */
+  source?: string;
   change?: {
     text: string;
     direction: "up" | "down" | "flat";
@@ -40,6 +42,7 @@ export function KpiCard({
   value,
   unit,
   year,
+  source,
   change,
   sparkline,
   flag,
@@ -48,7 +51,8 @@ export function KpiCard({
   loading,
   className,
 }: KpiCardProps) {
-  const shell = "bg-card flex h-full min-h-[184px] flex-col rounded-lg border p-5";
+  // relative: keeps the sr-only text inside the card, so a scrolling row can clip it.
+  const shell = "bg-card relative flex h-full min-h-[184px] flex-col rounded-lg border p-5";
   if (loading) {
     return (
       <div className={cn(shell, className)}>
@@ -84,6 +88,7 @@ export function KpiCard({
           </span>
         )}
       </span>
+      {source && <span className="text-muted-foreground mt-1 truncate text-xs">{source}</span>}
       {sparkline && sparkline.length > 1 && (
         <Sparkline values={sparkline} className="mt-auto pt-3" />
       )}

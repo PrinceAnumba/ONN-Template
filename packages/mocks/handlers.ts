@@ -487,6 +487,7 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
             (!q.get("year") || String(item.date).startsWith(q.get("year") as string)) &&
             matchesText(item.title, q.get("q")),
         )
+        .sort((a, b) => String(b.date).localeCompare(String(a.date)))
         .map((item) => localise<Record<string, unknown>>(item, locale));
       return HttpResponse.json(paginate(items, url) as never);
     }),

@@ -130,5 +130,54 @@
       "contributor": "Contributeur",
       "reader": "Lecteur"
     }
+  },
+  "Home": {
+    "explore": "Explorer",
+    "examples": "Exemples",
+    "keyFigures": "Chiffres clés",
+    "asOf": "Données {year}",
+    "flag": {
+      "E": "Estimation",
+      "P": "Provisoire"
+    },
+    "change": {
+      "up": "En hausse de {change} sur la période précédente",
+      "down": "En baisse de {change} sur la période précédente",
+      "flat": "Peu de changement sur la période précédente"
+    },
+    "targetCaption": "{current} sur {target} d'ici {year}",
+    "status": {
+      "on_track": "En bonne voie",
+      "at_risk": "À risque",
+      "off_track": "En retard"
+    },
+    "sourceYear": "Source : {source}, {year}.",
+    "metadata": "Métadonnées",
+    "mapTitle": "Explorer la carte",
+    "mapIndicator": "{indicator}, {year}",
+    "highest": "Le plus élevé :",
+    "lowest": "Le plus bas :",
+    "openMap": "Ouvrir la carte",
+    "benchmarkTitle": "{indicator}, {group}, {year}",
+    "compareMore": "Comparer davantage",
+    "peerNote": "Données des pairs : ITU DataHub / Banque mondiale, consultées le {date}.",
+    "dashboards": "Tableaux de bord",
+    "audience": {
+      "decision": "Décideurs",
+      "analyst": "Analystes",
+      "public": "Grand public"
+    },
+    "publications": "Dernières publications",
+    "publicationType": {
+      "quarterly": "Trimestriel",
+      "annual": "Annuel",
+      "study": "Étude",
+      "method": "Méthodologie"
+    },
+    "downloadPdf": "Télécharger le PDF ({size})",
+    "news": "Actualités et veille technologique",
+    "seeAll": "Tout voir",
+    "partners": "Partenaires de données",
+    "lastSubmission": "Dernière transmission le {date}"
   }
 }
