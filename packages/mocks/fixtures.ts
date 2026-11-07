@@ -46,6 +46,7 @@ type Localised<T> = T extends string
 export interface PeerFixture {
   economies: Record<string, L>;
   members: Record<string, string[]>;
+  groupNames: Record<string, L>;
   /** indicator → economy → year → value */
   values: Record<string, Record<string, Record<string, number | null>>>;
   retrievedAt: Benchmark["retrievedAt"];
@@ -234,7 +235,16 @@ function buildPeers(config: CountryConfig, random: () => number): PeerFixture {
     values[seed.code] = perEconomy;
   }
   const groups = Object.entries(config.peers.groups).map(([code, group]) => [code, group.members]);
-  return { economies, members: Object.fromEntries(groups), values, retrievedAt: GENERATED_ON };
+  const groupNames = Object.fromEntries(
+    Object.entries(config.peers.groups).map(([code, group]) => [code, group.name]),
+  );
+  return {
+    economies,
+    members: Object.fromEntries(groups),
+    groupNames,
+    values,
+    retrievedAt: GENERATED_ON,
+  };
 }
 
 function buildIndicators(areaCount: number, dashboards: Fixtures["dashboards"]) {

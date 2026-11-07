@@ -7,16 +7,19 @@
     "./tokens.css": "./tokens.css",
     "./postcss": "./postcss.config.mjs",
     "./lib/*": "./lib/*.ts",
-    "./components/*": "./components/*.tsx"
+    "./components/*": "./components/*.tsx",
+    "./components/combobox-filter": "./components/combobox-filter.ts"
   },
   "scripts": {
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
     "@onn/config": "workspace:*",
     "@tailwindcss/postcss": "^4.3.5",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "cmdk": "^1.1.1",
     "cn": "^0.5.2",
     "lucide-react": "^1.70.0",
     "radix-ui": "^1.8.1",
@@ -33,6 +36,7 @@
     "@types/react-dom": "^19.0.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "typescript": "~5.9.3"
+    "typescript": "~5.9.3",
+    "vitest": "^5.1.0"
   }
 }

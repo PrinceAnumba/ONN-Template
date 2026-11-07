@@ -1,9 +1,11 @@
-import { country } from "@onn/config";
+import { getTranslations } from "next-intl/server";
 
-export default function Page() {
+export default async function DashboardPage() {
+  const t = await getTranslations("Admin");
   return (
-    <main className="onn-container">
-      <h1>{country.observatory.longName[country.locales.default]}</h1>
-    </main>
+    <>
+      <h1>{t("section.dashboard")}</h1>
+      <p className="text-muted-foreground mt-3">{t("comingNext")}</p>
+    </>
   );
 }

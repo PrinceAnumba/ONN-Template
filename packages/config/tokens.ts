@@ -60,6 +60,7 @@ export function renderTokensCss(brand: CountryConfig["brand"]): {
     "--onn-negative: #C62828;",
     "--onn-at-risk: #B26A00;",
     "--onn-compare: #8A94A6;",
+    "--onn-scrim: rgb(15 28 46 / .4);",
     `--onn-peer-band: color-mix(in srgb, ${brand.primary} 12%, transparent);`,
     `--onn-focus: 0 0 0 2px #fff, 0 0 0 4px ${ink};`,
     "--onn-radius-card: 8px;",

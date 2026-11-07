@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Phases 1 and 2 of the build are done: monorepo, country config, tokens, API client and mock server. The apps are still minimal shells. `docs/onn-frontend-prompt.md` is the source of truth for scope, tokens, API contract, component specs, budgets and acceptance. Its numbers are requirements; use them as given, and read the relevant section before building a page or component rather than working from this summary.
+Phases 1 to 3 of the build are done: monorepo, country config, tokens, API client, mock server, and the app shells with selector bar and URL state. Public pages and admin screens are still placeholders. `docs/onn-frontend-prompt.md` is the source of truth for scope, tokens, API contract, component specs, budgets and acceptance. Its numbers are requirements; use them as given, and read the relevant section before building a page or component rather than working from this summary.
 
 Sections below describe the system the brief specifies, so parts of it don't exist yet. As each phase lands, check this file against the code and replace anything that has drifted.
 
@@ -40,7 +40,7 @@ pnpm lint
 pnpm typecheck
 pnpm format
 pnpm mocks:gen --country=SEN --seed=42    # rewrite fixtures deterministically
-pnpm --filter @onn/config exec vitest run -t "deriveInk"   # single test by name
+pnpm --filter @onn/portal exec vitest run url-state   # one test file
 ```
 
 Added in later phases: `pnpm storybook` (4), `pnpm e2e` and `pnpm lhci` (8).
@@ -125,6 +125,21 @@ WCAG 2.2 AA: one h1 per page, skip link, `--onn-focus` on every interactive elem
 - Target device: Android Go, 360 × 640, 2 GB RAM, Slow 4G/3G.
 - Key budgets: LCP < 2.5 s, CLS < 0.1, INP < 200 ms; first-load JS ≤ 170 KB (home), ≤ 230 KB (indicator); map JS after interaction ≤ 320 KB; home transfer ≤ 900 KB; fonts ≤ 2 files and ≤ 90 KB; adm1 TopoJSON ≤ 150 KB; Lighthouse ≥ 90 / 100 / 100 / 100.
 
+## Keeping bundles small
+
+Trust measured downloads over the build table: at Phase 3 `next build` reported 115 KB for a home page that really downloaded 159 KB. Measured gzipped JS is 145 KB on home and 159 KB on data routes.
+
+- Don't use a route group with a client layout (a `(data)/layout.tsx`). Next merges its client code into the parent layout, so it reaches every page. Each selector route has a one-line `layout.tsx` exporting `DataShell` instead.
+- Use `Link` from `@/i18n/navigation`, which turns prefetch off.
+- Load anything opened on demand with `next/dynamic`, mounted on first use: the palette (cmdk, TanStack Query), mobile menu and selector sheet (Radix Dialog).
+- `Combobox` and `Toast` are hand-built with no dependencies, because `cmdk` isn't the APG pattern §6 asks for and both load on data routes.
+
+## Routing pitfalls
+
+- Indicator codes contain dots (`CONN.4G_POP`), so the middleware matcher must list file extensions, not skip every path with a dot.
+- Radix focuses the first field when a sheet opens, and `Combobox` opens on focus. A sheet containing one must set `onOpenAutoFocus` so the list doesn't cover it.
+- Check new header or top-bar controls against the corner `DemoRibbon`, which reserves inline-end padding there.
+
 ## Testing and done (§10)
 
 Layers: Vitest unit, Testing Library + Storybook interaction, Playwright e2e (Chromium, WebKit, Pixel 5) with axe, visual regression at 360/768/1280px, Lighthouse CI. The project is done only when all 10 journeys and every "Done when" item in §10 pass.
@@ -142,6 +157,7 @@ These resolve contradictions and gaps in the brief. Follow them over the brief's
 - **At risk pill:** `#B26A00` is 4.24:1 on white, so use it as the background or border with `--onn-ink` text.
 - **Contract and config gaps:** add what the brief's screens need but its types omit (`fallback`, `Pillar` description, indicator synonyms, source and international fields on summaries, catalogue filters, `latest` status, sparkline data, `/home`, `/index` and `/targets` responses, multi-year benchmark, admin types, plus config keys for data protection law and authority, social links and SSO name). Record each one as a contract change for the backend team.
 - **Admin routing:** serve admin under `/admin` with Next.js multi-zones, with its locale in a cookie rather than the path.
+- **Admin role access:** the brief doesn't say which role sees which section, so `apps/admin/lib/sections.ts` holds an assumed mapping that the user should confirm.
 - **Lite mode:** on first visit use the `Save-Data` request header, then the cookie. `navigator.connection` and Background Sync aren't available in WebKit, so queued forms also retry on page load.
 - **Wolof formatting:** set a tested fallback locale for numbers and dates in case `Intl` data for `wo` is missing.
 - **Unspecified routes:** `/embed/chart`, `catalog.jsonld` and the RSS feed get minimal definitions when their pages are built.

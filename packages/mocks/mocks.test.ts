@@ -160,6 +160,10 @@ describe("portal endpoints", () => {
     expect(children.every((area) => area.level === "adm2")).toBe(true);
     const [country] = await get<Area[]>("/areas?level=country", "en");
     expect(country?.name).toBe("Senegal");
+    const groups = await get<Area[]>("/areas?level=group", "en");
+    expect(groups.map((area) => area.code)).toContain("peer:ECOWAS");
+    const search = await get<Area[]>("/areas?q=dakar");
+    expect(search[0]?.name).toBe("Dakar");
   });
 
   it("GET /areas/{code}/geometry returns one shape per area", async () => {

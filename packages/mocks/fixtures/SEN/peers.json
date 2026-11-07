@@ -88,6 +88,18 @@
       "TGO"
     ]
   },
+  "groupNames": {
+    "ECOWAS": {
+      "fr": "CEDEAO",
+      "en": "ECOWAS",
+      "wo": "CEDEAO"
+    },
+    "WAEMU": {
+      "fr": "UEMOA",
+      "en": "WAEMU",
+      "wo": "UEMOA"
+    }
+  },
   "values": {
     "CONN.4G_POP": {
       "BEN": {

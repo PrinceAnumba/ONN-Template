@@ -88,6 +88,9 @@ function matchDims(wanted: string | null) {
   };
 }
 
+const matchesText = (text: unknown, search: string | null) =>
+  !search || JSON.stringify(text).toLowerCase().includes(search.toLowerCase());
+
 function paginate<T>(items: T[], url: URL) {
   const page = Math.max(1, Number(url.searchParams.get("page")) || 1);
   const requested = Number(url.searchParams.get("pageSize")) || DEFAULT_PAGE_SIZE;
@@ -142,6 +145,17 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
     if (rows) rows.push(row);
     else byIndicatorArea.set(key, [row]);
   }
+
+  const peerAreas: Fixtures["areas"] = [
+    ...Object.entries(data.peers.economies)
+      .filter(([code]) => code !== iso3)
+      .map(([code, name]) => ({ code, name, level: "country" as const, iso3: code })),
+    ...Object.entries(data.peers.groupNames).map(([code, name]) => ({
+      code: `peer:${code}`,
+      name,
+      level: "group" as const,
+    })),
+  ];
 
   const indicatorSeed = (code: string) => data.indicators.find((item) => item.code === code);
   const getIndicator = (code: string, locale: string) => {
@@ -297,10 +311,11 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
     }),
 
     route("get", "/areas", ({ q, locale }) => {
-      const areas = data.areas.filter(
+      const areas = [...data.areas, ...peerAreas].filter(
         (area) =>
           (!q.get("level") || area.level === q.get("level")) &&
-          (!q.get("parent") || area.parent === q.get("parent")),
+          (!q.get("parent") || area.parent === q.get("parent")) &&
+          matchesText(area.name, q.get("q")),
       );
       return HttpResponse.json(localise<Area[]>(areas, locale));
     }),
@@ -469,7 +484,8 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
           (item) =>
             (!q.get("type") || item.type === q.get("type")) &&
             (!q.get("pillar") || item.pillar === q.get("pillar")) &&
-            (!q.get("year") || String(item.date).startsWith(q.get("year") as string)),
+            (!q.get("year") || String(item.date).startsWith(q.get("year") as string)) &&
+            matchesText(item.title, q.get("q")),
         )
         .map((item) => localise<Record<string, unknown>>(item, locale));
       return HttpResponse.json(paginate(items, url) as never);
@@ -504,7 +520,8 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
         .filter(
           (item) =>
             (!q.get("kind") || item.kind === q.get("kind")) &&
-            (!q.get("tag") || item.tags.includes(q.get("tag") as string)),
+            (!q.get("tag") || item.tags.includes(q.get("tag") as string)) &&
+            matchesText(item.title, q.get("q")),
         )
         .sort((a, b) => String(b.date).localeCompare(String(a.date)))
         .map((item) => localise<Record<string, unknown>>(item, locale));

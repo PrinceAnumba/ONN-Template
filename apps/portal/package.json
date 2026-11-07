@@ -6,12 +6,19 @@
     "dev": "next dev -p 3000",
     "build": "next build",
     "start": "next start -p 3000",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
   },
   "dependencies": {
+    "@onn/api-client": "workspace:*",
     "@onn/config": "workspace:*",
+    "@onn/i18n": "workspace:*",
     "@onn/ui": "workspace:*",
+    "@tanstack/react-query": "^5.107.1",
+    "lucide-react": "^1.70.0",
     "next": "15.5.29",
+    "next-intl": "^4.14.9",
+    "nuqs": "^2.10.2",
     "react": "^19.3.1",
     "react-dom": "^19.3.1"
   },
@@ -20,6 +27,7 @@
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
-    "typescript": "~5.9.3"
+    "typescript": "~5.9.3",
+    "vitest": "^5.1.0"
   }
 }

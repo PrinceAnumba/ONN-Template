@@ -90,6 +90,7 @@
   --color-negative: var(--onn-negative);
   --color-at-risk: var(--onn-at-risk);
   --color-compare: var(--onn-compare);
+  --color-scrim: var(--onn-scrim);
   --color-peer-band: var(--onn-peer-band);
   --color-cat-1: var(--onn-cat-1);
   --color-cat-2: var(--onn-cat-2);

@@ -78,7 +78,7 @@ export const api = {
     get<Page<IndicatorSummary>>("/indicators", ctx, query),
   indicator: (ctx: RequestContext, indicator: string) =>
     get<Indicator>(`/indicators/${code(indicator)}`, ctx),
-  areas: (ctx: RequestContext, query: { level?: string; parent?: string } = {}) =>
+  areas: (ctx: RequestContext, query: { level?: string; parent?: string; q?: string } = {}) =>
     get<Area[]>("/areas", ctx, query),
   geometry: (ctx: RequestContext, area: string, level: string) =>
     get<unknown>(`/areas/${code(area)}/geometry`, ctx, { level }),
@@ -97,12 +97,14 @@ export const api = {
     get<Dashboard>(`/dashboards/${code(slug)}`, ctx),
   publications: (
     ctx: RequestContext,
-    query: { type?: string; year?: string; pillar?: string; page?: number } = {},
+    query: { type?: string; year?: string; pillar?: string; q?: string; page?: number } = {},
   ) => get<Page<Publication>>("/publications", ctx, query),
   publication: (ctx: RequestContext, slug: string) =>
     get<Publication>(`/publications/${code(slug)}`, ctx),
-  news: (ctx: RequestContext, query: { kind?: string; tag?: string; page?: number } = {}) =>
-    get<Page<NewsItem>>("/news", ctx, query),
+  news: (
+    ctx: RequestContext,
+    query: { kind?: string; tag?: string; q?: string; page?: number } = {},
+  ) => get<Page<NewsItem>>("/news", ctx, query),
   newsItem: (ctx: RequestContext, slug: string) => get<NewsItem>(`/news/${code(slug)}`, ctx),
   home: (ctx: RequestContext) => get<HomeData>("/home", ctx),
   page: (ctx: RequestContext, slug: string) => get<CmsPage>(`/pages/${code(slug)}`, ctx),
