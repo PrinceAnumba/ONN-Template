@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Phase 5 has built home, the data explorer (area profile), the indicator page with its `/embed/chart` view, and the map. The other public pages and the admin screens are still placeholders.
+Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Phase 5 has built home, the data explorer (area profile), the indicator page with its `/embed/chart` view, the map, and dashboards with presentation mode. The other public pages and the admin screens are still placeholders.
 
 Sections below describe the system the brief specifies, so parts of it don't exist yet. As each phase lands, check this file against the code and replace anything that has drifted.
 
@@ -138,6 +138,8 @@ WCAG 2.2 AA: one h1 per page, skip link, `--onn-focus` on every interactive elem
 - The interactive map never ships d3-geo or TopoJSON: `projectShapes()` (`map-shapes.ts`) projects boundaries to SVG paths on the server, and `lib/map-view.ts` sends every year of values for the level, so the year slider and play button recolour on the client. Level changes (`l`) re-render on the server. The raw topology is sent only when `features.basemap` is on, for MapLibre.
 - `MapExplorer` (`apps/portal/components/map`) is both the `/map` page (`layout="overlay"`) and the indicator page map view (`layout="stacked"`, loaded through `MapExplorerLazy`). Year, list view and selection are client state; `y` and `v=table` sync to the URL only on `/map`. Region breakdowns are hidden when an area has none (the mock has national breakdowns only).
 - MapLibre's worker isn't bundled: `@onn/charts` `build` copies it to `apps/*/public/vendor/maplibre`. Pass `workerUrl` with the basePath in the admin app.
+- Dashboards: `lib/dashboard.ts` turns each widget into plain data (chart spec, KPI or target props, map shapes, table rows) and catches each failure as an error model. `WidgetShell` (`packages/ui`) gives every widget its title, ⋮ menu and "View data" table; charts inside use `Chart` with `bare`, which drops the frame's own header. Widgets without their own area or comparison use the selector's `a` and `c`.
+- Presentation mode loads on demand and redraws charts with `buildOption(..., { dark: true })`. The slide is `?p=` (1-based). `PresentButton` calls `requestFullscreen` inside the click handler, because browsers refuse it later; a `?p=` link opens the overlay without fullscreen.
 - `packages/ui/base.css` has `@source "../charts"`; without it, chart classes aren't generated in the apps.
 - `packages/ui` and `packages/charts` stay free of next-intl: components take translated labels as props.
 
@@ -147,13 +149,15 @@ WCAG 2.2 AA: one h1 per page, skip link, `--onn-focus` on every interactive elem
 - Scrollable regions (drawer bodies, tables) need `tabIndex={0}`.
 - Never hide a label with `invisible`: it leaves the accessible name. Use `opacity-0`.
 - Anything with `position: absolute` (including `sr-only` text) inside a horizontal scroller needs a positioned ancestor inside the scroller, or it escapes the clip and widens the page; phones then zoom out. KpiCard is `relative` for this.
+- Never put `sr-only` on a `<table>`: tables size to their cells, so the clipped table still widens the page on mobile. Put `sr-only` on a wrapping `div` (as `ChartFrame` does).
+- Grid children default to `min-width: auto`, so a wide table or chart stretches its column; dashboard widgets are `min-w-0`.
 - An open `listbox` must contain options; put empty-state text outside it in a `role="status"`.
 
 ## Keeping bundles small
 
 Trust measured downloads over the build table: at Phase 3 `next build` reported 115 KB for a home page that really downloaded 159 KB.
 
-Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. At Phase 5c: home 154 KB, `/data` profile 172 KB, indicator page 221 KB before ECharts (421 KB once the chart hydrates), `/map` 192 KB on first load and 217 KB after opening a panel and the list view (map budget 320 KB). Third-party code measured with esbuild:
+Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. At Phase 5c: home 154 KB, `/data` profile 172 KB, indicator page 221 KB before ECharts (421 KB once the chart hydrates), `/map` 192 KB on first load and 217 KB after opening a panel and the list view (map budget 320 KB). At Phase 5d: dashboard pages 209 KB first load; home 156 KB. Third-party code measured with esbuild:
 
 | Code                                                            | Gzipped |
 | --------------------------------------------------------------- | ------- |

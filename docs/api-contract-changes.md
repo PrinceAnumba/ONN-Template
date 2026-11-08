@@ -27,6 +27,7 @@ Changes to the contract in `onn-frontend-prompt.md` §3, for the backend team. `
 | `GET /data/latest` | `unit` | §5.3 map view in the selected unit variant |
 | `GET /indicators` | `area` (latest values for that area) | §5.2 area profile |
 | `POST /exports` | `resource: "profile"`, `params.area` | §5.2 "Download profile (PDF)" |
+| `POST /exports` | `resource: "dashboard"`, `params.slug`, formats `pdf` and `pptx` | §5.5 dashboard Export menu |
 
 ## Values added
 

@@ -14,7 +14,8 @@
     "./map-legend": "./map-legend.tsx",
     "./ssr": "./ssr.ts",
     "./choropleth-interactive": "./choropleth-interactive.tsx",
-    "./map-shapes": "./map-shapes.ts"
+    "./map-shapes": "./map-shapes.ts",
+    "./runtime": "./runtime.ts"
   },
   "dependencies": {
     "@onn/api-client": "workspace:*",

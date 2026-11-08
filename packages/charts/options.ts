@@ -473,7 +473,9 @@ function buildRadar(spec: RadarSpec, ctx: BuildContext): EChartsOption {
     tooltip: { trigger: "item", confine: true },
     radar: {
       indicator: spec.axes.map((name) => ({ name, max: 100, min: 0 })),
-      axisName: { color: colors.text },
+      // Long axis names wrap instead of spilling past a narrow chart.
+      axisName: { color: colors.text, width: 88, overflow: "break", lineHeight: 14 },
+      radius: "58%",
       splitLine: { lineStyle: { color: colors.line } },
       splitArea: { show: false },
       axisLine: { lineStyle: { color: colors.line } },

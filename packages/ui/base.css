@@ -20,6 +20,8 @@
   --type-h2: 26px;
   --type-h3: 20px;
   --type-kpi: 36px;
+  /* Presentation slide titles (brief §5.5). */
+  --type-slide: 40px;
 
   /* shadcn's variable names, pointed at the generated tokens. */
   --background: var(--onn-surface);
@@ -49,6 +51,7 @@
     --type-h2: 21px;
     --type-h3: 18px;
     --type-kpi: 28px;
+    --type-slide: 26px;
   }
 }
 
@@ -121,6 +124,9 @@
   --text-h3: var(--type-h3);
   --text-h3--line-height: 1.25;
   --text-h3--font-weight: 600;
+  --text-slide: var(--type-slide);
+  --text-slide--line-height: 1.15;
+  --text-slide--font-weight: 700;
   --text-kpi: var(--type-kpi);
   --text-kpi--line-height: 1;
   --text-kpi--font-weight: 600;

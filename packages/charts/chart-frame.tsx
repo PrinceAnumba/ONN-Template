@@ -53,6 +53,8 @@ export interface ChartFrameProps {
   embedUrl?: string;
   logoUrl?: string;
   fileName?: string;
+  /** No title row or actions: a dashboard widget supplies its own header and menu. */
+  bare?: boolean;
   /** Optional view switch, e.g. absolute / 100 % on a stacked bar. */
   toggle?: { label: string; options: { value: string; label: string }[]; field: "mode" };
   className?: string;
@@ -125,6 +127,7 @@ export function ChartFrame({
   logoUrl,
   fileName = "chart",
   toggle,
+  bare,
   className,
 }: ChartFrameProps) {
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -227,6 +230,26 @@ export function ChartFrame({
     </div>
   );
 
+  const toggleControl = toggle && (
+    <div role="radiogroup" aria-label={toggle.label} className="bg-surface-2 flex rounded-md p-0.5">
+      {toggle.options.map((option) => (
+        <button
+          key={option.value}
+          type="button"
+          role="radio"
+          aria-checked={variant === option.value}
+          onClick={() => setVariant(option.value)}
+          className={cn(
+            "min-h-9 rounded-sm px-3 text-sm",
+            variant === option.value && "bg-background shadow-sm",
+          )}
+        >
+          {option.label}
+        </button>
+      ))}
+    </div>
+  );
+
   const sizes = {
     "--chart-desktop": `${height}px`,
     "--chart-mobile": `${mobileHeight}px`,
@@ -237,128 +260,117 @@ export function ChartFrame({
       ref={containerRef}
       aria-labelledby={`${id}-title`}
       style={sizes}
-      className={cn("bg-card relative rounded-lg border p-4", className)}
+      className={cn(bare ? "relative" : "bg-card relative rounded-lg border p-4", className)}
     >
       {refetching && (
         <div aria-hidden className="absolute inset-x-0 top-0 h-0.5 overflow-hidden rounded-t-lg">
           <div className="bg-brand h-full w-1/3 animate-pulse" />
         </div>
       )}
-      <div className="flex flex-wrap items-start justify-between gap-2">
-        <div className="min-w-0">
-          <h3 id={`${id}-title`}>{title}</h3>
-          {subtitle && <p className="text-muted-foreground text-sm">{subtitle}</p>}
-        </div>
-        {status === "ready" && (
-          <div className="flex flex-wrap items-center gap-1">
-            {toggle && (
-              <div
-                role="radiogroup"
-                aria-label={toggle.label}
-                className="bg-surface-2 flex rounded-md p-0.5"
-              >
-                {toggle.options.map((option) => (
-                  <button
-                    key={option.value}
-                    type="button"
-                    role="radio"
-                    aria-checked={variant === option.value}
-                    onClick={() => setVariant(option.value)}
-                    className={cn(
-                      "min-h-9 rounded-sm px-3 text-sm",
-                      variant === option.value && "bg-background shadow-sm",
-                    )}
-                  >
-                    {option.label}
-                  </button>
-                ))}
-              </div>
-            )}
-            <Menu label={labels.download}>
-              {(close) => (
-                <>
-                  {activeSpec && (
-                    <>
-                      <li>
-                        <button
-                          type="button"
-                          className="hover:bg-accent min-h-9 w-full rounded-sm px-3 text-start text-sm"
-                          onClick={async () => {
-                            close();
-                            await exportPng({
-                              svg: await currentSvg(),
-                              title,
-                              source,
-                              logoUrl,
-                              fileName,
-                            });
-                          }}
-                        >
-                          {labels.png}
-                        </button>
-                      </li>
-                      <li>
-                        <button
-                          type="button"
-                          className="hover:bg-accent min-h-9 w-full rounded-sm px-3 text-start text-sm"
-                          onClick={async () => {
-                            close();
-                            downloadText(await currentSvg(), `${fileName}.svg`, "image/svg+xml");
-                          }}
-                        >
-                          {labels.svg}
-                        </button>
-                      </li>
-                    </>
-                  )}
-                  {table && (
-                    <li>
-                      <button
-                        type="button"
-                        className="hover:bg-accent min-h-9 w-full rounded-sm px-3 text-start text-sm"
-                        onClick={() => {
-                          close();
-                          downloadText(tableToCsv(table), `${fileName}.csv`, "text/csv");
-                        }}
-                      >
-                        {labels.csv}
-                      </button>
-                    </li>
-                  )}
-                </>
-              )}
-            </Menu>
-            {showShare && (
-              <Button variant="ghost" size="sm" onClick={share}>
-                <Share2Icon aria-hidden />
-                {labels.share}
-              </Button>
-            )}
-            {embedUrl && (
-              <Button variant="ghost" size="sm" onClick={embed}>
-                <CodeIcon aria-hidden />
-                {labels.embed}
-              </Button>
-            )}
-            {table && (
-              <Button
-                variant="ghost"
-                size="sm"
-                aria-pressed={showTable}
-                onClick={() => setShowTable(!showTable)}
-              >
-                <TableIcon aria-hidden />
-                {showTable ? labels.hideTable : labels.viewTable}
-              </Button>
-            )}
+      {bare ? (
+        <>
+          <h3 id={`${id}-title`} className="sr-only">
+            {title}
+          </h3>
+          {toggleControl && status === "ready" && (
+            <div className="mb-2 flex justify-end">{toggleControl}</div>
+          )}
+        </>
+      ) : (
+        <div className="flex flex-wrap items-start justify-between gap-2">
+          <div className="min-w-0">
+            <h3 id={`${id}-title`}>{title}</h3>
+            {subtitle && <p className="text-muted-foreground text-sm">{subtitle}</p>}
           </div>
-        )}
-      </div>
+          {status === "ready" && (
+            <div className="flex flex-wrap items-center gap-1">
+              {toggleControl}
+              <Menu label={labels.download}>
+                {(close) => (
+                  <>
+                    {activeSpec && (
+                      <>
+                        <li>
+                          <button
+                            type="button"
+                            className="hover:bg-accent min-h-9 w-full rounded-sm px-3 text-start text-sm"
+                            onClick={async () => {
+                              close();
+                              await exportPng({
+                                svg: await currentSvg(),
+                                title,
+                                source,
+                                logoUrl,
+                                fileName,
+                              });
+                            }}
+                          >
+                            {labels.png}
+                          </button>
+                        </li>
+                        <li>
+                          <button
+                            type="button"
+                            className="hover:bg-accent min-h-9 w-full rounded-sm px-3 text-start text-sm"
+                            onClick={async () => {
+                              close();
+                              downloadText(await currentSvg(), `${fileName}.svg`, "image/svg+xml");
+                            }}
+                          >
+                            {labels.svg}
+                          </button>
+                        </li>
+                      </>
+                    )}
+                    {table && (
+                      <li>
+                        <button
+                          type="button"
+                          className="hover:bg-accent min-h-9 w-full rounded-sm px-3 text-start text-sm"
+                          onClick={() => {
+                            close();
+                            downloadText(tableToCsv(table), `${fileName}.csv`, "text/csv");
+                          }}
+                        >
+                          {labels.csv}
+                        </button>
+                      </li>
+                    )}
+                  </>
+                )}
+              </Menu>
+              {showShare && (
+                <Button variant="ghost" size="sm" onClick={share}>
+                  <Share2Icon aria-hidden />
+                  {labels.share}
+                </Button>
+              )}
+              {embedUrl && (
+                <Button variant="ghost" size="sm" onClick={embed}>
+                  <CodeIcon aria-hidden />
+                  {labels.embed}
+                </Button>
+              )}
+              {table && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  aria-pressed={showTable}
+                  onClick={() => setShowTable(!showTable)}
+                >
+                  <TableIcon aria-hidden />
+                  {showTable ? labels.hideTable : labels.viewTable}
+                </Button>
+              )}
+            </div>
+          )}
+        </div>
+      )}
       <p aria-live="polite" className="sr-only">
         {notice}
       </p>
 
-      <div className="mt-3">
+      <div className={cn(!bare && "mt-3")}>
         {status === "loading" &&
           box(
             <div aria-hidden className="flex h-full w-full flex-col justify-between py-4">
@@ -383,7 +395,7 @@ export function ChartFrame({
           <div
             role="img"
             aria-label={summary}
-            className="relative h-[var(--chart-mobile)] md:h-[var(--chart-desktop)]"
+            className="relative h-[var(--chart-mobile)] overflow-hidden md:h-[var(--chart-desktop)]"
           >
             {svg && !hydrated && (
               <>
@@ -411,44 +423,47 @@ export function ChartFrame({
       </div>
 
       {table && status === "ready" && (
-        <table className={cn("mt-3 w-full text-sm", !showTable && "sr-only")}>
-          <caption className="sr-only">{title}</caption>
-          <thead>
-            <tr>
-              {table.columns.map((column, i) => (
-                <th
-                  key={column}
-                  scope="col"
-                  className={cn(
-                    "border-b py-1 font-semibold",
-                    table.numeric[i] ? "text-end" : "text-start",
-                  )}
-                >
-                  {column}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {table.rows.map((row, r) => (
-              <tr key={r}>
-                {row.map((value, c) =>
-                  c === 0 ? (
-                    <th key={c} scope="row" className="border-b py-1 text-start font-normal">
-                      {value}
-                    </th>
-                  ) : (
-                    <td key={c} className="border-b py-1 text-end tabular-nums">
-                      {typeof value === "number" && activeSpec
-                        ? formatValue(value, activeSpec.unitKind, activeSpec.tag)
-                        : formatValue(null, "count", "en")}
-                    </td>
-                  ),
-                )}
+        // sr-only on the wrapper: a <table> sizes to its cells, so it would widen the page.
+        <div className={cn("mt-3", !showTable && "sr-only")}>
+          <table className="w-full text-sm">
+            <caption className="sr-only">{title}</caption>
+            <thead>
+              <tr>
+                {table.columns.map((column, i) => (
+                  <th
+                    key={column}
+                    scope="col"
+                    className={cn(
+                      "border-b py-1 font-semibold",
+                      table.numeric[i] ? "text-end" : "text-start",
+                    )}
+                  >
+                    {column}
+                  </th>
+                ))}
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {table.rows.map((row, r) => (
+                <tr key={r}>
+                  {row.map((value, c) =>
+                    c === 0 ? (
+                      <th key={c} scope="row" className="border-b py-1 text-start font-normal">
+                        {value}
+                      </th>
+                    ) : (
+                      <td key={c} className="border-b py-1 text-end tabular-nums">
+                        {typeof value === "number" && activeSpec
+                          ? formatValue(value, activeSpec.unitKind, activeSpec.tag)
+                          : formatValue(null, "count", "en")}
+                      </td>
+                    ),
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
       {source && <figcaption className="text-muted-foreground mt-3 text-xs">{source}</figcaption>}
     </figure>

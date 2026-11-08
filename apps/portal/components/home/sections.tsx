@@ -4,7 +4,6 @@ import { api, serverCache, type RequestContext } from "@onn/api-client";
 import type { IndicatorSummary } from "@onn/api-client/types";
 import { choropleth } from "@onn/charts/classify";
 import { ChoroplethSvg } from "@onn/charts/choropleth-svg";
-import { renderChartSvg } from "@onn/charts/ssr";
 import { chartTokens } from "@onn/config/tokens";
 import { country } from "@onn/config";
 import { KpiCard } from "@onn/ui/components/kpi-card";
@@ -18,6 +17,7 @@ import { Link } from "@/i18n/navigation";
 import { formatBytes, formatDate, tagFor } from "@/lib/format";
 import { extremes, targetProgress } from "@/lib/home";
 import { hasLatest, kindOf, kpiCardProps } from "@/lib/kpi";
+import { DashboardCard, dashboardThumbnail } from "@/components/dashboard/dashboard-card";
 import { ScrollDots } from "./scroll-dots";
 
 const SEPARATOR = " · ";
@@ -302,29 +302,10 @@ export async function DashboardCards() {
   try {
     const dashboards = await api.dashboards(ctx);
     const cards = await Promise.all(
-      dashboards.slice(0, 3).map(async (dashboard) => {
-        const widget = dashboard.widgets.find((item) => item.indicators.length > 0);
-        let thumbnail = "";
-        if (widget) {
-          const series = await api.series(ctx, {
-            indicator: widget.indicators[0]!,
-            area: country.iso3,
-          });
-          thumbnail = renderChartSvg(
-            {
-              kind: "line",
-              tag: tagFor(ctx.locale),
-              unitKind: "count",
-              series: series
-                .slice(0, 1)
-                .map((item) => ({ name: "", role: "focus" as const, points: item.points })),
-              labels: { period: "", breakInSeries: "", range: "", status: {} },
-            },
-            { width: 320, height: 180 },
-          );
-        }
-        return { dashboard, thumbnail };
-      }),
+      dashboards.slice(0, 3).map(async (dashboard) => ({
+        dashboard,
+        thumbnail: await dashboardThumbnail(dashboard, ctx),
+      })),
     );
     return (
       <Section
@@ -339,25 +320,11 @@ export async function DashboardCards() {
         <ul className="grid gap-6 md:grid-cols-3">
           {cards.map(({ dashboard, thumbnail }) => (
             <li key={dashboard.slug}>
-              <Link
-                href={`/dashboards/${dashboard.slug}`}
-                className="bg-card flex h-full flex-col overflow-hidden rounded-lg border transition-shadow duration-(--onn-dur-2) hover:shadow-sm"
-              >
-                <div
-                  aria-hidden
-                  className="bg-surface-2 aspect-video p-2"
-                  dangerouslySetInnerHTML={{ __html: thumbnail }}
-                />
-                <div className="flex flex-1 flex-col gap-2 p-4">
-                  <span className="rounded-pill text-muted-foreground self-start border px-2 text-xs">
-                    {t(`audience.${dashboard.audience}`)}
-                  </span>
-                  <h3>{dashboard.title}</h3>
-                  <p className="text-muted-foreground line-clamp-2 text-sm">
-                    {dashboard.description}
-                  </p>
-                </div>
-              </Link>
+              <DashboardCard
+                dashboard={dashboard}
+                thumbnail={thumbnail}
+                audience={t(`audience.${dashboard.audience}`)}
+              />
             </li>
           ))}
         </ul>
