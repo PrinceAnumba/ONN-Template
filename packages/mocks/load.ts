@@ -1,9 +1,20 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import type { Fixtures } from "./fixtures";
+import type { Boundaries, Fixtures } from "./fixtures";
 
 const here = dirname(fileURLToPath(import.meta.url));
+
+/** Boundary files from boundaries/{ISO3} (written by boundaries/import.ts), if the country has them. */
+export function loadBoundaries(iso3: string): Boundaries {
+  const dir = join(here, "boundaries", iso3);
+  const levels = ["adm1", "adm2"] as const;
+  return Object.fromEntries(
+    levels
+      .filter((level) => existsSync(join(dir, `${level}.topo.json`)))
+      .map((level) => [level, JSON.parse(readFileSync(join(dir, `${level}.topo.json`), "utf8"))]),
+  );
+}
 
 export function loadFixtures(iso3: string): Fixtures {
   const dir = join(here, "fixtures", iso3);

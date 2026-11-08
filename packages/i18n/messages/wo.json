@@ -344,6 +344,7 @@
     "sectionError": "Ce pilier n'a pas pu être chargé."
   },
   "Map": {
+    "boundaries": "{official, select, true {Limites : {attribution}.} other {Limites : {attribution}. Ces limites ne sont pas officielles.}}",
     "options": "Options de la carte",
     "level": "Niveau",
     "classification": "Classification",

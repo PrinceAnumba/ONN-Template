@@ -49,6 +49,12 @@ The brief lists these endpoints without a response shape: `GET /home` (`HomeData
 | `GET /datasets` → `Dataset[]` | §5.9 open data page |
 | `POST /api-keys` | §5.9 "Get an API key" form |
 
+## Boundaries
+
+`GET /areas/{code}/geometry` returns one TopoJSON object named `areas` whose geometries carry the area `code` (config `geography.codeProperty`) and `name`; area codes must match `GET /areas`. The mock serves geoBoundaries stand-ins (Senegal 2019: 14 regions, 45 departments, so no Keur Massar; Togo 2017: 5 regions, 37 prefectures), and the mock area lists follow those files. Official files from the national statistics office replace them, along with the area list.
+
+The config has a new `geography.boundaries` key (`attribution`, `url`, `official`) for the credit under every map; `official: false` adds a "not official boundaries" note.
+
 ## Still to define
 
 Admin types, with their screens in Phase 7.

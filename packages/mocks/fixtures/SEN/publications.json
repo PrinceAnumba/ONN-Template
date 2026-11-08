@@ -14,7 +14,7 @@
     "pillar": "CONN",
     "coverUrl": "/api/v1/publications/quarterly-2025-1/cover.svg",
     "fileUrl": "/api/v1/publications/quarterly-2025-1/file.pdf",
-    "fileBytes": 3706354,
+    "fileBytes": 1679691,
     "verified": true
   },
   {
@@ -32,7 +32,7 @@
     "pillar": "ACCESS",
     "coverUrl": "/api/v1/publications/annual-2025-2/cover.svg",
     "fileUrl": "/api/v1/publications/annual-2025-2/file.pdf",
-    "fileBytes": 1293643,
+    "fileBytes": 1371448,
     "verified": true
   },
   {
@@ -50,7 +50,7 @@
     "pillar": "MARKET",
     "coverUrl": "/api/v1/publications/study-2025-3/cover.svg",
     "fileUrl": "/api/v1/publications/study-2025-3/file.pdf",
-    "fileBytes": 2644479,
+    "fileBytes": 3524616,
     "verified": false
   },
   {
@@ -68,7 +68,7 @@
     "pillar": "AFFORD",
     "coverUrl": "/api/v1/publications/method-2025-4/cover.svg",
     "fileUrl": "/api/v1/publications/method-2025-4/file.pdf",
-    "fileBytes": 2026056,
+    "fileBytes": 573068,
     "verified": true
   },
   {
@@ -86,7 +86,7 @@
     "pillar": "SKILLS",
     "coverUrl": "/api/v1/publications/quarterly-2024-5/cover.svg",
     "fileUrl": "/api/v1/publications/quarterly-2024-5/file.pdf",
-    "fileBytes": 3476436,
+    "fileBytes": 2127081,
     "verified": true
   },
   {
@@ -104,7 +104,7 @@
     "pillar": "TRUST",
     "coverUrl": "/api/v1/publications/annual-2024-6/cover.svg",
     "fileUrl": "/api/v1/publications/annual-2024-6/file.pdf",
-    "fileBytes": 2686690,
+    "fileBytes": 3696533,
     "verified": false
   },
   {
@@ -122,7 +122,7 @@
     "pillar": "GOV",
     "coverUrl": "/api/v1/publications/study-2024-7/cover.svg",
     "fileUrl": "/api/v1/publications/study-2024-7/file.pdf",
-    "fileBytes": 2376759,
+    "fileBytes": 3047982,
     "verified": true
   },
   {
@@ -140,7 +140,7 @@
     "pillar": "ECON",
     "coverUrl": "/api/v1/publications/method-2024-8/cover.svg",
     "fileUrl": "/api/v1/publications/method-2024-8/file.pdf",
-    "fileBytes": 3698534,
+    "fileBytes": 2230159,
     "verified": true
   },
   {
@@ -158,7 +158,7 @@
     "pillar": "CONN",
     "coverUrl": "/api/v1/publications/quarterly-2023-9/cover.svg",
     "fileUrl": "/api/v1/publications/quarterly-2023-9/file.pdf",
-    "fileBytes": 2887745,
+    "fileBytes": 752826,
     "verified": false
   },
   {
@@ -176,7 +176,7 @@
     "pillar": "ACCESS",
     "coverUrl": "/api/v1/publications/annual-2023-10/cover.svg",
     "fileUrl": "/api/v1/publications/annual-2023-10/file.pdf",
-    "fileBytes": 1956656,
+    "fileBytes": 2651109,
     "verified": true
   },
   {
@@ -194,7 +194,7 @@
     "pillar": "MARKET",
     "coverUrl": "/api/v1/publications/study-2023-11/cover.svg",
     "fileUrl": "/api/v1/publications/study-2023-11/file.pdf",
-    "fileBytes": 1353144,
+    "fileBytes": 905765,
     "verified": true
   },
   {
@@ -212,7 +212,7 @@
     "pillar": "AFFORD",
     "coverUrl": "/api/v1/publications/method-2023-12/cover.svg",
     "fileUrl": "/api/v1/publications/method-2023-12/file.pdf",
-    "fileBytes": 3150854,
+    "fileBytes": 1142833,
     "verified": false
   },
   {
@@ -230,7 +230,7 @@
     "pillar": "SKILLS",
     "coverUrl": "/api/v1/publications/quarterly-2022-13/cover.svg",
     "fileUrl": "/api/v1/publications/quarterly-2022-13/file.pdf",
-    "fileBytes": 4114238,
+    "fileBytes": 3706354,
     "verified": true
   },
   {
@@ -248,7 +248,7 @@
     "pillar": "TRUST",
     "coverUrl": "/api/v1/publications/annual-2022-14/cover.svg",
     "fileUrl": "/api/v1/publications/annual-2022-14/file.pdf",
-    "fileBytes": 4135282,
+    "fileBytes": 1293643,
     "verified": true
   },
   {
@@ -266,7 +266,7 @@
     "pillar": "GOV",
     "coverUrl": "/api/v1/publications/study-2022-15/cover.svg",
     "fileUrl": "/api/v1/publications/study-2022-15/file.pdf",
-    "fileBytes": 3477411,
+    "fileBytes": 2644479,
     "verified": false
   },
   {
@@ -284,7 +284,7 @@
     "pillar": "ECON",
     "coverUrl": "/api/v1/publications/method-2022-16/cover.svg",
     "fileUrl": "/api/v1/publications/method-2022-16/file.pdf",
-    "fileBytes": 3604479,
+    "fileBytes": 2026056,
     "verified": true
   }
 ]

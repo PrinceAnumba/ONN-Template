@@ -17,31 +17,31 @@
   {
     "code": "TG-01-01",
     "level": "adm2",
-    "name": "Agoè-Nyivé",
+    "name": "Avé",
     "parent": "TG-01"
   },
   {
     "code": "TG-01-02",
     "level": "adm2",
-    "name": "Avé",
+    "name": "Bas-Mono",
     "parent": "TG-01"
   },
   {
     "code": "TG-01-03",
     "level": "adm2",
-    "name": "Bas-Mono",
+    "name": "Golfe",
     "parent": "TG-01"
   },
   {
     "code": "TG-01-04",
     "level": "adm2",
-    "name": "Golfe",
+    "name": "Lacs",
     "parent": "TG-01"
   },
   {
     "code": "TG-01-05",
     "level": "adm2",
-    "name": "Lacs",
+    "name": "Lomé Commune",
     "parent": "TG-01"
   },
   {
@@ -245,29 +245,17 @@
   {
     "code": "TG-05-03",
     "level": "adm2",
-    "name": "Kpendjal-Ouest",
+    "name": "Oti",
     "parent": "TG-05"
   },
   {
     "code": "TG-05-04",
     "level": "adm2",
-    "name": "Oti",
-    "parent": "TG-05"
-  },
-  {
-    "code": "TG-05-05",
-    "level": "adm2",
-    "name": "Oti-Sud",
-    "parent": "TG-05"
-  },
-  {
-    "code": "TG-05-06",
-    "level": "adm2",
     "name": "Tandjoaré",
     "parent": "TG-05"
   },
   {
-    "code": "TG-05-07",
+    "code": "TG-05-05",
     "level": "adm2",
     "name": "Tône",
     "parent": "TG-05"

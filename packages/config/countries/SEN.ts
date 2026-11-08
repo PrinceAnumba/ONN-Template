@@ -54,6 +54,12 @@ const config: CountryConfig = {
     ],
     codeProperty: "code",
     bbox: [-17.6, 12.3, -11.3, 16.7],
+    // Stand-in until ANSD supplies official boundaries (packages/mocks/boundaries/import.ts).
+    boundaries: {
+      attribution: "geoBoundaries (Government of Senegal, OCHA ROWCA, 2019), CC BY 3.0 IGO",
+      url: "https://www.geoboundaries.org",
+      official: false,
+    },
   },
   peers: {
     default: "ECOWAS",

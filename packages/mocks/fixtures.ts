@@ -523,8 +523,55 @@ function buildIndex(random: () => number): Fixtures["index"] {
   });
 }
 
-/** Rectangles inside the country's bbox: placeholder shapes until official boundaries arrive. */
-function buildGeometry(config: CountryConfig, areas: Fixtures["areas"]) {
+/** Boundary files from boundaries/{ISO3}: one "areas" object, geometries carrying `name` (and `parent` at adm2). */
+export type Boundaries = Partial<
+  Record<
+    "adm1" | "adm2",
+    { objects: { areas: { geometries: { properties?: Record<string, unknown> }[] } } }
+  >
+>;
+
+/** Sets each shape's code from the area with the same name (and parent); every area needs one shape. */
+function withCodes(
+  config: CountryConfig,
+  areas: Fixtures["areas"],
+  level: "adm1" | "adm2",
+  source: NonNullable<Boundaries["adm1"]>,
+) {
+  const label = (name: string | L) => (typeof name === "string" ? name : name.fr);
+  const nameOf = new Map(areas.map((area) => [area.code, label(area.name)]));
+  const key = (name: unknown, parent: unknown) => `${String(parent ?? "")}/${String(name)}`;
+  const codes = new Map(
+    areas
+      .filter((area) => area.level === level)
+      .map((area) => [
+        key(label(area.name), level === "adm2" ? nameOf.get(area.parent as string) : undefined),
+        area,
+      ]),
+  );
+  const topology = structuredClone(source);
+  for (const geometry of topology.objects.areas.geometries) {
+    const id = key(geometry.properties?.name, geometry.properties?.parent);
+    const area = codes.get(id);
+    if (!area) throw new Error(`${level}: no area for shape ${id}`);
+    geometry.properties = { [config.geography.codeProperty]: area.code, name: area.name };
+    codes.delete(id);
+  }
+  if (codes.size) throw new Error(`${level}: no shape for ${[...codes.keys()].join(", ")}`);
+  return topology;
+}
+
+/**
+ * Boundary files when the country has them (geoBoundaries stand-ins until official files arrive),
+ * otherwise rectangles inside the bbox.
+ */
+function buildGeometry(config: CountryConfig, areas: Fixtures["areas"], boundaries: Boundaries) {
+  if (boundaries.adm1 && boundaries.adm2) {
+    return {
+      adm1: withCodes(config, areas, "adm1", boundaries.adm1),
+      adm2: withCodes(config, areas, "adm2", boundaries.adm2),
+    };
+  }
   const [west, south, east, north] = config.geography.bbox;
   const regions = areas.filter((area) => area.level === "adm1");
   const columns = Math.ceil(Math.sqrt(regions.length));
@@ -573,7 +620,11 @@ function buildGeometry(config: CountryConfig, areas: Fixtures["areas"]) {
   return { adm1: topology(adm1Cells), adm2: topology(adm2Cells) };
 }
 
-export function generateFixtures(config: CountryConfig, seed: number): Fixtures {
+export function generateFixtures(
+  config: CountryConfig,
+  seed: number,
+  boundaries: Boundaries = {},
+): Fixtures {
   const random = createRandom(seed);
   const countryName = config.name;
   const shortName = config.observatory.shortName;
@@ -689,6 +740,6 @@ export function generateFixtures(config: CountryConfig, seed: number): Fixtures 
       lastUpdated: GENERATED_ON,
       url: `/api/v1/data?indicator=${pillar.code}&format=csv`,
     })),
-    geo: buildGeometry(config, areas),
+    geo: buildGeometry(config, areas, boundaries),
   };
 }

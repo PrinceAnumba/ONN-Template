@@ -6,5 +6,6 @@ generated
 packages/ui/tokens.css
 docs
 packages/mocks/fixtures
+packages/mocks/boundaries/*/*.topo.json
 apps/storybook/storybook-static
 apps/*/public/vendor

@@ -4,6 +4,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { countrySchema } from "@onn/config/schema";
 import { generateFixtures } from "./fixtures";
+import { loadBoundaries } from "./load";
 
 const here = dirname(fileURLToPath(import.meta.url));
 
@@ -21,7 +22,7 @@ if (!/^[A-Z]{3}$/.test(iso3) || !Number.isInteger(seed)) {
 
 const configUrl = pathToFileURL(join(here, "..", "config", "countries", `${iso3}.ts`)).href;
 const { default: raw } = await import(configUrl);
-const fixtures = generateFixtures(countrySchema.parse(raw), seed);
+const fixtures = generateFixtures(countrySchema.parse(raw), seed, loadBoundaries(iso3));
 
 const dir = join(here, "fixtures", iso3);
 rmSync(dir, { recursive: true, force: true });

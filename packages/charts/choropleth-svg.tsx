@@ -82,7 +82,7 @@ export function ChoroplethSvg({
     ],
     features,
   );
-  const path = geoPath(projection);
+  const path = geoPath(projection).digits(1);
   const hatch = `${id}-hatch`;
 
   return (

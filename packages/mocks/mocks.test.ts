@@ -15,8 +15,9 @@ import { getResponse } from "msw";
 import { describe, expect, it } from "vitest";
 import { generateFixtures } from "./fixtures";
 import { createHandlers } from "./handlers";
+import { loadBoundaries } from "./load";
 
-const fixtures = generateFixtures(SEN, 42);
+const fixtures = generateFixtures(SEN, 42, loadBoundaries("SEN"));
 const handlers = createHandlers(fixtures, { latency: [0, 0] });
 
 async function call(path: string, locale = "fr", init: RequestInit = {}) {
@@ -36,7 +37,9 @@ async function get<T>(path: string, locale = "fr") {
 
 describe("fixture generator", () => {
   it("is deterministic for a seed", () => {
-    expect(JSON.stringify(generateFixtures(SEN, 42))).toBe(JSON.stringify(fixtures));
+    expect(JSON.stringify(generateFixtures(SEN, 42, loadBoundaries("SEN")))).toBe(
+      JSON.stringify(fixtures),
+    );
   });
 
   it("varies with the seed", () => {
@@ -102,7 +105,7 @@ describe("fixture generator", () => {
   });
 
   it("builds for another country with its own config", () => {
-    const togo = generateFixtures(TGO, 42);
+    const togo = generateFixtures(TGO, 42, loadBoundaries("TGO"));
     expect(togo.areas[0]?.code).toBe("TGO");
     expect(togo.meta.locales).toEqual(["fr", "en"]);
     expect(Object.keys(togo.geo)).toEqual(["adm1", "adm2"]);

@@ -5,6 +5,7 @@ import type { Indicator, Observation } from "@onn/api-client/types";
 import { projectShapes, type MapShapes } from "@onn/charts/map-shapes";
 import { country } from "@onn/config";
 import { getTranslations } from "next-intl/server";
+import { boundaryCredit } from "./boundaries";
 import { formatDate } from "./format";
 import { valuesByYear } from "./map";
 
@@ -28,6 +29,8 @@ export interface MapData {
     disaggregations: string[];
   };
   source: string;
+  /** Credit for the boundary files. */
+  boundaries: string;
   levels: { key: string; label: string }[];
   level: string;
   /** Null when the boundaries for this level can't be loaded. */
@@ -83,10 +86,11 @@ export async function loadMapData({
   const variant = unit ?? indicator.unitVariants[0] ?? { code: "count", label: indicator.unit };
   const unitParam = variant.code === indicator.unitVariants[0]?.code ? undefined : variant.code;
 
-  const [topology, rows, areas] = await Promise.all([
+  const [topology, rows, areas, boundaries] = await Promise.all([
     api.geometry(ctx, country.iso3, level).catch(() => null),
     allObservations(ctx, { indicator: indicator.code, level, unit: unitParam }),
     api.areas(ctx),
+    boundaryCredit(),
   ]);
   const { years, values } = valuesByYear(rows);
 
@@ -104,6 +108,7 @@ export async function loadMapData({
       method: t(`method.${indicator.source.method}`),
       date: formatDate(indicator.lastUpdated, locale),
     }),
+    boundaries,
     levels,
     level,
     shapes: topology ? projectShapes(topology, country.geography.codeProperty, MAP_WIDTH) : null,

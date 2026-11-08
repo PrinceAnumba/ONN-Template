@@ -14,6 +14,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { Link } from "@/i18n/navigation";
+import { boundaryCredit } from "@/lib/boundaries";
 import { formatBytes, formatDate, tagFor } from "@/lib/format";
 import { extremes, targetProgress } from "@/lib/home";
 import { hasLatest, kindOf, kpiCardProps } from "@/lib/kpi";
@@ -161,11 +162,12 @@ export async function MapTeaser() {
   try {
     const home = await api.home(ctx);
     const code = home.mapTeaserIndicator;
-    const [indicator, rows, topology, regions] = await Promise.all([
+    const [indicator, rows, topology, regions, credit] = await Promise.all([
       api.indicator(ctx, code),
       api.latest(ctx, { indicator: code, level: "adm1" }),
       api.geometry(ctx, country.iso3, "adm1"),
       api.areas(ctx, { level: "adm1" }),
+      boundaryCredit(),
     ]);
     const kind = kindOf(indicator);
     const values = Object.fromEntries(regions.map((area) => [area.code, null as number | null]));
@@ -207,6 +209,7 @@ export async function MapTeaser() {
             <p className="text-muted-foreground mt-4 text-xs">
               {t("sourceYear", { source: indicator.source.org, year })}
             </p>
+            <p className="text-muted-foreground mt-1 text-xs">{credit}</p>
             <span className="text-primary mt-4 inline-block font-semibold underline">
               {t("openMap")}
             </span>

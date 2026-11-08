@@ -30,17 +30,11 @@
   {
     "code": "SN-01-03",
     "level": "adm2",
-    "name": "Keur Massar",
-    "parent": "SN-01"
-  },
-  {
-    "code": "SN-01-04",
-    "level": "adm2",
     "name": "Pikine",
     "parent": "SN-01"
   },
   {
-    "code": "SN-01-05",
+    "code": "SN-01-04",
     "level": "adm2",
     "name": "Rufisque",
     "parent": "SN-01"

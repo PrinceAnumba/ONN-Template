@@ -1,0 +1,17 @@
+{
+  "provider": "geoBoundaries",
+  "release": "9469f09",
+  "official": false,
+  "adm1": {
+    "source": "OpenStreetMap, Wambacher",
+    "year": "2017",
+    "license": "Open Data Commons Open Database License 1.0",
+    "url": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/TGO/ADM1/geoBoundaries-TGO-ADM1_simplified.geojson"
+  },
+  "adm2": {
+    "source": "OpenStreetMap, Wambacher",
+    "year": "2017",
+    "license": "Creative Commons Attribution-ShareAlike 2.0",
+    "url": "https://github.com/wmgeolab/geoBoundaries/raw/9469f09/releaseData/gbOpen/TGO/ADM2/geoBoundaries-TGO-ADM2_simplified.geojson"
+  }
+}

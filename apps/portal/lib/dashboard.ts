@@ -14,6 +14,7 @@ import type { TargetProgressProps } from "@onn/ui/components/target-progress";
 import type { WidgetTable } from "@onn/ui/components/widget-shell";
 import { formatPeriod, formatValue, unitIsInline } from "@onn/ui/format";
 import { getTranslations } from "next-intl/server";
+import { boundaryCredit } from "./boundaries";
 import { lineLabels } from "./chart-labels";
 import { tagFor } from "./format";
 import { targetProgress } from "./home";
@@ -44,6 +45,7 @@ export type WidgetBody =
       unitKind: string;
       unitLabel: string;
       mapTitle: string;
+      credit: string;
     }
   | { kind: "table"; rows: TableRow[]; periods: string[]; unitKind: string; caption: string }
   | { kind: "text"; body: string }
@@ -349,10 +351,11 @@ export async function buildWidgets(widgets: Widget[], env: Env): Promise<WidgetM
       }
 
       case "map": {
-        const [rows, topology, regions] = await Promise.all([
+        const [rows, topology, regions, credit] = await Promise.all([
           api.latest(env.ctx, { indicator: code, level: "adm1" }),
           api.geometry(env.ctx, country.iso3, "adm1"),
           api.areas(env.ctx, { level: "adm1" }),
+          boundaryCredit(),
         ]);
         const values = Object.fromEntries(
           regions.map((region) => [region.code, null as number | null]),
@@ -379,6 +382,7 @@ export async function buildWidgets(widgets: Widget[], env: Env): Promise<WidgetM
             unitKind: kind,
             unitLabel,
             mapTitle: ind("mapTitle", { indicator: meta.name, year }),
+            credit,
           },
           table: {
             columns: [t("columns.area"), t("columns.value")],

@@ -45,6 +45,13 @@ const config: CountryConfig = {
     ],
     codeProperty: "code",
     bbox: [-0.2, 6.0, 1.9, 11.2],
+    // Stand-in until INSEED supplies official boundaries (packages/mocks/boundaries/import.ts).
+    boundaries: {
+      attribution:
+        "geoBoundaries (© OpenStreetMap contributors, Wambacher, 2017), ODbL 1.0 / CC BY-SA 2.0",
+      url: "https://www.geoboundaries.org",
+      official: false,
+    },
   },
   peers: {
     default: "WAEMU",

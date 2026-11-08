@@ -81,6 +81,7 @@ export async function WidgetView({ model, tag }: { model: WidgetModel; tag: stri
             }
             noData={{ label: ind("noData"), count: body.noData }}
           />
+          <p className="text-muted-foreground text-xs md:col-span-2">{body.credit}</p>
         </div>
       );
       break;

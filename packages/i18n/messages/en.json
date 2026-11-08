@@ -344,6 +344,7 @@
     "sectionError": "This pillar couldn't load."
   },
   "Map": {
+    "boundaries": "{official, select, true {Boundaries: {attribution}.} other {Boundaries: {attribution}. These aren't official boundaries.}}",
     "options": "Map options",
     "level": "Level",
     "classification": "Classification",

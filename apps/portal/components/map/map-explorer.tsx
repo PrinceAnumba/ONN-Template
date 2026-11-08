@@ -425,6 +425,7 @@ export function MapExplorer({
         <div className={cn("hidden", overlay && "lg:mt-auto lg:block")}>
           {legend}
           <p className="text-muted-foreground mt-2 text-xs">{data.source}</p>
+          <p className="text-muted-foreground mt-1 text-xs">{data.boundaries}</p>
         </div>
       </div>
 
@@ -444,6 +445,9 @@ export function MapExplorer({
       <div className={cn("mt-3", overlay && "lg:hidden")}>{legend}</div>
       <p className={cn("text-muted-foreground mt-2 text-sm", overlay && "lg:hidden")}>
         {data.source} {t("sourceNote")}
+      </p>
+      <p className={cn("text-muted-foreground mt-1 text-xs", overlay && "lg:hidden")}>
+        {data.boundaries}
       </p>
 
       {selected && panelInOverlay && (

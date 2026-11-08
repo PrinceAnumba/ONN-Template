@@ -54,6 +54,12 @@ export const countrySchema = z
       levels: z.array(geographyLevel).min(1),
       codeProperty: z.string().min(1),
       bbox: z.tuple([z.number(), z.number(), z.number(), z.number()]),
+      /** Credit shown under every map; `official: false` adds a "not official boundaries" note. */
+      boundaries: z.strictObject({
+        attribution: z.string().min(1),
+        url: z.url(),
+        official: z.boolean(),
+      }),
     }),
     peers: z.strictObject({
       default: z.string().min(1),

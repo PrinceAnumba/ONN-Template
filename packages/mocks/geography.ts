@@ -1,4 +1,5 @@
-// Administrative names for the synthetic fixtures. The geometry built from them is a placeholder.
+// Administrative names for the synthetic fixtures. They follow the boundary files in boundaries/{ISO3}
+// (see boundaries/import.ts), so every area has a shape; update both together.
 
 export interface Geography {
   iso2: string;
@@ -12,7 +13,7 @@ export const GEOGRAPHY: Record<string, Geography> = {
       {
         name: "Dakar",
         urbanity: 1.42,
-        adm2: ["Dakar", "Guédiawaye", "Keur Massar", "Pikine", "Rufisque"],
+        adm2: ["Dakar", "Guédiawaye", "Pikine", "Rufisque"],
       },
       { name: "Thiès", urbanity: 1.12, adm2: ["Mbour", "Thiès", "Tivaouane"] },
       { name: "Saint-Louis", urbanity: 1.06, adm2: ["Dagana", "Podor", "Saint-Louis"] },
@@ -43,7 +44,7 @@ export const GEOGRAPHY: Record<string, Geography> = {
       {
         name: "Maritime",
         urbanity: 1.38,
-        adm2: ["Agoè-Nyivé", "Avé", "Bas-Mono", "Golfe", "Lacs", "Vo", "Yoto", "Zio"],
+        adm2: ["Avé", "Bas-Mono", "Golfe", "Lacs", "Lomé Commune", "Vo", "Yoto", "Zio"],
       },
       {
         name: "Plateaux",
@@ -76,7 +77,7 @@ export const GEOGRAPHY: Record<string, Geography> = {
       {
         name: "Savanes",
         urbanity: 0.66,
-        adm2: ["Cinkassé", "Kpendjal", "Kpendjal-Ouest", "Oti", "Oti-Sud", "Tandjoaré", "Tône"],
+        adm2: ["Cinkassé", "Kpendjal", "Oti", "Tandjoaré", "Tône"],
       },
     ],
   },
