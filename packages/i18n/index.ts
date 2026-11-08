@@ -12,6 +12,16 @@ export async function loadMessages(locale: string): Promise<Messages> {
   return (await load()).default;
 }
 
+/** Namespaces every page sends to client components. */
+export const CLIENT_NAMESPACES = [
+  "Common",
+  "Nav",
+  "Header",
+  "Palette",
+  "Selector",
+  "Footer",
+] as const satisfies (keyof Messages)[];
+
 /** Namespaces client components need; everything else stays on the server. */
 export function pickMessages(messages: Messages, namespaces: (keyof Messages)[]) {
   return Object.fromEntries(namespaces.map((name) => [name, messages[name]]));

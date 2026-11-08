@@ -1,6 +1,6 @@
 import "@onn/ui/base.css";
 import { country } from "@onn/config";
-import { pickMessages, type Messages } from "@onn/i18n";
+import { CLIENT_NAMESPACES, pickMessages, type Messages } from "@onn/i18n";
 import { Toaster } from "@onn/ui/components/toast";
 import type { Metadata } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
@@ -39,16 +39,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
       className={`${sourceSans.variable} ${sourceSansExt.variable}`}
     >
       <body className="flex min-h-dvh flex-col">
-        <NextIntlClientProvider
-          messages={pickMessages(messages, [
-            "Common",
-            "Nav",
-            "Header",
-            "Palette",
-            "Selector",
-            "Footer",
-          ])}
-        >
+        <NextIntlClientProvider messages={pickMessages(messages, [...CLIENT_NAMESPACES])}>
           {children}
           <Toaster closeLabel={t("close")} />
         </NextIntlClientProvider>

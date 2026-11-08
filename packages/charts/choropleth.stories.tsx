@@ -1,12 +1,15 @@
 import { chartTokens } from "@onn/config/tokens";
 import { formatValue } from "@onn/ui/format";
 import type { Meta, StoryObj } from "@storybook/react";
+import { expect, userEvent } from "@storybook/test";
 import { useState } from "react";
 import topology from "../mocks/fixtures/SEN/geo/adm1.topo.json";
+import { ChoroplethInteractive } from "./choropleth-interactive";
 import { ChoroplethMap } from "./choropleth-map";
 import { ChoroplethSvg } from "./choropleth-svg";
 import { choropleth, type ClassMethod } from "./classify";
 import { MapLegend } from "./map-legend";
+import { projectShapes } from "./map-shapes";
 
 const codes = Array.from({ length: 14 }, (_, i) => `SN-${String(i + 1).padStart(2, "0")}`);
 const sample = Object.fromEntries(codes.map((code, i) => [code, 98 - i * 4.3]));
@@ -22,11 +25,13 @@ function MapStory({
   values,
   method = "quantile",
   interactive = false,
+  svgInteractive = false,
   title = "4G population coverage by region, 2025",
 }: {
   values: Record<string, number | null>;
   method?: ClassMethod;
   interactive?: boolean;
+  svgInteractive?: boolean;
   title?: string;
 }) {
   const [selected, setSelected] = useState<string>();
@@ -50,7 +55,20 @@ function MapStory({
   );
   return (
     <div className="grid gap-4 md:grid-cols-[1fr_240px]">
-      {interactive ? (
+      {svgInteractive ? (
+        <div className="h-[420px]">
+          <ChoroplethInteractive
+            id="story-svg"
+            shapes={projectShapes(topology, "code")}
+            fills={fills}
+            title={title}
+            tooltips={labels}
+            selected={selected}
+            onSelect={setSelected}
+            showLabels
+          />
+        </div>
+      ) : interactive ? (
         <ChoroplethMap
           topology={topology}
           codeProperty="code"
@@ -95,6 +113,17 @@ export const EqualInterval: Story = { args: { method: "equal" } };
 
 /** MapLibre, loaded when the map nears the viewport. Click a region to select it. */
 export const Interactive: Story = { args: { interactive: true } };
+
+/** The default interactive map: server-projected SVG paths with hover, selection and labels. */
+export const InteractiveSvg: Story = {
+  args: { svgInteractive: true },
+  play: async ({ canvasElement }) => {
+    const paths = canvasElement.querySelectorAll("svg[role=img] > g > path");
+    await expect(paths.length).toBe(14);
+    await userEvent.click(paths[0] as Element);
+    await expect(canvasElement.querySelector('path[stroke-width="3"]')).not.toBeNull();
+  },
+};
 
 export const Empty: Story = {
   args: {

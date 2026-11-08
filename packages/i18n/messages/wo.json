@@ -341,5 +341,59 @@
     "noHeadline": "Pas encore d'indicateur phare dans ce pilier.",
     "tableCaption": "Tous les indicateurs : {pillar}",
     "sectionError": "Ce pilier n'a pas pu être chargé."
+  },
+  "Map": {
+    "options": "Options de la carte",
+    "level": "Niveau",
+    "classification": "Classification",
+    "methods": {
+      "quantile": "Quantiles",
+      "equal": "Intervalles égaux",
+      "jenks": "Seuils naturels"
+    },
+    "year": "Année",
+    "play": "Lecture",
+    "pause": "Pause",
+    "labels": "Afficher les noms",
+    "basemap": "Afficher le fond de carte",
+    "listView": "Vue en liste",
+    "mapView": "Vue carte",
+    "mapTitle": "{indicator} par {level}, {year}",
+    "keyboardHint": "Pour parcourir les zones au clavier, utilisez la vue en liste.",
+    "noData": "Pas de données",
+    "tooltip": "{name} : {value}",
+    "noBoundaries": "Les limites de ce niveau ne sont pas encore disponibles.",
+    "notSubnational": "{indicator} est publié pour l'ensemble du pays uniquement. Choisissez un indicateur marqué « infranational » pour l'afficher sur la carte.",
+    "openIndicator": "Ouvrir la page de l'indicateur",
+    "area": "Zone",
+    "value": "Valeur",
+    "rank": "Rang",
+    "sortBy": "Trier par {column}",
+    "close": "Fermer",
+    "handle": "Redimensionner le panneau",
+    "valueIn": "{value} en {year}",
+    "noValue": "Pas de données pour {year}",
+    "ranked": "{rank, selectordinal, one {#er} other {#e}} sur {total}",
+    "trend": "Tendance",
+    "breakdown": "Ventilation, {year}",
+    "dims": {
+      "sex": "Sexe",
+      "area": "Urbain/rural"
+    },
+    "dimValues": {
+      "female": "Femmes",
+      "male": "Hommes",
+      "urban": "Urbain",
+      "rural": "Rural"
+    },
+    "loadingBreakdown": "Chargement de la ventilation…",
+    "breakdownError": "La ventilation n'a pas pu être chargée.",
+    "children": "{level} : {name}",
+    "openExplorer": "Ouvrir dans l'explorateur",
+    "setFocus": "Définir comme zone principale",
+    "selected": "{name} sélectionné",
+    "showingYear": "Affichage : {year}",
+    "updating": "Mise à jour de la carte…",
+    "sourceNote": "Les valeurs sont les dernières disponibles pour chaque année."
   }
 }

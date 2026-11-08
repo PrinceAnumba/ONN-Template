@@ -16,6 +16,7 @@ export interface ChoroplethMapProps {
   lite?: boolean;
   height?: number | string;
   workerUrl?: string;
+  basemap?: MapLibreViewProps["basemap"];
   className?: string;
 }
 

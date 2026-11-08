@@ -19,6 +19,22 @@ function Demo() {
   );
 }
 
+function SingleDemo() {
+  const [value, setValue] = useState<[number]>([2025]);
+  return (
+    <div className="max-w-md">
+      <YearSlider<[number]>
+        label="Year"
+        min={2015}
+        max={2025}
+        value={value}
+        onValueChange={setValue}
+        thumbLabels={["Year"]}
+      />
+    </div>
+  );
+}
+
 const meta = { title: "UI/YearSlider", component: Demo } satisfies Meta<typeof Demo>;
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -37,3 +53,14 @@ export const Default: Story = {
 export const Rtl: Story = { parameters: { direction: "rtl" } };
 
 export const Mobile: Story = { parameters: { viewport: { defaultViewport: "mobile360" } } };
+
+/** One thumb, as on the map. */
+export const SingleYear: Story = {
+  render: () => <SingleDemo />,
+  play: async ({ canvasElement }) => {
+    const thumb = within(canvasElement).getByRole("slider", { name: "Year" });
+    thumb.focus();
+    await userEvent.keyboard("{PageDown}");
+    await expect(thumb).toHaveAttribute("aria-valuenow", "2020");
+  },
+};

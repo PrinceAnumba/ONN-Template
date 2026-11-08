@@ -6,20 +6,24 @@ import type { KeyboardEvent } from "react";
 
 const BIG_STEP = 5;
 
-export interface YearSliderProps {
+/** One thumb picks a year (map); two pick a range (indicator page). */
+export type YearValue = [number] | [number, number];
+
+export interface YearSliderProps<V extends YearValue = [number, number]> {
   label: string;
   min: number;
   max: number;
-  value: [number, number];
-  onValueChange: (value: [number, number]) => void;
+  value: V;
+  onValueChange: (value: V) => void;
   /** Called when a drag or key press ends, for work too costly to run on every step. */
-  onValueCommit?: (value: [number, number]) => void;
-  thumbLabels: [string, string];
+  onValueCommit?: (value: V) => void;
+  /** One accessible name per thumb. */
+  thumbLabels: string[];
   className?: string;
 }
 
-/** Dual-thumb year range: arrows step 1 year, PageUp/PageDown step 5 (brief §6). */
-export function YearSlider({
+/** Year slider: arrows step 1 year, PageUp/PageDown step 5 (brief §6). */
+export function YearSlider<V extends YearValue = [number, number]>({
   label,
   min,
   max,
@@ -28,20 +32,22 @@ export function YearSlider({
   onValueCommit,
   thumbLabels,
   className,
-}: YearSliderProps) {
+}: YearSliderProps<V>) {
   const span = max - min || 1;
   const position = (year: number) => `${((year - min) / span) * 100}%`;
+  const clamp = (year: number) => Math.min(Math.max(year, min), max);
+  const toValue = (next: number[]) => value.map((_, i) => next[i] ?? value[i]) as V;
 
   // Radix moves 10 steps on PageUp/PageDown; the brief asks for 5.
-  const onKeyDown = (index: 0 | 1) => (event: KeyboardEvent) => {
+  const onKeyDown = (index: number) => (event: KeyboardEvent) => {
     if (event.key !== "PageUp" && event.key !== "PageDown") return;
     event.preventDefault();
     const delta = event.key === "PageUp" ? BIG_STEP : -BIG_STEP;
-    const next: [number, number] = [...value];
-    next[index] = Math.min(Math.max(next[index] + delta, min), max);
-    if (next[0] > next[1]) return;
-    onValueChange(next);
-    onValueCommit?.(next);
+    const next = [...value];
+    next[index] = clamp((next[index] ?? min) + delta);
+    if (next.length === 2 && next[0]! > next[1]!) return;
+    onValueChange(toValue(next));
+    onValueCommit?.(toValue(next));
   };
 
   return (
@@ -53,14 +59,14 @@ export function YearSlider({
         step={1}
         minStepsBetweenThumbs={0}
         value={value}
-        onValueChange={(next) => onValueChange([next[0] ?? min, next[1] ?? max])}
-        onValueCommit={(next) => onValueCommit?.([next[0] ?? min, next[1] ?? max])}
+        onValueChange={(next) => onValueChange(toValue(next))}
+        onValueCommit={(next) => onValueCommit?.(toValue(next))}
         className="relative flex h-11 w-full touch-none items-center select-none"
       >
         <Slider.Track className="bg-border relative h-1.5 grow rounded-full">
           <Slider.Range className="bg-brand absolute h-full rounded-full" />
         </Slider.Track>
-        {([0, 1] as const).map((index) => (
+        {value.map((_, index) => (
           <Slider.Thumb
             key={index}
             aria-label={thumbLabels[index]}
@@ -68,14 +74,14 @@ export function YearSlider({
             className="border-primary bg-background block size-5 rounded-full border-2 shadow-sm"
           />
         ))}
-        {([0, 1] as const).map((index) => (
+        {value.map((year, index) => (
           <span
             key={`label-${index}`}
             aria-hidden
             className="absolute -top-7 -translate-x-1/2 text-sm font-semibold tabular-nums rtl:translate-x-1/2"
-            style={{ insetInlineStart: position(value[index]) }}
+            style={{ insetInlineStart: position(year) }}
           >
-            {value[index]}
+            {year}
           </span>
         ))}
       </Slider.Root>

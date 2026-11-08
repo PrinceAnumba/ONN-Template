@@ -341,5 +341,59 @@
     "noHeadline": "No headline indicators in this pillar yet.",
     "tableCaption": "All indicators in {pillar}",
     "sectionError": "This pillar couldn't load."
+  },
+  "Map": {
+    "options": "Map options",
+    "level": "Level",
+    "classification": "Classification",
+    "methods": {
+      "quantile": "Quantiles",
+      "equal": "Equal intervals",
+      "jenks": "Natural breaks"
+    },
+    "year": "Year",
+    "play": "Play",
+    "pause": "Pause",
+    "labels": "Show labels",
+    "basemap": "Show basemap",
+    "listView": "List view",
+    "mapView": "Map view",
+    "mapTitle": "{indicator} by {level}, {year}",
+    "keyboardHint": "To browse the areas with a keyboard, use the list view.",
+    "noData": "No data",
+    "tooltip": "{name}: {value}",
+    "noBoundaries": "Boundaries for this level aren't available yet.",
+    "notSubnational": "{indicator} is published for the whole country only. Choose an indicator marked “sub-national” to see it on the map.",
+    "openIndicator": "Open the indicator page",
+    "area": "Area",
+    "value": "Value",
+    "rank": "Rank",
+    "sortBy": "Sort by {column}",
+    "close": "Close",
+    "handle": "Resize the panel",
+    "valueIn": "{value} in {year}",
+    "noValue": "No data for {year}",
+    "ranked": "{rank, selectordinal, one {#st} two {#nd} few {#rd} other {#th}} of {total}",
+    "trend": "Trend",
+    "breakdown": "Breakdown, {year}",
+    "dims": {
+      "sex": "Sex",
+      "area": "Urban/rural"
+    },
+    "dimValues": {
+      "female": "Women",
+      "male": "Men",
+      "urban": "Urban",
+      "rural": "Rural"
+    },
+    "loadingBreakdown": "Loading the breakdown…",
+    "breakdownError": "The breakdown couldn't load.",
+    "children": "{level} in {name}",
+    "openExplorer": "Open in explorer",
+    "setFocus": "Set as focus",
+    "selected": "{name} selected",
+    "showingYear": "Showing {year}",
+    "updating": "Updating the map…",
+    "sourceNote": "Values are the latest available in each year."
   }
 }

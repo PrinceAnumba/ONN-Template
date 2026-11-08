@@ -17,6 +17,8 @@ export interface MapLibreViewProps {
   onReady?: () => void;
   /** Where copy-maplibre.mjs put the worker; prefix it with the app's basePath. */
   workerUrl?: string;
+  /** Raster tiles under the areas; only when the country enables `features.basemap`. */
+  basemap?: { tiles: string; attribution: string };
 }
 
 const NONE = "__none__";
@@ -50,6 +52,7 @@ export function MapLibreView({
   onHover,
   onReady,
   workerUrl = DEFAULT_WORKER_URL,
+  basemap,
 }: MapLibreViewProps) {
   const container = React.useRef<HTMLDivElement>(null);
   const map = React.useRef<MapLibreMap | null>(null);
@@ -72,18 +75,28 @@ export function MapLibreView({
       container: container.current,
       style: {
         version: 8,
-        sources: {},
+        sources: basemap
+          ? {
+              basemap: {
+                type: "raster",
+                tiles: [basemap.tiles],
+                tileSize: 256,
+                attribution: basemap.attribution,
+              },
+            }
+          : {},
         layers: [
           {
             id: "background",
             type: "background",
             paint: { "background-color": chartTokens.surface },
           },
+          ...(basemap ? [{ id: "basemap", type: "raster" as const, source: "basemap" }] : []),
         ],
       },
       bounds: bbox,
       fitBoundsOptions: { padding: 16 },
-      attributionControl: false,
+      attributionControl: basemap ? { compact: true } : false,
       dragRotate: false,
       pitchWithRotate: false,
     });
@@ -96,7 +109,7 @@ export function MapLibreView({
         type: "fill",
         source: "areas",
         filter: ["!=", ["get", "fill"], ""],
-        paint: { "fill-color": ["get", "fill"] },
+        paint: { "fill-color": ["get", "fill"], "fill-opacity": basemap ? 0.8 : 1 },
       });
       instance.addLayer({
         id: "no-data",

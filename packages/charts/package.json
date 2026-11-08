@@ -12,7 +12,9 @@
     "./choropleth-svg": "./choropleth-svg.tsx",
     "./choropleth-map": "./choropleth-map.tsx",
     "./map-legend": "./map-legend.tsx",
-    "./ssr": "./ssr.ts"
+    "./ssr": "./ssr.ts",
+    "./choropleth-interactive": "./choropleth-interactive.tsx",
+    "./map-shapes": "./map-shapes.ts"
   },
   "dependencies": {
     "@onn/api-client": "workspace:*",

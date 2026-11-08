@@ -2,11 +2,7 @@
 // these; the side column and map stream separately and catch their own failures.
 import { api } from "@onn/api-client";
 import { Chart } from "@onn/charts/chart";
-import { choropleth } from "@onn/charts/classify";
-import { ChoroplethSvg } from "@onn/charts/choropleth-svg";
-import { MapLegend } from "@onn/charts/map-legend";
 import { country } from "@onn/config";
-import { chartTokens } from "@onn/config/tokens";
 import { Sparkline } from "@onn/ui/components/sparkline";
 import { describeChange, formatPeriod, formatValue, unitIsInline } from "@onn/ui/format";
 import { cn } from "@onn/ui/lib/utils";
@@ -22,6 +18,10 @@ import { chartFrameLabels } from "@/lib/chart-labels";
 import { tagFor } from "@/lib/format";
 import { flagsIn, latestPoint } from "@/lib/indicator";
 import { loadIndicatorTable, type IndicatorView } from "@/lib/indicator-view";
+import { MapExplorerLazy } from "@/components/map/map-explorer-lazy";
+import { ClientMessages } from "@/components/shell/client-messages";
+import { initialYear } from "@/lib/map";
+import { loadMapData } from "@/lib/map-view";
 import { FeedbackWidget } from "./feedback-widget";
 import { IndicatorTable } from "./indicator-table";
 import { MetadataButton } from "./metadata-button";
@@ -214,66 +214,27 @@ export async function TableView({ view }: { view: IndicatorView }) {
   );
 }
 
-/** Static adm1 choropleth of the latest values; the interactive map comes with the map page. */
+/** The map page's explorer, locked to this indicator and stacked in the main column. */
 export async function MapView({ view }: { view: IndicatorView }) {
   const t = await getTranslations("Indicator");
-  const { indicator, unit, tag, ctx } = view;
   try {
-    const unitParam = unit.code === indicator.unitVariants[0]?.code ? undefined : unit.code;
-    const [rows, topology, regions] = await Promise.all([
-      api.latest(ctx, { indicator: indicator.code, level: "adm1", unit: unitParam }),
-      api.geometry(ctx, country.iso3, "adm1"),
-      api.areas(ctx, { level: "adm1" }),
-    ]);
-    const values = Object.fromEntries(regions.map((area) => [area.code, null as number | null]));
-    rows.forEach((row) => (values[row.area] = row.value));
-    const { fills, classes, noData } = choropleth(values, "quantile", chartTokens.sequential);
-    const year = rows[0] ? formatPeriod(rows[0].period, tag) : "";
-    const title = t("mapTitle", { indicator: indicator.name, year });
-    const nameOf = (code: string) => regions.find((area) => area.code === code)?.name ?? code;
-    const tableHref = `/data/${indicator.code}?${new URLSearchParams({
-      ...(view.state.a ? { a: view.state.a } : {}),
-      v: "table",
-    })}`;
+    const data = await loadMapData({
+      indicator: view.indicator,
+      level: view.state.l,
+      unit: view.unit,
+      ctx: view.ctx,
+      locale: view.locale,
+    });
     return (
-      <figure className="bg-card rounded-lg border p-4">
-        <figcaption>
-          <h3>{title}</h3>
-        </figcaption>
-        <div className="mt-3 grid items-end gap-4 md:grid-cols-[minmax(0,1fr)_200px]">
-          <ChoroplethSvg
-            id="indicator-map"
-            topology={topology}
-            codeProperty={country.geography.codeProperty}
-            fills={fills}
-            title={title}
-            labels={Object.fromEntries(
-              rows.map((row) => [row.area, `${nameOf(row.area)}: ${view.format(row.value)}`]),
-            )}
-            selected={view.focus.level === "adm1" ? view.focus.code : undefined}
-            width={CHART_WIDTH}
-            height={420}
-          />
-          <MapLegend
-            id="indicator-map"
-            title={unit.label}
-            classes={classes}
-            rangeLabel={(item) =>
-              `${formatValue(item.from, unit.code, tag)} – ${formatValue(item.to, unit.code, tag)}`
-            }
-            noData={{ label: t("noData"), count: noData }}
-          />
-        </div>
-        <p className="text-muted-foreground mt-3 text-sm">{view.source}</p>
-        <p className="mt-2 flex flex-wrap gap-x-6 gap-y-2">
-          <Link href={tableHref} className="text-primary underline">
-            {t("mapTable")}
-          </Link>
-          <Link href={`/map?i=${indicator.code}`} className="text-primary underline">
-            {t("openMap")}
-          </Link>
-        </p>
-      </figure>
+      <ClientMessages namespaces={["Map"]}>
+        <MapExplorerLazy
+          data={data}
+          initialYear={initialYear(data.years, data.values, String(view.range[1]))}
+          focus={view.focus.code}
+          layout="stacked"
+          heading="h2"
+        />
+      </ClientMessages>
     );
   } catch {
     return (

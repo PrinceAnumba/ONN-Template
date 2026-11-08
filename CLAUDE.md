@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Phase 5 has built home, the data explorer (area profile) and the indicator page with its `/embed/chart` view. The other public pages and the admin screens are still placeholders.
+Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Phase 5 has built home, the data explorer (area profile), the indicator page with its `/embed/chart` view, and the map. The other public pages and the admin screens are still placeholders.
 
 Sections below describe the system the brief specifies, so parts of it don't exist yet. As each phase lands, check this file against the code and replace anything that has drifted.
 
@@ -134,7 +134,9 @@ WCAG 2.2 AA: one h1 per page, skip link, `--onn-focus` on every interactive elem
 - `Chart` (server-safe) renders both SVGs and hands them to `ChartFrame` (client), which hydrates within 200 px of the viewport and loads one runtime from `runtime/` per chart kind. Lite mode passes `lite` and never hydrates.
 - `chartTable()` is the single source for the hidden table, "View as table" and CSV export, so they always match the plot.
 - Colours for ECharts, MapLibre and PNG export come from `@onn/config/tokens` (generated). The three Okabe-Ito colours under 3:1 get `categoricalBorder` outlines.
-- Maps use `choropleth()` for classes and fills, shared by `ChoroplethSvg` (server) and `ChoroplethMap` (MapLibre, lazy), so colours always match.
+- Maps use `choropleth()` for classes and fills, shared by `ChoroplethSvg` (static server SVG, home teaser), `ChoroplethInteractive` (the default map) and `ChoroplethMap` (MapLibre, lazy), so colours always match.
+- The interactive map never ships d3-geo or TopoJSON: `projectShapes()` (`map-shapes.ts`) projects boundaries to SVG paths on the server, and `lib/map-view.ts` sends every year of values for the level, so the year slider and play button recolour on the client. Level changes (`l`) re-render on the server. The raw topology is sent only when `features.basemap` is on, for MapLibre.
+- `MapExplorer` (`apps/portal/components/map`) is both the `/map` page (`layout="overlay"`) and the indicator page map view (`layout="stacked"`, loaded through `MapExplorerLazy`). Year, list view and selection are client state; `y` and `v=table` sync to the URL only on `/map`. Region breakdowns are hidden when an area has none (the mock has national breakdowns only).
 - MapLibre's worker isn't bundled: `@onn/charts` `build` copies it to `apps/*/public/vendor/maplibre`. Pass `workerUrl` with the basePath in the admin app.
 - `packages/ui/base.css` has `@source "../charts"`; without it, chart classes aren't generated in the apps.
 - `packages/ui` and `packages/charts` stay free of next-intl: components take translated labels as props.
@@ -151,7 +153,7 @@ WCAG 2.2 AA: one h1 per page, skip link, `--onn-focus` on every interactive elem
 
 Trust measured downloads over the build table: at Phase 3 `next build` reported 115 KB for a home page that really downloaded 159 KB.
 
-Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. At Phase 5b: home 153 KB, `/data` profile 171 KB, indicator page 217 KB before ECharts (417 KB once the chart hydrates). Third-party code measured with esbuild:
+Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. At Phase 5c: home 154 KB, `/data` profile 172 KB, indicator page 221 KB before ECharts (421 KB once the chart hydrates), `/map` 192 KB on first load and 217 KB after opening a panel and the list view (map budget 320 KB). Third-party code measured with esbuild:
 
 | Code                                                            | Gzipped |
 | --------------------------------------------------------------- | ------- |
@@ -166,6 +168,8 @@ So the indicator budget (230 KB with ECharts) and map budget (320 KB with MapLib
 
 - Don't use a route group with a client layout (a `(data)/layout.tsx`). Next merges its client code into the parent layout, so it reaches every page. Each selector route has a one-line `layout.tsx` exporting `DataShell` instead.
 - Use `Link` from `@/i18n/navigation`, which turns prefetch off.
+- A client component imported by a page ships with that page even when it isn't rendered for the current URL. For a view that appears only sometimes (the indicator page map view), import it through a small `"use client"` wrapper that calls `next/dynamic`; it still server-renders.
+- Client islands that need extra message namespaces wrap themselves in `ClientMessages` (`components/shell/client-messages.tsx`). It repeats the shared `CLIENT_NAMESPACES` because a nested provider replaces its parent's messages.
 - Load anything opened on demand with `next/dynamic`, mounted on first use: the palette (cmdk, TanStack Query), mobile menu and selector sheet (Radix Dialog).
 - `Combobox` and `Toast` are hand-built with no dependencies, because `cmdk` isn't the APG pattern §6 asks for and both load on data routes.
 
@@ -196,12 +200,12 @@ These resolve contradictions and gaps in the brief. Follow them over the brief's
 - **At risk pill:** `#B26A00` is 4.24:1 on white, so use it as the background or border with `--onn-ink` text.
 - **Contract and config gaps:** add what the brief's screens need but its types omit (`fallback`, `Pillar` description, indicator synonyms, source and international fields on summaries, catalogue filters, `latest` status, sparkline data, `/home`, `/index` and `/targets` responses, multi-year benchmark, admin types, plus config keys for data protection law and authority, social links and SSO name). Record each one as a contract change for the backend team.
 - **Chart budget:** the user chose to keep ECharts. First-load JS is measured up to when the page is usable; the server SVG is on screen before ECharts loads near the viewport. Never import ECharts into a page's initial bundle.
-- **Map:** the user chose an interactive SVG map by default (d3-geo, the same SVG as the no-JS view). MapLibre loads only when `features.basemap` is on.
+- **Map:** the user chose an interactive SVG map by default (d3-geo, the same SVG as the no-JS view). MapLibre loads only when `features.basemap` is on, behind a "Show basemap" toggle with OSM raster tiles; check the OSM tile usage policy, or set a tile provider, before enabling it in production. The selected outline gets a light halo because the darkest class shares the `--onn-primary-ink` colour. Classification and "Show labels" aren't in the URL, because §4.4 lists no parameter for them.
 - **Home stays light:** sections are Server Components, the hero selector has no URL state, benchmark bars are HTML and thumbnails are server SVG. Home has about 24 KB of budget left after the Phase 3 shell.
 - **Admin routing:** serve admin under `/admin` with Next.js multi-zones, with its locale in a cookie rather than the path.
 - **Admin role access:** the brief doesn't say which role sees which section, so `apps/admin/lib/sections.ts` holds an assumed mapping that the user should confirm.
 - **Lite mode:** on first visit use the `Save-Data` request header, then the cookie. `navigator.connection` and Background Sync aren't available in WebKit, so queued forms also retry on page load.
 - **Wolof formatting:** set a tested fallback locale for numbers and dates in case `Intl` data for `wo` is missing.
 - **Unspecified routes:** `catalog.jsonld` and the RSS feed get minimal definitions when their pages are built. `/embed/chart` takes the indicator page URL state (`i` plus `a c y d u`) and renders one chart with a link back.
-- **Indicator page state:** toolbar changes (`u`, `d`, `y`) and the selector go through nuqs with `shallow: false`, so the server re-renders the page; `startTransition` keeps the old content under a progress line. View tabs are plain links so they work without JS. The disaggregated view drops the comparison series. The table puts the latest period first at every width (the brief asks for it on mobile only). The map view is a static adm1 SVG until the map page is built, then it should reuse that component.
+- **Indicator page state:** toolbar changes (`u`, `d`, `y`) and the selector go through nuqs with `shallow: false`, so the server re-renders the page; `startTransition` keeps the old content under a progress line. View tabs are plain links so they work without JS. The disaggregated view drops the comparison series. The table puts the latest period first at every width (the brief asks for it on mobile only). The map view reuses the map page explorer.
 - **Missing assets:** official boundaries, logos, brand colours, reviewed Wolof strings and TGO config use visibly marked placeholders until supplied.
