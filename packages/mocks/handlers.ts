@@ -1,7 +1,9 @@
 import type {
   Area,
   ExportJob,
+  ExportRequest,
   Indicator,
+  IndicatorSummary,
   LatestValue,
   Observation,
   PeerRow,
@@ -136,7 +138,15 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
   const { locales, defaultLocale, iso3 } = data.meta;
   const [minLatency, maxLatency] = options.latency ?? [150, 600];
   const localise = createLocaliser(locales, defaultLocale);
-  const exportJobs = new Map<string, number>();
+  const exportJobs = new Map<
+    string,
+    { polls: number; resource: string; params: Record<string, string>; locale: string }
+  >();
+  const catalogueCsv = (params: Record<string, string>, locale: string) =>
+    catalogueRows(
+      data.indicators.map((seed) => localise<IndicatorSummary>(seed, locale)),
+      params,
+    );
 
   const byIndicatorArea = new Map<string, Observation[]>();
   for (const row of data.observations) {
@@ -601,29 +611,92 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
 
     route("post", "/api-keys", () => HttpResponse.json({ ok: true }, { status: 201 })),
 
-    route("post", "/exports", () => {
+    route("post", "/exports", async ({ request, locale }) => {
       const jobId = String(exportJobs.size + 1);
-      exportJobs.set(jobId, 0);
+      const input = (await request.json().catch(() => ({}))) as Partial<ExportRequest>;
+      exportJobs.set(jobId, {
+        polls: 0,
+        resource: input.resource ?? "",
+        params: input.params ?? {},
+        locale,
+      });
       return HttpResponse.json({ jobId }, { status: 202 });
     }),
 
     route("get", "/exports/:jobId", ({ params }) => {
       const jobId = params.jobId as string;
-      const polls = exportJobs.get(jobId);
-      if (polls === undefined) return notFound(`Export job ${jobId}`);
-      exportJobs.set(jobId, polls + 1);
+      const entry = exportJobs.get(jobId);
+      if (!entry) return notFound(`Export job ${jobId}`);
+      entry.polls += 1;
       const job: ExportJob =
-        polls + 1 >= POLLS_UNTIL_DONE
+        entry.polls >= POLLS_UNTIL_DONE
           ? { status: "done", url: `/api/v1/exports/${jobId}/file` }
           : { status: "running" };
       return HttpResponse.json(job);
     }),
 
-    route(
-      "get",
-      "/exports/:jobId/file",
-      () =>
-        new HttpResponse("%PDF-1.4\n%%EOF\n", { headers: { "Content-Type": "application/pdf" } }),
-    ),
+    route("get", "/exports/:jobId/file", ({ params }) => {
+      const entry = exportJobs.get(params.jobId as string);
+      // The mock can't build XLSX, so a catalogue export comes back as CSV with the same rows and
+      // columns. Other exports are an empty PDF.
+      if (entry?.resource === "catalogue") {
+        return new HttpResponse(catalogueCsv(entry.params, entry.locale), {
+          headers: {
+            "Content-Type": "text/csv; charset=utf-8",
+            "Content-Disposition": 'attachment; filename="onn-catalogue.csv"',
+          },
+        });
+      }
+      return new HttpResponse("%PDF-1.4\n%%EOF\n", {
+        headers: { "Content-Type": "application/pdf" },
+      });
+    }),
   ];
+}
+
+const csvCell = (value: string) =>
+  /[",\n]/.test(value) ? `"${value.replaceAll('"', '""')}"` : value;
+
+/** Catalogue export rows, filtered by the same facets and columns as the page (§5.8). */
+function catalogueRows(indicators: IndicatorSummary[], params: Record<string, string>) {
+  const list = (key: string) => (params[key] ? params[key].split(",") : []);
+  const rows = indicators
+    .map((item) => ({
+      code: item.code,
+      name: item.name,
+      pillar: item.pillar,
+      unit: item.unit,
+      periodicity: item.periodicity,
+      source: item.source.org,
+      intl: item.intlRefs.map((ref) => `${ref.org}: ${ref.code}`).join("; "),
+      sub: item.geoLevels.some((level) => level !== "national") ? "yes" : "no",
+      updated: item.lastUpdated,
+      status: item.status,
+    }))
+    .filter((row) =>
+      (["pillar", "source", "periodicity", "status", "sub"] as const).every(
+        (key) => !list(key).length || list(key).includes(row[key]),
+      ),
+    )
+    .filter((row) => matchesText([row.code, row.name], params.q ?? null));
+  type Row = (typeof rows)[number];
+  const all = [
+    "code",
+    "name",
+    "pillar",
+    "unit",
+    "periodicity",
+    "source",
+    "intl",
+    "sub",
+    "updated",
+    "status",
+  ];
+  const columns = (list("columns").length ? list("columns") : all).filter(
+    (column): column is keyof Row => all.includes(column),
+  );
+  return [
+    columns.join(","),
+    ...rows.map((row) => columns.map((column) => csvCell(row[column])).join(",")),
+  ].join("\n");
 }

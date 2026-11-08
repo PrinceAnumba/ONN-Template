@@ -99,7 +99,14 @@ export const api = {
     get<Dashboard>(`/dashboards/${code(slug)}`, ctx),
   publications: (
     ctx: RequestContext,
-    query: { type?: string; year?: string; pillar?: string; q?: string; page?: number } = {},
+    query: {
+      type?: string;
+      year?: string;
+      pillar?: string;
+      q?: string;
+      page?: number;
+      pageSize?: number;
+    } = {},
   ) => get<Page<Publication>>("/publications", ctx, query),
   publication: (ctx: RequestContext, slug: string) =>
     get<Publication>(`/publications/${code(slug)}`, ctx),

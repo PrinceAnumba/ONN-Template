@@ -29,6 +29,8 @@ export interface DataTableColumn<T> {
   numeric?: boolean;
   sortable?: boolean;
   width?: number;
+  /** Keeps the column from shrinking below this width; the table scrolls instead. */
+  minWidth?: number;
 }
 
 export interface DataTableProps<T> {
@@ -84,7 +86,7 @@ export function DataTable<T>({
           const value = info.getValue<string | number | undefined>();
           return value === undefined ? EMPTY_VALUE : value;
         },
-        meta: { numeric: column.numeric },
+        meta: { numeric: column.numeric, minWidth: column.minWidth },
       })),
     [columns],
   );
@@ -125,7 +127,8 @@ export function DataTable<T>({
         tabIndex={0}
         role="region"
         aria-label={caption}
-        className="overflow-auto rounded-lg border"
+        // relative: sr-only text in cells is absolutely positioned and would escape the clip.
+        className="relative overflow-auto rounded-lg border"
         style={{ maxHeight }}
       >
         <table className="w-full border-separate border-spacing-0 text-sm">
@@ -147,7 +150,10 @@ export function DataTable<T>({
                             ? "descending"
                             : undefined
                       }
-                      style={{ width: header.getSize() }}
+                      style={{
+                        width: header.getSize(),
+                        minWidth: (header.column.columnDef.meta as { minWidth?: number })?.minWidth,
+                      }}
                       className={cn(
                         "bg-surface-2 relative border-b px-3 py-2 font-semibold whitespace-nowrap",
                         numeric ? "text-end" : "text-start",
@@ -222,7 +228,11 @@ export function DataTable<T>({
                 <tr key={row.id} className="hover:bg-surface-2" style={{ height: ROW_HEIGHT }}>
                   {row.getVisibleCells().map((cell, index) => {
                     const numeric = isNumeric(cell.column.columnDef.meta);
-                    const content = flexRender(cell.column.columnDef.cell, cell.getContext());
+                    // Called directly: flexRender would mount the inline cell function as a
+                    // component, so every new `columns` array remounted the cells and lost focus.
+                    const render = cell.column.columnDef.cell;
+                    const content =
+                      typeof render === "function" ? render(cell.getContext()) : render;
                     return index === 0 ? (
                       <th
                         key={cell.id}

@@ -5,7 +5,11 @@
     "skipToContent": "Aller au contenu",
     "reset": "Réinitialiser",
     "apply": "Appliquer",
-    "invalidLink": "Certains filtres de ce lien ne sont plus disponibles."
+    "invalidLink": "Certains filtres de ce lien ne sont plus disponibles.",
+    "pagination": "Pages",
+    "previous": "Précédent",
+    "next": "Suivant",
+    "pageN": "Page {page}"
   },
   "Nav": {
     "data": "Données",
@@ -521,5 +525,86 @@
     "total": "Total",
     "copyUrl": "Copier l’URL de l’API",
     "copyCode": "Copier le code {language}"
+  },
+  "Catalogue": {
+    "intro": "Tous les indicateurs publiés ou prévus par l'observatoire, avec leur source et leur statut. Les indicateurs publiés ouvrent leur page ; les autres affichent leurs métadonnées.",
+    "error": "Le catalogue n'a pas pu être chargé. Réessayez dans un instant.",
+    "search": "Rechercher dans le catalogue",
+    "searchPlaceholder": "Code, nom ou mot-clé",
+    "filters": "Filtres",
+    "filtersCount": "Filtres ({count})",
+    "facets": {
+      "pillar": "Pilier",
+      "source": "Source",
+      "periodicity": "Périodicité",
+      "status": "Statut",
+      "sub": "Infranational"
+    },
+    "columns": {
+      "code": "Code",
+      "name": "Indicateur",
+      "pillar": "Pilier",
+      "unit": "Unité",
+      "periodicity": "Périodicité",
+      "source": "Source",
+      "intl": "Équivalent international",
+      "sub": "Infranational",
+      "updated": "Dernière mise à jour",
+      "status": "Statut"
+    },
+    "columnChooser": "Colonnes",
+    "results": "{count, plural, =0 {Aucun indicateur} one {# indicateur} other {# indicateurs}}",
+    "clearAll": "Tout effacer",
+    "apply": "Appliquer les filtres",
+    "caption": "Catalogue des indicateurs",
+    "empty": "Aucun indicateur ne correspond à ces filtres.",
+    "sortBy": "Trier par {column}",
+    "exportXlsx": "Exporter en XLSX",
+    "openMetadata": "Ouvrir les métadonnées de {name}",
+    "status": {
+      "published": "Publié",
+      "in_collection": "En collecte",
+      "planned": "Prévu"
+    },
+    "sub": {
+      "yes": "Oui",
+      "no": "Non"
+    },
+    "exportPreparing": "Préparation du tableur…",
+    "exportReady": "Votre tableur est prêt.",
+    "exportFailed": "Le tableur n'a pas pu être préparé. Réessayez.",
+    "exportTimeout": "Le tableur prend plus de temps que prévu. Réessayez dans une minute."
+  },
+  "Publications": {
+    "intro": "Rapports, études et notes méthodologiques de l'observatoire.",
+    "filters": "Filtrer les publications",
+    "type": "Type",
+    "year": "Année",
+    "pillar": "Pilier",
+    "any": "Tous",
+    "apply": "Appliquer les filtres",
+    "results": "{count, plural, =0 {Aucune publication} one {# publication} other {# publications}}",
+    "empty": "Aucune publication ne correspond à ces filtres.",
+    "clearFilters": "Effacer les filtres",
+    "error": "Les publications n'ont pas pu être chargées. Réessayez dans un instant.",
+    "types": {
+      "quarterly": "Trimestriel",
+      "annual": "Rapport annuel",
+      "study": "Étude",
+      "method": "Méthodologie"
+    },
+    "verified": "Signature vérifiée",
+    "verifiedHint": "Le PDF porte la signature numérique de l'observatoire.",
+    "download": "Télécharger le PDF ({size})",
+    "openPdf": "Ouvrir le PDF",
+    "preview": "Aperçu du PDF",
+    "previewTitle": "{title} (PDF)",
+    "citation": "Citer cette publication",
+    "citationText": "{publisher} ({year}). {title}. {site}. {url}",
+    "copyCitation": "Copier la citation",
+    "copied": "Citation copiée.",
+    "copyFailed": "La copie a échoué. Sélectionnez le texte pour le copier.",
+    "back": "Toutes les publications",
+    "published": "Publié le {date}"
   }
 }

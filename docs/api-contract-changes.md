@@ -28,6 +28,8 @@ Changes to the contract in `onn-frontend-prompt.md` §3, for the backend team. `
 | `GET /indicators` | `area` (latest values for that area) | §5.2 area profile |
 | `POST /exports` | `resource: "profile"`, `params.area` | §5.2 "Download profile (PDF)" |
 | `POST /exports` | `resource: "dashboard"`, `params.slug`, formats `pdf` and `pptx` | §5.5 dashboard Export menu |
+| `POST /exports` | `resource: "catalogue"`, format `xlsx`, `params` `q`, `pillar`, `source` (organisation name), `periodicity`, `status`, `sub` (`yes`/`no`) as comma lists, and `columns` | §5.8 catalogue "Export XLSX" (the mock returns CSV) |
+| `GET /publications` | `pageSize` | §5.9 12 cards per page |
 
 ## Values added
 

@@ -5,7 +5,11 @@
     "skipToContent": "Skip to content",
     "reset": "Reset",
     "apply": "Apply",
-    "invalidLink": "Some filters in this link are no longer available."
+    "invalidLink": "Some filters in this link are no longer available.",
+    "pagination": "Pages",
+    "previous": "Previous",
+    "next": "Next",
+    "pageN": "Page {page}"
   },
   "Nav": {
     "data": "Data",
@@ -521,5 +525,86 @@
     "total": "Total",
     "copyUrl": "Copy the API URL",
     "copyCode": "Copy the {language} code"
+  },
+  "Catalogue": {
+    "intro": "Every indicator the observatory publishes or plans, with its source and status. Published indicators open their page; the others show their metadata.",
+    "error": "The catalogue couldn't load. Try again in a moment.",
+    "search": "Search the catalogue",
+    "searchPlaceholder": "Code, name or keyword",
+    "filters": "Filters",
+    "filtersCount": "Filters ({count})",
+    "facets": {
+      "pillar": "Pillar",
+      "source": "Source",
+      "periodicity": "Periodicity",
+      "status": "Status",
+      "sub": "Sub-national"
+    },
+    "columns": {
+      "code": "Code",
+      "name": "Indicator",
+      "pillar": "Pillar",
+      "unit": "Unit",
+      "periodicity": "Periodicity",
+      "source": "Source",
+      "intl": "International equivalent",
+      "sub": "Sub-national",
+      "updated": "Last update",
+      "status": "Status"
+    },
+    "columnChooser": "Columns",
+    "results": "{count, plural, =0 {No indicators} one {# indicator} other {# indicators}}",
+    "clearAll": "Clear all",
+    "apply": "Apply filters",
+    "caption": "Indicator catalogue",
+    "empty": "No indicators match these filters.",
+    "sortBy": "Sort by {column}",
+    "exportXlsx": "Export XLSX",
+    "openMetadata": "Open the metadata for {name}",
+    "status": {
+      "published": "Published",
+      "in_collection": "In collection",
+      "planned": "Planned"
+    },
+    "sub": {
+      "yes": "Yes",
+      "no": "No"
+    },
+    "exportPreparing": "Preparing the spreadsheet…",
+    "exportReady": "Your spreadsheet is ready.",
+    "exportFailed": "The spreadsheet couldn't be prepared. Try again.",
+    "exportTimeout": "The spreadsheet is taking longer than expected. Try again in a minute."
+  },
+  "Publications": {
+    "intro": "Reports, studies and methodology notes from the observatory.",
+    "filters": "Filter publications",
+    "type": "Type",
+    "year": "Year",
+    "pillar": "Pillar",
+    "any": "All",
+    "apply": "Apply filters",
+    "results": "{count, plural, =0 {No publications} one {# publication} other {# publications}}",
+    "empty": "No publications match these filters.",
+    "clearFilters": "Clear the filters",
+    "error": "The publications couldn't load. Try again in a moment.",
+    "types": {
+      "quarterly": "Quarterly",
+      "annual": "Annual report",
+      "study": "Study",
+      "method": "Methodology"
+    },
+    "verified": "Verified signature",
+    "verifiedHint": "The PDF carries the observatory's digital signature.",
+    "download": "Download PDF ({size})",
+    "openPdf": "Open PDF",
+    "preview": "PDF preview",
+    "previewTitle": "{title} (PDF)",
+    "citation": "Cite this publication",
+    "citationText": "{publisher} ({year}). {title}. {site}. {url}",
+    "copyCitation": "Copy citation",
+    "copied": "Citation copied.",
+    "copyFailed": "Couldn't copy. Select the text and copy it instead.",
+    "back": "All publications",
+    "published": "Published {date}"
   }
 }

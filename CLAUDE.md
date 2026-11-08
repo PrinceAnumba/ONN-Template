@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Phase 5 has built home, the data explorer (area profile), the indicator page with its `/embed/chart` view, the map, dashboards with presentation mode, benchmark and the data query tool. The other public pages and the admin screens are still placeholders.
+Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Phase 5 has built home, the data explorer (area profile), the indicator page with its `/embed/chart` view, the map, dashboards with presentation mode, benchmark, the data query tool, the indicator catalogue and publications. The other public pages and the admin screens are still placeholders.
 
 Sections below describe the system the brief specifies, so parts of it don't exist yet. As each phase lands, check this file against the code and replace anything that has drifted.
 
@@ -141,6 +141,8 @@ WCAG 2.2 AA: one h1 per page, skip link, `--onn-focus` on every interactive elem
 - Dashboards: `lib/dashboard.ts` turns each widget into plain data (chart spec, KPI or target props, map shapes, table rows) and catches each failure as an error model. `WidgetShell` (`packages/ui`) gives every widget its title, ⋮ menu and "View data" table; charts inside use `Chart` with `bare`, which drops the frame's own header. Widgets without their own area or comparison use the selector's `a` and `c`.
 - Benchmark: peer group tabs are links that set `c=peer:GROUP` (the default group stays out of the URL), and the focus is always the configured country. The rank slope chart is a `LineSpec` with `rank: true` (inverted axis from 1, whole steps).
 - Data query: the builder is client state until "Apply filters" pushes `i`, `a` (a comma list on this page only) and `y`; the server then renders the first 100 rows, so the preview works without JavaScript and isn't virtualised (`DataTable` virtualises above 200 rows). The API URL and snippets fall back to the request origin when `NEXT_PUBLIC_SITE_URL` is unset, so they stay absolute. `DataDownloadMenu` is shared with the indicator toolbar.
+- Catalogue: the page sends every indicator once and filters on the client with `lib/catalogue.ts`, which the server also uses to read the URL, so links and the no-JS form (repeated keys, `pillar=A&pillar=B`) give the same rows. The client writes comma lists back with `history.replaceState`; facets aren't in §4.4, so they use their own names (`q pillar source periodicity status sub`). Indicators that aren't published open a read-only `MetadataDrawer` whose metadata ships with the page. Hidden columns are a per-viewer `localStorage` choice. "Export XLSX" is an export job (`resource: "catalogue"`).
+- Publications: filters are a GET form (`FilterForm`) that works without JS; with JS any change navigates and empty fields stay out of the URL. A page past the end shows the last page. `Pagination` (`packages/ui`) is server-safe and takes the app's `Link` as `linkAs`. The PDF preview is a lazy `<iframe>` from `md` up; phones get "Open PDF". Citation URLs use `siteOrigin()` (`lib/origin.ts`).
 - Presentation mode loads on demand and redraws charts with `buildOption(..., { dark: true })`. The slide is `?p=` (1-based). `PresentButton` calls `requestFullscreen` inside the click handler, because browsers refuse it later; a `?p=` link opens the overlay without fullscreen.
 - `packages/ui/base.css` has `@source "../charts"`; without it, chart classes aren't generated in the apps.
 - `packages/ui` and `packages/charts` stay free of next-intl: components take translated labels as props.
@@ -153,13 +155,14 @@ WCAG 2.2 AA: one h1 per page, skip link, `--onn-focus` on every interactive elem
 - Anything with `position: absolute` (including `sr-only` text) inside a horizontal scroller needs a positioned ancestor inside the scroller, or it escapes the clip and widens the page; phones then zoom out. KpiCard is `relative` for this.
 - Never put `sr-only` on a `<table>`: tables size to their cells, so the clipped table still widens the page on mobile. Put `sr-only` on a wrapping `div` (as `ChartFrame` does).
 - Grid children default to `min-width: auto`, so a wide table or chart stretches its column; dashboard widgets are `min-w-0`.
+- `DataTable` calls each column's `cell` function directly. Through `flexRender` it was mounted as a component, so a new `columns` array remounted every cell and a drawer opened from a cell couldn't return focus. Its scroll region is `relative` for the `sr-only` reason above.
 - An open `listbox` must contain options; put empty-state text outside it in a `role="status"`.
 
 ## Keeping bundles small
 
 Trust measured downloads over the build table: at Phase 3 `next build` reported 115 KB for a home page that really downloaded 159 KB.
 
-Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. At Phase 5c: home 154 KB, `/data` profile 172 KB, indicator page 221 KB before ECharts (421 KB once the chart hydrates), `/map` 192 KB on first load and 217 KB after opening a panel and the list view (map budget 320 KB). At Phase 5d: dashboard pages 209 KB first load; home 156 KB. At Phase 5e: benchmark 181 KB, query 200 KB. Third-party code measured with esbuild:
+Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. At Phase 5c: home 154 KB, `/data` profile 172 KB, indicator page 221 KB before ECharts (421 KB once the chart hydrates), `/map` 192 KB on first load and 217 KB after opening a panel and the list view (map budget 320 KB). At Phase 5d: dashboard pages 209 KB first load; home 156 KB. At Phase 5e: benchmark 181 KB, query 200 KB. At Phase 5f: catalogue 190 KB, publications list and detail 152 KB. Third-party code measured with esbuild:
 
 | Code                                                            | Gzipped |
 | --------------------------------------------------------------- | ------- |

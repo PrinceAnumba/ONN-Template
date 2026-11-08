@@ -319,6 +319,23 @@ describe("portal endpoints", () => {
     expect(done.status).toBe("done");
     expect((await call(done.url.replace("/api/v1", ""))).status).toBe(200);
   });
+
+  it("a catalogue export returns the filtered rows and chosen columns", async () => {
+    const body = JSON.stringify({
+      format: "xlsx",
+      resource: "catalogue",
+      params: { pillar: "CONN", status: "published", columns: "code,status" },
+    });
+    const created = await call("/exports", "en", { method: "POST", body });
+    const { jobId } = (await created.json()) as { jobId: string };
+    await get(`/exports/${jobId}`);
+    const done = await get<{ url: string }>(`/exports/${jobId}`);
+    const csv = await (await call(done.url.replace("/api/v1", ""))).text();
+    const [header, ...rows] = csv.split("\n");
+    expect(header).toBe("code,status");
+    expect(rows.length).toBeGreaterThan(0);
+    expect(rows.every((row) => row.startsWith("CONN.") && row.endsWith(",published"))).toBe(true);
+  });
 });
 
 describe("mock behaviour", () => {

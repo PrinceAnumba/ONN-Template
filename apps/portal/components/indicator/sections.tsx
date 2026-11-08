@@ -22,6 +22,7 @@ import { MapExplorerLazy } from "@/components/map/map-explorer-lazy";
 import { ClientMessages } from "@/components/shell/client-messages";
 import { initialYear } from "@/lib/map";
 import { loadMapData } from "@/lib/map-view";
+import { metadataProps } from "@/lib/metadata";
 import { FeedbackWidget } from "./feedback-widget";
 import { IndicatorTable } from "./indicator-table";
 import { MetadataButton } from "./metadata-button";
@@ -46,31 +47,8 @@ export async function IndicatorHeader({ view }: { view: IndicatorView }) {
   const changeText = latest && formatValue(Math.abs(latest.changePct ?? 0), "pct", tag);
   const Arrow = change && ARROW[change.direction];
 
-  const metadata = {
-    title: t("metadata.title"),
-    close: (await getTranslations("Common"))("close"),
-    code: t("metadata.code"),
-    definition: t("metadata.definition"),
-    computation: t("metadata.computation"),
-    unit: t("metadata.unit"),
-    periodicity: t("metadata.periodicity"),
-    source: t("metadata.source"),
-    intlRefs: t("metadata.intlRefs"),
-    disaggregations: t("metadata.disaggregations"),
-    coverage: t("metadata.coverage"),
-    quality: t("metadata.quality"),
-    versions: t("metadata.versions"),
-    licence: t("metadata.licence"),
-    reportIssue: t("metadata.reportIssue"),
-  };
-  const display = {
-    periodicity: t(`periodicity.${indicator.periodicity}`),
-    method: t(`method.${indicator.source.method}`),
-    coverage: t("coverageValue", { ...indicator.coverage }),
-    disaggregations: indicator.disaggregations
-      .map((key) => (t.has(`dims.${key}`) ? t(`dims.${key}` as "dims.sex") : key))
-      .join(SEPARATOR),
-  };
+  const { labels: metadata, display: displayOf } = await metadataProps();
+  const display = displayOf(indicator);
   const chips = [view.unit.label, display.periodicity, indicator.source.org];
 
   return (

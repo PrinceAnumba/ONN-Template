@@ -3,7 +3,6 @@ import type { Area, IndicatorSummary, Observation, Pillar } from "@onn/api-clien
 import { country } from "@onn/config";
 import { formatPeriod, formatValue } from "@onn/ui/format";
 import type { Metadata } from "next";
-import { headers } from "next/headers";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { SearchParams } from "nuqs/server";
 import { DataDownloadMenu } from "@/components/data-download-menu";
@@ -13,15 +12,12 @@ import { QueryPreview, type PreviewRow } from "@/components/query/query-preview"
 import { ClientMessages } from "@/components/shell/client-messages";
 import { tagFor } from "@/lib/format";
 import { kindOf } from "@/lib/kpi";
+import { siteOrigin } from "@/lib/origin";
 import { apiUrl, isComplete, parseQuery, PREVIEW_ROWS, snippets } from "@/lib/query";
 
 /** Absolute base for the API URL and snippets, so they work when pasted into a terminal. */
 async function apiBase() {
-  const configured = process.env.NEXT_PUBLIC_API_BASE || process.env.NEXT_PUBLIC_SITE_URL;
-  if (configured) return configured.replace(/\/$/, "");
-  const head = await headers();
-  const host = head.get("x-forwarded-host") ?? head.get("host");
-  return host ? `${head.get("x-forwarded-proto") ?? "http"}://${host}` : "";
+  return process.env.NEXT_PUBLIC_API_BASE?.replace(/\/$/, "") || siteOrigin();
 }
 
 export async function generateMetadata(): Promise<Metadata> {
