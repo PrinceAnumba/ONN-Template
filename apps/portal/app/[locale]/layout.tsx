@@ -1,16 +1,12 @@
 import "@onn/ui/base.css";
-import { isMockMode } from "@onn/api-client";
 import { country } from "@onn/config";
 import { pickMessages, type Messages } from "@onn/i18n";
-import { DemoRibbon } from "@onn/ui/components/demo-ribbon";
 import { Toaster } from "@onn/ui/components/toast";
 import type { Metadata } from "next";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getMessages, getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
-import { SiteFooter } from "@/components/shell/site-footer";
-import { SiteHeader } from "@/components/shell/site-header";
 import { routing } from "@/i18n/routing";
 import { sourceSans, sourceSansExt } from "../fonts";
 
@@ -53,16 +49,7 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
             "Footer",
           ])}
         >
-          <a
-            href="#content"
-            className="bg-background sr-only rounded-md p-3 focus:not-sr-only focus:fixed focus:start-2 focus:top-2 focus:z-50"
-          >
-            {t("skipToContent")}
-          </a>
-          {isMockMode && <DemoRibbon label={t("demoData")} />}
-          <SiteHeader />
-          <div className="flex-1">{children}</div>
-          <SiteFooter />
+          {children}
           <Toaster closeLabel={t("close")} />
         </NextIntlClientProvider>
       </body>

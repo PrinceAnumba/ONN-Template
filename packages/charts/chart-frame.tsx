@@ -48,6 +48,8 @@ export interface ChartFrameProps {
   /** No hydration: static SVG and table only (Lite mode). */
   lite?: boolean;
   shareUrl?: string;
+  /** Hide Share when the page already has one for the same view. */
+  showShare?: boolean;
   embedUrl?: string;
   logoUrl?: string;
   fileName?: string;
@@ -118,6 +120,7 @@ export function ChartFrame({
   mobileHeight = 300,
   lite,
   shareUrl,
+  showShare = true,
   embedUrl,
   logoUrl,
   fileName = "chart",
@@ -325,10 +328,12 @@ export function ChartFrame({
                 </>
               )}
             </Menu>
-            <Button variant="ghost" size="sm" onClick={share}>
-              <Share2Icon aria-hidden />
-              {labels.share}
-            </Button>
+            {showShare && (
+              <Button variant="ghost" size="sm" onClick={share}>
+                <Share2Icon aria-hidden />
+                {labels.share}
+              </Button>
+            )}
             {embedUrl && (
               <Button variant="ghost" size="sm" onClick={embed}>
                 <CodeIcon aria-hidden />

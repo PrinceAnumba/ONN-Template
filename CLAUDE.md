@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Public pages and admin screens are still placeholders.
+Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Phase 5 has built home, the data explorer (area profile) and the indicator page with its `/embed/chart` view. The other public pages and the admin screens are still placeholders.
 
 Sections below describe the system the brief specifies, so parts of it don't exist yet. As each phase lands, check this file against the code and replace anything that has drifted.
 
@@ -151,7 +151,7 @@ WCAG 2.2 AA: one h1 per page, skip link, `--onn-focus` on every interactive elem
 
 Trust measured downloads over the build table: at Phase 3 `next build` reported 115 KB for a home page that really downloaded 159 KB.
 
-Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. Third-party code measured with esbuild:
+Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. At Phase 5b: home 153 KB, `/data` profile 171 KB, indicator page 217 KB before ECharts (417 KB once the chart hydrates). Third-party code measured with esbuild:
 
 | Code                                                            | Gzipped |
 | --------------------------------------------------------------- | ------- |
@@ -171,6 +171,7 @@ So the indicator budget (230 KB with ECharts) and map budget (320 KB with MapLib
 
 ## Routing pitfalls
 
+- Site pages live in `app/[locale]/(site)`, whose server layout adds header, footer and skip link. `app/[locale]/embed` sits outside it so embeds have no chrome. A server-only route-group layout is fine; the pitfall below is about client layouts.
 - Indicator codes contain dots (`CONN.4G_POP`), so the middleware matcher must list file extensions, not skip every path with a dot.
 - Radix focuses the first field when a sheet opens, and `Combobox` opens on focus. A sheet containing one must set `onOpenAutoFocus` so the list doesn't cover it.
 - Check new header or top-bar controls against the corner `DemoRibbon`, which reserves inline-end padding there.
@@ -201,5 +202,6 @@ These resolve contradictions and gaps in the brief. Follow them over the brief's
 - **Admin role access:** the brief doesn't say which role sees which section, so `apps/admin/lib/sections.ts` holds an assumed mapping that the user should confirm.
 - **Lite mode:** on first visit use the `Save-Data` request header, then the cookie. `navigator.connection` and Background Sync aren't available in WebKit, so queued forms also retry on page load.
 - **Wolof formatting:** set a tested fallback locale for numbers and dates in case `Intl` data for `wo` is missing.
-- **Unspecified routes:** `/embed/chart`, `catalog.jsonld` and the RSS feed get minimal definitions when their pages are built.
+- **Unspecified routes:** `catalog.jsonld` and the RSS feed get minimal definitions when their pages are built. `/embed/chart` takes the indicator page URL state (`i` plus `a c y d u`) and renders one chart with a link back.
+- **Indicator page state:** toolbar changes (`u`, `d`, `y`) and the selector go through nuqs with `shallow: false`, so the server re-renders the page; `startTransition` keeps the old content under a progress line. View tabs are plain links so they work without JS. The disaggregated view drops the comparison series. The table puts the latest period first at every width (the brief asks for it on mobile only). The map view is a static adm1 SVG until the map page is built, then it should reuse that component.
 - **Missing assets:** official boundaries, logos, brand colours, reviewed Wolof strings and TGO config use visibly marked placeholders until supplied.

@@ -24,6 +24,9 @@ Changes to the contract in `onn-frontend-prompt.md` §3, for the backend team. `
 | `GET /data` | `pageSize` | §5.7 query preview |
 | `GET /areas`, `GET /publications`, `GET /news` | `q` | §4.1 command palette |
 | `GET /series`, `GET /data` | `dims=key:*` | §5.3 one series per category |
+| `GET /data/latest` | `unit` | §5.3 map view in the selected unit variant |
+| `GET /indicators` | `area` (latest values for that area) | §5.2 area profile |
+| `POST /exports` | `resource: "profile"`, `params.area` | §5.2 "Download profile (PDF)" |
 
 ## Values added
 

@@ -9,7 +9,7 @@ import { chartTokens } from "@onn/config/tokens";
 import { country } from "@onn/config";
 import { KpiCard } from "@onn/ui/components/kpi-card";
 import { TargetProgress } from "@onn/ui/components/target-progress";
-import { describeChange, formatPeriod, formatValue, unitIsInline } from "@onn/ui/format";
+import { formatPeriod, formatValue } from "@onn/ui/format";
 import { cn } from "@onn/ui/lib/utils";
 import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
@@ -17,6 +17,7 @@ import type { ReactNode } from "react";
 import { Link } from "@/i18n/navigation";
 import { formatBytes, formatDate, tagFor } from "@/lib/format";
 import { extremes, targetProgress } from "@/lib/home";
+import { hasLatest, kindOf, kpiCardProps } from "@/lib/kpi";
 import { ScrollDots } from "./scroll-dots";
 
 const SEPARATOR = " · ";
@@ -48,9 +49,6 @@ function Section({
   );
 }
 
-const kindOf = (indicator: Pick<IndicatorSummary, "unitVariants">) =>
-  indicator.unitVariants[0]?.code ?? "count";
-
 export async function KeyFigures() {
   const ctx = await context();
   const t = await getTranslations("Home");
@@ -63,10 +61,11 @@ export async function KeyFigures() {
     const byCode = new Map(page.items.map((item) => [item.code, item]));
     const cards = home.featuredIndicators
       .map((code) => byCode.get(code))
-      .filter((item): item is IndicatorSummary => Boolean(item?.latest))
+      .filter((item): item is IndicatorSummary => Boolean(item))
+      .filter(hasLatest)
       .slice(0, 8);
     const latestYear = cards
-      .map((card) => card.latest!.year.slice(0, 4))
+      .map((card) => card.latest.year.slice(0, 4))
       .sort()
       .at(-1);
 
@@ -81,38 +80,13 @@ export async function KeyFigures() {
           id="key-figures"
           className="relative grid gap-3 max-sm:-mx-4 max-sm:flex max-sm:snap-x max-sm:snap-mandatory max-sm:overflow-x-auto max-sm:px-4 max-sm:pb-1 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6"
         >
-          {cards.map((card) => {
-            const latest = card.latest!;
-            const kind = kindOf(card);
-            const change = describeChange(latest.changePct, card.higherIsBetter);
-            const changeText = formatValue(Math.abs(latest.changePct ?? 0), "pct", tag);
-            return (
-              <li key={card.code} className="shrink-0 snap-start max-sm:w-[82%]">
-                <KpiCard
-                  href={`/${ctx.locale}/data/${card.code}`}
-                  label={card.name}
-                  value={formatValue(latest.value, kind, tag, { compact: true })}
-                  unit={unitIsInline(kind) ? undefined : card.unit}
-                  year={formatPeriod(latest.year, tag)}
-                  source={card.source.org}
-                  sparkline={latest.sparkline}
-                  flag={
-                    latest.status === "E" || latest.status === "P"
-                      ? { symbol: latest.status.toLowerCase(), label: t(`flag.${latest.status}`) }
-                      : undefined
-                  }
-                  change={
-                    change && {
-                      text: changeText,
-                      direction: change.direction,
-                      tone: change.tone,
-                      description: t(`change.${change.direction}`, { change: changeText }),
-                    }
-                  }
-                />
-              </li>
-            );
-          })}
+          {cards.map((card) => (
+            <li key={card.code} className="shrink-0 snap-start max-sm:w-[82%]">
+              <KpiCard
+                {...kpiCardProps(card, { tag, href: `/${ctx.locale}/data/${card.code}`, t })}
+              />
+            </li>
+          ))}
         </ul>
         <ScrollDots target="key-figures" count={cards.length} />
       </Section>

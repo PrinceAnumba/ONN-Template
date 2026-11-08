@@ -86,8 +86,10 @@ export const api = {
   data: (ctx: RequestContext, query: DataQuery) => get<Page<Observation>>("/data", ctx, query),
   dataDownload: (ctx: RequestContext, query: DataQuery & { format: string }) =>
     apiFetchRaw("/data", { ...ctx, query }),
-  latest: (ctx: RequestContext, query: { indicator: string; area?: string; level?: string }) =>
-    get<Observation[]>("/data/latest", ctx, query),
+  latest: (
+    ctx: RequestContext,
+    query: { indicator: string; area?: string; level?: string; unit?: string },
+  ) => get<Observation[]>("/data/latest", ctx, query),
   benchmark: (ctx: RequestContext, query: { indicator: string; group: string; year?: string }) =>
     get<Benchmark>("/benchmark", ctx, query),
   index: (ctx: RequestContext, year?: string) => get<IndexScore>("/index", ctx, { year }),

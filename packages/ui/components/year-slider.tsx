@@ -12,6 +12,8 @@ export interface YearSliderProps {
   max: number;
   value: [number, number];
   onValueChange: (value: [number, number]) => void;
+  /** Called when a drag or key press ends, for work too costly to run on every step. */
+  onValueCommit?: (value: [number, number]) => void;
   thumbLabels: [string, string];
   className?: string;
 }
@@ -23,6 +25,7 @@ export function YearSlider({
   max,
   value,
   onValueChange,
+  onValueCommit,
   thumbLabels,
   className,
 }: YearSliderProps) {
@@ -36,7 +39,9 @@ export function YearSlider({
     const delta = event.key === "PageUp" ? BIG_STEP : -BIG_STEP;
     const next: [number, number] = [...value];
     next[index] = Math.min(Math.max(next[index] + delta, min), max);
-    if (next[0] <= next[1]) onValueChange(next);
+    if (next[0] > next[1]) return;
+    onValueChange(next);
+    onValueCommit?.(next);
   };
 
   return (
@@ -49,6 +54,7 @@ export function YearSlider({
         minStepsBetweenThumbs={0}
         value={value}
         onValueChange={(next) => onValueChange([next[0] ?? min, next[1] ?? max])}
+        onValueCommit={(next) => onValueCommit?.([next[0] ?? min, next[1] ?? max])}
         className="relative flex h-11 w-full touch-none items-center select-none"
       >
         <Slider.Track className="bg-border relative h-1.5 grow rounded-full">
