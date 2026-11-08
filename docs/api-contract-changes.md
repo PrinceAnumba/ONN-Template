@@ -33,6 +33,8 @@ Changes to the contract in `onn-frontend-prompt.md` §3, for the backend team. `
 
 `indicator`, `area` on `/series` and `/data` accept comma-separated lists (§5.7). `area` on `/series` also accepts an ISO3 code or `peer:GROUP` (§4.4 comparison), where `peer:GROUP` returns the group median.
 
+`GET /data` also accepts peer economies (ISO3) and `peer:GROUP` in `area`, returning their totals (the group median for a group), so the §5.7 query tool can mix national, sub-national and peer data in one download.
+
 `GET /areas` also returns peer economies (`level: "country"`, `iso3` set) and peer groups (`level: "group"`, code `peer:GROUP`), for the §4.2 comparison field.
 
 ## Response types defined

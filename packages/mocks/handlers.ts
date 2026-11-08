@@ -232,6 +232,36 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
     return { years, rows: commonYear ? rowsFor(commonYear) : [], rowsFor, usable, values };
   };
 
+  /** Observations for a peer economy (ISO3) or group (`peer:GROUP`, the median), as /data rows. */
+  const peerObservations = (
+    code: string,
+    area: string,
+    locale: string,
+  ): Observation[] | undefined => {
+    const indicator = getIndicator(code, locale);
+    const row = (period: string, value: number | null): Observation => ({
+      indicator: code,
+      area,
+      period,
+      dims: {},
+      value,
+      unit: indicator?.unit ?? "",
+      status: value === null ? "M" : "A",
+      source: "ITU DataHub",
+      version: 1,
+    });
+    if (area.startsWith("peer:")) {
+      const group = area.slice("peer:".length);
+      if (!data.peers.members[group] || !data.peers.values[code]) return undefined;
+      const { years, usable, values } = peerRows(code, group, locale);
+      return years.map((period) =>
+        row(period, median(usable(period).map((iso) => values[iso]?.[period] as number))),
+      );
+    }
+    const peer = data.peers.values[code]?.[area];
+    if (!peer || area === iso3) return undefined;
+    return Object.keys(peer).map((period) => row(period, peer[period] ?? null));
+  };
   const route = (method: "get" | "post", path: string, resolver: Resolver) =>
     http[method](`*/api/v1${path}`, async ({ request, params }) => {
       if (maxLatency > 0) {
@@ -399,6 +429,12 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
       const rows: Observation[] = [];
       for (const code of list(q.get("indicator"))) {
         for (const area of areas.length ? areas : [iso3]) {
+          const peer = peerObservations(code, String(area), locale);
+          if (peer) {
+            // Peer data has totals only, in the default unit.
+            if (dimsMatch({})) rows.push(...peer.filter((row) => years(row.period)));
+            continue;
+          }
           for (const raw of byIndicatorArea.get(`${code}|${area}`) ?? []) {
             if (years(raw.period) && dimsMatch(raw.dims)) rows.push(present(raw, locale, unit));
           }

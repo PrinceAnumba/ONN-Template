@@ -222,6 +222,14 @@ describe("portal endpoints", () => {
     expect(page.meta.total).toBe(2 * 2 * 8);
   });
 
+  it("GET /data includes peer economies and group medians", async () => {
+    const page = await get<Page<Observation>>(
+      "/data?indicator=CONN.4G_POP&area=CIV,peer:ECOWAS&year=2024&pageSize=500",
+    );
+    expect(page.items.map((row) => row.area)).toEqual(["CIV", "peer:ECOWAS"]);
+    expect(page.items[1]?.value).toBeGreaterThan(0);
+  });
+
   it("GET /data as CSV", async () => {
     const response = await call("/data?indicator=CONN.4G_POP&area=SEN&format=csv");
     expect(response.headers.get("content-type")).toContain("text/csv");

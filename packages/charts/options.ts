@@ -248,8 +248,12 @@ function buildLine(spec: LineSpec, ctx: BuildContext): EChartsOption {
     },
     yAxis: {
       type: "value",
-      min: startsAtZero(spec.unitKind, allValues) ? 0 : undefined,
-      scale: !startsAtZero(spec.unitKind, allValues),
+      ...(spec.rank
+        ? { inverse: true, min: 1, minInterval: 1 }
+        : {
+            min: startsAtZero(spec.unitKind, allValues) ? 0 : undefined,
+            scale: !startsAtZero(spec.unitKind, allValues),
+          }),
       axisLabel: { color: colors.muted, formatter: (value: number) => fmt.axis(value) },
       splitLine: { lineStyle: { color: colors.line } },
     },
@@ -334,7 +338,12 @@ function buildBar(spec: BarSpec, ctx: BuildContext): EChartsOption {
                 silent: true,
                 symbol: "none",
                 lineStyle: { type: "dashed", color: colors.text, width: 1.5 },
-                label: { formatter: spec.labels.median, color: colors.text },
+                // At the top of the line on horizontal bars, clear of the value axis labels.
+                label: {
+                  formatter: spec.labels.median,
+                  color: colors.text,
+                  position: horizontal ? "start" : "end",
+                },
                 data: [horizontal ? { xAxis: spec.median } : { yAxis: spec.median }],
               }
             : undefined,

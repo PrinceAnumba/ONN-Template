@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Phase 5 has built home, the data explorer (area profile), the indicator page with its `/embed/chart` view, the map, and dashboards with presentation mode. The other public pages and the admin screens are still placeholders.
+Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Phase 5 has built home, the data explorer (area profile), the indicator page with its `/embed/chart` view, the map, dashboards with presentation mode, benchmark and the data query tool. The other public pages and the admin screens are still placeholders.
 
 Sections below describe the system the brief specifies, so parts of it don't exist yet. As each phase lands, check this file against the code and replace anything that has drifted.
 
@@ -139,6 +139,8 @@ WCAG 2.2 AA: one h1 per page, skip link, `--onn-focus` on every interactive elem
 - `MapExplorer` (`apps/portal/components/map`) is both the `/map` page (`layout="overlay"`) and the indicator page map view (`layout="stacked"`, loaded through `MapExplorerLazy`). Year, list view and selection are client state; `y` and `v=table` sync to the URL only on `/map`. Region breakdowns are hidden when an area has none (the mock has national breakdowns only).
 - MapLibre's worker isn't bundled: `@onn/charts` `build` copies it to `apps/*/public/vendor/maplibre`. Pass `workerUrl` with the basePath in the admin app.
 - Dashboards: `lib/dashboard.ts` turns each widget into plain data (chart spec, KPI or target props, map shapes, table rows) and catches each failure as an error model. `WidgetShell` (`packages/ui`) gives every widget its title, ⋮ menu and "View data" table; charts inside use `Chart` with `bare`, which drops the frame's own header. Widgets without their own area or comparison use the selector's `a` and `c`.
+- Benchmark: peer group tabs are links that set `c=peer:GROUP` (the default group stays out of the URL), and the focus is always the configured country. The rank slope chart is a `LineSpec` with `rank: true` (inverted axis from 1, whole steps).
+- Data query: the builder is client state until "Apply filters" pushes `i`, `a` (a comma list on this page only) and `y`; the server then renders the first 100 rows, so the preview works without JavaScript and isn't virtualised (`DataTable` virtualises above 200 rows). The API URL and snippets fall back to the request origin when `NEXT_PUBLIC_SITE_URL` is unset, so they stay absolute. `DataDownloadMenu` is shared with the indicator toolbar.
 - Presentation mode loads on demand and redraws charts with `buildOption(..., { dark: true })`. The slide is `?p=` (1-based). `PresentButton` calls `requestFullscreen` inside the click handler, because browsers refuse it later; a `?p=` link opens the overlay without fullscreen.
 - `packages/ui/base.css` has `@source "../charts"`; without it, chart classes aren't generated in the apps.
 - `packages/ui` and `packages/charts` stay free of next-intl: components take translated labels as props.
@@ -157,7 +159,7 @@ WCAG 2.2 AA: one h1 per page, skip link, `--onn-focus` on every interactive elem
 
 Trust measured downloads over the build table: at Phase 3 `next build` reported 115 KB for a home page that really downloaded 159 KB.
 
-Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. At Phase 5c: home 154 KB, `/data` profile 172 KB, indicator page 221 KB before ECharts (421 KB once the chart hydrates), `/map` 192 KB on first load and 217 KB after opening a panel and the list view (map budget 320 KB). At Phase 5d: dashboard pages 209 KB first load; home 156 KB. Third-party code measured with esbuild:
+Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. At Phase 5c: home 154 KB, `/data` profile 172 KB, indicator page 221 KB before ECharts (421 KB once the chart hydrates), `/map` 192 KB on first load and 217 KB after opening a panel and the list view (map budget 320 KB). At Phase 5d: dashboard pages 209 KB first load; home 156 KB. At Phase 5e: benchmark 181 KB, query 200 KB. Third-party code measured with esbuild:
 
 | Code                                                            | Gzipped |
 | --------------------------------------------------------------- | ------- |

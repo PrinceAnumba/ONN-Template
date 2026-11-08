@@ -27,6 +27,8 @@ export interface LineSeries {
 export interface LineSpec extends BaseSpec {
   kind: "line";
   series: LineSeries[];
+  /** Values are ranks: the axis runs from 1 at the top, in whole steps (benchmark slope chart). */
+  rank?: boolean;
   /** Peer group min–max band, drawn behind the median. */
   band?: { name: string; points: { period: string; min: number; max: number }[] };
   labels: {

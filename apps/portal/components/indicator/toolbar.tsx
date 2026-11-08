@@ -1,16 +1,16 @@
 "use client";
 
-import { api, type DataQuery } from "@onn/api-client";
+import type { DataQuery } from "@onn/api-client";
 import { DisaggregationTabs } from "@onn/ui/components/disaggregation-tabs";
 import { showToast } from "@onn/ui/components/toast";
 import { Button } from "@onn/ui/components/ui/button";
 import { YearSlider } from "@onn/ui/components/year-slider";
 import { cn } from "@onn/ui/lib/utils";
-import { CodeIcon, DownloadIcon, Share2Icon } from "lucide-react";
-import { useLocale } from "next-intl";
+import { CodeIcon, Share2Icon } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import { useQueryStates } from "nuqs";
-import { useEffect, useId, useRef, useState, useTransition } from "react";
+import { useEffect, useId, useState, useTransition } from "react";
+import { DataDownloadMenu } from "@/components/data-download-menu";
 import { Link, usePathname } from "@/i18n/navigation";
 import { yearParam } from "@/lib/indicator";
 import { urlParsers, type VIEWS } from "@/lib/url-state";
@@ -51,15 +51,6 @@ export interface IndicatorToolbarProps {
   labels: ToolbarLabels;
 }
 
-const FORMATS = ["csv", "xlsx", "json"] as const;
-
-function saveBlob(blob: Blob, name: string) {
-  const url = URL.createObjectURL(blob);
-  const link = Object.assign(document.createElement("a"), { href: url, download: name });
-  link.click();
-  URL.revokeObjectURL(url);
-}
-
 /**
  * View, unit, breakdown and years for the indicator page (brief §5.3). Changes go to the URL and
  * re-render on the server; the old content stays visible under a progress line meanwhile (§8).
@@ -78,7 +69,6 @@ export function IndicatorToolbar({
   embedUrl,
   labels,
 }: IndicatorToolbarProps) {
-  const locale = useLocale();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [pending, startTransition] = useTransition();
@@ -87,27 +77,10 @@ export function IndicatorToolbar({
     { history: "push", shallow: false, scroll: false, startTransition },
   );
   const [years, setYears] = useState(range);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [busy, setBusy] = useState<string | null>(null);
-  const menuRef = useRef<HTMLDivElement>(null);
   const unitId = useId();
 
   // A new server render (back button, reset) brings a new range.
   useEffect(() => setYears(range), [range]);
-
-  useEffect(() => {
-    if (!menuOpen) return;
-    const onDown = (event: MouseEvent) => {
-      if (!menuRef.current?.contains(event.target as Node)) setMenuOpen(false);
-    };
-    const onKey = (event: KeyboardEvent) => event.key === "Escape" && setMenuOpen(false);
-    document.addEventListener("mousedown", onDown);
-    document.addEventListener("keydown", onKey);
-    return () => {
-      document.removeEventListener("mousedown", onDown);
-      document.removeEventListener("keydown", onKey);
-    };
-  }, [menuOpen]);
 
   const viewHref = (next: View) => {
     const params = new URLSearchParams(searchParams);
@@ -115,22 +88,6 @@ export function IndicatorToolbar({
     else params.set("v", next);
     const query = params.toString();
     return `${pathname}${query ? `?${query}` : ""}`;
-  };
-
-  const save = async (format: (typeof FORMATS)[number]) => {
-    setMenuOpen(false);
-    setBusy(format);
-    try {
-      const response = await api.dataDownload(
-        { locale },
-        { ...download, format, pageSize: format === "json" ? 500 : undefined },
-      );
-      saveBlob(await response.blob(), `${download.indicator}.${format}`);
-    } catch {
-      showToast(labels.downloadFailed, "error");
-    } finally {
-      setBusy(null);
-    }
   };
 
   const share = async () => {
@@ -240,33 +197,16 @@ export function IndicatorToolbar({
         )}
 
         <div className="ms-auto flex flex-wrap items-center gap-1">
-          <div ref={menuRef} className="relative">
-            <Button
-              variant="ghost"
-              size="md"
-              aria-expanded={menuOpen}
-              loading={busy !== null}
-              onClick={() => setMenuOpen(!menuOpen)}
-            >
-              <DownloadIcon aria-hidden />
-              {labels.downloadData}
-            </Button>
-            {menuOpen && (
-              <ul className="bg-popover absolute end-0 z-30 mt-1 min-w-40 rounded-md border p-1 shadow-md">
-                {FORMATS.map((format) => (
-                  <li key={format}>
-                    <button
-                      type="button"
-                      onClick={() => void save(format)}
-                      className="hover:bg-accent min-h-11 w-full rounded-sm px-3 text-start text-sm"
-                    >
-                      {labels.formats[format]}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <DataDownloadMenu
+            query={download}
+            label={labels.downloadData}
+            failed={labels.downloadFailed}
+            fileName={download.indicator}
+            formats={(["csv", "xlsx", "json"] as const).map((format) => ({
+              format,
+              label: labels.formats[format],
+            }))}
+          />
           <Button variant="ghost" size="md" onClick={() => void share()}>
             <Share2Icon aria-hidden />
             {labels.share}

@@ -71,6 +71,12 @@ describe("line option", () => {
   it("starts the y axis at zero for percentages", () => {
     expect((option.yAxis as { min?: number }).min).toBe(0);
   });
+
+  it("puts rank 1 at the top in whole steps for a rank chart", () => {
+    const axis = buildOption({ ...line, unitKind: "count", rank: true, band: undefined }, ctx)
+      .yAxis as { inverse?: boolean; min?: number; minInterval?: number };
+    expect(axis).toMatchObject({ inverse: true, min: 1, minInterval: 1 });
+  });
 });
 
 describe("startsAtZero", () => {
