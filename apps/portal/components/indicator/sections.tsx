@@ -30,6 +30,8 @@ import type { Area } from "@onn/api-client/types";
 import { FeedbackWidget } from "./feedback-widget";
 import { IndicatorTable } from "./indicator-table";
 import { MetadataButton } from "./metadata-button";
+import { FallbackMark } from "@/components/fallback-mark";
+import { fallbackLang } from "@/lib/localised";
 
 const SEPARATOR = " · ";
 const TONE = { good: "text-positive", bad: "text-negative", neutral: "text-muted-foreground" };
@@ -73,7 +75,10 @@ export async function IndicatorHeader({ view }: { view: IndicatorView }) {
             ))}
           </ol>
         </nav>
-        <h1 className="mt-2">{indicator.name}</h1>
+        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+          <h1 lang={fallbackLang(indicator)}>{indicator.name}</h1>
+          <FallbackMark item={indicator} />
+        </div>
         <ul className="mt-3 flex flex-wrap gap-2 text-sm">
           {chips.map((chip) => (
             <li key={chip} className="rounded-pill border px-3 py-1">
@@ -94,7 +99,9 @@ export async function IndicatorHeader({ view }: { view: IndicatorView }) {
             </li>
           )}
         </ul>
-        <p className="mt-3 line-clamp-2 max-w-prose">{indicator.shortDefinition}</p>
+        <p lang={fallbackLang(indicator)} className="mt-3 line-clamp-2 max-w-prose">
+          {indicator.shortDefinition}
+        </p>
         <div className="mt-3">
           <MetadataButton
             indicator={indicator}

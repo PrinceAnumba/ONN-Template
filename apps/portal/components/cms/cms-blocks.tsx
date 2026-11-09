@@ -21,12 +21,14 @@ export interface CmsBlocksProps {
   lite?: boolean;
   /** Label above an image's description in Lite mode. */
   imageHidden?: string;
+  /** Set when the page fell back to the default language. */
+  lang?: string;
 }
 
 /** CMS blocks (brief §5.9): rich text, image, callout, table and partner grid. */
-export function CmsBlocks({ blocks, tableCaption, lite, imageHidden }: CmsBlocksProps) {
+export function CmsBlocks({ blocks, tableCaption, lite, imageHidden, lang }: CmsBlocksProps) {
   return (
-    <div className="flex flex-col gap-6">
+    <div lang={lang} className="flex flex-col gap-6">
       {blocks.map((block, i) => {
         switch (block.type) {
           case "richText":

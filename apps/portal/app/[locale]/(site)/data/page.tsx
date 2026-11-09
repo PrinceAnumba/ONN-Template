@@ -15,6 +15,8 @@ import { tagFor } from "@/lib/format";
 import { hasLatest, kindOf, kpiCardProps } from "@/lib/kpi";
 import { getSelectorData } from "@/lib/selector-data";
 import { urlParsers } from "@/lib/url-state";
+import { FallbackMark } from "@/components/fallback-mark";
+import { fallbackLang } from "@/lib/localised";
 
 const loadParams = createLoader({ a: urlParsers.a });
 const MIN_CARDS = 4;
@@ -114,8 +116,15 @@ export default async function DataPage({ searchParams }: { searchParams: Promise
                 <PillarIcon name={pillar.icon} className="size-6" />
               </span>
               <div>
-                <h2 id={`pillar-${pillar.code}`}>{pillar.name}</h2>
-                <p className="text-muted-foreground mt-1 max-w-prose">{pillar.description}</p>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+                  <h2 id={`pillar-${pillar.code}`} lang={fallbackLang(pillar)}>
+                    {pillar.name}
+                  </h2>
+                  <FallbackMark item={pillar} />
+                </div>
+                <p lang={fallbackLang(pillar)} className="text-muted-foreground mt-1 max-w-prose">
+                  {pillar.description}
+                </p>
               </div>
             </div>
             {cards.length ? (

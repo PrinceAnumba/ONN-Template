@@ -8,6 +8,8 @@ import { cache } from "react";
 import { Link } from "@/i18n/navigation";
 import { isLite } from "@/lib/lite";
 import { CmsBlocks } from "./cms-blocks";
+import { FallbackMark } from "@/components/fallback-mark";
+import { fallbackLang } from "@/lib/localised";
 
 export const getCmsPage = cache(async (slug: string, locale: string) =>
   api.page({ locale, next: serverCache(`page:${slug}`) }, slug).catch((error: unknown) => {
@@ -77,11 +79,15 @@ export async function CmsPageView({
   ]);
   return (
     <main id="content" className="onn-container py-8">
-      <h1>{page.title}</h1>
+      <div className="flex flex-wrap items-center gap-x-3 gap-y-1">
+        <h1 lang={fallbackLang(page)}>{page.title}</h1>
+        <FallbackMark item={page} />
+      </div>
       {section === "about" && <AboutNav current={slug} />}
       <div className="mt-6 flex flex-col gap-10">
         {before}
         <CmsBlocks
+          lang={fallbackLang(page)}
           blocks={page.blocks}
           tableCaption={t("tableCaption", { title: page.title })}
           lite={lite}

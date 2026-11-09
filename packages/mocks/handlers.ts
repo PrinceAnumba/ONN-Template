@@ -45,23 +45,30 @@ function createLocaliser(locales: string[], defaultLocale: string) {
     const keys = Object.keys(value);
     return keys.length > 0 && keys.every((key) => locales.includes(key));
   };
+  // Each object whose own text fell back gets `fallback: true`, so a list item is flagged
+  // individually rather than only the page around it (brief §9 "Not yet translated" badge).
   return function localise<T>(value: unknown, locale: string): T {
-    let fallback = false;
     const walk = (node: unknown): unknown => {
       if (Array.isArray(node)) return node.map(walk);
       if (node === null || typeof node !== "object") return node;
-      if (isText(node)) {
-        if (node[locale] !== undefined) return node[locale];
-        fallback = true;
-        return node[defaultLocale];
-      }
-      return Object.fromEntries(Object.entries(node).map(([key, item]) => [key, walk(item)]));
+      let fallback = false;
+      const entries = Object.entries(node).map(([key, item]) => {
+        if (item !== null && typeof item === "object" && !Array.isArray(item) && isText(item)) {
+          if (item[locale] !== undefined) return [key, item[locale]];
+          fallback = true;
+          return [key, item[defaultLocale]];
+        }
+        return [key, walk(item)];
+      });
+      const result = Object.fromEntries(entries);
+      return fallback ? { ...result, fallback: true } : result;
     };
-    const result = walk(value);
-    if (fallback && result && typeof result === "object" && !Array.isArray(result)) {
-      return { ...result, fallback: true } as T;
+    // A bare text value (not inside an object) resolves without a flag.
+    if (value !== null && typeof value === "object" && !Array.isArray(value) && isText(value)) {
+      return ((value as Record<string, string>)[locale] ??
+        (value as Record<string, string>)[defaultLocale]) as T;
     }
-    return result as T;
+    return walk(value) as T;
   };
 }
 

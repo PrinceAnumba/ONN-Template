@@ -1,4 +1,8 @@
 {
+  "Meta": {
+    "status": "reviewed",
+    "notice": ""
+  },
   "Common": {
     "close": "Close",
     "demoData": "Demo data",
@@ -13,7 +17,8 @@
     "loadingPage": "Loading the page…",
     "retry": "Try again",
     "exportSlow": "The export is taking longer than usual — we'll keep trying.",
-    "imageHidden": "Image not shown in Lite mode"
+    "imageHidden": "Image not shown in Lite mode",
+    "notTranslated": "Not yet translated"
   },
   "Nav": {
     "data": "Data",

@@ -4,6 +4,8 @@ import { renderChartSvg } from "@onn/charts/ssr";
 import { country } from "@onn/config";
 import { Link } from "@/i18n/navigation";
 import { tagFor } from "@/lib/format";
+import { FallbackMark } from "@/components/fallback-mark";
+import { fallbackLang } from "@/lib/localised";
 
 /** 16:9 server-rendered thumbnail: the first indicator's national trend (brief §5.1, §5.5). */
 export async function dashboardThumbnail(
@@ -54,8 +56,13 @@ export function DashboardCard({
         <span className="rounded-pill text-muted-foreground self-start border px-2 text-xs">
           {audience}
         </span>
-        <Heading className="text-h3">{dashboard.title}</Heading>
-        <p className="text-muted-foreground line-clamp-2 text-sm">{dashboard.description}</p>
+        <Heading className="text-h3" lang={fallbackLang(dashboard)}>
+          {dashboard.title}
+        </Heading>
+        <p lang={fallbackLang(dashboard)} className="text-muted-foreground line-clamp-2 text-sm">
+          {dashboard.description}
+        </p>
+        <FallbackMark item={dashboard} className="self-start" />
       </div>
     </Link>
   );

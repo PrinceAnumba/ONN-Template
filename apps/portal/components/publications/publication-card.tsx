@@ -5,6 +5,8 @@ import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { formatBytes, formatDate } from "@/lib/format";
 import { isLite } from "@/lib/lite";
+import { FallbackMark } from "@/components/fallback-mark";
+import { fallbackLang } from "@/lib/localised";
 
 /** Card in the publications grid: cover, type, title, date, signature badge and download. */
 export async function PublicationCard({ item }: { item: Publication }) {
@@ -30,7 +32,7 @@ export async function PublicationCard({ item }: { item: Publication }) {
         <p className="text-muted-foreground text-xs font-semibold uppercase">
           {t(`types.${item.type}`)}
         </p>
-        <h2 className="text-h4 line-clamp-3">
+        <h2 className="text-h4 line-clamp-3" lang={fallbackLang(item)}>
           <Link
             href={`/publications/${item.slug}`}
             className="after:absolute after:inset-0 hover:underline"
@@ -38,6 +40,7 @@ export async function PublicationCard({ item }: { item: Publication }) {
             {item.title}
           </Link>
         </h2>
+        <FallbackMark item={item} className="self-start" />
         <p className="text-muted-foreground text-sm">
           <time dateTime={item.date}>{formatDate(item.date, locale)}</time>
         </p>

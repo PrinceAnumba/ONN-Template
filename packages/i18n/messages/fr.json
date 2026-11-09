@@ -1,4 +1,8 @@
 {
+  "Meta": {
+    "status": "reviewed",
+    "notice": ""
+  },
   "Common": {
     "close": "Fermer",
     "demoData": "Données de démo",
@@ -13,7 +17,8 @@
     "loadingPage": "Chargement de la page…",
     "retry": "Réessayer",
     "exportSlow": "L'export prend plus de temps que d'habitude — nous continuons d'essayer.",
-    "imageHidden": "Image masquée en mode allégé"
+    "imageHidden": "Image masquée en mode allégé",
+    "notTranslated": "Pas encore traduit"
   },
   "Nav": {
     "data": "Données",

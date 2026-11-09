@@ -7,6 +7,8 @@ import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { formatDate } from "@/lib/format";
+import { FallbackMark } from "@/components/fallback-mark";
+import { fallbackLang } from "@/lib/localised";
 
 const PAGE_SIZE = 10;
 const ALL = 500;
@@ -152,7 +154,7 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
                   <p className="text-muted-foreground text-sm">
                     <time dateTime={item.date}>{formatDate(item.date, locale)}</time>
                   </p>
-                  <h2 className="text-h4 mt-1">
+                  <h2 className="text-h4 mt-1" lang={fallbackLang(item)}>
                     <Link
                       href={`/news/${item.slug}`}
                       className="after:absolute after:inset-0 hover:underline"
@@ -160,7 +162,10 @@ export default async function NewsPage({ searchParams }: { searchParams: Promise
                       {item.title}
                     </Link>
                   </h2>
-                  <p className="mt-1">{item.excerpt}</p>
+                  <p className="mt-1" lang={fallbackLang(item)}>
+                    {item.excerpt}
+                  </p>
+                  <FallbackMark item={item} className="mt-2" />
                   {item.tags.length > 0 && (
                     <ul className="mt-2 flex flex-wrap gap-2" aria-label={t("tags")}>
                       {item.tags.map((name) => (

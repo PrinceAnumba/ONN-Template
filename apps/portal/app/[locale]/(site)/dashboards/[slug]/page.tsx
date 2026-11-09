@@ -11,6 +11,8 @@ import { buildWidgets } from "@/lib/dashboard";
 import { tagFor } from "@/lib/format";
 import { getSelectorData } from "@/lib/selector-data";
 import { urlParsers } from "@/lib/url-state";
+import { FallbackMark } from "@/components/fallback-mark";
+import { fallbackLang } from "@/lib/localised";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -67,8 +69,13 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
           <span className="rounded-pill text-muted-foreground border px-2 text-xs">
             {home(`audience.${dashboard.audience}`)}
           </span>
-          <h1 className="mt-2">{dashboard.title}</h1>
-          <p className="text-muted-foreground mt-2">{dashboard.description}</p>
+          <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1">
+            <h1 lang={fallbackLang(dashboard)}>{dashboard.title}</h1>
+            <FallbackMark item={dashboard} />
+          </div>
+          <p lang={fallbackLang(dashboard)} className="text-muted-foreground mt-2">
+            {dashboard.description}
+          </p>
         </div>
         <div className="flex flex-wrap gap-2">
           <PresentButton

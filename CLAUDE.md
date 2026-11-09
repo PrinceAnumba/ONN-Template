@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Phase 5 is done: every public page in §5, including news with its RSS feed, open data with `catalog.jsonld`, developers, feedback, and the CMS-driven about and legal pages. Phase 6 runs in batches: 6a (loading, error and empty states) and 6b (Lite mode and motion) are done; i18n and offline follow. The admin screens are still placeholders.
+Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Phase 5 is done: every public page in §5, including news with its RSS feed, open data with `catalog.jsonld`, developers, feedback, and the CMS-driven about and legal pages. Phase 6 runs in batches: 6a (loading, error and empty states), 6b (Lite mode and motion) and 6c (i18n) are done; offline follows. The admin screens are still placeholders.
 
 Sections below describe the system the brief specifies, so parts of it don't exist yet. As each phase lands, check this file against the code and replace anything that has drifted.
 
@@ -154,6 +154,10 @@ WCAG 2.2 AA: one h1 per page, skip link, `--onn-focus` on every interactive elem
 - Presentation mode loads on demand and redraws charts with `buildOption(..., { dark: true })`. The slide is `?p=` (1-based). `PresentButton` calls `requestFullscreen` inside the click handler, because browsers refuse it later; a `?p=` link opens the overlay without fullscreen.
 - `packages/ui/base.css` has `@source "../charts"`; without it, chart classes aren't generated in the apps.
 - `packages/ui` and `packages/charts` stay free of next-intl: components take translated labels as props.
+- Locales: `/` redirects by the `NEXT_LOCALE` cookie, then Accept-Language, then the default (next-intl middleware). The cookie lasts a year (`localeCookie` in `i18n/routing.ts`) and is set on every page load, so the switcher works without JavaScript.
+- API text that fell back (`fallback: true`) gets `lang={fallbackLang(item)}` on the element holding it and `<FallbackMark item={item} />` beside its title; the badge keeps the page language. The mock flags each object whose own text fell back.
+- Each catalogue has `Meta.status`; `placeholder` (Wolof until reviewed) shows `Meta.notice` as a banner under the ribbon. Set it to `reviewed` when real strings arrive.
+- Always format through `tagFor()` (`lib/format.ts`): it checks `Intl` support and falls back from the configured tag to the locale, the default locale's tag, then `en`. Never hard-code a locale such as `fr`; use `country.locales.default`.
 
 ## Accessibility lessons from the story tests
 

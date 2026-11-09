@@ -401,6 +401,14 @@ describe("mock behaviour", () => {
     expect(english.fallback).toBeUndefined();
   });
 
+  it("flags each list item that fell back, not only the page", async () => {
+    const page = await get<{ items: Indicator[] }>("/indicators?pageSize=5", "wo");
+    expect(page.items.length).toBeGreaterThan(0);
+    expect(page.items.every((item) => item.fallback === true)).toBe(true);
+    const english = await get<{ items: Indicator[] }>("/indicators?pageSize=5", "en");
+    expect(english.items.some((item) => item.fallback)).toBe(false);
+  });
+
   it("uses the default locale for an unknown language", async () => {
     const indicator = await get<Indicator>("/indicators/CONN.4G_POP", "de");
     expect(indicator.name).toBe("Couverture 4G de la population");

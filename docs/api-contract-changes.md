@@ -6,7 +6,7 @@ Changes to the contract in `onn-frontend-prompt.md` §3, for the backend team. `
 
 | Type | Field | Needed by |
 | --- | --- | --- |
-| Localised responses | `fallback?: boolean` | §9 "Not yet translated" badge |
+| Localised responses | `fallback?: boolean` on each object whose own text fell back (list items too, not only the page) | §9 "Not yet translated" badge |
 | `Pillar` | `description` | §5.2 country profile |
 | `IndicatorSummary` | `synonyms` | §4.2 selector type-ahead |
 | `IndicatorSummary` | `source`, `intlRefs` (moved from `Indicator`) | §5.8 catalogue columns |

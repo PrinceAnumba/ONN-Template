@@ -13,6 +13,8 @@ import { formatBytes, formatDate } from "@/lib/format";
 import { pick } from "@/lib/localised";
 import { isLite } from "@/lib/lite";
 import { siteOrigin } from "@/lib/origin";
+import { FallbackMark } from "@/components/fallback-mark";
+import { fallbackLang } from "@/lib/localised";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -84,7 +86,10 @@ export default async function PublicationPage({ params }: PageProps) {
           <p className="text-muted-foreground text-sm font-semibold uppercase">
             {t(`types.${item.type}`)}
           </p>
-          <h1 className="mt-1">{item.title}</h1>
+          <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+            <h1 lang={fallbackLang(item)}>{item.title}</h1>
+            <FallbackMark item={item} />
+          </div>
           <p className="text-muted-foreground mt-2">
             <time dateTime={item.date}>{t("published", { date })}</time>
           </p>

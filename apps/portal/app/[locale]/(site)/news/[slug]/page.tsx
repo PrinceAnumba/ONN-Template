@@ -11,6 +11,8 @@ import { RichText } from "@/components/cms/cms-blocks";
 import { formatDate } from "@/lib/format";
 import { isLite } from "@/lib/lite";
 import { siteOrigin } from "@/lib/origin";
+import { FallbackMark } from "@/components/fallback-mark";
+import { fallbackLang } from "@/lib/localised";
 
 const RELATED = 3;
 const ALL = 500;
@@ -84,7 +86,10 @@ export default async function NewsItemPage({ params }: PageProps) {
         <p className="text-muted-foreground text-sm font-semibold uppercase">
           {t(`kind.${item.kind}`)}
         </p>
-        <h1 className="mt-1">{item.title}</h1>
+        <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1">
+          <h1 lang={fallbackLang(item)}>{item.title}</h1>
+          <FallbackMark item={item} />
+        </div>
         <p className="text-muted-foreground mt-2">
           <time dateTime={item.date}>{formatDate(item.date, locale)}</time>
         </p>
@@ -99,7 +104,9 @@ export default async function NewsItemPage({ params }: PageProps) {
             className="mt-6 h-auto w-full rounded-lg border"
           />
         )}
-        <RichText source={item.body} className="mt-6" />
+        <div lang={fallbackLang(item)}>
+          <RichText source={item.body} className="mt-6" />
+        </div>
         {item.sourceUrl && (
           <p className="mt-6">
             <a
