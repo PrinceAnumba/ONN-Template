@@ -14,6 +14,10 @@ describe("sections", () => {
     expect(canOpen("/nope", ["super_admin"])).toBe(false);
     expect(canOpen("/calendar", ["reader"])).toBe(true);
     expect(canOpen("/login", ["reader"])).toBe(true);
+    // Creating needs more than viewing the section.
+    expect(canOpen("/connectors/new", ["editor"])).toBe(false);
+    expect(canOpen("/connectors/CON-1", ["editor"])).toBe(true);
+    expect(canOpen("/indicators/new", ["admin"])).toBe(true);
   });
 
   it("gives every role the dashboard and only super admins settings", () => {

@@ -4,6 +4,14 @@
 import type {
   AdminRole,
   CalendarItem,
+  ConnectorAuth,
+  ConnectorMapping,
+  ConnectorRunStatus,
+  ConnectorType,
+  ImportField,
+  IndicatorRecord,
+  IntlRef,
+  Periodicity,
   FeedbackItem,
   Organisation,
   SourceMethod,
@@ -11,7 +19,7 @@ import type {
   SubmissionStatus,
 } from "@onn/api-client/types";
 import type { QualityRule } from "@onn/api-client/types";
-import type { StoredImport } from "./admin-intake";
+import { autoMatch, type StoredImport } from "./admin-intake";
 import { nextPeriod, type HistoryEvent, type StoredRow } from "./admin-submissions";
 import { createRandom, type Fixtures } from "./fixtures";
 
@@ -48,14 +56,59 @@ export interface StoredSubmission {
   verifiedBy?: string;
 }
 
+export interface StoredRun {
+  id: string;
+  started: string;
+  finished: string;
+  status: ConnectorRunStatus;
+  trigger: "schedule" | "manual";
+  by?: string;
+  rows: number;
+  submission?: string;
+  error?: string;
+  log: { time: string; level: "info" | "warn" | "error"; message: Text }[];
+}
+
 export interface StoredConnector {
   id: string;
   name: string;
   org: string;
+  type: ConnectorType;
+  endpoint: string;
+  auth: ConnectorAuth;
+  schedule: string;
+  enabled: boolean;
+  sourceFields: string[];
+  mapping: ConnectorMapping[];
+  /** Newest first. */
+  runs: StoredRun[];
+  /** Mirrors runs[0], for the dashboard and notifications. */
   lastRun: string;
-  lastStatus: "ok" | "failed";
+  lastStatus: ConnectorRunStatus;
   error?: string;
+  /** Mock only: this endpoint answers 503 until the connector points somewhere else. */
+  brokenEndpoint?: string;
 }
+
+export interface StoredIndicator extends IndicatorRecord {
+  version: number;
+  updated: string;
+  versions: {
+    version: number;
+    date: string;
+    note: string;
+    author: string;
+    changes: (keyof IndicatorRecord)[];
+  }[];
+}
+
+/** Fields each kind of source offers in its sample (mock only). */
+export const SOURCE_FIELDS: Record<ConnectorType, string[]> = {
+  sdmx: ["INDICATOR", "REF_AREA", "TIME_PERIOD", "OBS_VALUE", "OBS_STATUS", "SEX"],
+  rest: ["indicatorCode", "areaCode", "year", "value", "status", "operator"],
+  sftp: ["indicateur", "zone", "periode", "valeur", "statut"],
+  csv: ["indicator", "area", "period", "value", "flag"],
+};
 
 export interface AdminState {
   orgs: StoredOrg[];
@@ -63,9 +116,9 @@ export interface AdminState {
   submissions: StoredSubmission[];
   calendar: (Omit<CalendarItem, "orgName" | "indicatorSet"> & { indicatorSet: Text })[];
   connectors: StoredConnector[];
+  indicators: StoredIndicator[];
   feedback: FeedbackItem[];
   usage: { date: string; visits: number }[];
-  quality: { passRate: number; previous: number };
   /** Notification ids each user has read. */
   read: Map<string, Set<string>>;
   /** The organisation that reports each indicator (its catalogue source). */
@@ -324,14 +377,171 @@ export function buildAdminState(data: Fixtures, now = new Date()): AdminState {
     }
   });
 
-  const connectors: StoredConnector[] = orgs.slice(0, 4).map((org, index) => ({
-    id: `CON-${index + 1}`,
-    name: `${org.code} ${["SDMX", "REST", "SFTP", "CSV"][index]}`,
-    org: org.code,
-    lastRun: iso(ago(index * 0.5 + 0.1)),
-    lastStatus: index === 1 ? "failed" : "ok",
-    error: index === 1 ? "HTTP 503 from source endpoint" : undefined,
-  }));
+  // Connectors: one of each kind for the first organisations, with a week of daily runs. The
+  // second one is failing: its endpoint answers 503 until someone points it elsewhere.
+  const types: ConnectorType[] = ["sdmx", "rest", "sftp", "csv"];
+  const endpoints: Record<ConnectorType, string> = {
+    sdmx: "https://sdmx.example.org/rest/data/ONN,DF_ICT,1.0",
+    rest: "https://api.example.org/v2/indicators",
+    sftp: "sftp://files.example.org/onn/exports",
+    csv: "https://data.example.org/onn/latest.csv",
+  };
+  const message = (fr: string, en: string): Text => ({ fr, en });
+  const connectors: StoredConnector[] = orgs.slice(0, 4).map((org, index) => {
+    const type = types[index]!;
+    const dims = [
+      ...new Set(
+        data.indicators
+          .filter((item) => orgOfIndicator.get(item.code as string) === org.code)
+          .flatMap((item) => item.disaggregations as string[]),
+      ),
+    ];
+    const targets: ImportField[] = [
+      "indicator",
+      "area",
+      "period",
+      "value",
+      "flag",
+      ...dims.map((dim) => `dim:${dim}` as ImportField),
+      "ignore",
+    ];
+    const failing = index === 1;
+    const runs: StoredRun[] = Array.from({ length: 6 }, (_, run) => {
+      const started = ago(run + 0.1 + index * 0.02);
+      const finished = new Date(started.getTime() + (20 + index * 7) * 1000);
+      const failed = failing && run < 2;
+      const rows = failed ? 0 : 24 + index * 6;
+      const time = (offset: number) => iso(new Date(started.getTime() + offset * 1000));
+      return {
+        id: `RUN-${index + 1}-${6 - run}`,
+        started: iso(started),
+        finished: iso(finished),
+        status: failed ? "failed" : "ok",
+        trigger: "schedule",
+        rows,
+        ...(failed ? { error: "HTTP 503 Service Unavailable" } : {}),
+        log: failed
+          ? [
+              {
+                time: time(0),
+                level: "info",
+                message: message("Connexion à la source", "Connecting to the source"),
+              },
+              {
+                time: time(10),
+                level: "warn",
+                message: message("Nouvelle tentative (1/3)", "Retrying (1/3)"),
+              },
+              {
+                time: time(20),
+                level: "error",
+                message: message("HTTP 503 Service Unavailable", "HTTP 503 Service Unavailable"),
+              },
+            ]
+          : [
+              {
+                time: time(0),
+                level: "info",
+                message: message("Connexion à la source", "Connecting to the source"),
+              },
+              {
+                time: time(5),
+                level: "info",
+                message: message(`${rows} enregistrements reçus`, `${rows} records received`),
+              },
+              {
+                time: time(9),
+                level: "info",
+                message: message("Aucune nouvelle valeur", "No new values"),
+              },
+            ],
+      };
+    });
+    const last = runs[0]!;
+    return {
+      id: `CON-${index + 1}`,
+      name: `${org.code} ${type.toUpperCase()}`,
+      org: org.code,
+      type,
+      endpoint: endpoints[type],
+      auth: type === "sftp" ? "basic" : type === "rest" ? "token" : "none",
+      schedule: ["0 6 * * 1", "30 2 * * *", "0 7 1 * *", "0 5 * * 1-5"][index]!,
+      enabled: true,
+      sourceFields: SOURCE_FIELDS[type],
+      mapping: autoMatch(SOURCE_FIELDS[type], targets).map(({ source, target }) => ({
+        source,
+        target,
+      })),
+      runs,
+      lastRun: last.finished,
+      lastStatus: last.status,
+      ...(last.error ? { error: last.error } : {}),
+      ...(failing ? { brokenEndpoint: endpoints[type] } : {}),
+    };
+  });
+
+  // Indicator referential: the catalogue plus what only the back office keeps (thresholds,
+  // goalposts, prioritisation, version authors).
+  const score = () => 1 + Math.floor(random() * 5);
+  const text = (value: unknown): Text =>
+    typeof value === "string"
+      ? Object.fromEntries(data.meta.locales.map((locale) => [locale, value]))
+      : { ...((value as Text | undefined) ?? {}) };
+  const indicators: StoredIndicator[] = data.indicators.map((item) => {
+    const percent = (item.unit as unknown as Text).en === "%";
+    const versions = (item.versions as unknown as { version: number; date: string; note: Text }[])
+      .map((version) => ({
+        version: version.version,
+        date: `${version.date}T09:00:00.000Z`,
+        note: version.note[data.meta.defaultLocale] ?? version.note.en ?? "",
+        author: admins[0]!.id,
+        changes: [] as (keyof IndicatorRecord)[],
+      }))
+      .reverse();
+    return {
+      code: item.code as string,
+      status: item.status as StoredIndicator["status"],
+      pillar: item.pillar as string,
+      theme: item.theme as string,
+      org: orgOfIndicator.get(item.code as string) ?? orgs[0]!.code,
+      name: text(item.name),
+      shortDefinition: text(item.shortDefinition),
+      definition: text(item.definition),
+      computation: text(item.computation),
+      qualityNotes: text(item.qualityNotes),
+      synonyms: [...((item.synonyms as string[] | undefined) ?? [])],
+      licence: (item.licence as string | undefined) ?? "CC BY 4.0",
+      unit: text(item.unit),
+      unitVariants: (item.unitVariants as unknown as { code: string; label: Text }[]).map(
+        (variant) => ({ code: variant.code, label: { ...variant.label } }),
+      ),
+      higherIsBetter: Boolean(item.higherIsBetter),
+      isHeadline: Boolean(item.isHeadline),
+      disaggregations: [...(item.disaggregations as string[])],
+      geoLevels: [...(item.geoLevels as string[])],
+      thresholds: { min: percent ? 0 : null, max: percent ? 100 : null, jumpPct: 30 },
+      goalposts: {
+        min: percent ? 0 : null,
+        max: percent ? 100 : null,
+        target: null,
+        targetYear: null,
+      },
+      intlRefs: (
+        item.intlRefs as unknown as { org: IntlRef["org"]; code: string; name: Text; url: string }[]
+      ).map((ref) => ({ org: ref.org, code: ref.code, name: { ...ref.name }, url: ref.url })),
+      periodicity: item.periodicity as Periodicity,
+      nextRelease: (item.nextRelease as string | undefined) ?? null,
+      priority: {
+        availability: score(),
+        quality: score(),
+        strategic: score(),
+        comparability: score(),
+      },
+      version: versions[0]?.version ?? 1,
+      updated: versions[0]?.date ?? iso(now),
+      versions,
+    };
+  });
 
   const pages = ["/data", "/map", "/dashboards", "/publications", "/", "/catalogue"];
   const feedback: FeedbackItem[] = Array.from({ length: 8 }, (_, index) => ({
@@ -363,9 +573,9 @@ export function buildAdminState(data: Fixtures, now = new Date()): AdminState {
     submissions,
     calendar,
     connectors,
+    indicators,
     feedback,
     usage,
-    quality: { passRate: 0.87, previous: 0.83 },
     read: new Map(),
     indicatorOrg: Object.fromEntries(orgOfIndicator),
     imports: [],

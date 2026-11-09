@@ -10,7 +10,7 @@ const apiOrigin =
 
 const config: NextConfig = {
   basePath: "/admin",
-  transpilePackages: ["@onn/api-client", "@onn/config", "@onn/ui"],
+  transpilePackages: ["@onn/api-client", "@onn/charts", "@onn/config", "@onn/ui"],
   // Without this the radix-ui barrel adds 80 KB to any page importing a shadcn component.
   experimental: { optimizePackageImports: ["radix-ui"] },
   eslint: { ignoreDuringBuilds: true },

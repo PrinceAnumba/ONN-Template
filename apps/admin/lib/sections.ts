@@ -1,3 +1,4 @@
+import { can, type AdminAction } from "@onn/api-client/permissions";
 import type { Role } from "./roles";
 
 const EVERYONE: Role[] = ["super_admin", "admin", "editor", "contributor", "reader"];
@@ -43,10 +44,18 @@ export function sectionFor(path: string) {
 /** Screens outside the sidebar that pages already link to. */
 export const PLANNED = ["/calendar", "/profile"];
 
+/** Screens inside a section that need a right beyond the section's roles. */
+const RESTRICTED: { href: string; action: AdminAction }[] = [
+  { href: "/connectors/new", action: "connector.manage" },
+  { href: "/indicators/new", action: "indicator.edit" },
+];
+
 /** False for paths that don't exist and sections the role can't reach (both answer 404). */
 export function canOpen(path: string, roles: Role[]) {
   // A Server Action posted from sign-in renders its redirect target under the sign-in path.
   if (path === "/login" || path.startsWith("/login/")) return true;
+  const restricted = RESTRICTED.find((item) => path === item.href);
+  if (restricted && !can(roles, restricted.action)) return false;
   const section = sectionFor(path);
   if (section) return section.roles.some((role) => roles.includes(role));
   return PLANNED.some((href) => path === href || path.startsWith(`${href}/`));

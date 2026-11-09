@@ -128,3 +128,25 @@ Both end in an ordinary submission (`channel` `import` or `entry`), so verificat
 **Import rules** (`ImportRule`) add to the quality rules: `indicator` (unknown code), `area` (unknown code), `period` (wrong format for the indicator's periodicity), `number` (text in a value cell) and `permission` (an indicator the organisation doesn't report). The admin needs a message for any new code.
 
 **Shared checks.** `packages/api-client/quality.ts` (`valueIssues`, `parseNumber`, `validPeriod`) is what the entry grid runs while typing; the backend's rules should match it (30% jump threshold, percentages ≤ 100, both decimal conventions).
+
+### Connectors, quality and the indicator referential (Phase 7d)
+
+| Endpoint | Returns | Needed by |
+| --- | --- | --- |
+| `GET /admin/connectors?org=` | `ConnectorSummary[]`: type, cron `schedule`, `enabled` and the last run (date, status, rows, error) | Connectors list |
+| `GET /admin/connectors/:id` | `Connector`: adds `endpoint`, `auth` (`none`, `token`, `basic`; secrets are never returned), `sourceFields`, `mapping` (source field → `ImportField`), `targets` and the last 20 `runs` with their log | Connector detail |
+| `POST /admin/connectors`, `PUT /admin/connectors/:id` | body `ConnectorInput`; `Connector`. `422` `type: "validation"` with `errors[]` (`path`: `name`, `org`, `type`, `endpoint`, `auth`, `schedule`, `mapping.<field>` or `mapping.<index>`; `message`: `required`, `scheme`, `cron`, `length`, `duplicate`, `unknown`) | Settings form, field mapping |
+| `POST /admin/connectors/test` | body `{ type, endpoint, auth, org? }` (unsaved settings, so a new connector can be tested); `ConnectorTestResult`: `ok`, `latencyMs`, the sample's `fields`, and with `org` the `targets` and a `suggested` mapping. Failures: `error` `unreachable` (with the source's `detail`), `auth` or `scheme` | "Test connection" |
+| `POST /admin/connectors/:id/dry-run` | body `{ mapping? }` (may be unsaved); `ConnectorDryRun`: `total`, the first 50 mapped `rows` and how many would fail a quality rule. `422` `mapping`, `502` `unreachable` | "Dry run" |
+| `POST /admin/connectors/:id/run` | `201` `ConnectorRun`. A successful run creates a `submitted` submission (`channel: "connector"`) and names it in `submission`; a failed one is recorded with its `error` and log | "Run now", run history |
+| `GET /admin/quality?org=` | `QualityOverview`: pass rate now and 30 days ago, rows checked, rates `byOrg`, `byIndicator` (lowest first) and `byMonth` (last six months, by submission date), and `warnings` (unjustified warnings in submissions not yet published) | Quality |
+| `GET /admin/indicators?q=&status=&pillar=&sort=code\|priority&page=&pageSize=` | `Page<IndicatorAdminSummary>` with the prioritisation `priority` (mean of four 1–5 scores) | Indicators list |
+| `GET /admin/indicators/:code` | `IndicatorAdmin`: an `IndicatorRecord` with every text as `Localised` (`{ [locale]: string }`, not resolved to one language, so the editor shows them side by side), plus `thresholds`, `goalposts`, `priority`, `org`, the version and its history (`note`, `author`, changed fields) | Indicator editor |
+| `POST /admin/indicators` | body `IndicatorCreateInput` (`code`, `name`, `pillar`, `theme`, `org`); `201` `IndicatorAdmin` as `planned`, version 1. `422` `validation` (`code` `format` or `duplicate`) | New indicator |
+| `PUT /admin/indicators/:code` | body `{ indicator: IndicatorRecord, note }`; saves version n+1 and records which top-level fields changed. `422` `validation` (paths such as `name.fr`, `goalposts.max`, `intlRefs.0.url`, `note`; messages `required`, `format`, `order`, `range`, `duplicate`, `unknown`), `422` `unchanged` when nothing differs. The public `/indicators` metadata reflects the save, and the backend should call the portal's revalidation (`indicator:<code>` and the catalogue tags) as it does on publish | Indicator editor (§7 "save creates a new version with a note") |
+
+**Changed:** `AdminOverview.quality` is now computed the same way as `GET /admin/quality` (rows with no error and every warning justified), and `openWarnings` counts unjustified warnings rather than open submissions.
+
+**Rights** (`permissions.ts`): `connector.manage` (create, edit, test, run: admins), `indicator.view` (admins and editors) and `indicator.edit` (admins). Editors see connectors and indicators read-only; dry runs only need `connector.view`.
+
+**Cron.** Schedules are five-field cron expressions in the country's time zone (`config.timezone`); `packages/api-client/cron.ts` is the parser both sides use (numbers, `*`, lists, ranges and steps; no names).

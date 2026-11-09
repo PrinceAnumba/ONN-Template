@@ -138,7 +138,13 @@ export function UploadForm({
         error={error}
         progress={progress}
         disabled={uploading}
-        labels={{ prompt: t("prompt"), browse: t("browse"), hint: t("hint"), remove: t("remove"), progress: t("progress") }}
+        labels={{
+          prompt: t("prompt"),
+          browse: t("browse"),
+          hint: t("hint"),
+          remove: t("remove"),
+          progress: t("progress"),
+        }}
       />
 
       <div>

@@ -5,6 +5,8 @@ export class BffError extends Error {
     readonly status: number,
     /** The Problem `type` when the API sent one, else "network" or the status. */
     readonly type: string,
+    /** Field errors from a 422 Problem (`path` and a message code). */
+    readonly errors: { path: string; message: string }[] = [],
   ) {
     super(type);
   }
@@ -26,10 +28,13 @@ export async function bff<T>(
     throw new BffError(0, "network");
   });
   if (!response.ok) {
-    const problem = (await response.json().catch(() => null)) as { type?: string } | null;
+    const problem = (await response.json().catch(() => null)) as {
+      type?: string;
+      errors?: { path: string; message: string }[];
+    } | null;
     const type =
       problem?.type && problem.type !== "about:blank" ? problem.type : String(response.status);
-    throw new BffError(response.status, type);
+    throw new BffError(response.status, type, problem?.errors ?? []);
   }
   return (await response.json()) as T;
 }

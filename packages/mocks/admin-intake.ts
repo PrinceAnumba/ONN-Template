@@ -74,8 +74,8 @@ const FLAGS: ObsStatus[] = ["A", "E", "P", "B", "F", "M"];
 /** Header spellings the matcher recognises, normalised (lower case, no accents or spaces). */
 const SYNONYMS: Record<string, string[]> = {
   indicator: ["indicator", "indicateur", "code", "indicatorcode", "codeindicateur"],
-  area: ["area", "zone", "region", "geo", "geography", "areacode", "codezone"],
-  period: ["period", "periode", "year", "annee", "date"],
+  area: ["area", "zone", "region", "geo", "geography", "areacode", "codezone", "refarea"],
+  period: ["period", "periode", "year", "annee", "date", "timeperiod"],
   value: ["value", "valeur", "obsvalue"],
   flag: ["flag", "status", "statut", "obsstatus"],
   "dim:sex": ["sex", "sexe", "gender", "genre"],

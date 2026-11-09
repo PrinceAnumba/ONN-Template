@@ -9,7 +9,8 @@
     "./types": "./types.ts",
     "./admin": "./admin.ts",
     "./permissions": "./permissions.ts",
-    "./quality": "./quality.ts"
+    "./quality": "./quality.ts",
+    "./cron": "./cron.ts"
   },
   "scripts": {
     "test": "vitest run",

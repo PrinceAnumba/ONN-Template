@@ -6,6 +6,19 @@ import type {
   AdminOverview,
   BulkTransitionResult,
   CalendarItem,
+  Connector,
+  ConnectorDryRun,
+  ConnectorInput,
+  ConnectorMapping,
+  ConnectorRun,
+  ConnectorSummary,
+  ConnectorTestResult,
+  IndicatorAdmin,
+  IndicatorAdminSummary,
+  IndicatorCreateInput,
+  IndicatorRecord,
+  IndicatorStatus,
+  QualityOverview,
   EntryIndicator,
   EntrySheet,
   ImportField,
@@ -95,6 +108,48 @@ export const adminApi = {
     get<EntryIndicator[]>("/entry", ctx, { org }),
   entrySheet: (ctx: AdminContext, indicator: string, period?: string) =>
     get<EntrySheet>(`/entry/${encodeURIComponent(indicator)}`, ctx, { period }),
+  connectors: (ctx: AdminContext, org?: string) =>
+    get<ConnectorSummary[]>("/connectors", ctx, { org }),
+  connector: (ctx: AdminContext, id: string) =>
+    get<Connector>(`/connectors/${encodeURIComponent(id)}`, ctx),
+  createConnector: (ctx: AdminContext, input: ConnectorInput) =>
+    send<Connector>("POST", "/connectors", ctx, input),
+  saveConnector: (ctx: AdminContext, id: string, input: ConnectorInput) =>
+    send<Connector>("PUT", `/connectors/${encodeURIComponent(id)}`, ctx, input),
+  /** Tries a source with unsaved settings. */
+  testConnector: (
+    ctx: AdminContext,
+    input: Pick<ConnectorInput, "type" | "endpoint" | "auth"> & { org?: string },
+  ) => send<ConnectorTestResult>("POST", "/connectors/test", ctx, input),
+  /** First 50 mapped rows, optionally with an unsaved mapping. */
+  dryRunConnector: (ctx: AdminContext, id: string, mapping?: ConnectorMapping[]) =>
+    send<ConnectorDryRun>("POST", `/connectors/${encodeURIComponent(id)}/dry-run`, ctx, {
+      mapping,
+    }),
+  runConnector: (ctx: AdminContext, id: string) =>
+    send<ConnectorRun>("POST", `/connectors/${encodeURIComponent(id)}/run`, ctx),
+  quality: (ctx: AdminContext, org?: string) => get<QualityOverview>("/quality", ctx, { org }),
+  indicators: (
+    ctx: AdminContext,
+    query: {
+      q?: string;
+      status?: IndicatorStatus;
+      pillar?: string;
+      sort?: "code" | "priority";
+      page?: number;
+      pageSize?: number;
+    } = {},
+  ) => get<Page<IndicatorAdminSummary>>("/indicators", ctx, query),
+  indicator: (ctx: AdminContext, code: string) =>
+    get<IndicatorAdmin>(`/indicators/${encodeURIComponent(code)}`, ctx),
+  createIndicator: (ctx: AdminContext, input: IndicatorCreateInput) =>
+    send<IndicatorAdmin>("POST", "/indicators", ctx, input),
+  /** Saves a new version; `note` is required. */
+  saveIndicator: (ctx: AdminContext, code: string, indicator: IndicatorRecord, note: string) =>
+    send<IndicatorAdmin>("PUT", `/indicators/${encodeURIComponent(code)}`, ctx, {
+      indicator,
+      note,
+    }),
   /** Mock only: the users the role switcher offers. Needs no token. */
   demoUsers: (locale: string) => apiFetch<DemoUser[]>("/admin/demo-users", { locale }),
 };

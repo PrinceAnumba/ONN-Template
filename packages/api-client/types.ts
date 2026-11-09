@@ -557,3 +557,223 @@ export interface EntrySaveResult {
   submission: string;
   saved: string;
 }
+
+// ---- Connectors (Phase 7d, brief §7) ----
+
+export type ConnectorType = "sdmx" | "rest" | "sftp" | "csv";
+export type ConnectorAuth = "none" | "token" | "basic";
+export type ConnectorRunStatus = "ok" | "failed";
+
+export interface ConnectorSummary {
+  id: string;
+  name: string;
+  org: string;
+  orgName: string;
+  type: ConnectorType;
+  /** Five-field cron expression, in the country's time zone. */
+  schedule: string;
+  enabled: boolean;
+  lastRun?: { date: string; status: ConnectorRunStatus; rows: number; error?: string };
+}
+
+/** One source field and where its values go (the import wizard's fields). */
+export interface ConnectorMapping {
+  source: string;
+  target: ImportField;
+}
+
+export interface ConnectorLogLine {
+  time: string;
+  level: "info" | "warn" | "error";
+  message: string;
+}
+
+export interface ConnectorRun {
+  id: string;
+  started: string;
+  finished: string;
+  status: ConnectorRunStatus;
+  trigger: "schedule" | "manual";
+  by?: { id: string; name: string };
+  rows: number;
+  /** The submission the run created. */
+  submission?: string;
+  error?: string;
+  log: ConnectorLogLine[];
+}
+
+export interface Connector extends ConnectorSummary {
+  endpoint: string;
+  auth: ConnectorAuth;
+  /** Fields the source offered at the last successful test. */
+  sourceFields: string[];
+  mapping: ConnectorMapping[];
+  /** Fields a source field can map to, as in the import wizard. */
+  targets: ImportField[];
+  /** Newest first. */
+  runs: ConnectorRun[];
+}
+
+export interface ConnectorInput {
+  name: string;
+  org: string;
+  type: ConnectorType;
+  endpoint: string;
+  auth: ConnectorAuth;
+  schedule: string;
+  enabled: boolean;
+  mapping: ConnectorMapping[];
+}
+
+export interface ConnectorTestResult {
+  ok: boolean;
+  latencyMs: number;
+  /** Fields found in the source's sample. */
+  fields: string[];
+  /** With `org` in the request: what each field can map to, and a suggested mapping. */
+  targets?: ImportField[];
+  suggested?: ConnectorMapping[];
+  error?: "unreachable" | "auth" | "scheme";
+  /** Technical detail from the source, shown as is. */
+  detail?: string;
+}
+
+export interface ConnectorDryRun {
+  total: number;
+  /** The first 50 mapped rows. */
+  rows: {
+    indicator: string;
+    area: string;
+    period: string;
+    dims: Record<string, string>;
+    value: number | null;
+    flag?: ObsStatus;
+  }[];
+  /** Rows that would fail a quality rule. */
+  issues: number;
+}
+
+// ---- Quality (Phase 7d) ----
+
+export interface QualityRate {
+  /** Share of checked rows with no error and no unjustified warning; null when none were checked. */
+  passRate: number | null;
+  checked: number;
+}
+
+export interface QualityWarning {
+  submission: string;
+  status: SubmissionStatus;
+  org: string;
+  orgName: string;
+  indicator: string;
+  indicatorName: string;
+  area: string;
+  areaName: string;
+  period: string;
+  rule: QualityRule;
+  value: number | null;
+  updated: string;
+}
+
+export interface QualityOverview {
+  passRate: number;
+  /** The rate 30 days ago. */
+  previous: number;
+  checked: number;
+  byOrg: (QualityRate & { org: string; name: string })[];
+  byIndicator: (QualityRate & { code: string; name: string })[];
+  /** Last six months by submission date (YYYY-MM), oldest first. */
+  byMonth: (QualityRate & { month: string })[];
+  /** Unjustified warnings in open submissions, newest first. */
+  warnings: QualityWarning[];
+}
+
+// ---- Indicator referential (Phase 7d) ----
+
+/** Text in every enabled locale, keyed by locale; the editor shows them side by side. */
+export type Localised = Record<string, string>;
+
+export interface PriorityScores {
+  availability: number;
+  quality: number;
+  strategic: number;
+  comparability: number;
+}
+
+export interface IndicatorRecord {
+  code: string;
+  status: IndicatorStatus;
+  pillar: string;
+  theme: string;
+  /** Organisation code of the source. */
+  org: string;
+  name: Localised;
+  shortDefinition: Localised;
+  /** Markdown, may contain $$LaTeX$$. */
+  definition: Localised;
+  computation: Localised;
+  qualityNotes: Localised;
+  synonyms: string[];
+  licence: string;
+  unit: Localised;
+  unitVariants: { code: string; label: Localised }[];
+  higherIsBetter: boolean;
+  isHeadline: boolean;
+  disaggregations: string[];
+  geoLevels: string[];
+  /** Plausible bounds and the jump threshold; values outside raise a warning. */
+  thresholds: { min: number | null; max: number | null; jumpPct: number };
+  /** Normalisation bounds for the index, and the target. */
+  goalposts: {
+    min: number | null;
+    max: number | null;
+    target: number | null;
+    targetYear: string | null;
+  };
+  intlRefs: { org: IntlRef["org"]; code: string; name: Localised; url: string }[];
+  periodicity: Periodicity;
+  /** YYYY-MM */
+  nextRelease: string | null;
+  /** 1–5 each. */
+  priority: PriorityScores;
+}
+
+export interface IndicatorVersion {
+  version: number;
+  date: string;
+  note: string;
+  author: { id: string; name: string };
+  /** Top-level fields that changed. */
+  changes: (keyof IndicatorRecord)[];
+}
+
+export interface IndicatorAdmin extends IndicatorRecord {
+  version: number;
+  updated: string;
+  /** Newest first. */
+  versions: IndicatorVersion[];
+}
+
+export interface IndicatorAdminSummary {
+  code: string;
+  name: string;
+  pillar: string;
+  pillarName: string;
+  status: IndicatorStatus;
+  /** Mean of the four prioritisation scores. */
+  priority: number;
+  periodicity: Periodicity;
+  org: string;
+  orgName: string;
+  version: number;
+  updated: string;
+}
+
+export interface IndicatorCreateInput {
+  code: string;
+  name: Localised;
+  pillar: string;
+  theme: string;
+  org: string;
+}

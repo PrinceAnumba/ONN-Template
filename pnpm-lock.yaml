@@ -208,6 +208,9 @@ importers:
       '@onn/api-client':
         specifier: workspace:*
         version: link:../../packages/api-client
+      '@onn/charts':
+        specifier: workspace:*
+        version: link:../../packages/charts
       '@onn/config':
         specifier: workspace:*
         version: link:../../packages/config

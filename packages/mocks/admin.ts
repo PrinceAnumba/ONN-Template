@@ -20,6 +20,12 @@ import type {
 import { HttpResponse, type RequestHandler } from "msw";
 import type { AdminState, StoredSubmission, StoredUser } from "./admin-seed";
 import { createIntakeHandlers, type IntakeDeps } from "./admin-intake";
+import {
+  createReferentialHandlers,
+  qualityStats,
+  rate,
+  type ReferentialDeps,
+} from "./admin-referential";
 import { qualityResults, rowIssues, type StoredRow } from "./admin-submissions";
 
 type Method = "get" | "post" | "put" | "patch" | "delete";
@@ -49,6 +55,11 @@ export interface AdminDeps {
   publish: (rows: StoredRow[], indicators: string[]) => void;
   /** Catalogue lookups for imports and the entry grid. */
   intake: Pick<IntakeDeps, "iso3" | "indicators" | "areas" | "series" | "breakdowns">;
+  /** Pillars, locales and the public catalogue writer for the indicator referential. */
+  referential: Pick<
+    ReferentialDeps,
+    "pillars" | "locales" | "defaultLocale" | "geoLevels" | "syncIndicator"
+  >;
 }
 
 const STATUSES: SubmissionStatus[] = [
@@ -82,6 +93,7 @@ export function createAdminHandlers({
   previous,
   publish,
   intake,
+  referential,
 }: AdminDeps) {
   const refuse = (refusal: Refusal) =>
     HttpResponse.json(
@@ -268,6 +280,18 @@ export function createAdminHandlers({
       orgName,
       userName,
     }),
+    ...createReferentialHandlers({
+      ...intake,
+      ...referential,
+      authed,
+      localise,
+      problem,
+      state,
+      orgName,
+      userName,
+      names,
+      previous,
+    }),
 
     route("get", "/admin/demo-users", () =>
       HttpResponse.json(
@@ -300,12 +324,21 @@ export function createAdminHandlers({
           returned: found.returned.slice(0, LIST_LIMIT).map((item) => summary(item, locale)),
         },
         deadlines: deadlines(orgs, locale, now).slice(0, LIST_LIMIT),
-        quality: {
-          ...state.quality,
-          openWarnings: state.submissions.filter(
-            (item) => orgs.includes(item.org) && ["submitted", "verified"].includes(item.status),
-          ).length,
-        },
+        quality: (() => {
+          // Same figures as the quality page (GET /admin/quality).
+          const { rated, warnings } = qualityStats(
+            state.submissions.filter((item) => orgs.includes(item.org)),
+            previous,
+          );
+          const cutoff = new Date(now - DEADLINE_DAYS * DAY).toISOString();
+          const all = rate(rated).passRate ?? 1;
+          return {
+            passRate: all,
+            previous:
+              rate(rated.filter((item) => item.submission.updated < cutoff)).passRate ?? all,
+            openWarnings: warnings.length,
+          };
+        })(),
         connectorFailures: can(user.roles, "connector.view")
           ? state.connectors
               .filter((item) => orgs.includes(item.org) && item.lastStatus === "failed")

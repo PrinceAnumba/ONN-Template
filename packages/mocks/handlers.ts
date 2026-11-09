@@ -381,6 +381,67 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
           return [...seen.values()];
         },
       },
+      referential: {
+        pillars: data.pillars.map((pillar) => ({
+          code: pillar.code as string,
+          name: pillar.name,
+          themes: (pillar.themes as { code: string; name: unknown }[]).map((theme) => ({
+            code: theme.code,
+            name: theme.name,
+          })),
+        })),
+        locales,
+        defaultLocale,
+        // The contract's levels (AreaLevel); the country config enables a subset.
+        geoLevels: ["national", "adm1", "adm2", "adm3"],
+        syncIndicator: (record) => {
+          // The public catalogue reads data.indicators on every request, so writing the seed
+          // in place is enough; the tags make the portal fetch it again.
+          let seed = indicatorSeed(record.code) as Record<string, unknown> | undefined;
+          if (!seed) {
+            seed = {
+              code: record.code,
+              coverage: { from: "", to: "", areas: 0 },
+              related: [],
+              dashboards: [],
+            };
+            data.indicators.push(seed as (typeof data.indicators)[number]);
+          }
+          const orgText = adminState.orgs.find((org) => org.code === record.org)?.name;
+          const source = (seed.source as Record<string, unknown> | undefined) ?? {
+            method: "administrative",
+          };
+          Object.assign(seed, {
+            name: record.name,
+            shortDefinition: record.shortDefinition,
+            definition: record.definition,
+            computation: Object.keys(record.computation).length ? record.computation : undefined,
+            qualityNotes: Object.keys(record.qualityNotes).length ? record.qualityNotes : undefined,
+            synonyms: record.synonyms,
+            pillar: record.pillar,
+            theme: record.theme,
+            unit: record.unit,
+            unitVariants: record.unitVariants,
+            periodicity: record.periodicity,
+            geoLevels: record.geoLevels,
+            disaggregations: record.disaggregations,
+            higherIsBetter: record.higherIsBetter,
+            isHeadline: record.isHeadline,
+            status: record.status,
+            intlRefs: record.intlRefs,
+            nextRelease: record.nextRelease ?? undefined,
+            licence: record.licence,
+            lastUpdated: record.updated.slice(0, 10),
+            source: { ...source, ...(orgText ? { org: orgText } : {}) },
+            versions: [...record.versions].reverse().map((version) => ({
+              version: version.version,
+              date: version.date.slice(0, 10),
+              note: { [defaultLocale]: version.note },
+            })),
+          });
+          options.onPublished?.([`indicator:${record.code}`, ...PUBLISH_TAGS]);
+        },
+      },
       publish: (rows, indicators) => {
         const touched = applyRows(data.observations, rows, (code) => {
           const sample = data.observations.find((item) => item.indicator === code);

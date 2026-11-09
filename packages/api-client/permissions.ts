@@ -18,6 +18,9 @@ const RIGHTS = {
   "submission.publish": ["super_admin", "admin"],
   "submission.return": ["super_admin", "admin", "editor"],
   "connector.view": ["super_admin", "admin", "editor"],
+  "connector.manage": ["super_admin", "admin"],
+  "indicator.view": ["super_admin", "admin", "editor"],
+  "indicator.edit": ["super_admin", "admin"],
   "feedback.view": ["super_admin", "admin", "editor"],
   "usage.view": ["super_admin", "admin", "editor", "reader"],
 } as const satisfies Record<string, readonly AdminRole[]>;
