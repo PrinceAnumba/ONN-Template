@@ -12,7 +12,8 @@
     "pageN": "Page {page}",
     "loadingPage": "Chargement de la page…",
     "retry": "Réessayer",
-    "exportSlow": "L'export prend plus de temps que d'habitude — nous continuons d'essayer."
+    "exportSlow": "L'export prend plus de temps que d'habitude — nous continuons d'essayer.",
+    "imageHidden": "Image masquée en mode allégé"
   },
   "Nav": {
     "data": "Données",
@@ -81,7 +82,9 @@
     "subscribed": "Merci. Votre abonnement est enregistré.",
     "subscribeError": "L'abonnement a échoué. Vérifiez l'adresse et réessayez.",
     "licence": "Données : CC BY 4.0",
-    "copyright": "© {year} {owner}"
+    "copyright": "© {year} {owner}",
+    "lite": "Mode allégé",
+    "liteDescription": "Moins de données : graphiques et cartes statiques, tableaux d'abord, sans photos."
   },
   "Pages": {
     "home": "Accueil",

@@ -15,6 +15,7 @@ import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { Link } from "@/i18n/navigation";
+import { isLite } from "@/lib/lite";
 import { boundaryCredit } from "@/lib/boundaries";
 import { formatBytes, formatDate, tagFor } from "@/lib/format";
 import { extremes, targetProgress } from "@/lib/home";
@@ -342,6 +343,7 @@ export async function DashboardCards() {
 export async function LatestPublications() {
   const ctx = await context();
   const t = await getTranslations("Home");
+  const lite = await isLite();
   try {
     const page = await api.publications(ctx);
     return (
@@ -357,15 +359,17 @@ export async function LatestPublications() {
         <ul className="grid gap-6 md:grid-cols-3">
           {page.items.slice(0, 3).map((item) => (
             <li key={item.slug} className="flex gap-4">
-              <Image
-                src={item.coverUrl}
-                alt=""
-                width={96}
-                height={128}
-                loading="lazy"
-                unoptimized
-                className="aspect-[3/4] h-auto w-24 shrink-0 rounded-sm border object-cover"
-              />
+              {!lite && (
+                <Image
+                  src={item.coverUrl}
+                  alt=""
+                  width={96}
+                  height={128}
+                  loading="lazy"
+                  unoptimized
+                  className="aspect-[3/4] h-auto w-24 shrink-0 rounded-sm border object-cover"
+                />
+              )}
               <div className="flex min-w-0 flex-col gap-1">
                 <span className="text-muted-foreground text-xs font-semibold uppercase">
                   {t(`publicationType.${item.type}`)}

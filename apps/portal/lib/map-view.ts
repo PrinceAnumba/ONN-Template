@@ -4,6 +4,7 @@ import { api, type RequestContext } from "@onn/api-client";
 import type { Indicator, Observation } from "@onn/api-client/types";
 import { projectShapes, type MapShapes } from "@onn/charts/map-shapes";
 import { country } from "@onn/config";
+import { isLite } from "./lite";
 import { getTranslations } from "next-intl/server";
 import { boundaryCredit } from "./boundaries";
 import { formatDate } from "./format";
@@ -112,7 +113,8 @@ export async function loadMapData({
     levels,
     level,
     shapes: topology ? projectShapes(topology, country.geography.codeProperty, MAP_WIDTH) : null,
-    topology: topology && country.features.basemap ? topology : undefined,
+    // Lite mode never loads MapLibre (brief §9), so it never needs the raw boundaries.
+    topology: topology && country.features.basemap && !(await isLite()) ? topology : undefined,
     years,
     values,
     areas: areas

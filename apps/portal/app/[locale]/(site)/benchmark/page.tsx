@@ -13,6 +13,7 @@ import { gapToMedian, nearestPeers, rankSeries } from "@/lib/benchmark";
 import { chartFrameLabels, lineLabels } from "@/lib/chart-labels";
 import { formatDate, tagFor } from "@/lib/format";
 import { kindOf } from "@/lib/kpi";
+import { isLite } from "@/lib/lite";
 import { urlParsers } from "@/lib/url-state";
 
 const loadParams = createLoader({ i: urlParsers.i, c: urlParsers.c });
@@ -169,7 +170,7 @@ async function BenchmarkBlocks({
   tag: string;
 }) {
   const t = await getTranslations("Benchmark");
-  const labels = await chartFrameLabels();
+  const [labels, lite] = await Promise.all([chartFrameLabels(), isLite()]);
   const kind = kindOf(indicator);
   const unitLabel = indicator.unitVariants[0]?.label ?? indicator.unit;
   const format = (value: number | null) => {
@@ -227,6 +228,7 @@ async function BenchmarkBlocks({
       )}
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         <Chart
+          lite={lite}
           spec={bars}
           title={t("rankedTitle", {
             indicator: indicator.name,
@@ -246,6 +248,7 @@ async function BenchmarkBlocks({
           logoUrl={country.brand.logo}
         />
         <Chart
+          lite={lite}
           spec={slope}
           title={t("slopeTitle", { count: years.length })}
           subtitle={t("slopeSubtitle", { country: countryName })}

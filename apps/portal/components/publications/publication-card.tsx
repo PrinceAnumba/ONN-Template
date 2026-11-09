@@ -4,21 +4,28 @@ import Image from "next/image";
 import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { formatBytes, formatDate } from "@/lib/format";
+import { isLite } from "@/lib/lite";
 
 /** Card in the publications grid: cover, type, title, date, signature badge and download. */
 export async function PublicationCard({ item }: { item: Publication }) {
-  const [t, locale] = await Promise.all([getTranslations("Publications"), getLocale()]);
+  const [t, locale, lite] = await Promise.all([
+    getTranslations("Publications"),
+    getLocale(),
+    isLite(),
+  ]);
   return (
     <article className="bg-card relative flex h-full gap-4 rounded-lg border p-4 transition-shadow duration-(--onn-dur-2) focus-within:shadow-sm hover:shadow-sm">
-      <Image
-        src={item.coverUrl}
-        alt=""
-        width={96}
-        height={128}
-        loading="lazy"
-        unoptimized
-        className="aspect-[3/4] h-auto w-24 shrink-0 self-start rounded-sm border object-cover"
-      />
+      {!lite && (
+        <Image
+          src={item.coverUrl}
+          alt=""
+          width={96}
+          height={128}
+          loading="lazy"
+          unoptimized
+          className="aspect-[3/4] h-auto w-24 shrink-0 self-start rounded-sm border object-cover"
+        />
+      )}
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         <p className="text-muted-foreground text-xs font-semibold uppercase">
           {t(`types.${item.type}`)}

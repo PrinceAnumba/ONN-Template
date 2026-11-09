@@ -9,6 +9,7 @@ import { cache } from "react";
 import { Link } from "@/i18n/navigation";
 import { RichText } from "@/components/cms/cms-blocks";
 import { formatDate } from "@/lib/format";
+import { isLite } from "@/lib/lite";
 import { siteOrigin } from "@/lib/origin";
 
 const RELATED = 3;
@@ -56,10 +57,11 @@ function related(item: NewsItem, all: NewsItem[]) {
 export default async function NewsItemPage({ params }: PageProps) {
   const { slug } = await params;
   const locale = await getLocale();
-  const [item, t, origin] = await Promise.all([
+  const [item, t, origin, lite] = await Promise.all([
     getItem(slug, locale),
     getTranslations("News"),
     siteOrigin(),
+    isLite(),
   ]);
   const all = await api
     .news({ locale, next: serverCache("news") }, { pageSize: ALL })
@@ -86,7 +88,7 @@ export default async function NewsItemPage({ params }: PageProps) {
         <p className="text-muted-foreground mt-2">
           <time dateTime={item.date}>{formatDate(item.date, locale)}</time>
         </p>
-        {item.imageUrl && (
+        {item.imageUrl && !lite && (
           <Image
             src={item.imageUrl}
             alt=""

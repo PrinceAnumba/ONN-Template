@@ -12,7 +12,8 @@
     "pageN": "Page {page}",
     "loadingPage": "Loading the page…",
     "retry": "Try again",
-    "exportSlow": "The export is taking longer than usual — we'll keep trying."
+    "exportSlow": "The export is taking longer than usual — we'll keep trying.",
+    "imageHidden": "Image not shown in Lite mode"
   },
   "Nav": {
     "data": "Data",
@@ -81,7 +82,9 @@
     "subscribed": "Thank you. You are subscribed.",
     "subscribeError": "We couldn't subscribe you. Check the address and try again.",
     "licence": "Data: CC BY 4.0",
-    "copyright": "© {year} {owner}"
+    "copyright": "© {year} {owner}",
+    "lite": "Lite mode",
+    "liteDescription": "Less data: static charts and maps, tables first, no photos."
   },
   "Pages": {
     "home": "Home",

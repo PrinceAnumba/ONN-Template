@@ -8,6 +8,7 @@ import { getMessages, getTranslations, setRequestLocale } from "next-intl/server
 import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { routing } from "@/i18n/routing";
+import { isLite } from "@/lib/lite";
 import { sourceSans, sourceSansExt } from "../fonts";
 
 interface LayoutProps {
@@ -31,12 +32,14 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
 
   const messages = (await getMessages()) as Messages;
   const t = await getTranslations("Common");
+  const lite = await isLite();
 
   return (
     <html
       lang={locale}
       dir={country.locales.rtl.includes(locale) ? "rtl" : "ltr"}
       className={`${sourceSans.variable} ${sourceSansExt.variable}`}
+      data-lite={lite ? "" : undefined}
     >
       <body className="flex min-h-dvh flex-col">
         <NextIntlClientProvider messages={pickMessages(messages, [...CLIENT_NAMESPACES])}>

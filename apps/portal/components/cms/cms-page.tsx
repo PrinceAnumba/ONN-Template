@@ -6,6 +6,7 @@ import { notFound } from "next/navigation";
 import type { ReactNode } from "react";
 import { cache } from "react";
 import { Link } from "@/i18n/navigation";
+import { isLite } from "@/lib/lite";
 import { CmsBlocks } from "./cms-blocks";
 
 export const getCmsPage = cache(async (slug: string, locale: string) =>
@@ -68,14 +69,24 @@ export async function CmsPageView({
   children?: ReactNode;
 }) {
   const locale = await getLocale();
-  const [page, t] = await Promise.all([getCmsPage(slug, locale), getTranslations("About")]);
+  const [page, t, common, lite] = await Promise.all([
+    getCmsPage(slug, locale),
+    getTranslations("About"),
+    getTranslations("Common"),
+    isLite(),
+  ]);
   return (
     <main id="content" className="onn-container py-8">
       <h1>{page.title}</h1>
       {section === "about" && <AboutNav current={slug} />}
       <div className="mt-6 flex flex-col gap-10">
         {before}
-        <CmsBlocks blocks={page.blocks} tableCaption={t("tableCaption", { title: page.title })} />
+        <CmsBlocks
+          blocks={page.blocks}
+          tableCaption={t("tableCaption", { title: page.title })}
+          lite={lite}
+          imageHidden={common("imageHidden")}
+        />
         {children}
       </div>
     </main>

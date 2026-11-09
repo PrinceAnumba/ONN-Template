@@ -7,7 +7,10 @@ export interface LiteModeToggleProps {
   label: string;
   description: string;
   checked: boolean;
-  onCheckedChange: (checked: boolean) => void;
+  /** Called on click. Leave it out with `submit` and handle the form's submit instead. */
+  onCheckedChange?: (checked: boolean) => void;
+  /** Render as the submit button of a form, so the toggle also works without JavaScript. */
+  submit?: boolean;
   className?: string;
 }
 
@@ -17,18 +20,19 @@ export function LiteModeToggle({
   description,
   checked,
   onCheckedChange,
+  submit,
   className,
 }: LiteModeToggleProps) {
   const id = useId();
   return (
     <div className={cn("flex items-start gap-3", className)}>
       <button
-        type="button"
+        type={submit ? "submit" : "button"}
         role="switch"
         aria-checked={checked}
         aria-labelledby={`${id}-label`}
         aria-describedby={`${id}-description`}
-        onClick={() => onCheckedChange(!checked)}
+        onClick={onCheckedChange && (() => onCheckedChange(!checked))}
         className="flex min-h-11 shrink-0 items-center"
       >
         <span

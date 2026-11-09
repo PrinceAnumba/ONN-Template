@@ -11,6 +11,7 @@ import { Link } from "@/i18n/navigation";
 import { Citation } from "@/components/publications/citation";
 import { formatBytes, formatDate } from "@/lib/format";
 import { pick } from "@/lib/localised";
+import { isLite } from "@/lib/lite";
 import { siteOrigin } from "@/lib/origin";
 
 interface PageProps {
@@ -36,10 +37,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 export default async function PublicationPage({ params }: PageProps) {
   const { slug } = await params;
   const locale = await getLocale();
-  const [item, t, origin] = await Promise.all([
+  const [item, t, origin, lite] = await Promise.all([
     getPublication(slug, locale),
     getTranslations("Publications"),
     siteOrigin(),
+    isLite(),
   ]);
   const citation = t("citationText", {
     publisher: pick(country.owner.ministry, locale),
@@ -60,16 +62,24 @@ export default async function PublicationPage({ params }: PageProps) {
         {t("back")}
       </Link>
 
-      <div className="mt-4 grid gap-8 md:grid-cols-[12rem_minmax(0,1fr)] lg:grid-cols-[16rem_minmax(0,1fr)]">
-        <Image
-          src={item.coverUrl}
-          alt=""
-          width={300}
-          height={400}
-          priority
-          unoptimized
-          className="aspect-[3/4] h-auto w-40 rounded-sm border object-cover md:w-full"
-        />
+      <div
+        className={
+          lite
+            ? "mt-4"
+            : "mt-4 grid gap-8 md:grid-cols-[12rem_minmax(0,1fr)] lg:grid-cols-[16rem_minmax(0,1fr)]"
+        }
+      >
+        {!lite && (
+          <Image
+            src={item.coverUrl}
+            alt=""
+            width={300}
+            height={400}
+            priority
+            unoptimized
+            className="aspect-[3/4] h-auto w-40 rounded-sm border object-cover md:w-full"
+          />
+        )}
         <div className="min-w-0">
           <p className="text-muted-foreground text-sm font-semibold uppercase">
             {t(`types.${item.type}`)}

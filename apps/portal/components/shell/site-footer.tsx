@@ -3,7 +3,9 @@ import { country } from "@onn/config";
 import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
 import { Link } from "@/i18n/navigation";
+import { isLite } from "@/lib/lite";
 import { ABOUT_NAV, EXPLORE_NAV } from "@/lib/nav";
+import { LiteToggle } from "./lite-toggle";
 import { NewsletterForm } from "./newsletter-form";
 
 function formatDate(value: string, locale: string) {
@@ -35,6 +37,7 @@ export async function SiteFooter() {
   const locale = await getLocale();
   const t = await getTranslations("Footer");
   const nav = await getTranslations("Nav");
+  const lite = await isLite();
   const owner = country.owner.ministry[locale] ?? "";
 
   const column = (heading: string, items: readonly { key: string; href: string }[]) => (
@@ -73,6 +76,12 @@ export async function SiteFooter() {
           <div>
             <h2 className="text-base font-semibold">{t("newsletter")}</h2>
             <NewsletterForm />
+            <LiteToggle
+              on={lite}
+              action={`/${locale}/lite`}
+              label={t("lite")}
+              description={t("liteDescription")}
+            />
             {country.social.length > 0 && (
               <ul className="mt-4 flex gap-4">
                 {country.social.map((link) => (

@@ -46,6 +46,8 @@ export function RoutePending({ children, label }: { children: ReactNode; label: 
 
   useEffect(() => {
     const onClick = (event: MouseEvent) => {
+      // Lets tab panels crossfade from now on (`onn-fade-in`), never on the first paint.
+      document.documentElement.dataset.navigated = "";
       // Capture phase: runs before Next's Link calls preventDefault and pushes the route.
       const path = targetPath(event);
       if (!path) return;

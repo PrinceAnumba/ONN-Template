@@ -14,8 +14,17 @@ export function RichText({ source, className }: { source: string; className?: st
   );
 }
 
+export interface CmsBlocksProps {
+  blocks: CmsBlock[];
+  tableCaption: string;
+  /** Lite mode (brief §9): images are replaced by their description; partner logos stay. */
+  lite?: boolean;
+  /** Label above an image's description in Lite mode. */
+  imageHidden?: string;
+}
+
 /** CMS blocks (brief §5.9): rich text, image, callout, table and partner grid. */
-export function CmsBlocks({ blocks, tableCaption }: { blocks: CmsBlock[]; tableCaption: string }) {
+export function CmsBlocks({ blocks, tableCaption, lite, imageHidden }: CmsBlocksProps) {
   return (
     <div className="flex flex-col gap-6">
       {blocks.map((block, i) => {
@@ -33,6 +42,17 @@ export function CmsBlocks({ blocks, tableCaption }: { blocks: CmsBlock[]; tableC
               </aside>
             );
           case "image":
+            if (lite) {
+              return block.alt ? (
+                <p
+                  key={i}
+                  className="text-muted-foreground max-w-prose rounded-lg border p-4 text-sm"
+                >
+                  <span className="block font-semibold">{imageHidden}</span>
+                  {block.alt}
+                </p>
+              ) : null;
+            }
             return block.src ? (
               <Image
                 key={i}

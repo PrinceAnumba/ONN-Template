@@ -23,6 +23,7 @@ import { MapExplorerLazy } from "@/components/map/map-explorer-lazy";
 import { ClientMessages } from "@/components/shell/client-messages";
 import { initialYear } from "@/lib/map";
 import { loadMapData } from "@/lib/map-view";
+import { isLite } from "@/lib/lite";
 import { metadataProps } from "@/lib/metadata";
 import { serializeUrlState } from "@/lib/url-state";
 import type { Area } from "@onn/api-client/types";
@@ -191,8 +192,9 @@ export async function NoDataPanel({
   );
 }
 
-export async function ChartView({ view, lite }: { view: IndicatorView; lite?: boolean }) {
+export async function ChartView({ view }: { view: IndicatorView }) {
   const t = await getTranslations("Indicator");
+  const lite = await isLite();
   const years =
     view.range[0] === view.range[1] ? String(view.range[0]) : `${view.range[0]}–${view.range[1]}`;
   return (

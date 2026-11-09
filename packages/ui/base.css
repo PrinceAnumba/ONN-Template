@@ -223,6 +223,55 @@
   }
 }
 
+/* Lite mode (the app sets data-lite on <html>) shows the skeleton as static grey too. */
+[data-lite] .onn-skeleton {
+  animation: none;
+  background: var(--onn-line);
+}
+
+/*
+ * Tab content crossfade, 120 ms (brief §8). Put it on the panel that mounts on each change. It
+ * runs only after the first click (the app sets data-navigated on <html>), so the first paint,
+ * and with it LCP, is never held back.
+ */
+@utility onn-fade-in {
+  [data-navigated] & {
+    animation: onn-fade-in var(--onn-dur-1) var(--onn-ease);
+  }
+}
+
+@keyframes onn-fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/*
+ * Brief §8: motion is removed under prefers-reduced-motion and in Lite mode. One rule here
+ * catches every transition and animation, including Radix and third-party ones, so components
+ * needn't each remember motion-reduce. Durations become near zero rather than none so
+ * animationend and transitionend still fire (Radix waits for them before unmounting).
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+[data-lite] *,
+[data-lite] ::before,
+[data-lite] ::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.01ms !important;
+  scroll-behavior: auto !important;
+}
+
 @utility onn-prose {
   & p + p {
     margin-top: var(--s-2);

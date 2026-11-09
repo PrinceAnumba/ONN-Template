@@ -105,6 +105,8 @@ export function BottomSheet({
           style={{ height }}
           className={cn(
             "bg-background fixed inset-x-0 bottom-0 z-50 flex flex-col rounded-t-lg border-t shadow-md",
+            // Slides up on open and down on close (brief §8); base.css removes it under reduced motion.
+            "data-[state=open]:animate-in data-[state=open]:slide-in-from-bottom data-[state=closed]:animate-out data-[state=closed]:slide-out-to-bottom ease-onn duration-(--onn-dur-3)",
             dragHeight === null &&
               "transition-[height] duration-(--onn-dur-3) ease-onn motion-reduce:transition-none",
           )}

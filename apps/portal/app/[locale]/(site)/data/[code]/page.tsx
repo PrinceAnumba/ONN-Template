@@ -109,7 +109,8 @@ export default async function IndicatorPage({ params, searchParams }: PageProps)
         }}
       />
       <div className="mt-6 grid gap-10 xl:grid-cols-[minmax(0,1fr)_17rem]">
-        <div className="min-w-0">
+        {/* Keyed by view, so the new panel mounts and crossfades in (brief §8: tabs, 120 ms). */}
+        <div key={view.view} className="onn-fade-in min-w-0">
           {noData && <NoDataPanel view={view} nearest={nearest} />}
           {view.view === "chart" && !noData && <ChartView view={view} />}
           {view.view === "table" && !noData && <TableView view={view} />}

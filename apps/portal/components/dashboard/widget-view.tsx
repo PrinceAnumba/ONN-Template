@@ -9,6 +9,7 @@ import { formatValue } from "@onn/ui/format";
 import { getTranslations } from "next-intl/server";
 import { IndicatorTable } from "@/components/indicator/indicator-table";
 import { chartFrameLabels } from "@/lib/chart-labels";
+import { isLite } from "@/lib/lite";
 import type { WidgetModel } from "@/lib/dashboard";
 
 /** Server render width per column span, so chart text isn't scaled before hydration. */
@@ -27,6 +28,7 @@ export async function WidgetView({ model, tag }: { model: WidgetModel; tag: stri
       content = (
         <Chart
           bare
+          lite={await isLite()}
           spec={body.spec}
           title={model.title}
           summary={body.summary}

@@ -255,6 +255,59 @@ export function ChartFrame({
     "--chart-mobile": `${mobileHeight}px`,
   } as React.CSSProperties;
 
+  const tableBlock = table && status === "ready" && (
+    // sr-only on the wrapper: a <table> sizes to its cells, so it would widen the page. In Lite
+    // mode the table comes first and always shows, in its own scroll region (brief §9).
+    <div
+      className={cn(
+        lite ? "relative mt-3 overflow-x-auto" : "mt-3",
+        !lite && !showTable && "sr-only",
+      )}
+      // Scrollable in Lite mode, so it must be reachable by keyboard.
+      // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
+      tabIndex={lite ? 0 : undefined}
+    >
+      <table className="w-full text-sm">
+        <caption className="sr-only">{title}</caption>
+        <thead>
+          <tr>
+            {table.columns.map((column, i) => (
+              <th
+                key={column}
+                scope="col"
+                className={cn(
+                  "border-b py-1 font-semibold",
+                  table.numeric[i] ? "text-end" : "text-start",
+                )}
+              >
+                {column}
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {table.rows.map((row, r) => (
+            <tr key={r}>
+              {row.map((value, c) =>
+                c === 0 ? (
+                  <th key={c} scope="row" className="border-b py-1 text-start font-normal">
+                    {value}
+                  </th>
+                ) : (
+                  <td key={c} className="border-b py-1 text-end tabular-nums">
+                    {typeof value === "number" && activeSpec
+                      ? formatValue(value, activeSpec.unitKind, activeSpec.tag)
+                      : formatValue(null, "count", "en")}
+                  </td>
+                ),
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+
   return (
     <figure
       ref={containerRef}
@@ -351,7 +404,7 @@ export function ChartFrame({
                   {labels.embed}
                 </Button>
               )}
-              {table && (
+              {table && !lite && (
                 <Button
                   variant="ghost"
                   size="sm"
@@ -370,6 +423,7 @@ export function ChartFrame({
         {notice}
       </p>
 
+      {lite && tableBlock}
       <div className={cn(!bare && "mt-3")}>
         {status === "loading" &&
           box(
@@ -422,49 +476,7 @@ export function ChartFrame({
         )}
       </div>
 
-      {table && status === "ready" && (
-        // sr-only on the wrapper: a <table> sizes to its cells, so it would widen the page.
-        <div className={cn("mt-3", !showTable && "sr-only")}>
-          <table className="w-full text-sm">
-            <caption className="sr-only">{title}</caption>
-            <thead>
-              <tr>
-                {table.columns.map((column, i) => (
-                  <th
-                    key={column}
-                    scope="col"
-                    className={cn(
-                      "border-b py-1 font-semibold",
-                      table.numeric[i] ? "text-end" : "text-start",
-                    )}
-                  >
-                    {column}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-            <tbody>
-              {table.rows.map((row, r) => (
-                <tr key={r}>
-                  {row.map((value, c) =>
-                    c === 0 ? (
-                      <th key={c} scope="row" className="border-b py-1 text-start font-normal">
-                        {value}
-                      </th>
-                    ) : (
-                      <td key={c} className="border-b py-1 text-end tabular-nums">
-                        {typeof value === "number" && activeSpec
-                          ? formatValue(value, activeSpec.unitKind, activeSpec.tag)
-                          : formatValue(null, "count", "en")}
-                      </td>
-                    ),
-                  )}
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+      {!lite && tableBlock}
       {source && <figcaption className="text-muted-foreground mt-3 text-xs">{source}</figcaption>}
     </figure>
   );
