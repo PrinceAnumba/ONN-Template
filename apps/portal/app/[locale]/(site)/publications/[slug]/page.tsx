@@ -15,6 +15,8 @@ import { isLite } from "@/lib/lite";
 import { siteOrigin } from "@/lib/origin";
 import { FallbackMark } from "@/components/fallback-mark";
 import { fallbackLang } from "@/lib/localised";
+import { JsonLd } from "@/components/json-ld";
+import { reportJsonLd } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -56,6 +58,7 @@ export default async function PublicationPage({ params }: PageProps) {
 
   return (
     <main id="content" className="onn-container py-8">
+      <JsonLd data={reportJsonLd(item, locale, origin)} />
       <Link
         href="/publications"
         className="text-primary inline-flex min-h-11 items-center gap-1 font-semibold underline"

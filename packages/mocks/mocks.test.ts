@@ -409,6 +409,16 @@ describe("mock behaviour", () => {
     expect(english.items.some((item) => item.fallback)).toBe(false);
   });
 
+  it("resolves text inside nested arrays (CMS table cells)", async () => {
+    const page = await get<{ blocks: { type: string; rows?: unknown[][] }[] }>(
+      "/pages/methodology",
+      "en",
+    );
+    const cells = page.blocks.flatMap((block) => block.rows ?? []).flat();
+    expect(cells.length).toBeGreaterThan(0);
+    expect(cells.every((cell) => typeof cell === "string")).toBe(true);
+  });
+
   it("uses the default locale for an unknown language", async () => {
     const indicator = await get<Indicator>("/indicators/CONN.4G_POP", "de");
     expect(indicator.name).toBe("Couverture 4G de la population");

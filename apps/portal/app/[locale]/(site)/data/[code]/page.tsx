@@ -19,6 +19,9 @@ import {
   unavailableBreakdowns,
 } from "@/lib/indicator-view";
 import { serializeUrlState } from "@/lib/url-state";
+import { JsonLd } from "@/components/json-ld";
+import { siteOrigin } from "@/lib/origin";
+import { datasetJsonLd } from "@/lib/seo";
 
 interface PageProps {
   params: Promise<{ code: string }>;
@@ -42,7 +45,7 @@ export default async function IndicatorPage({ params, searchParams }: PageProps)
   const locale = await getLocale();
   const view = await loadIndicatorView(decodeURIComponent(code), searchParams, locale);
   const { indicator } = view;
-  const t = await getTranslations("Indicator");
+  const [t, origin] = await Promise.all([getTranslations("Indicator"), siteOrigin()]);
   // An area without data gets the §8 empty state; an empty breakdown keeps the chart's own.
   const noData = !view.hasData && view.view !== "map" && !view.dimension;
   const [unavailable, nearest] = await Promise.all([
@@ -76,6 +79,7 @@ export default async function IndicatorPage({ params, searchParams }: PageProps)
 
   return (
     <main id="content" className="py-6 lg:py-8">
+      <JsonLd data={datasetJsonLd(indicator, locale, origin)} />
       <IndicatorHeader view={view} />
       <IndicatorToolbar
         title={indicator.name}
