@@ -81,6 +81,17 @@ export default async function SubmissionPage({ params, searchParams }: DetailPro
             })}
           </p>
         </div>
+        {item.channel === "entry" &&
+          ["draft", "returned"].includes(item.status) &&
+          can(session.roles, "submission.submit") &&
+          item.indicators[0] && (
+            <Link
+              href={`/entry/${encodeURIComponent(item.indicators[0])}?period=${encodeURIComponent(item.period)}`}
+              className="inline-flex min-h-11 items-center font-semibold underline"
+            >
+              {t("editEntry")}
+            </Link>
+          )}
         <SubmissionActions
           id={item.id}
           actions={availableActions(session.roles, item.status)}

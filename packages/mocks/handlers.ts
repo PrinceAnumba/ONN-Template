@@ -1,4 +1,5 @@
 import type {
+  Periodicity,
   Area,
   ExportJob,
   ApiKeyInput,
@@ -349,6 +350,36 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
             item.value !== null,
         );
         return before.at(-1)?.value ?? null;
+      },
+      intake: {
+        iso3,
+        indicators: data.indicators.map((item) => ({
+          code: item.code as string,
+          name: item.name,
+          unit:
+            data.observations.find((row) => row.indicator === item.code)?.unit ??
+            String((item.unit as unknown as Record<string, string>)[data.meta.defaultLocale] ?? ""),
+          periodicity: item.periodicity as Periodicity,
+          disaggregations: item.disaggregations as string[],
+        })),
+        areas: data.areas.map((area) => ({
+          code: area.code as string,
+          name: area.name,
+          level: area.level as string,
+        })),
+        series: (indicator, area, dims) => {
+          const key = JSON.stringify(dims);
+          return (byIndicatorArea.get(`${indicator}|${area}`) ?? [])
+            .filter((row) => JSON.stringify(row.dims) === key)
+            .map((row) => ({ period: row.period, value: row.value }));
+        },
+        breakdowns: (indicator) => {
+          const seen = new Map<string, Record<string, string>>();
+          for (const row of byIndicatorArea.get(`${indicator}|${iso3}`) ?? []) {
+            if (Object.keys(row.dims).length) seen.set(JSON.stringify(row.dims), row.dims);
+          }
+          return [...seen.values()];
+        },
       },
       publish: (rows, indicators) => {
         const touched = applyRows(data.observations, rows, (code) => {

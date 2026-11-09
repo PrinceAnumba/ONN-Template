@@ -124,6 +124,17 @@ const COMPONENTS = {
       Error: "has no data of its own",
     },
   ],
+  EntryGrid: [
+    "ui/components/entry-grid.stories.tsx",
+    {
+      Loading: "the page loads the sheet before showing the grid",
+      Error: "cell errors are in Default; load errors are the page’s",
+    },
+  ],
+  FileDrop: [
+    "ui/components/file-drop.stories.tsx",
+    { Empty: "is the default state, before a file is chosen" },
+  ],
 };
 let missing = 0;
 const skipped = [];

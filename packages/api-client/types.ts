@@ -435,3 +435,125 @@ export interface BulkTransitionResult {
   done: string[];
   failed: { id: string; status: number; detail: string }[];
 }
+
+// ---- File imports (§7 import wizard) ----
+
+export type ImportFormat = "csv" | "xlsx" | "json" | "xml";
+/** parsing → mapping (columns to confirm) → validating → validated → submitted; or failed. */
+export type ImportStatus =
+  "parsing" | "mapping" | "validating" | "validated" | "submitted" | "failed";
+/** What a file column holds. `dim:<key>` is a breakdown such as `dim:sex`. */
+export type ImportField =
+  "indicator" | "area" | "period" | "value" | "flag" | "ignore" | `dim:${string}`;
+/** Import checks beyond the quality rules: unknown codes, bad periods, text in value cells, and
+ * indicators the organisation doesn't report. */
+export type ImportRule = QualityRule | "indicator" | "area" | "period" | "number" | "permission";
+
+export interface ImportColumn {
+  /** The header as written in the file. */
+  source: string;
+  target: ImportField;
+  /** True when the server matched the header itself. */
+  auto: boolean;
+}
+
+export interface ImportIssue {
+  /** 1-based data row in the file (the header is row 0). */
+  row: number;
+  field: ImportField;
+  rule: ImportRule;
+  level: "error" | "warning";
+  /** The cell as read from the file. */
+  value: string;
+}
+
+export interface ImportSummary {
+  id: string;
+  org: string;
+  orgName: string;
+  fileName: string;
+  format: ImportFormat;
+  bytes: number;
+  status: ImportStatus;
+  created: string;
+  createdBy: { id: string; name: string };
+  rowCount: number;
+  counts?: { errors: number; warnings: number; valid: number };
+  /** The submission created on submit. */
+  submission?: string;
+}
+
+export interface ImportJob extends ImportSummary {
+  columns: ImportColumn[];
+  /** Fields a column can map to, including the breakdowns the organisation's indicators use. */
+  targets: ImportField[];
+  /** The first 20 data rows, cells in column order. */
+  preview: string[][];
+  /** Every data row once validated, for the row-level list and fixing cells. */
+  rows?: string[][];
+  issues?: ImportIssue[];
+  /** Why parsing failed: `format` (unreadable), `empty`, or `unsupported` (a format this server
+   * can't read yet). */
+  error?: "format" | "empty" | "unsupported";
+}
+
+export interface ImportFix {
+  row: number;
+  field: ImportField;
+  value: string;
+}
+
+// ---- Manual data entry (§7 entry grid) ----
+
+export interface EntryIndicator {
+  code: string;
+  name: string;
+  unit: string;
+  periodicity: Periodicity;
+  org: string;
+  orgName: string;
+  /** Latest published period, if any. */
+  latest?: string;
+  /** The period collected next. */
+  next: string;
+  /** An open entry draft for that period. */
+  draft?: { submission: string; status: SubmissionStatus; updated: string };
+}
+
+export interface EntryRow {
+  /** Stable key: area plus breakdown. */
+  key: string;
+  area: string;
+  areaName: string;
+  dims: Record<string, string>;
+  /** Value per period: the draft's when it has one, else the published value. */
+  values: Record<string, number | null>;
+  published: Record<string, number | null>;
+  /** The value for the period before the first column, for the first cell's corner. */
+  before: number | null;
+}
+
+export interface EntrySheet {
+  indicator: { code: string; name: string; unit: string; periodicity: Periodicity };
+  org: string;
+  orgName: string;
+  /** Columns, oldest first; the last is the period being collected. */
+  periods: string[];
+  /** Grouped by breakdown: totals first, then each breakdown's rows. */
+  rows: EntryRow[];
+  draft?: { submission: string; status: SubmissionStatus; updated: string };
+  /** Set when the submission for this period has moved past draft or returned: read-only. */
+  locked?: SubmissionStatus;
+}
+
+export interface EntryCell {
+  area: string;
+  dims: Record<string, string>;
+  period: string;
+  value: number | null;
+}
+
+export interface EntrySaveResult {
+  submission: string;
+  saved: string;
+}

@@ -19,6 +19,7 @@ import type {
 } from "@onn/api-client/types";
 import { HttpResponse, type RequestHandler } from "msw";
 import type { AdminState, StoredSubmission, StoredUser } from "./admin-seed";
+import { createIntakeHandlers, type IntakeDeps } from "./admin-intake";
 import { qualityResults, rowIssues, type StoredRow } from "./admin-submissions";
 
 type Method = "get" | "post" | "put" | "patch" | "delete";
@@ -46,6 +47,8 @@ export interface AdminDeps {
   previous: (row: StoredRow) => number | null;
   /** Writes published rows into the public data and tells the apps to refresh. */
   publish: (rows: StoredRow[], indicators: string[]) => void;
+  /** Catalogue lookups for imports and the entry grid. */
+  intake: Pick<IntakeDeps, "iso3" | "indicators" | "areas" | "series" | "breakdowns">;
 }
 
 const STATUSES: SubmissionStatus[] = [
@@ -78,6 +81,7 @@ export function createAdminHandlers({
   names,
   previous,
   publish,
+  intake,
 }: AdminDeps) {
   const refuse = (refusal: Refusal) =>
     HttpResponse.json(
@@ -255,6 +259,16 @@ export function createAdminHandlers({
   };
 
   return [
+    ...createIntakeHandlers({
+      ...intake,
+      authed,
+      localise,
+      problem,
+      state,
+      orgName,
+      userName,
+    }),
+
     route("get", "/admin/demo-users", () =>
       HttpResponse.json(
         state.users

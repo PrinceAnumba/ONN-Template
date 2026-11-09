@@ -107,3 +107,24 @@ Public `POST /feedback` submissions should appear in the admin feedback inbox (`
 **Quality rules** (`QualityRule`): `missing` (null value, error), `negative` (error), `range` (percentage outside 0–100, error), `duplicate` (same indicator, area, period and breakdown, error), `jump` (over 30% from the published or previous value, warning). The backend may add rules; the admin needs a message for each new code.
 
 **Publish webhook.** Publishing must update the public endpoints and call each frontend's `POST /api/revalidate` with header `X-Revalidate-Secret` and body `{ tags: string[] }` (at most 100). The portal answers `401` on a wrong secret. The mock sends `indicator:<code>` for each published indicator plus `home`, `selector`, `profile`, `map`, `benchmark`, `query`, `catalogue`, `dashboards` and `datasets`; the URLs and secret come from `REVALIDATE_URLS` (comma-separated) and `REVALIDATE_SECRET`.
+
+### File imports and manual entry (Phase 7c)
+
+Both end in an ordinary submission (`channel` `import` or `entry`), so verification, approval and publishing work as above.
+
+| Endpoint | Returns | Needed by |
+| --- | --- | --- |
+| `GET /admin/imports?org=&page=&pageSize=` | `Page<ImportSummary>` | Imports list |
+| `GET /admin/imports/template?org=` | CSV with `indicator,area,period,value,flag` and one row per indicator and area the organisation reports, for the next period. The mock also takes `demo=errors` (values with five seeded errors); the real API needn't | §7 "Download template per indicator set" (the set is the organisation's indicators) |
+| `POST /admin/imports` | multipart `file` (CSV, XLSX, JSON or XML, ≤ 50 MB) and `org`; `201` with an `ImportJob` in `parsing`. `413` over 50 MB, `415` for other formats, `403` for roles that can't submit | Upload step |
+| `GET /admin/imports/:id` | `ImportJob`, polled while `parsing` or `validating`. After parsing: `columns` (header, suggested `target`, `auto`), `targets` (fields a column can map to, including `dim:<key>` breakdowns the organisation's indicators use) and `preview` (first 20 rows). After validation: `counts`, `issues` (row, field, rule, level, cell value) and `rows`. `failed` carries `error`: `format`, `empty` or `unsupported` | Map, Validate steps |
+| `PUT /admin/imports/:id/mapping` | body `{ columns: { [header]: ImportField } }`; starts validation. `422` with `type: "mapping"` when indicator, area, period or value is unmapped or a field is mapped twice | Map step |
+| `PATCH /admin/imports/:id/rows` | body `{ fixes?: ImportFix[], remove?: number[] }`; fixes cells or drops rows (row numbers stay stable) and validates again at once | Validate step: fixing errors in place (§10 journey "fixes → submits") |
+| `POST /admin/imports/:id/submit` | body `{ comment? }`; `201` with `{ submission }`, a new submission in `submitted` holding the valid rows. `422` `type: "errors"` while errors remain | Submit step |
+| `GET /admin/entry?org=` | `EntryIndicator[]`: indicators the user's organisations report, with the next period and any open entry draft | Data entry list |
+| `GET /admin/entry/:indicator?period=` | `EntrySheet`: three periods ending at `period` (default: the next one), rows for the national level, regions with data and each published breakdown, the draft's or published values, the value before the first column, and `locked` once the draft has been submitted | Entry grid |
+| `PUT /admin/entry/:indicator?period=` | body `{ cells: EntryCell[] }`; saves into the entry draft for that organisation, indicator and period (created on first save). Cells equal to the published value are dropped. `409` `type: "state"` once submitted | Entry grid autosave |
+
+**Import rules** (`ImportRule`) add to the quality rules: `indicator` (unknown code), `area` (unknown code), `period` (wrong format for the indicator's periodicity), `number` (text in a value cell) and `permission` (an indicator the organisation doesn't report). The admin needs a message for any new code.
+
+**Shared checks.** `packages/api-client/quality.ts` (`valueIssues`, `parseNumber`, `validPeriod`) is what the entry grid runs while typing; the backend's rules should match it (30% jump threshold, percentages ≤ 100, both decimal conventions).

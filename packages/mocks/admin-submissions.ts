@@ -1,4 +1,5 @@
 // Submission values, quality rules and history for the back-office mock (brief §7).
+import { nextPeriod, valueIssues } from "@onn/api-client/quality";
 import type {
   ObsStatus,
   Observation,
@@ -34,10 +35,7 @@ const RULES: { rule: QualityRule; level: "error" | "warning" }[] = [
   { rule: "jump", level: "warning" },
 ];
 
-/** A change over 30% on the published or previous value needs a justification. */
-const JUMP_RATIO = 0.3;
-
-/** Issues for each row, keyed by row id. */
+/** Issues for each row, keyed by row id. Value checks are shared with the entry grid. */
 export function rowIssues(rows: StoredRow[], previous: (row: StoredRow) => number | null) {
   const seen = new Set<string>();
   const issues = new Map<string, RowIssue[]>();
@@ -46,15 +44,7 @@ export function rowIssues(rows: StoredRow[], previous: (row: StoredRow) => numbe
     const key = `${row.indicator}|${row.area}|${row.period}|${JSON.stringify(row.dims)}`;
     if (seen.has(key)) found.push({ rule: "duplicate", level: "error" });
     seen.add(key);
-    if (row.value === null) found.push({ rule: "missing", level: "error" });
-    else {
-      if (row.value < 0) found.push({ rule: "negative", level: "error" });
-      if (row.unit === "%" && row.value > 100) found.push({ rule: "range", level: "error" });
-      const base = row.published ?? previous(row);
-      if (base && Math.abs(row.value - base) / Math.abs(base) > JUMP_RATIO) {
-        found.push({ rule: "jump", level: "warning" });
-      }
-    }
+    found.push(...valueIssues(row.value, row.unit, row.published ?? previous(row)));
     issues.set(row.id, found);
   }
   return issues;
@@ -77,14 +67,7 @@ export function qualityResults(
   });
 }
 
-export function nextPeriod(period: string, periodicity: string) {
-  const quarter = /^(\d{4})-Q([1-4])$/.exec(period);
-  if (quarter) {
-    const [year, q] = [Number(quarter[1]), Number(quarter[2])];
-    return q === 4 ? `${year + 1}-Q1` : `${year}-Q${q + 1}`;
-  }
-  return String(Number(period.slice(0, 4)) + (periodicity === "biennial" ? 2 : 1));
-}
+export { nextPeriod };
 
 /** The order a submission moves through; "returned" sends it back to the contributor. */
 export const STEPS: SubmissionStatus[] = [

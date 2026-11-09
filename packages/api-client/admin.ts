@@ -6,6 +6,13 @@ import type {
   AdminOverview,
   BulkTransitionResult,
   CalendarItem,
+  EntryIndicator,
+  EntrySheet,
+  ImportField,
+  ImportFix,
+  ImportJob,
+  ImportSummary,
+  Page,
   DemoUser,
   QualityRule,
   SubmissionAction,
@@ -70,6 +77,24 @@ export const adminApi = {
   /** Collection calendar for one month (`YYYY-MM`). */
   calendar: (ctx: AdminContext, month: string, org?: string) =>
     get<CalendarItem[]>("/calendar", ctx, { month, org }),
+  imports: (ctx: AdminContext, query: { org?: string; page?: number; pageSize?: number } = {}) =>
+    get<Page<ImportSummary>>("/imports", ctx, query),
+  importJob: (ctx: AdminContext, id: string) =>
+    get<ImportJob>(`/imports/${encodeURIComponent(id)}`, ctx),
+  /** Confirms the column mapping (source header → field) and starts validation. */
+  mapImport: (ctx: AdminContext, id: string, columns: Record<string, ImportField>) =>
+    send<ImportJob>("PUT", `/imports/${encodeURIComponent(id)}/mapping`, ctx, { columns }),
+  /** Fixes cells or removes rows; the job is validated again. */
+  fixImport: (ctx: AdminContext, id: string, fixes: ImportFix[], remove: number[] = []) =>
+    send<ImportJob>("PATCH", `/imports/${encodeURIComponent(id)}/rows`, ctx, { fixes, remove }),
+  submitImport: (ctx: AdminContext, id: string, comment?: string) =>
+    send<{ submission: string }>("POST", `/imports/${encodeURIComponent(id)}/submit`, ctx, {
+      comment,
+    }),
+  entryIndicators: (ctx: AdminContext, org?: string) =>
+    get<EntryIndicator[]>("/entry", ctx, { org }),
+  entrySheet: (ctx: AdminContext, indicator: string, period?: string) =>
+    get<EntrySheet>(`/entry/${encodeURIComponent(indicator)}`, ctx, { period }),
   /** Mock only: the users the role switcher offers. Needs no token. */
   demoUsers: (locale: string) => apiFetch<DemoUser[]>("/admin/demo-users", { locale }),
 };

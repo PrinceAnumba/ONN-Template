@@ -243,6 +243,14 @@
         "approved": "Approved",
         "published": "Published",
         "returned": "Returned"
+      },
+      "import": {
+        "parsing": "Reading",
+        "mapping": "Columns to map",
+        "validating": "Checking",
+        "validated": "Checked",
+        "submitted": "Submitted",
+        "failed": "Failed"
       }
     },
     "error": {
@@ -387,7 +395,8 @@
       },
       "historyMove": "{from} → {to}",
       "historyCreated": "Created",
-      "historyBy": "{name}, {date}"
+      "historyBy": "{name}, {date}",
+      "editEntry": "Edit in data entry"
     },
     "quality": {
       "rule": {
@@ -431,6 +440,210 @@
       },
       "empty": "No deadlines this month.",
       "gridCaption": "Deadlines in {month}"
+    },
+    "imports": {
+      "title": "Imports",
+      "new": "New import",
+      "back": "All imports",
+      "empty": "No imports yet. Upload a CSV, XLSX, JSON or XML file to start one.",
+      "pageSize": "Rows per page",
+      "issueCounts": "{errors, plural, =0 {No errors} one {# error} other {# errors}}, {warnings, plural, =0 {no warnings} one {# warning} other {# warnings}}",
+      "noCounts": "Not validated yet",
+      "column": {
+        "id": "ID",
+        "file": "File",
+        "org": "Organisation",
+        "rows": "Rows",
+        "issues": "Checks",
+        "status": "Status",
+        "by": "Uploaded by",
+        "created": "Uploaded"
+      },
+      "progress": "Import progress",
+      "stepDone": "Done:",
+      "stepCurrent": "Current step:",
+      "step": {
+        "upload": "Upload",
+        "map": "Map columns",
+        "validate": "Validate",
+        "submit": "Submit"
+      },
+      "jobTitle": "Import of {file}",
+      "jobMeta": "{id} · {org}",
+      "parsing": "Reading the file…",
+      "validating": "Checking every row…",
+      "failedTitle": "The file couldn't be read",
+      "failed": {
+        "format": "Its content doesn't match its format. Check that it was saved as CSV, XLSX, JSON or XML.",
+        "empty": "It has no data rows under the header.",
+        "unsupported": "This server can't read XLSX files yet. Save the sheet as CSV and upload it again."
+      },
+      "tryAnother": "Upload another file",
+      "submittedTitle": "Submitted for verification",
+      "submittedBody": "This import became submission {id}.",
+      "openSubmission": "Open the submission",
+      "field": {
+        "indicator": "Indicator code",
+        "area": "Area code",
+        "period": "Period",
+        "value": "Value",
+        "flag": "Flag (A, E, P, B, F, M)",
+        "ignore": "Don't import",
+        "dim": "Breakdown: {name}"
+      },
+      "level": {
+        "error": "Error",
+        "warning": "Warning"
+      },
+      "rule": {
+        "missing": "missing value",
+        "negative": "negative value",
+        "range": "percentage over 100",
+        "jump": "change over 30%",
+        "duplicate": "duplicate row",
+        "indicator": "unknown indicator code",
+        "area": "unknown area code",
+        "period": "period in the wrong format",
+        "number": "not a number",
+        "permission": "indicator not reported by this organisation"
+      },
+      "upload": {
+        "org": "Organisation",
+        "chooseOrg": "Choose an organisation",
+        "orgRequired": "Choose the organisation this data is for.",
+        "templateIntro": "Start from the template for this organisation's indicators, so the columns match.",
+        "template": "Download template (CSV)",
+        "demoFile": "Download a demo file with errors",
+        "prompt": "Drag a file here or",
+        "browse": "choose a file",
+        "hint": "CSV, XLSX, JSON or XML, up to 50 MB",
+        "remove": "Remove file",
+        "fileLabel": "{name} ({size})",
+        "noFile": "Choose a file to upload.",
+        "wrongType": "Use a CSV, XLSX, JSON or XML file.",
+        "tooLarge": "The file is over 50 MB. Split it by period or indicator.",
+        "submit": "Upload and continue",
+        "uploading": "Uploading…",
+        "failed": {
+          "403": "Your role can't import data.",
+          "413": "The file is over 50 MB.",
+          "415": "Use a CSV, XLSX, JSON or XML file.",
+          "network": "The upload didn't reach the server. Check the connection and try again.",
+          "other": "The upload failed. Try again."
+        },
+        "progress": "Upload progress"
+      },
+      "map": {
+        "intro": "Tell us what each column holds. Columns we recognised are filled in; check them before going on.",
+        "errorTitle": "Fix the mapping before validating",
+        "missing": "Map a column to “{field}”.",
+        "doubled": "Only one column can be “{field}”.",
+        "failed": "The mapping couldn't be saved. Try again.",
+        "caption": "Columns in the file",
+        "column": "Column in the file",
+        "field": "Holds",
+        "sample": "Sample values",
+        "selectLabel": "What column {column} holds",
+        "auto": "Matched automatically",
+        "preview": "Preview of the first {count} rows",
+        "submit": "Validate"
+      },
+      "validate": {
+        "stat": {
+          "rows": "Rows",
+          "valid": "Ready",
+          "errors": "Rows with errors",
+          "warnings": "Rows with warnings"
+        },
+        "errorsOnly": "Show errors only",
+        "report": "Download error report (CSV)",
+        "fixIntro": "Correct a cell or remove the row, then apply the fixes. Warnings can stay: the verifier will ask for a justification.",
+        "caption": "Problems by row",
+        "row": "Row",
+        "problem": "Problem",
+        "cell": "Value in the file",
+        "remove": "Remove",
+        "removeRow": "Remove row {row}",
+        "issue": "{field}: {rule}",
+        "clean": "Every row passed the checks.",
+        "back": "Back to mapping",
+        "apply": "Apply fixes",
+        "continue": "Continue",
+        "applyFirst": "Apply or undo your fixes first.",
+        "blocked": "{count, plural, one {# row still has an error} other {# rows still have errors}}.",
+        "fixed": "Fixes applied. No errors left.",
+        "stillErrors": "Fixes applied. {count, plural, one {# row still has an error} other {# rows still have errors}}.",
+        "failed": "The fixes couldn't be applied. Try again.",
+        "stale": "This import changed elsewhere. Reload the page."
+      },
+      "report": {
+        "row": "Row",
+        "field": "Column",
+        "value": "Value",
+        "level": "Level",
+        "rule": "Problem"
+      },
+      "submit": {
+        "file": "File",
+        "org": "Organisation",
+        "rows": "Rows to submit",
+        "warnings": "Rows with warnings",
+        "indicators": "Indicators",
+        "periods": "Periods",
+        "warningNote": "Rows with warnings are included. The verifier will need a justification for each kind of warning.",
+        "comment": "Comment for the verifier (optional)",
+        "commentHint": "For example, where the figures come from or what changed since the last period.",
+        "back": "Back to validation",
+        "submit": "Submit for verification",
+        "done": "Submitted as {id}.",
+        "errors": "Errors remain. Go back and fix them.",
+        "failed": "The submission failed. Try again."
+      }
+    },
+    "entry": {
+      "title": "Data entry",
+      "intro": "Indicators your organisations report. Values save as you type and go to verification when you submit.",
+      "searchLabel": "Find an indicator",
+      "search": "Indicator name or code",
+      "count": "{count, plural, =0 {No indicators} one {# indicator} other {# indicators}}",
+      "empty": "None of your organisations reports an indicator yet.",
+      "emptyFiltered": "No indicator matches this search.",
+      "meta": "{code} · {org} · {unit}{hasLatest, select, yes { · latest {latest}} other {}}",
+      "draftUpdated": "updated {date}",
+      "openLabel": "Enter {name} for {period}",
+      "enter": "Enter {period}",
+      "continue": "Continue {period}",
+      "back": "All indicators",
+      "sheetMeta": "{code} · {org} · {unit} · collecting {period}",
+      "help": "Arrow keys move between cells and Enter moves down. Paste a block copied from a spreadsheet into the first cell. The small grey figure is the previous period.",
+      "caption": "{name} ({unit}) by area and period",
+      "area": "Area",
+      "dimRow": "{area}, {dim}",
+      "cellLabel": "{row}, {period}{hasPrevious, select, yes { (previous period: {previous})} other {}}",
+      "issue": "Problem: {rule}",
+      "issueSummary": "{errors, plural, =0 {No errors} one {# error} other {# errors}}, {warnings, plural, =0 {no warnings} one {# warning} other {# warnings}}",
+      "saving": "Saving…",
+      "savedAt": "Saved {time}",
+      "unsaved": "Unsaved changes",
+      "saveError": "Couldn't save. Trying again in 10 seconds.",
+      "savedLocally": "Changes saved on this device",
+      "offline": "You're offline — changes saved on this device.",
+      "restored": "{count, plural, one {# change} other {# changes}} not yet saved to the server came back from this device.",
+      "locked": "This submission has moved on and can't be edited.",
+      "lockedNotice": "This period has been submitted ({status}), so the grid is read-only.",
+      "openSubmission": "Open {id}",
+      "saveNow": "Save now",
+      "submit": "Submit for verification",
+      "submitted": "{id} submitted for verification.",
+      "submitFailed": "The submission didn't go through. Try again.",
+      "blockedOffline": "Reconnect to submit.",
+      "blockedErrors": "Fix {count, plural, one {# error} other {# errors}} first.",
+      "blockedEmpty": "Enter at least one value first.",
+      "refused": {
+        "errors": "Fix the errors before submitting.",
+        "state": "This submission has already been submitted.",
+        "role": "Your role can't submit data."
+      }
     }
   },
   "Home": {

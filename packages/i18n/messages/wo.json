@@ -243,6 +243,14 @@
         "approved": "Approuvée",
         "published": "Publiée",
         "returned": "Renvoyée"
+      },
+      "import": {
+        "parsing": "Lecture",
+        "mapping": "Colonnes à associer",
+        "validating": "Contrôle",
+        "validated": "Contrôlé",
+        "submitted": "Envoyé",
+        "failed": "Échec"
       }
     },
     "error": {
@@ -387,7 +395,8 @@
       },
       "historyMove": "{from} → {to}",
       "historyCreated": "Créée",
-      "historyBy": "{name}, {date}"
+      "historyBy": "{name}, {date}",
+      "editEntry": "Modifier dans la saisie"
     },
     "quality": {
       "rule": {
@@ -431,6 +440,210 @@
       },
       "empty": "Aucune échéance ce mois-ci.",
       "gridCaption": "Échéances de {month}"
+    },
+    "imports": {
+      "title": "Imports",
+      "new": "Nouvel import",
+      "back": "Tous les imports",
+      "empty": "Aucun import pour l'instant. Déposez un fichier CSV, XLSX, JSON ou XML pour commencer.",
+      "pageSize": "Lignes par page",
+      "issueCounts": "{errors, plural, =0 {Aucune erreur} one {# erreur} other {# erreurs}}, {warnings, plural, =0 {aucun avertissement} one {# avertissement} other {# avertissements}}",
+      "noCounts": "Pas encore contrôlé",
+      "column": {
+        "id": "ID",
+        "file": "Fichier",
+        "org": "Organisation",
+        "rows": "Lignes",
+        "issues": "Contrôles",
+        "status": "Statut",
+        "by": "Déposé par",
+        "created": "Déposé le"
+      },
+      "progress": "Avancement de l'import",
+      "stepDone": "Terminé :",
+      "stepCurrent": "Étape en cours :",
+      "step": {
+        "upload": "Dépôt",
+        "map": "Correspondance des colonnes",
+        "validate": "Contrôle",
+        "submit": "Envoi"
+      },
+      "jobTitle": "Import de {file}",
+      "jobMeta": "{id} · {org}",
+      "parsing": "Lecture du fichier…",
+      "validating": "Contrôle de chaque ligne…",
+      "failedTitle": "Le fichier n'a pas pu être lu",
+      "failed": {
+        "format": "Son contenu ne correspond pas à son format. Vérifiez qu'il a été enregistré en CSV, XLSX, JSON ou XML.",
+        "empty": "Il n'a aucune ligne de données sous l'en-tête.",
+        "unsupported": "Ce serveur ne lit pas encore les fichiers XLSX. Enregistrez la feuille en CSV et déposez-la à nouveau."
+      },
+      "tryAnother": "Déposer un autre fichier",
+      "submittedTitle": "Envoyé pour vérification",
+      "submittedBody": "Cet import est devenu la soumission {id}.",
+      "openSubmission": "Ouvrir la soumission",
+      "field": {
+        "indicator": "Code de l'indicateur",
+        "area": "Code de la zone",
+        "period": "Période",
+        "value": "Valeur",
+        "flag": "Statut de la valeur (A, E, P, B, F, M)",
+        "ignore": "Ne pas importer",
+        "dim": "Ventilation : {name}"
+      },
+      "level": {
+        "error": "Erreur",
+        "warning": "Avertissement"
+      },
+      "rule": {
+        "missing": "valeur manquante",
+        "negative": "valeur négative",
+        "range": "pourcentage supérieur à 100",
+        "jump": "variation de plus de 30 %",
+        "duplicate": "ligne en double",
+        "indicator": "code d'indicateur inconnu",
+        "area": "code de zone inconnu",
+        "period": "période au mauvais format",
+        "number": "pas un nombre",
+        "permission": "indicateur non déclaré par cette organisation"
+      },
+      "upload": {
+        "org": "Organisation",
+        "chooseOrg": "Choisissez une organisation",
+        "orgRequired": "Choisissez l'organisation concernée par ces données.",
+        "templateIntro": "Partez du modèle des indicateurs de cette organisation pour que les colonnes correspondent.",
+        "template": "Télécharger le modèle (CSV)",
+        "demoFile": "Télécharger un fichier de démonstration avec des erreurs",
+        "prompt": "Déposez un fichier ici ou",
+        "browse": "choisissez un fichier",
+        "hint": "CSV, XLSX, JSON ou XML, jusqu'à 50 Mo",
+        "remove": "Retirer le fichier",
+        "fileLabel": "{name} ({size})",
+        "noFile": "Choisissez un fichier à déposer.",
+        "wrongType": "Utilisez un fichier CSV, XLSX, JSON ou XML.",
+        "tooLarge": "Le fichier dépasse 50 Mo. Divisez-le par période ou par indicateur.",
+        "submit": "Déposer et continuer",
+        "uploading": "Dépôt en cours…",
+        "failed": {
+          "403": "Votre rôle ne permet pas d'importer des données.",
+          "413": "Le fichier dépasse 50 Mo.",
+          "415": "Utilisez un fichier CSV, XLSX, JSON ou XML.",
+          "network": "Le fichier n'a pas atteint le serveur. Vérifiez la connexion et réessayez.",
+          "other": "Le dépôt a échoué. Réessayez."
+        },
+        "progress": "Avancement du dépôt"
+      },
+      "map": {
+        "intro": "Indiquez ce que contient chaque colonne. Les colonnes reconnues sont déjà remplies : vérifiez-les avant de continuer.",
+        "errorTitle": "Corrigez la correspondance avant le contrôle",
+        "missing": "Associez une colonne à « {field} ».",
+        "doubled": "Une seule colonne peut être « {field} ».",
+        "failed": "La correspondance n'a pas pu être enregistrée. Réessayez.",
+        "caption": "Colonnes du fichier",
+        "column": "Colonne du fichier",
+        "field": "Contient",
+        "sample": "Exemples de valeurs",
+        "selectLabel": "Contenu de la colonne {column}",
+        "auto": "Reconnue automatiquement",
+        "preview": "Aperçu des {count} premières lignes",
+        "submit": "Contrôler"
+      },
+      "validate": {
+        "stat": {
+          "rows": "Lignes",
+          "valid": "Prêtes",
+          "errors": "Lignes en erreur",
+          "warnings": "Lignes avec avertissement"
+        },
+        "errorsOnly": "Afficher seulement les erreurs",
+        "report": "Télécharger le rapport d'erreurs (CSV)",
+        "fixIntro": "Corrigez une cellule ou retirez la ligne, puis appliquez les corrections. Les avertissements peuvent rester : le vérificateur demandera une justification.",
+        "caption": "Problèmes par ligne",
+        "row": "Ligne",
+        "problem": "Problème",
+        "cell": "Valeur du fichier",
+        "remove": "Retirer",
+        "removeRow": "Retirer la ligne {row}",
+        "issue": "{field} : {rule}",
+        "clean": "Toutes les lignes ont passé les contrôles.",
+        "back": "Retour à la correspondance",
+        "apply": "Appliquer les corrections",
+        "continue": "Continuer",
+        "applyFirst": "Appliquez ou annulez d'abord vos corrections.",
+        "blocked": "{count, plural, one {# ligne a encore une erreur} other {# lignes ont encore des erreurs}}.",
+        "fixed": "Corrections appliquées. Plus aucune erreur.",
+        "stillErrors": "Corrections appliquées. {count, plural, one {# ligne a encore une erreur} other {# lignes ont encore des erreurs}}.",
+        "failed": "Les corrections n'ont pas pu être appliquées. Réessayez.",
+        "stale": "Cet import a changé ailleurs. Rechargez la page."
+      },
+      "report": {
+        "row": "Ligne",
+        "field": "Colonne",
+        "value": "Valeur",
+        "level": "Niveau",
+        "rule": "Problème"
+      },
+      "submit": {
+        "file": "Fichier",
+        "org": "Organisation",
+        "rows": "Lignes à envoyer",
+        "warnings": "Lignes avec avertissement",
+        "indicators": "Indicateurs",
+        "periods": "Périodes",
+        "warningNote": "Les lignes avec avertissement sont incluses. Le vérificateur demandera une justification pour chaque type d'avertissement.",
+        "comment": "Commentaire pour le vérificateur (facultatif)",
+        "commentHint": "Par exemple, l'origine des chiffres ou ce qui a changé depuis la période précédente.",
+        "back": "Retour au contrôle",
+        "submit": "Envoyer pour vérification",
+        "done": "Envoyé sous le numéro {id}.",
+        "errors": "Des erreurs subsistent. Revenez en arrière pour les corriger.",
+        "failed": "L'envoi a échoué. Réessayez."
+      }
+    },
+    "entry": {
+      "title": "Saisie des données",
+      "intro": "Les indicateurs déclarés par vos organisations. Les valeurs s'enregistrent pendant la saisie et partent en vérification quand vous les envoyez.",
+      "searchLabel": "Trouver un indicateur",
+      "search": "Nom ou code de l'indicateur",
+      "count": "{count, plural, =0 {Aucun indicateur} one {# indicateur} other {# indicateurs}}",
+      "empty": "Aucune de vos organisations ne déclare encore d'indicateur.",
+      "emptyFiltered": "Aucun indicateur ne correspond à cette recherche.",
+      "meta": "{code} · {org} · {unit}{hasLatest, select, yes { · dernière période {latest}} other {}}",
+      "draftUpdated": "mis à jour le {date}",
+      "openLabel": "Saisir {name} pour {period}",
+      "enter": "Saisir {period}",
+      "continue": "Reprendre {period}",
+      "back": "Tous les indicateurs",
+      "sheetMeta": "{code} · {org} · {unit} · collecte de {period}",
+      "help": "Les flèches déplacent d'une cellule à l'autre et Entrée descend. Collez un bloc copié depuis un tableur dans la première cellule. Le petit chiffre gris est la période précédente.",
+      "caption": "{name} ({unit}) par zone et par période",
+      "area": "Zone",
+      "dimRow": "{area}, {dim}",
+      "cellLabel": "{row}, {period}{hasPrevious, select, yes { (période précédente : {previous})} other {}}",
+      "issue": "Problème : {rule}",
+      "issueSummary": "{errors, plural, =0 {Aucune erreur} one {# erreur} other {# erreurs}}, {warnings, plural, =0 {aucun avertissement} one {# avertissement} other {# avertissements}}",
+      "saving": "Enregistrement…",
+      "savedAt": "Enregistré à {time}",
+      "unsaved": "Modifications non enregistrées",
+      "saveError": "Enregistrement impossible. Nouvel essai dans 10 secondes.",
+      "savedLocally": "Modifications enregistrées sur cet appareil",
+      "offline": "Vous êtes hors ligne — les modifications sont enregistrées sur cet appareil.",
+      "restored": "{count, plural, one {# modification non encore envoyée au serveur a été récupérée} other {# modifications non encore envoyées au serveur ont été récupérées}} sur cet appareil.",
+      "locked": "Cette soumission a avancé et ne peut plus être modifiée.",
+      "lockedNotice": "Cette période a été envoyée ({status}) : la grille est en lecture seule.",
+      "openSubmission": "Ouvrir {id}",
+      "saveNow": "Enregistrer maintenant",
+      "submit": "Envoyer pour vérification",
+      "submitted": "{id} envoyée pour vérification.",
+      "submitFailed": "L'envoi n'a pas abouti. Réessayez.",
+      "blockedOffline": "Reconnectez-vous pour envoyer.",
+      "blockedErrors": "Corrigez d'abord {count, plural, one {# erreur} other {# erreurs}}.",
+      "blockedEmpty": "Saisissez d'abord au moins une valeur.",
+      "refused": {
+        "errors": "Corrigez les erreurs avant d'envoyer.",
+        "state": "Cette soumission a déjà été envoyée.",
+        "role": "Votre rôle ne permet pas d'envoyer des données."
+      }
     }
   },
   "Home": {

@@ -8,7 +8,8 @@
     "./hooks": "./hooks.ts",
     "./types": "./types.ts",
     "./admin": "./admin.ts",
-    "./permissions": "./permissions.ts"
+    "./permissions": "./permissions.ts",
+    "./quality": "./quality.ts"
   },
   "scripts": {
     "test": "vitest run",
