@@ -23,3 +23,8 @@ export function problemFields(error: unknown): string[] {
 export function safePath(value: string) {
   return /^\/(?!\/)[^\s]{0,300}$/.test(value) ? value : "/";
 }
+
+/** Error ids come from Next's error digest or our own fallback: short, URL-safe tokens. */
+export function safeErrorId(value: string) {
+  return /^[\w-]{1,64}$/.test(value) ? value : undefined;
+}

@@ -263,6 +263,8 @@ export interface FeedbackInput {
   message?: string;
   email?: string;
   page: string;
+  /** Set when the form was opened from an error page ("Report a problem", brief §8). */
+  errorId?: string;
 }
 export interface SubscriberInput {
   email: string;

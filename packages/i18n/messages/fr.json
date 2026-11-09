@@ -9,7 +9,10 @@
     "pagination": "Pages",
     "previous": "Précédent",
     "next": "Suivant",
-    "pageN": "Page {page}"
+    "pageN": "Page {page}",
+    "loadingPage": "Chargement de la page…",
+    "retry": "Réessayer",
+    "exportSlow": "L'export prend plus de temps que d'habitude — nous continuons d'essayer."
   },
   "Nav": {
     "data": "Données",
@@ -91,7 +94,17 @@
   },
   "NotFound": {
     "title": "Page introuvable",
-    "body": "Cette page n'existe pas ou a été déplacée."
+    "body": "Cette page n'existe pas ou a été déplacée.",
+    "searchLabel": "Rechercher des indicateurs",
+    "search": "Rechercher",
+    "tryThese": "Ou aller à"
+  },
+  "Errors": {
+    "title": "Une erreur s'est produite",
+    "body": "Cette page n'a pas pu se charger. Réessayez, ou signalez-le-nous pour que nous corrigions le problème.",
+    "retry": "Réessayer",
+    "report": "Signaler un problème",
+    "reference": "Référence de l'erreur :"
   },
   "Admin": {
     "breadcrumbRoot": "Back-office",
@@ -317,7 +330,10 @@
     },
     "coverageValue": "De {from} à {to}, {areas, plural, one {# zone} other {# zones}}",
     "sectionError": "Cette section n'a pas pu être chargée.",
-    "viewOnSite": "Voir toutes les données sur {site}"
+    "viewOnSite": "Voir toutes les données sur {site}",
+    "noDataFor": "Pas encore de données pour {area}",
+    "seeNearest": "Voir les données pour {area}",
+    "breakdownUnavailable": "Pas de ventilation pour {area} en {years}"
   },
   "Explorer": {
     "browse": "Parcourir les indicateurs",
@@ -331,7 +347,6 @@
     "preparing": "Préparation du PDF…",
     "exportReady": "Votre PDF est prêt.",
     "exportFailed": "Le PDF n'a pas pu être préparé. Réessayez.",
-    "exportTimeout": "Le PDF prend plus de temps que prévu. Réessayez dans une minute.",
     "seeAll": "Voir les {count} indicateurs",
     "name": "Indicateur",
     "latest": "Dernière valeur",
@@ -414,7 +429,6 @@
     "preparing": "Préparation du fichier…",
     "exportReady": "Votre fichier est prêt.",
     "exportFailed": "Le fichier n'a pas pu être préparé. Réessayez.",
-    "exportTimeout": "Le fichier prend plus de temps que prévu. Réessayez dans une minute.",
     "menu": "Actions pour {title}",
     "viewData": "Voir les données",
     "hideData": "Masquer les données",
@@ -572,8 +586,7 @@
     },
     "exportPreparing": "Préparation du tableur…",
     "exportReady": "Votre tableur est prêt.",
-    "exportFailed": "Le tableur n'a pas pu être préparé. Réessayez.",
-    "exportTimeout": "Le tableur prend plus de temps que prévu. Réessayez dans une minute."
+    "exportFailed": "Le tableur n'a pas pu être préparé. Réessayez."
   },
   "Publications": {
     "intro": "Rapports, études et notes méthodologiques de l'observatoire.",
@@ -688,7 +701,8 @@
     },
     "thanks": "Merci",
     "thanksBody": "Votre avis a été transmis à l'équipe de l'observatoire.",
-    "back": "Revenir où vous étiez"
+    "back": "Revenir où vous étiez",
+    "errorReference": "Référence de l'erreur :"
   },
   "Developers": {
     "intro": "Les données de l'observatoire sont disponibles via une API REST gratuite : les mêmes données et métadonnées que ce site, en JSON, CSV ou SDMX-CSV.",

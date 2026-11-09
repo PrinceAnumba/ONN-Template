@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
 import { FeedbackForm } from "@/components/forms/feedback-form";
 import { ClientMessages } from "@/components/shell/client-messages";
-import { safePath } from "@/lib/forms";
+import { safeErrorId, safePath } from "@/lib/forms";
 
 type Params = Record<string, string | string[] | undefined>;
 
@@ -19,12 +19,13 @@ export default async function FeedbackPage({ searchParams }: { searchParams: Pro
     searchParams,
   ]);
   const page = safePath([params.page ?? "/"].flat()[0] ?? "/");
+  const errorId = safeErrorId([params.error ?? ""].flat()[0] ?? "");
   return (
     <main id="content" className="onn-container py-8">
       <h1>{nav("feedback")}</h1>
       <p className="text-muted-foreground mt-2 mb-6 max-w-prose">{t("intro")}</p>
       <ClientMessages namespaces={["Feedback"]}>
-        <FeedbackForm page={page} />
+        <FeedbackForm page={page} errorId={errorId} />
       </ClientMessages>
     </main>
   );

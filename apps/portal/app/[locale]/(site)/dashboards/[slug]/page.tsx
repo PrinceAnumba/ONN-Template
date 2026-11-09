@@ -98,7 +98,6 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
               preparing: t("preparing"),
               ready: t("exportReady"),
               failed: t("exportFailed"),
-              timeout: t("exportTimeout"),
             }}
           />
         </div>

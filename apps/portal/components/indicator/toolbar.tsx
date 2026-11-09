@@ -42,7 +42,7 @@ export interface IndicatorToolbarProps {
   view: View;
   units: { code: string; label: string }[];
   unit: string;
-  breakdowns: { value: string; label: string }[];
+  breakdowns: { value: string; label: string; disabledReason?: string }[];
   breakdown: string;
   coverage: [number, number];
   range: [number, number];

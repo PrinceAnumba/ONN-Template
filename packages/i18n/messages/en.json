@@ -9,7 +9,10 @@
     "pagination": "Pages",
     "previous": "Previous",
     "next": "Next",
-    "pageN": "Page {page}"
+    "pageN": "Page {page}",
+    "loadingPage": "Loading the page…",
+    "retry": "Try again",
+    "exportSlow": "The export is taking longer than usual — we'll keep trying."
   },
   "Nav": {
     "data": "Data",
@@ -91,7 +94,17 @@
   },
   "NotFound": {
     "title": "Page not found",
-    "body": "This page doesn't exist or has moved."
+    "body": "This page doesn't exist or has moved.",
+    "searchLabel": "Search indicators",
+    "search": "Search",
+    "tryThese": "Or go to"
+  },
+  "Errors": {
+    "title": "Something went wrong",
+    "body": "This page couldn't load. Try again, or tell us about it so we can fix it.",
+    "retry": "Try again",
+    "report": "Report a problem",
+    "reference": "Error reference:"
   },
   "Admin": {
     "breadcrumbRoot": "Back office",
@@ -317,7 +330,10 @@
     },
     "coverageValue": "{from} to {to}, {areas, plural, one {# area} other {# areas}}",
     "sectionError": "This section couldn't load.",
-    "viewOnSite": "See all the data on {site}"
+    "viewOnSite": "See all the data on {site}",
+    "noDataFor": "No data for {area} yet",
+    "seeNearest": "See the data for {area}",
+    "breakdownUnavailable": "No breakdown for {area} in {years}"
   },
   "Explorer": {
     "browse": "Browse indicators",
@@ -331,7 +347,6 @@
     "preparing": "Preparing the PDF…",
     "exportReady": "Your PDF is ready.",
     "exportFailed": "The PDF couldn't be prepared. Try again.",
-    "exportTimeout": "The PDF is taking longer than expected. Try again in a minute.",
     "seeAll": "See all {count} indicators",
     "name": "Indicator",
     "latest": "Latest value",
@@ -414,7 +429,6 @@
     "preparing": "Preparing the file…",
     "exportReady": "Your file is ready.",
     "exportFailed": "The file couldn't be prepared. Try again.",
-    "exportTimeout": "The file is taking longer than expected. Try again in a minute.",
     "menu": "Actions for {title}",
     "viewData": "View data",
     "hideData": "Hide data",
@@ -572,8 +586,7 @@
     },
     "exportPreparing": "Preparing the spreadsheet…",
     "exportReady": "Your spreadsheet is ready.",
-    "exportFailed": "The spreadsheet couldn't be prepared. Try again.",
-    "exportTimeout": "The spreadsheet is taking longer than expected. Try again in a minute."
+    "exportFailed": "The spreadsheet couldn't be prepared. Try again."
   },
   "Publications": {
     "intro": "Reports, studies and methodology notes from the observatory.",
@@ -688,7 +701,8 @@
     },
     "thanks": "Thank you",
     "thanksBody": "Your feedback has been sent to the observatory team.",
-    "back": "Back to where you were"
+    "back": "Back to where you were",
+    "errorReference": "Error reference:"
   },
   "Developers": {
     "intro": "The observatory's data is available through a free REST API: the same data and metadata as this site, in JSON, CSV or SDMX-CSV.",

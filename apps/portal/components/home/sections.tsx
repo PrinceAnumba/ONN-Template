@@ -1,5 +1,6 @@
-// Home page sections (brief §5.1). Each is an async Server Component, streamed in its own
-// Suspense boundary, and catches its own failure so one broken call never blanks the page.
+// Home page sections (brief §5.1). Each is an async Server Component that fetches in parallel
+// with the others and catches its own failure, so one broken call never blanks the page. They
+// aren't streamed: a Suspense fallback would stay on screen without JavaScript (§9).
 import { api, serverCache, type RequestContext } from "@onn/api-client";
 import type { IndicatorSummary } from "@onn/api-client/types";
 import { choropleth } from "@onn/charts/classify";

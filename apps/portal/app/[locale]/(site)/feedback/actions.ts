@@ -3,7 +3,15 @@
 import { api } from "@onn/api-client";
 import { getTranslations } from "next-intl/server";
 import type { FieldErrors } from "@/components/forms/form-parts";
-import { EMAIL, formLocale, MESSAGE_MAX, problemFields, safePath, text } from "@/lib/forms";
+import {
+  EMAIL,
+  formLocale,
+  MESSAGE_MAX,
+  problemFields,
+  safeErrorId,
+  safePath,
+  text,
+} from "@/lib/forms";
 
 export interface FeedbackValues {
   rating: string;
@@ -33,6 +41,7 @@ export async function submitFeedback(
     email: text(formData, "email"),
   };
   const page = safePath(text(formData, "page"));
+  const errorId = safeErrorId(text(formData, "errorId"));
   const rating = Number(values.rating);
 
   const errors: FieldErrors = {};
@@ -52,6 +61,7 @@ export async function submitFeedback(
         message: values.message || undefined,
         email: values.email || undefined,
         page,
+        errorId,
       },
     );
     return { status: "done", errors: {}, values, page };

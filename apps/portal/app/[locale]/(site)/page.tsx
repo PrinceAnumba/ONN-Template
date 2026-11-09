@@ -1,9 +1,7 @@
 import { api, serverCache } from "@onn/api-client";
 import { country } from "@onn/config";
-import { Skeleton } from "@onn/ui/components/skeleton";
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { Suspense } from "react";
 import { HeroSelector } from "@/components/home/hero-selector";
 import {
   BenchmarkStrip,
@@ -30,15 +28,6 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const { locale } = await params;
   const home = await getHome(locale);
   return { description: home?.mission };
-}
-
-function SectionSkeleton({ height }: { height: number }) {
-  return (
-    <div className="onn-container py-12">
-      <Skeleton className="mb-6 h-8 w-64" />
-      <Skeleton style={{ height }} className="w-full" />
-    </div>
-  );
 }
 
 export default async function HomePage({ params }: PageProps) {
@@ -72,30 +61,14 @@ export default async function HomePage({ params }: PageProps) {
           )}
         </div>
       </section>
-      <Suspense fallback={<SectionSkeleton height={184} />}>
-        <KeyFigures />
-      </Suspense>
-      <Suspense fallback={<SectionSkeleton height={280} />}>
-        <StrategyTracker />
-      </Suspense>
-      <Suspense fallback={<SectionSkeleton height={420} />}>
-        <MapTeaser />
-      </Suspense>
-      <Suspense fallback={<SectionSkeleton height={420} />}>
-        <BenchmarkStrip />
-      </Suspense>
-      <Suspense fallback={<SectionSkeleton height={320} />}>
-        <DashboardCards />
-      </Suspense>
-      <Suspense fallback={<SectionSkeleton height={160} />}>
-        <LatestPublications />
-      </Suspense>
-      <Suspense fallback={<SectionSkeleton height={240} />}>
-        <LatestNews />
-      </Suspense>
-      <Suspense fallback={<SectionSkeleton height={120} />}>
-        <DataPartners />
-      </Suspense>
+      <KeyFigures />
+      <StrategyTracker />
+      <MapTeaser />
+      <BenchmarkStrip />
+      <DashboardCards />
+      <LatestPublications />
+      <LatestNews />
+      <DataPartners />
     </main>
   );
 }

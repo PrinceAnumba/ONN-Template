@@ -55,7 +55,7 @@ The brief lists these endpoints without a response shape: `GET /home` (`HomeData
 | `GET /datasets/{code}/file?format=csv\|json` | §5.9 dataset downloads; `Dataset.url` points here and `ALL` is the full dump |
 | `GET /openapi.json` | §5.9 developers page (Scalar). The mock serves `packages/mocks/openapi.ts`, which describes the contract |
 
-`POST /feedback` returns a 422 `Problem` with `errors[].path` (`rating`, `message`, `email`) for invalid input, so the form can mark the right field. `GET /news` and `GET /publications` accept `pageSize`. The mock also serves placeholder SVGs for `NewsItem.imageUrl` and CMS image blocks; the backend serves real files.
+`POST /feedback` returns a 422 `Problem` with `errors[].path` (`rating`, `message`, `email`) for invalid input, so the form can mark the right field. `FeedbackInput` has an optional `errorId`: the error page's "Report a problem" link (§8) passes the id it shows, which for a server error is the Next.js digest that also appears in the server log. `GET /news` and `GET /publications` accept `pageSize`. The mock also serves placeholder SVGs for `NewsItem.imageUrl` and CMS image blocks; the backend serves real files.
 
 ## Boundaries
 

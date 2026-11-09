@@ -3,10 +3,11 @@ import { expect, userEvent, waitFor, within } from "@storybook/test";
 import { showToast, Toaster } from "./toast";
 import { Button } from "./ui/button";
 
-function Demo({ message = "Link copied.", variant = "info" as "info" | "error" }) {
+function Demo({ message = "Link copied.", variant = "info" as "info" | "error", retry = false }) {
+  const action = retry ? { label: "Try again", onClick: () => showToast("Retrying…") } : undefined;
   return (
     <>
-      <Button onClick={() => showToast(message, variant)}>{`Show ${variant}`}</Button>
+      <Button onClick={() => showToast(message, variant, action)}>{`Show ${variant}`}</Button>
       <Toaster closeLabel="Close" />
     </>
   );
@@ -34,6 +35,20 @@ export const Error: Story = {
     const alert = body.getByRole("alert");
     await userEvent.click(within(alert).getByRole("button", { name: "Close" }));
     await waitFor(() => expect(body.queryByRole("alert")).toBeNull());
+  },
+};
+
+/** Export failures offer a retry, which closes the toast and runs the action. */
+export const WithRetry: Story = {
+  args: { message: "The export failed.", variant: "error", retry: true },
+  play: async ({ canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole("button", { name: "Show error" }));
+    const body = within(document.body);
+    await userEvent.click(
+      within(body.getByRole("alert")).getByRole("button", { name: "Try again" }),
+    );
+    await waitFor(() => expect(body.queryByRole("alert")).toBeNull());
+    await expect(body.getByRole("status")).toHaveTextContent("Retrying…");
   },
 };
 

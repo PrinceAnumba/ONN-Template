@@ -2,7 +2,6 @@ import { api, serverCache } from "@onn/api-client";
 import { country } from "@onn/config";
 import { getLocale, getTranslations } from "next-intl/server";
 import Image from "next/image";
-import { Suspense } from "react";
 import { Link } from "@/i18n/navigation";
 import { ABOUT_NAV, EXPLORE_NAV } from "@/lib/nav";
 import { NewsletterForm } from "./newsletter-form";
@@ -66,9 +65,8 @@ export async function SiteFooter() {
               unoptimized
               className="brightness-0 invert"
             />
-            <Suspense>
-              <SiteStatus />
-            </Suspense>
+
+            <SiteStatus />
           </div>
           {column(t("explore"), EXPLORE_NAV)}
           {column(t("aboutHeading"), ABOUT_NAV)}

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Phase 5 is done: every public page in §5, including news with its RSS feed, open data with `catalog.jsonld`, developers, feedback, and the CMS-driven about and legal pages. The admin screens are still placeholders.
+Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Phase 5 is done: every public page in §5, including news with its RSS feed, open data with `catalog.jsonld`, developers, feedback, and the CMS-driven about and legal pages. Phase 6 runs in batches: 6a (loading, error and empty states) is done; Lite mode and motion, i18n, and offline follow. The admin screens are still placeholders.
 
 Sections below describe the system the brief specifies, so parts of it don't exist yet. As each phase lands, check this file against the code and replace anything that has drifted.
 
@@ -118,6 +118,10 @@ Design decisions that span packages:
 - Errors stay inside the widget, so one failure never blanks a dashboard.
 - Motion uses only the duration and easing tokens, and is removed or reduced to opacity under `prefers-reduced-motion` and in Lite mode.
 - Admin never serves cached submission data; only entry-grid drafts work offline.
+- Nothing streams on public pages: no `loading.tsx` and no Suspense around async Server Components, because a streamed fallback stays on screen without JavaScript. Route skeletons appear only on client navigation: `RoutePending` (`components/shell/route-pending.tsx`, in the site layout) listens for link clicks in the capture phase, hides the current page after 200 ms and shows the target's skeleton from `route-skeletons.tsx` (loaded on first click). Same-path query changes keep the old content. Add a case there for each new route.
+- `error.tsx` (site and embed) uses `ErrorView`: "Try again" refreshes the RSC data and resets; "Report a problem" opens feedback with `page` and `error` (the Next digest, or a `c-` id for client errors), sent as `FeedbackInput.errorId`.
+- Indicator empty states: `nearestAreaWithData()` walks up the area's parents to the national level, and `unavailableBreakdowns()` disables breakdown tabs with no data in the selected years. Both run only from the page, not the embed.
+- Exports: after 60 s a toast says it's slow and polling continues to 5 minutes; failures show an error toast with a retry action (`showToast(message, "error", action)`).
 
 ## Accessibility (§9)
 
@@ -166,7 +170,7 @@ WCAG 2.2 AA: one h1 per page, skip link, `--onn-focus` on every interactive elem
 
 Trust measured downloads over the build table: at Phase 3 `next build` reported 115 KB for a home page that really downloaded 159 KB.
 
-Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. At Phase 5c: home 154 KB, `/data` profile 172 KB, indicator page 221 KB before ECharts (421 KB once the chart hydrates), `/map` 192 KB on first load and 217 KB after opening a panel and the list view (map budget 320 KB). At Phase 5d: dashboard pages 209 KB first load; home 156 KB. At Phase 5e: benchmark 181 KB, query 200 KB. At Phase 5f: catalogue 190 KB, publications list and detail 152 KB. At Phase 5g: about and other CMS pages 152 KB, news 161 KB, open data 161 KB, developers 166 KB (1.3 MB once the API reference is loaded), feedback 166 KB. Third-party code measured with esbuild:
+Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. At Phase 5c: home 154 KB, `/data` profile 172 KB, indicator page 221 KB before ECharts (421 KB once the chart hydrates), `/map` 192 KB on first load and 217 KB after opening a panel and the list view (map budget 320 KB). At Phase 5d: dashboard pages 209 KB first load; home 156 KB. At Phase 5e: benchmark 181 KB, query 200 KB. At Phase 5f: catalogue 190 KB, publications list and detail 152 KB. At Phase 5g: about and other CMS pages 152 KB, news 161 KB, open data 161 KB, developers 166 KB (1.3 MB once the API reference is loaded), feedback 166 KB. At Phase 6a (polyfills excluded): home 160 KB, `/data` 182 KB, indicator 227 KB, `/map` 198 KB, catalogue 194 KB, about 152 KB, feedback 169 KB. Third-party code measured with esbuild:
 
 | Code                                                            | Gzipped |
 | --------------------------------------------------------------- | ------- |
@@ -219,6 +223,7 @@ These resolve contradictions and gaps in the brief. Follow them over the brief's
 - **Admin routing:** serve admin under `/admin` with Next.js multi-zones, with its locale in a cookie rather than the path.
 - **Admin role access:** the brief doesn't say which role sees which section, so `apps/admin/lib/sections.ts` holds an assumed mapping that the user should confirm.
 - **Lite mode:** on first visit use the `Save-Data` request header, then the cookie. `navigator.connection` and Background Sync aren't available in WebKit, so queued forms also retry on page load.
+- **Loading states:** the user chose complete HTML on first load over streamed skeletons, because §8's `loading.tsx` left pages as grey blocks without JavaScript (§9). Skeletons show only on client navigation, so first byte waits on the slowest cached API call.
 - **Wolof formatting:** set a tested fallback locale for numbers and dates in case `Intl` data for `wo` is missing.
 - **Unspecified routes:** `catalog.jsonld` and the RSS feed get minimal definitions when their pages are built. `/embed/chart` takes the indicator page URL state (`i` plus `a c y d u`) and renders one chart with a link back.
 - **Indicator page state:** toolbar changes (`u`, `d`, `y`) and the selector go through nuqs with `shallow: false`, so the server re-renders the page; `startTransition` keeps the old content under a progress line. View tabs are plain links so they work without JS. The disaggregated view drops the comparison series. The table puts the latest period first at every width (the brief asks for it on mobile only). The map view reuses the map page explorer.

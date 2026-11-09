@@ -16,7 +16,7 @@ const ID = "feedback";
 const RATINGS = [1, 2, 3, 4, 5] as const;
 
 /** Feedback (brief §5.9): five large stars, a counted message, optional email, page context. */
-export function FeedbackForm({ page }: { page: string }) {
+export function FeedbackForm({ page, errorId }: { page: string; errorId?: string }) {
   const t = useTranslations("Feedback");
   const locale = useLocale();
   const [state, action, pending] = useActionState(submitFeedback, {
@@ -49,6 +49,7 @@ export function FeedbackForm({ page }: { page: string }) {
     <form action={action} noValidate className="flex max-w-prose flex-col gap-6">
       <input type="hidden" name="locale" value={locale} />
       <input type="hidden" name="page" value={page} />
+      {errorId && <input type="hidden" name="errorId" value={errorId} />}
       <ErrorSummary
         title={t("errorTitle")}
         errors={errors}
@@ -155,6 +156,12 @@ export function FeedbackForm({ page }: { page: string }) {
         {t("context")}
         <code className="bg-surface-2 ms-1 rounded px-1 break-all">{page}</code>
       </p>
+      {errorId && (
+        <p className="text-muted-foreground -mt-4 text-sm">
+          {t("errorReference")}
+          <code className="bg-surface-2 ms-1 rounded px-1 break-all">{errorId}</code>
+        </p>
+      )}
 
       <Button type="submit" loading={pending} className="self-start">
         {t("submit")}

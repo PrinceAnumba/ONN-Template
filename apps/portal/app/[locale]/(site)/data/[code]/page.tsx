@@ -2,17 +2,22 @@ import { serverCache } from "@onn/api-client";
 import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import type { SearchParams } from "nuqs/server";
-import { Suspense } from "react";
 import {
   ChartView,
   IndicatorHeader,
   IndicatorSide,
   MapView,
+  NoDataPanel,
   TableView,
 } from "@/components/indicator/sections";
 import { IndicatorToolbar } from "@/components/indicator/toolbar";
 import { isSubnational } from "@/lib/indicator";
-import { getIndicator, loadIndicatorView } from "@/lib/indicator-view";
+import {
+  getIndicator,
+  loadIndicatorView,
+  nearestAreaWithData,
+  unavailableBreakdowns,
+} from "@/lib/indicator-view";
 import { serializeUrlState } from "@/lib/url-state";
 
 interface PageProps {
@@ -38,6 +43,14 @@ export default async function IndicatorPage({ params, searchParams }: PageProps)
   const view = await loadIndicatorView(decodeURIComponent(code), searchParams, locale);
   const { indicator } = view;
   const t = await getTranslations("Indicator");
+  // An area without data gets the §8 empty state; an empty breakdown keeps the chart's own.
+  const noData = !view.hasData && view.view !== "map" && !view.dimension;
+  const [unavailable, nearest] = await Promise.all([
+    unavailableBreakdowns(view),
+    noData ? nearestAreaWithData(view) : Promise.resolve(null),
+  ]);
+  const years =
+    view.range[0] === view.range[1] ? String(view.range[0]) : `${view.range[0]}–${view.range[1]}`;
 
   const views = isSubnational(indicator)
     ? (["chart", "table", "map"] as const)
@@ -47,6 +60,9 @@ export default async function IndicatorPage({ params, searchParams }: PageProps)
     ...indicator.disaggregations.map((key) => ({
       value: key,
       label: t.has(`dims.${key}`) ? t(`dims.${key}` as "dims.sex") : key,
+      disabledReason: unavailable.includes(key)
+        ? t("breakdownUnavailable", { area: view.focus.name, years })
+        : undefined,
     })),
   ];
   const embedQuery = serializeUrlState({
@@ -94,13 +110,12 @@ export default async function IndicatorPage({ params, searchParams }: PageProps)
       />
       <div className="mt-6 grid gap-10 xl:grid-cols-[minmax(0,1fr)_17rem]">
         <div className="min-w-0">
-          {view.view === "chart" && <ChartView view={view} />}
-          {view.view === "table" && <TableView view={view} />}
+          {noData && <NoDataPanel view={view} nearest={nearest} />}
+          {view.view === "chart" && !noData && <ChartView view={view} />}
+          {view.view === "table" && !noData && <TableView view={view} />}
           {view.view === "map" && <MapView view={view} />}
         </div>
-        <Suspense fallback={null}>
-          <IndicatorSide view={view} />
-        </Suspense>
+        <IndicatorSide view={view} />
       </div>
     </main>
   );

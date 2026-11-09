@@ -86,7 +86,6 @@ export default async function DataPage({ searchParams }: { searchParams: Promise
             preparing: t("preparing"),
             ready: t("exportReady"),
             failed: t("exportFailed"),
-            timeout: t("exportTimeout"),
           }}
         />
       </header>

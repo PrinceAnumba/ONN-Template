@@ -1,5 +1,6 @@
 // Server parts of the indicator page (brief §5.3). The page loads the view once and hands it to
-// these; the side column and map stream separately and catch their own failures.
+// these; the side column and map catch their own failures. Nothing streams, so the page reads
+// without JavaScript.
 import { api } from "@onn/api-client";
 import { Chart } from "@onn/charts/chart";
 import { country } from "@onn/config";
@@ -23,6 +24,8 @@ import { ClientMessages } from "@/components/shell/client-messages";
 import { initialYear } from "@/lib/map";
 import { loadMapData } from "@/lib/map-view";
 import { metadataProps } from "@/lib/metadata";
+import { serializeUrlState } from "@/lib/url-state";
+import type { Area } from "@onn/api-client/types";
 import { FeedbackWidget } from "./feedback-widget";
 import { IndicatorTable } from "./indicator-table";
 import { MetadataButton } from "./metadata-button";
@@ -141,6 +144,53 @@ export async function IndicatorHeader({ view }: { view: IndicatorView }) {
   );
 }
 
+/** "June 2026" for a `YYYY-MM` release, or null when none is scheduled. */
+function releaseMonth(nextRelease: string | undefined, tag: string) {
+  return nextRelease
+    ? new Intl.DateTimeFormat(tag, { month: "long", year: "numeric", timeZone: "UTC" }).format(
+        new Date(`${nextRelease.slice(0, 7)}-01T00:00:00Z`),
+      )
+    : null;
+}
+
+/**
+ * Empty state for an area without data (brief §8): says so, links to the nearest level that has
+ * data with the rest of the URL state kept, and gives the release calendar date.
+ */
+export async function NoDataPanel({
+  view,
+  nearest,
+}: {
+  view: IndicatorView;
+  nearest: Area | null;
+}) {
+  const t = await getTranslations("Indicator");
+  const month = releaseMonth(view.indicator.nextRelease, tagFor(view.locale));
+  const query = nearest
+    ? serializeUrlState({ ...view.state, a: nearest.code === country.iso3 ? null : nearest.code })
+    : "";
+  return (
+    <section aria-labelledby="no-data-title" className="bg-surface-2 rounded-lg p-6">
+      <h2 id="no-data-title" className="text-h3">
+        {t("noDataFor", { area: view.focus.name })}
+      </h2>
+      {nearest && (
+        <p className="mt-3">
+          <Link
+            href={`/data/${view.indicator.code}${query}`}
+            className="inline-flex min-h-11 items-center font-semibold underline"
+          >
+            {t("seeNearest", { area: nearest.name })}
+          </Link>
+        </p>
+      )}
+      <p className="text-muted-foreground mt-2">
+        {month ? t("nextUpdate", { month }) : t("noRelease")}
+      </p>
+    </section>
+  );
+}
+
 export async function ChartView({ view, lite }: { view: IndicatorView; lite?: boolean }) {
   const t = await getTranslations("Indicator");
   const years =
@@ -230,11 +280,7 @@ export async function IndicatorSide({ view }: { view: IndicatorView }) {
   const related = await Promise.all(
     indicator.related.slice(0, 4).map((code) => api.indicator(ctx, code).catch(() => undefined)),
   );
-  const month = indicator.nextRelease
-    ? new Intl.DateTimeFormat(tag, { month: "long", year: "numeric", timeZone: "UTC" }).format(
-        new Date(`${indicator.nextRelease.slice(0, 7)}-01T00:00:00Z`),
-      )
-    : null;
+  const month = releaseMonth(indicator.nextRelease, tag);
 
   return (
     <aside className="flex flex-col gap-8">

@@ -7,10 +7,16 @@ import * as React from "react";
 const MAX_VISIBLE = 3;
 const AUTO_DISMISS_MS = 4_000;
 
+export interface ToastAction {
+  label: string;
+  onClick: () => void;
+}
+
 interface ToastItem {
   id: number;
   message: string;
   variant: "info" | "error";
+  action?: ToastAction;
 }
 
 let items: ToastItem[] = [];
@@ -26,10 +32,14 @@ function dismiss(id: number) {
   publish(items.filter((item) => item.id !== id));
 }
 
-/** Errors stay until closed; everything else clears after 4 s. */
-export function showToast(message: string, variant: ToastItem["variant"] = "info") {
+/** Errors stay until closed; everything else clears after 4 s. An action (e.g. retry) closes the toast. */
+export function showToast(
+  message: string,
+  variant: ToastItem["variant"] = "info",
+  action?: ToastAction,
+) {
   const id = nextId++;
-  publish([...items, { id, message, variant }].slice(-MAX_VISIBLE));
+  publish([...items, { id, message, variant, action }].slice(-MAX_VISIBLE));
   if (variant !== "error") setTimeout(() => dismiss(id), AUTO_DISMISS_MS);
 }
 
@@ -60,6 +70,18 @@ export function Toaster({ closeLabel }: { closeLabel: string }) {
           )}
         >
           <span>{item.message}</span>
+          {item.action && (
+            <button
+              type="button"
+              onClick={() => {
+                dismiss(item.id);
+                item.action?.onClick();
+              }}
+              className="min-h-11 shrink-0 rounded-md px-3 font-semibold underline"
+            >
+              {item.action.label}
+            </button>
+          )}
           <button
             type="button"
             aria-label={closeLabel}

@@ -108,7 +108,6 @@ export default async function CataloguePage({
               preparing: t("exportPreparing"),
               ready: t("exportReady"),
               failed: t("exportFailed"),
-              timeout: t("exportTimeout"),
             }}
           />
         </ClientMessages>

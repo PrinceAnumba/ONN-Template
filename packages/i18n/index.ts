@@ -20,6 +20,7 @@ export const CLIENT_NAMESPACES = [
   "Palette",
   "Selector",
   "Footer",
+  "Errors",
 ] as const satisfies (keyof Messages)[];
 
 /** Namespaces client components need; everything else stays on the server. */

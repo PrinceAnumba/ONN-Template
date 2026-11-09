@@ -283,3 +283,62 @@ export async function loadIndicatorTable(view: IndicatorView) {
     }),
   );
 }
+
+const hasValues = (points: { value: number | null }[]) =>
+  points.some((point) => point.value !== null);
+
+/**
+ * Empty state for an area with no data (brief §8): the nearest area up the hierarchy that has
+ * data, ending at the national level. Called only when the chart is empty, so it costs nothing
+ * on a normal page view.
+ */
+export async function nearestAreaWithData(view: IndicatorView): Promise<Area | null> {
+  const { indicator, focus, areas, ctx, unit } = view;
+  const unitParam = unit.code === indicator.unitVariants[0]?.code ? undefined : unit.code;
+  const chain: Area[] = [];
+  let parent = focus.parent ? areas.find((area) => area.code === focus.parent) : undefined;
+  while (parent && !chain.includes(parent)) {
+    chain.push(parent);
+    parent = parent.parent ? areas.find((area) => area.code === parent?.parent) : undefined;
+  }
+  const national = areas.find((area) => area.code === country.iso3);
+  if (national && focus.code !== national.code && !chain.includes(national)) chain.push(national);
+
+  for (const area of chain) {
+    const series = await api
+      .series(ctx, { indicator: indicator.code, area: area.code, unit: unitParam })
+      .catch(() => [] as Series[]);
+    const total = series.find((item) => Object.keys(item.dims).length === 0);
+    if (total && hasValues(total.points)) return area;
+  }
+  return null;
+}
+
+/**
+ * Breakdowns with no data for the focus area in the selected years (brief §8: that tab is
+ * disabled with a tooltip). A failed request leaves the tab enabled; the view then shows its
+ * own empty state.
+ */
+export async function unavailableBreakdowns(view: IndicatorView): Promise<string[]> {
+  const { indicator, focus, range, ctx, unit, dimension, hasData } = view;
+  const unitParam = unit.code === indicator.unitVariants[0]?.code ? undefined : unit.code;
+  const checks = await Promise.all(
+    indicator.disaggregations.map(async (key) => {
+      if (key === dimension) return hasData ? null : key;
+      const series = await api
+        .series(ctx, {
+          indicator: indicator.code,
+          area: focus.code,
+          dims: `${key}:*`,
+          unit: unitParam,
+        })
+        .catch(() => null);
+      if (!series) return null;
+      const available = series.some((item) =>
+        hasValues(item.points.filter((point) => inRange(point.period, range))),
+      );
+      return available ? null : key;
+    }),
+  );
+  return checks.filter((key): key is string => key !== null);
+}
