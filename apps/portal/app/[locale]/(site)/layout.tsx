@@ -1,9 +1,10 @@
 import { isMockMode } from "@onn/api-client";
 import { country } from "@onn/config";
 import { DemoRibbon } from "@onn/ui/components/demo-ribbon";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import type { ReactNode } from "react";
 import { SiteFooter } from "@/components/shell/site-footer";
+import { OfflineStatus } from "@/components/shell/offline-status";
 import { RoutePending } from "@/components/shell/route-pending";
 import { SiteHeader } from "@/components/shell/site-header";
 
@@ -26,6 +27,7 @@ export default async function SiteLayout({ children }: { children: ReactNode }) 
           <span className="onn-container block py-2">{meta("notice")}</span>
         </p>
       )}
+      <OfflineStatus locale={await getLocale()} />
       <SiteHeader />
       <div className="flex-1">
         <RoutePending label={t("loadingPage")}>{children}</RoutePending>

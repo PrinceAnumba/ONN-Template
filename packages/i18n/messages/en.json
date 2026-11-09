@@ -743,5 +743,16 @@
     "confirmBody": "We'll review it and email your key to {email}, usually within two working days.",
     "loadReference": "Load the interactive reference",
     "loadReferenceHint": "Every endpoint with its parameters and responses, and a console to try requests. It downloads about {size} MB."
+  },
+  "Offline": {
+    "title": "You're offline",
+    "body": "This page wasn't saved on this device. Pages you've already opened still work offline.",
+    "home": "Go to the home page",
+    "banner": "You're offline — showing data saved on {date}",
+    "bannerNoDate": "You're offline — showing saved data",
+    "queued": "You're offline. We saved this and will send it when you're back online.",
+    "feedbackSent": "The feedback you wrote offline has been sent.",
+    "subscribeSent": "Your newsletter subscription from offline has been sent.",
+    "sendFailed": "A form you filled in offline couldn't be sent. Please fill it in again."
   }
 }

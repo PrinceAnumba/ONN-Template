@@ -12,3 +12,8 @@ packages/ui/tokens.css
 apps/*/public/brand
 apps/storybook/storybook-static
 apps/*/public/vendor
+
+# Built by @serwist/next
+apps/portal/public/sw.js
+apps/portal/public/sw.js.map
+apps/portal/public/swe-worker-*.js

@@ -743,5 +743,16 @@
     "confirmBody": "Nous allons l'examiner et envoyer votre clé à {email}, en général sous deux jours ouvrés.",
     "loadReference": "Charger la référence interactive",
     "loadReferenceHint": "Chaque point d'accès avec ses paramètres et ses réponses, et une console pour tester les requêtes. Téléchargement d'environ {size} Mo."
+  },
+  "Offline": {
+    "title": "Vous êtes hors ligne",
+    "body": "Cette page n'a pas été enregistrée sur cet appareil. Les pages déjà ouvertes restent consultables hors ligne.",
+    "home": "Aller à l'accueil",
+    "banner": "Vous êtes hors ligne — données enregistrées le {date}",
+    "bannerNoDate": "Vous êtes hors ligne — données enregistrées",
+    "queued": "Vous êtes hors ligne. Nous l'avons enregistré et l'enverrons dès votre retour en ligne.",
+    "feedbackSent": "L'avis rédigé hors ligne a été envoyé.",
+    "subscribeSent": "Votre inscription à la lettre d'information faite hors ligne a été envoyée.",
+    "sendFailed": "Un formulaire rempli hors ligne n'a pas pu être envoyé. Merci de le remplir à nouveau."
   }
 }

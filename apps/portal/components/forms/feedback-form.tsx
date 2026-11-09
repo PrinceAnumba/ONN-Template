@@ -9,6 +9,7 @@ import { Link } from "@/i18n/navigation";
 import type { FeedbackState } from "@/app/[locale]/(site)/feedback/actions";
 import { submitFeedback } from "@/app/[locale]/(site)/feedback/actions";
 import { describedBy, ErrorSummary, FieldError } from "./form-parts";
+import { queueForm } from "@/lib/outbox";
 
 const MAX = 2000;
 const WARN_AT = 1900;
@@ -28,6 +29,16 @@ export function FeedbackForm({ page, errorId }: { page: string; errorId?: string
   const [message, setMessage] = useState(state.values.message);
   const [rating, setRating] = useState(state.values.rating);
   const count = new Intl.NumberFormat(locale);
+  const offline = useTranslations("Offline");
+  const [queued, setQueued] = useState(false);
+
+  if (queued) {
+    return (
+      <p role="status" className="bg-surface-2 max-w-prose rounded-lg p-6">
+        {offline("queued")}
+      </p>
+    );
+  }
 
   if (state.status === "done") {
     return (
@@ -46,7 +57,21 @@ export function FeedbackForm({ page, errorId }: { page: string; errorId?: string
 
   const { errors } = state;
   return (
-    <form action={action} noValidate className="flex max-w-prose flex-col gap-6">
+    <form
+      action={action}
+      noValidate
+      // Offline: save it and send it when the connection is back (brief §8). The server action
+      // validates it then, like any other submission.
+      onSubmit={(event) => {
+        if (navigator.onLine) return;
+        event.preventDefault();
+        const fields = Object.fromEntries(
+          [...new FormData(event.currentTarget)].map(([key, value]) => [key, String(value)]),
+        );
+        if (queueForm({ kind: "feedback", fields })) setQueued(true);
+      }}
+      className="flex max-w-prose flex-col gap-6"
+    >
       <input type="hidden" name="locale" value={locale} />
       <input type="hidden" name="page" value={page} />
       {errorId && <input type="hidden" name="errorId" value={errorId} />}

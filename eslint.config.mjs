@@ -12,6 +12,8 @@ export default tseslint.config(
     ignores: [
       "**/storybook-static/**",
       "apps/*/public/vendor/**",
+      "apps/*/public/sw.js*",
+      "apps/*/public/swe-worker-*.js",
       "**/.next/**",
       "**/.turbo/**",
       "**/node_modules/**",

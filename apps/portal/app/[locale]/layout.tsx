@@ -40,6 +40,8 @@ export default async function LocaleLayout({ children, params }: LayoutProps) {
       dir={country.locales.rtl.includes(locale) ? "rtl" : "ltr"}
       className={`${sourceSans.variable} ${sourceSansExt.variable}`}
       data-lite={lite ? "" : undefined}
+      // When this page is served from the offline cache, the banner says when it was saved.
+      data-rendered-at={new Date().toISOString()}
     >
       <body className="flex min-h-dvh flex-col">
         <NextIntlClientProvider messages={pickMessages(messages, [...CLIENT_NAMESPACES])}>
