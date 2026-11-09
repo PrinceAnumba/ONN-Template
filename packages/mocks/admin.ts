@@ -26,6 +26,7 @@ import {
   rate,
   type ReferentialDeps,
 } from "./admin-referential";
+import { createContentHandlers, type ContentDeps } from "./admin-content";
 import { qualityResults, rowIssues, type StoredRow } from "./admin-submissions";
 
 type Method = "get" | "post" | "put" | "patch" | "delete";
@@ -60,6 +61,8 @@ export interface AdminDeps {
     ReferentialDeps,
     "pillars" | "locales" | "defaultLocale" | "geoLevels" | "syncIndicator"
   >;
+  /** Public stores and lookups for dashboards, publications and reports. */
+  content: Omit<ContentDeps, "authed" | "problem" | "state" | "locales" | "defaultLocale">;
 }
 
 const STATUSES: SubmissionStatus[] = [
@@ -94,6 +97,7 @@ export function createAdminHandlers({
   publish,
   intake,
   referential,
+  content,
 }: AdminDeps) {
   const refuse = (refusal: Refusal) =>
     HttpResponse.json(
@@ -291,6 +295,14 @@ export function createAdminHandlers({
       userName,
       names,
       previous,
+    }),
+    ...createContentHandlers({
+      ...content,
+      authed,
+      problem,
+      state,
+      locales: referential.locales,
+      defaultLocale: referential.defaultLocale,
     }),
 
     route("get", "/admin/demo-users", () =>

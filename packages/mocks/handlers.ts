@@ -18,6 +18,7 @@ import type {
 import { http, HttpResponse, type RequestHandler } from "msw";
 import type { Fixtures } from "./fixtures";
 import { createAdminHandlers, type RouteContext } from "./admin";
+import { MINIMAL_PDF, placeholderCover } from "./admin-content";
 import { buildAdminState } from "./admin-seed";
 import { applyRows } from "./admin-submissions";
 import { openApiDocument, placeholderSvg } from "./openapi";
@@ -328,6 +329,8 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
 
   const notFound = (what: string) => problem(404, "Not found", `${what} does not exist`);
 
+  const publishedPublication = (slug: string) =>
+    adminState.content.publications.find((item) => item.slug === slug && item.published);
   const findBySlug = <T extends { slug?: unknown }>(items: T[], slug: string) =>
     items.find((item) => item.slug === slug);
 
@@ -441,6 +444,18 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
           });
           options.onPublished?.([`indicator:${record.code}`, ...PUBLISH_TAGS]);
         },
+      },
+      content: {
+        indicatorCodes: () =>
+          data.indicators
+            .filter((item) => item.status === "published")
+            .map((item) => item.code as string),
+        areaCodes: [...data.areas, ...peerAreas].map((area) => area.code as string),
+        peerGroups: Object.keys(data.peers.groupNames),
+        pillars: data.pillars.map((pillar) => pillar.code),
+        publicDashboards: data.dashboards,
+        publicPublications: data.publications,
+        revalidate: (tags) => options.onPublished?.(tags),
       },
       publish: (rows, indicators) => {
         const touched = applyRows(data.observations, rows, (code) => {
@@ -704,22 +719,22 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
         : notFound(`Publication ${params.slug}`);
     }),
 
-    route(
-      "get",
-      "/publications/:slug/cover.svg",
-      () =>
-        new HttpResponse(
-          `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="400"><rect width="300" height="400" fill="#DDE2E8"/></svg>`,
-          { headers: { "Content-Type": "image/svg+xml" } },
-        ),
-    ),
+    // Files uploaded in the back office are served once published; seeded ones are stand-ins.
+    route("get", "/publications/:slug/cover.svg", ({ params }) => {
+      const stored = publishedPublication(params.slug as string);
+      return stored?.cover
+        ? new HttpResponse(stored.cover.data.slice().buffer as ArrayBuffer, {
+            headers: { "Content-Type": stored.cover.type },
+          })
+        : placeholderCover();
+    }),
 
-    route(
-      "get",
-      "/publications/:slug/file.pdf",
-      () =>
-        new HttpResponse("%PDF-1.4\n%%EOF\n", { headers: { "Content-Type": "application/pdf" } }),
-    ),
+    route("get", "/publications/:slug/file.pdf", ({ params }) => {
+      const stored = publishedPublication(params.slug as string);
+      return new HttpResponse((stored?.file.data ?? MINIMAL_PDF).slice().buffer as ArrayBuffer, {
+        headers: { "Content-Type": "application/pdf" },
+      });
+    }),
 
     route("get", "/news", ({ url, q, locale }) => {
       const items = data.news

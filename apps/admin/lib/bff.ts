@@ -61,11 +61,16 @@ export function uploadForm<T>(
       }
       if (request.status >= 200 && request.status < 300) resolve(body as T);
       else {
-        const type = (body as { type?: string } | null)?.type;
+        const problem = body as {
+          type?: string;
+          errors?: { path: string; message: string }[];
+        } | null;
+        const type = problem?.type;
         reject(
           new BffError(
             request.status,
             type && type !== "about:blank" ? type : String(request.status),
+            problem?.errors ?? [],
           ),
         );
       }

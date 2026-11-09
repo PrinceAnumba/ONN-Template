@@ -150,3 +150,28 @@ Both end in an ordinary submission (`channel` `import` or `entry`), so verificat
 **Rights** (`permissions.ts`): `connector.manage` (create, edit, test, run: admins), `indicator.view` (admins and editors) and `indicator.edit` (admins). Editors see connectors and indicators read-only; dry runs only need `connector.view`.
 
 **Cron.** Schedules are five-field cron expressions in the country's time zone (`config.timezone`); `packages/api-client/cron.ts` is the parser both sides use (numbers, `*`, lists, ranges and steps; no names).
+
+### Dashboards builder, publications and reports (Phase 7e)
+
+Back-office text is `Localised` (`{ [locale]: string }`), as for indicators. `ContentStatus` is `draft` (never published), `published` or `changed` (live, with unpublished edits). Validation failures are `422` `type: "validation"` with `errors[]` field paths.
+
+| Endpoint | Returns | Needed by |
+| --- | --- | --- |
+| `GET /admin/dashboards` | `DashboardAdminSummary[]` (title in the request language, audience, widget count, status) | Dashboards list |
+| `POST /admin/dashboards` | body `DashboardCreateInput` (`slug`, `title`, `audience`); `201` `DashboardAdmin` as a draft with no widgets. Errors: `slug` `format`/`duplicate` | New dashboard |
+| `GET /admin/dashboards/:slug`, `PUT /admin/dashboards/:slug` | `DashboardAdmin`: `DashboardRecord` (title, description, audience, `AdminWidget[]` with `Localised` title and body) plus status. PUT saves the draft; paths such as `widgets.2.indicators` (`required`, `count`: one indicator except line and table, up to 4), `widgets.0.title.fr`, `widgets.1.span` (`range`), `years` (`format`, `order`), `area`/`compare` (`unknown`) | Builder |
+| `POST /admin/dashboards/:slug/publish`, `…/unpublish` | `DashboardAdmin`. Publish validates again and refuses an empty dashboard (`422` `empty`); both update the public `/dashboards` and revalidate `dashboards`, `dashboard:<slug>` and `home` | Publish / unpublish |
+| `GET /admin/publications` | `PublicationAdminSummary[]` with `signature` (`pending`, `signed`, `failed`) and `published` | Publications list |
+| `POST /admin/publications` | multipart: `file` (PDF, ≤ 50 MB), optional `cover` (PNG, JPEG or WebP, ≤ 2 MB) and `meta` (JSON `PublicationRecord` + `slug`); `201` `PublicationAdmin` with `signature: "pending"`. The backend signs the PDF and moves it to `signed` or `failed`. Periods: `YYYY-Qn` for quarterly, `YYYY` for annual | New publication |
+| `GET /admin/publications/:slug`, `PUT /admin/publications/:slug` | `PublicationAdmin` (adds `fileName`, `fileBytes`, `signedAt`, and `fileUrl`/`coverUrl` under `/admin`). PUT takes `PublicationRecord` as JSON; when published, the public entry updates at once | Publication detail (the page polls while `pending`) |
+| `POST /admin/publications/:slug/files` | multipart `file` and/or `cover`. A new PDF goes back to `pending`. `409` `published` while live, so the portal never offers an unsigned file | Replace file |
+| `GET /admin/publications/:slug/file`, `…/cover` | The stored PDF and cover | Detail page |
+| `POST /admin/publications/:slug/publish`, `…/unpublish` | `PublicationAdmin`. Publish needs `signed` (`409` `unsigned`); the public `verified` flag is the signature. Revalidates `publications`, `publication:<slug>` and `home` | Publish |
+| `GET /admin/reports`, `POST /admin/reports` | `ReportSummary[]` (block count, open comments); POST takes `{ template: "quarterly" \| "annual", period, title }` and returns `201` `ReportAdmin` with the template's blocks | Reports list, new report |
+| `GET /admin/reports/:id`, `PUT /admin/reports/:id` | `ReportAdmin`: title, period, ordered `ReportBlock[]` (`text` with `html`, `assignee` and `comments`; `kpis` up to 6 indicators; `chart` indicator, area, years; `map` indicator, year; `table` up to 4 indicators, years) and `people` who can be assigned. PUT ignores `comments` in the body (they have their own endpoints) and keeps each block's thread by id | Report builder |
+| `POST /admin/reports/:id/blocks/:block/comments`, `PATCH …/comments/:comment` | `201` `ReportComment`; PATCH `{ resolved }` | Comments on text blocks |
+| `POST /admin/reports/:id/exports`, `GET /admin/exports/:job`, `GET /admin/exports/:job/file` | body `{ format: "pdf" \| "docx" }`; `202` `{ jobId }`. The job is an `ExportJob`, now with an optional `progress` (0–1) and a `url` under `/admin`. Admin-scoped because a draft report isn't public | "Generate PDF / DOCX" |
+
+**Changed:** `ExportFormat` adds `docx`; `ExportJob.progress` is optional for every export. `content.edit` (super admin, admin, editor) covers all of the above.
+
+**Preview without publishing.** The admin previews draft widgets through the portal's `/[locale]/embed/preview?d=`, which carries the widgets in the URL (`@onn/api-client/preview`, base64url JSON, validated and capped at 24 widgets). No backend endpoint is involved; the portal fetches only public data.

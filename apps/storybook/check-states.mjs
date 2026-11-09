@@ -135,6 +135,7 @@ const COMPONENTS = {
     "ui/components/file-drop.stories.tsx",
     { Empty: "is the default state, before a file is chosen" },
   ],
+  RichTextEditor: ["ui/components/rich-text-editor.stories.tsx", {}],
 };
 let missing = 0;
 const skipped = [];

@@ -2,6 +2,16 @@
 import { apiFetch, type QueryValue } from "./client";
 import type {
   AdminMe,
+  DashboardAdmin,
+  DashboardAdminSummary,
+  DashboardCreateInput,
+  DashboardRecord,
+  PublicationAdmin,
+  PublicationAdminSummary,
+  PublicationRecord,
+  ReportAdmin,
+  ReportSummary,
+  ReportTemplate,
   AdminNotification,
   AdminOverview,
   BulkTransitionResult,
@@ -150,6 +160,25 @@ export const adminApi = {
       indicator,
       note,
     }),
+  dashboards: (ctx: AdminContext) => get<DashboardAdminSummary[]>("/dashboards", ctx),
+  dashboard: (ctx: AdminContext, slug: string) =>
+    get<DashboardAdmin>(`/dashboards/${encodeURIComponent(slug)}`, ctx),
+  createDashboard: (ctx: AdminContext, input: DashboardCreateInput) =>
+    send<DashboardAdmin>("POST", "/dashboards", ctx, input),
+  saveDashboard: (ctx: AdminContext, slug: string, input: DashboardRecord) =>
+    send<DashboardAdmin>("PUT", `/dashboards/${encodeURIComponent(slug)}`, ctx, input),
+  publications: (ctx: AdminContext) => get<PublicationAdminSummary[]>("/publications", ctx),
+  publication: (ctx: AdminContext, slug: string) =>
+    get<PublicationAdmin>(`/publications/${encodeURIComponent(slug)}`, ctx),
+  savePublication: (ctx: AdminContext, slug: string, input: PublicationRecord) =>
+    send<PublicationAdmin>("PUT", `/publications/${encodeURIComponent(slug)}`, ctx, input),
+  reports: (ctx: AdminContext) => get<ReportSummary[]>("/reports", ctx),
+  report: (ctx: AdminContext, id: string) =>
+    get<ReportAdmin>(`/reports/${encodeURIComponent(id)}`, ctx),
+  createReport: (
+    ctx: AdminContext,
+    input: { template: ReportTemplate; period: string; title: string },
+  ) => send<ReportAdmin>("POST", "/reports", ctx, input),
   /** Mock only: the users the role switcher offers. Needs no token. */
   demoUsers: (locale: string) => apiFetch<DemoUser[]>("/admin/demo-users", { locale }),
 };

@@ -245,7 +245,7 @@ export interface Problem {
   errors?: { path: string; message: string }[];
 }
 
-export type ExportFormat = "pdf" | "pptx" | "xlsx";
+export type ExportFormat = "pdf" | "pptx" | "xlsx" | "docx";
 export interface ExportRequest {
   format: ExportFormat;
   resource: string;
@@ -254,6 +254,8 @@ export interface ExportRequest {
 export type ExportStatus = "queued" | "running" | "done" | "failed";
 export interface ExportJob {
   status: ExportStatus;
+  /** 0–1 while queued or running, when the server knows it. */
+  progress?: number;
   url?: string;
 }
 
@@ -776,4 +778,127 @@ export interface IndicatorCreateInput {
   pillar: string;
   theme: string;
   org: string;
+}
+
+// ---- Content: dashboards builder, publications, reports (Phase 7e) ----
+
+/** draft: never published; published: live and unchanged; changed: live, with unpublished edits. */
+export type ContentStatus = "draft" | "published" | "changed";
+
+export interface AdminWidget extends Omit<Widget, "title" | "body"> {
+  title: Localised;
+  body?: Localised;
+}
+
+export interface DashboardRecord {
+  title: Localised;
+  description: Localised;
+  audience: Dashboard["audience"];
+  widgets: AdminWidget[];
+}
+
+export interface DashboardAdmin extends DashboardRecord {
+  slug: string;
+  status: ContentStatus;
+  updated: string;
+  publishedAt?: string;
+}
+
+export interface DashboardAdminSummary {
+  slug: string;
+  title: string;
+  audience: Dashboard["audience"];
+  widgetCount: number;
+  status: ContentStatus;
+  updated: string;
+}
+
+export interface DashboardCreateInput {
+  slug: string;
+  title: Localised;
+  audience: Dashboard["audience"];
+}
+
+export type SignatureStatus = "pending" | "signed" | "failed";
+
+export interface PublicationRecord {
+  title: Localised;
+  summary: Localised;
+  type: Publication["type"];
+  /** Reporting period covered, e.g. 2026-Q3 or 2025. */
+  period: string;
+  pillar?: string;
+  /** Release date, YYYY-MM-DD. */
+  date: string;
+}
+
+export interface PublicationAdmin extends PublicationRecord {
+  slug: string;
+  published: boolean;
+  fileName: string;
+  fileBytes: number;
+  fileUrl: string;
+  coverUrl: string;
+  /** The backend signs each uploaded PDF; publishing waits for `signed`. */
+  signature: SignatureStatus;
+  signedAt?: string;
+  updated: string;
+}
+
+export interface PublicationAdminSummary {
+  slug: string;
+  title: string;
+  type: Publication["type"];
+  period: string;
+  date: string;
+  published: boolean;
+  signature: SignatureStatus;
+  updated: string;
+}
+
+export type ReportTemplate = "quarterly" | "annual";
+
+export interface ReportComment {
+  id: string;
+  author: { id: string; name: string };
+  date: string;
+  text: string;
+  resolved: boolean;
+}
+
+export type ReportBlock =
+  | {
+      id: string;
+      type: "text";
+      /** Rich text as HTML from the editor. */
+      html: string;
+      assignee?: string;
+      /** Read-only in PUT bodies: comments have their own endpoints. */
+      comments: ReportComment[];
+    }
+  | { id: string; type: "kpis"; indicators: string[] }
+  | { id: string; type: "chart"; indicator: string; area?: string; years?: string }
+  | { id: string; type: "map"; indicator: string; year?: string }
+  | { id: string; type: "table"; indicators: string[]; years?: string };
+
+export interface ReportAdmin {
+  id: string;
+  title: string;
+  template: ReportTemplate;
+  period: string;
+  blocks: ReportBlock[];
+  createdBy: { id: string; name: string };
+  updated: string;
+  /** People a text block can be assigned to. */
+  people: { id: string; name: string }[];
+}
+
+export interface ReportSummary {
+  id: string;
+  title: string;
+  template: ReportTemplate;
+  period: string;
+  blockCount: number;
+  openComments: number;
+  updated: string;
 }

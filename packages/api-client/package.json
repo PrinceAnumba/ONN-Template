@@ -10,7 +10,8 @@
     "./admin": "./admin.ts",
     "./permissions": "./permissions.ts",
     "./quality": "./quality.ts",
-    "./cron": "./cron.ts"
+    "./cron": "./cron.ts",
+    "./preview": "./preview.ts"
   },
   "scripts": {
     "test": "vitest run",

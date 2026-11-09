@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getLocale, getTranslations } from "next-intl/server";
 import { notFound } from "next/navigation";
 import type { SearchParams } from "nuqs/server";
+import { EmbedHeight } from "@/components/embed/embed-height";
 import { ChartView } from "@/components/indicator/sections";
 import { loadIndicatorView } from "@/lib/indicator-view";
 import { serializeUrlState } from "@/lib/url-state";
@@ -41,6 +42,7 @@ export default async function EmbedChart({ searchParams }: PageProps) {
       >
         {t("viewOnSite", { site: country.observatory.shortName })}
       </a>
+      <EmbedHeight />
     </main>
   );
 }

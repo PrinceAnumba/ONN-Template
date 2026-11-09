@@ -21,6 +21,7 @@ const RIGHTS = {
   "connector.manage": ["super_admin", "admin"],
   "indicator.view": ["super_admin", "admin", "editor"],
   "indicator.edit": ["super_admin", "admin"],
+  "content.edit": ["super_admin", "admin", "editor"],
   "feedback.view": ["super_admin", "admin", "editor"],
   "usage.view": ["super_admin", "admin", "editor", "reader"],
 } as const satisfies Record<string, readonly AdminRole[]>;
