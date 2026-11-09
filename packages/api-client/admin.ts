@@ -1,6 +1,32 @@
 // Back-office endpoints (brief §7). Kept out of the main entry so portal bundles never carry them.
 import { apiFetch, type QueryValue } from "./client";
-import type { AdminMe, AdminNotification, AdminOverview, DemoUser } from "./types";
+import type {
+  AdminMe,
+  AdminNotification,
+  AdminOverview,
+  BulkTransitionResult,
+  CalendarItem,
+  DemoUser,
+  QualityRule,
+  SubmissionAction,
+  SubmissionChannel,
+  SubmissionDetail,
+  SubmissionPage,
+  SubmissionStatus,
+  TransitionInput,
+} from "./types";
+
+export interface SubmissionQuery extends Record<string, QueryValue> {
+  status?: SubmissionStatus;
+  q?: string;
+  org?: string;
+  channel?: SubmissionChannel;
+  /** Last update from / to, inclusive (YYYY-MM-DD). */
+  from?: string;
+  to?: string;
+  page?: number;
+  pageSize?: number;
+}
 
 /** Every admin call needs the locale and the session's bearer token. */
 export interface AdminContext {
@@ -24,6 +50,26 @@ export const adminApi = {
   notifications: (ctx: AdminContext) => get<AdminNotification[]>("/notifications", ctx),
   markNotificationsRead: (ctx: AdminContext, ids: string[]) =>
     send<{ ok: true }>("POST", "/notifications/read", ctx, { ids }),
+  submissions: (ctx: AdminContext, query: SubmissionQuery = {}) =>
+    get<SubmissionPage>("/submissions", ctx, query),
+  submission: (ctx: AdminContext, id: string) =>
+    get<SubmissionDetail>(`/submissions/${encodeURIComponent(id)}`, ctx),
+  transition: (ctx: AdminContext, id: string, input: TransitionInput) =>
+    send<SubmissionDetail>("POST", `/submissions/${encodeURIComponent(id)}/transition`, ctx, input),
+  bulkTransition: (ctx: AdminContext, ids: string[], action: SubmissionAction, comment?: string) =>
+    send<BulkTransitionResult>("POST", "/submissions/bulk-transition", ctx, {
+      ids,
+      action,
+      comment,
+    }),
+  /** Saves the explanations for failing warnings (brief §7 *Quality* tab). */
+  justify: (ctx: AdminContext, id: string, justifications: Partial<Record<QualityRule, string>>) =>
+    send<SubmissionDetail>("PUT", `/submissions/${encodeURIComponent(id)}/justifications`, ctx, {
+      justifications,
+    }),
+  /** Collection calendar for one month (`YYYY-MM`). */
+  calendar: (ctx: AdminContext, month: string, org?: string) =>
+    get<CalendarItem[]>("/calendar", ctx, { month, org }),
   /** Mock only: the users the role switcher offers. Needs no token. */
   demoUsers: (locale: string) => apiFetch<DemoUser[]>("/admin/demo-users", { locale }),
 };

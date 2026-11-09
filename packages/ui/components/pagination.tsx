@@ -112,3 +112,47 @@ export function Pagination({
     </nav>
   );
 }
+
+/** Rows-per-page choice (brief §7: 25, 50 or 100) as plain links, so it works without JavaScript. */
+export function PageSizeLinks({
+  sizes,
+  current,
+  href,
+  label,
+  linkAs: LinkAs = "a" as unknown as NonNullable<PaginationProps["linkAs"]>,
+  className,
+}: {
+  sizes: number[];
+  current: number;
+  href: (size: number) => string;
+  /** Group label, e.g. "Rows per page". */
+  label: string;
+  linkAs?: PaginationProps["linkAs"];
+  className?: string;
+}) {
+  return (
+    <nav aria-label={label} className={cn("flex items-center gap-2 text-sm", className)}>
+      <span aria-hidden className="text-muted-foreground">
+        {label}
+      </span>
+      <ul className="flex gap-1">
+        {sizes.map((size) => (
+          <li key={size}>
+            <LinkAs
+              href={href(size)}
+              aria-current={size === current ? "page" : undefined}
+              className={cn(
+                ITEM,
+                "w-auto min-w-11 px-2 font-normal",
+                size === current &&
+                  "bg-primary text-primary-foreground border-primary font-semibold",
+              )}
+            >
+              {size}
+            </LinkAs>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}

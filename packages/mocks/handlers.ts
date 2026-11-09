@@ -18,6 +18,7 @@ import { http, HttpResponse, type RequestHandler } from "msw";
 import type { Fixtures } from "./fixtures";
 import { createAdminHandlers, type RouteContext } from "./admin";
 import { buildAdminState } from "./admin-seed";
+import { applyRows } from "./admin-submissions";
 import { openApiDocument, placeholderSvg } from "./openapi";
 
 const placeholderImage = (width: number, height: number) =>
@@ -31,7 +32,23 @@ const MAX_PAGE_SIZE = 500;
 export interface HandlerOptions {
   /** [min, max] in ms. Brief §3 asks for 150–600 ms. */
   latency?: [number, number];
+  /** Called with cache tags after the back office publishes values (the backend's publish
+   * webhook, which calls each app's revalidateTag). */
+  onPublished?: (tags: string[]) => void;
 }
+
+/** Portal cache tags that show published values (see serverCache calls in apps/portal). */
+const PUBLISH_TAGS = [
+  "home",
+  "selector",
+  "profile",
+  "map",
+  "benchmark",
+  "query",
+  "catalogue",
+  "dashboards",
+  "datasets",
+];
 
 function problem(status: number, title: string, detail?: string, errors?: Problem["errors"]) {
   const body: Problem = { type: "about:blank", title, status, detail, errors };
@@ -314,7 +331,40 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
     items.find((item) => item.slug === slug);
 
   return [
-    ...createAdminHandlers({ route, localise, problem, state: adminState }),
+    ...createAdminHandlers({
+      route,
+      localise,
+      problem,
+      state: adminState,
+      names: {
+        indicator: (code) => data.indicators.find((item) => item.code === code)?.name ?? code,
+        area: (code) =>
+          [...data.areas, ...peerAreas].find((item) => item.code === code)?.name ?? code,
+      },
+      previous: (row) => {
+        const before = (byIndicatorArea.get(`${row.indicator}|${row.area}`) ?? []).filter(
+          (item) =>
+            item.period < row.period &&
+            JSON.stringify(item.dims) === JSON.stringify(row.dims) &&
+            item.value !== null,
+        );
+        return before.at(-1)?.value ?? null;
+      },
+      publish: (rows, indicators) => {
+        const touched = applyRows(data.observations, rows, (code) => {
+          const sample = data.observations.find((item) => item.indicator === code);
+          return sample?.source ?? "";
+        });
+        for (const row of touched) {
+          const key = `${row.indicator}|${row.area}`;
+          const list = byIndicatorArea.get(key) ?? [];
+          if (!list.includes(row)) list.push(row);
+          list.sort((a, b) => a.period.localeCompare(b.period));
+          byIndicatorArea.set(key, list);
+        }
+        options.onPublished?.([...indicators.map((code) => `indicator:${code}`), ...PUBLISH_TAGS]);
+      },
+    }),
 
     route("get", "/pillars", ({ locale }) => {
       const pillars = data.pillars.map((pillar) => {

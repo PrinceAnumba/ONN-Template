@@ -10,6 +10,8 @@ import type {
   SubmissionChannel,
   SubmissionStatus,
 } from "@onn/api-client/types";
+import type { QualityRule } from "@onn/api-client/types";
+import { nextPeriod, type HistoryEvent, type StoredRow } from "./admin-submissions";
 import { createRandom, type Fixtures } from "./fixtures";
 
 /** Stored text: one string per language, resolved by the localiser in each response. */
@@ -39,6 +41,10 @@ export interface StoredSubmission {
   status: SubmissionStatus;
   submittedBy: string;
   updated: string;
+  rows: StoredRow[];
+  justifications: Partial<Record<QualityRule, string>>;
+  history: HistoryEvent[];
+  verifiedBy?: string;
 }
 
 export interface StoredConnector {
@@ -156,23 +162,141 @@ export function buildAdminState(data: Fixtures, now = new Date()): AdminState {
       .filter((item) => orgOfIndicator.get(item.code as string) === org)
       .map((item) => item.code as string);
 
-  // Submissions: a spread of statuses over the last two months.
+  // Submissions: a spread of statuses over the last two months, with values built from the
+  // published series so the *Diff* tab and the portal stay consistent.
+  const editor = users.find((user) => user.roles.includes("editor"))!;
+  const admins = users.filter((user) => user.roles.includes("admin"));
+  const seriesOf = new Map<string, Fixtures["observations"]>();
+  for (const row of data.observations) {
+    if (Object.keys(row.dims).length) continue;
+    const key = `${row.indicator}|${row.area}`;
+    const list = seriesOf.get(key);
+    if (list) list.push(row);
+    else seriesOf.set(key, [row]);
+  }
+  const periodicityOf = new Map(
+    data.indicators.map((item) => [item.code as string, item.periodicity as string]),
+  );
+  const adm1 = data.areas
+    .filter((area) => area.level === "adm1")
+    .map((area) => area.code as string);
+  let ownVerified = false;
+
   const submissions: StoredSubmission[] = Array.from({ length: 30 }, (_, index) => {
+    const status = STATUSES[index % STATUSES.length]!;
     const org = index % 3 === 2 ? pick(orgs).code : pick(contributor.orgs);
-    const codes = indicatorsOf(org);
-    const count = Math.min(codes.length, 1 + Math.floor(random() * 3));
-    const start = Math.floor(random() * Math.max(1, codes.length - count + 1));
-    const quarter = 1 + Math.floor(random() * 4);
+    // Indicators with published data and the same periodicity, so they share one period.
+    const withData = indicatorsOf(org).filter((code) => seriesOf.has(`${code}|${data.meta.iso3}`));
+    const first = withData[Math.floor(random() * withData.length)];
+    const sameKind = withData.filter(
+      (code) => periodicityOf.get(code) === periodicityOf.get(first ?? ""),
+    );
+    const codes = [first, ...sameKind.filter((code) => code !== first)]
+      .filter((code): code is string => Boolean(code))
+      .slice(0, 1 + Math.floor(random() * 2));
+    const national = seriesOf.get(`${codes[0]}|${data.meta.iso3}`) ?? [];
+    const latest = national.at(-1)?.period ?? "2025";
+    // Published submissions restate the latest values; a third of the rest revise them.
+    const revise = status === "published" || index % 3 === 0;
+    const period = revise
+      ? latest
+      : nextPeriod(latest, periodicityOf.get(codes[0] ?? "") ?? "annual");
     const channel = pick(CHANNELS);
+    let submittedBy = channel === "connector" || index % 4 === 3 ? pick(users).id : contributor.id;
+    // One verified submission is the second admin's own, for the "can't approve your own" rule.
+    if (status === "verified" && !ownVerified) {
+      submittedBy = admins[0]!.id;
+      ownVerified = true;
+    }
+    if (status === "draft" || status === "returned") submittedBy = contributor.id;
+
+    const rows: StoredRow[] = [];
+    for (const code of codes) {
+      const areas = [
+        data.meta.iso3,
+        ...adm1.filter((area) => seriesOf.has(`${code}|${area}`)).slice(0, 3),
+      ];
+      for (const area of areas) {
+        const series = seriesOf.get(`${code}|${area}`) ?? [];
+        const last = series.at(-1);
+        const current = series.find((item) => item.period === period);
+        if (!last) continue;
+        const base = last.value ?? 0;
+        const grown = Math.round(base * (1 + 0.02 + random() * 0.06) * 10) / 10;
+        const value =
+          status === "published"
+            ? (current?.value ?? base)
+            : last.unit === "%"
+              ? Math.min(100, grown)
+              : grown;
+        rows.push({
+          id: `${index + 1}-${rows.length + 1}`,
+          indicator: code,
+          area,
+          period,
+          dims: {},
+          value,
+          unit: last.unit,
+          status: status === "published" ? (current?.status ?? "A") : "P",
+          published: current?.value ?? null,
+        });
+      }
+    }
+    // Seeded problems: drafts and returned submissions have errors, some others a large jump.
+    const target = rows[rows.length > 1 ? 1 : 0];
+    if (target && status === "draft") target.value = null;
+    if (target && status === "returned") target.value = -Math.abs(target.value ?? 1);
+    if (target && ["submitted", "verified", "approved"].includes(status) && index % 2 === 0) {
+      target.value = Math.round((target.value ?? 1) * 1.6 * 10) / 10;
+    }
+
+    const updated = ago(Math.floor(random() * 60) + random());
+    const reached =
+      status === "returned"
+        ? 1
+        : ["draft", "submitted", "verified", "approved", "published"].indexOf(status);
+    const actors = [submittedBy, submittedBy, editor.id, admins[1]!.id, admins[1]!.id];
+    const history: HistoryEvent[] = [];
+    const flow: SubmissionStatus[] = ["draft", "submitted", "verified", "approved", "published"];
+    for (let step = 0; step <= reached; step++) {
+      history.push({
+        id: `${index + 1}-h${step}`,
+        date: iso(
+          new Date(
+            updated.getTime() - (reached - step + (status === "returned" ? 1 : 0)) * 1.5 * DAY,
+          ),
+        ),
+        ...(step > 0 ? { from: flow[step - 1] } : {}),
+        to: flow[step]!,
+        actor: actors[step]!,
+      });
+    }
+    if (status === "returned") {
+      history.push({
+        id: `${index + 1}-hr`,
+        date: iso(updated),
+        from: "submitted",
+        to: "returned",
+        actor: editor.id,
+        comment: "Negative value for one region: please check the source file.",
+      });
+    }
+    const verified = ["verified", "approved", "published"].includes(status);
     return {
       id: `SUB-${String(index + 1).padStart(4, "0")}`,
       org,
-      indicators: codes.slice(start, start + count),
-      period: `2025-Q${quarter}`,
+      indicators: codes,
+      period,
       channel,
-      status: STATUSES[index % STATUSES.length]!,
-      submittedBy: channel === "connector" || index % 4 === 3 ? pick(users).id : contributor.id,
-      updated: iso(ago(Math.floor(random() * 60) + random())),
+      status,
+      submittedBy,
+      updated: iso(updated),
+      rows,
+      justifications: verified
+        ? { jump: "Confirmed with the provider: network expansion this period." }
+        : {},
+      history,
+      ...(verified ? { verifiedBy: editor.id } : {}),
     };
   });
 

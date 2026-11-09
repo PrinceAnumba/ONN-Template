@@ -45,6 +45,45 @@ export interface DataTableProps<T> {
   maxHeight?: number;
   sortLabel: (header: string) => string;
   className?: string;
+  /** Adds a checkbox column (brief §7 list pattern). The table doesn't keep the selection. */
+  selection?: {
+    selected: ReadonlySet<string>;
+    onChange: (selected: Set<string>) => void;
+    /** Accessible name for one row's checkbox, e.g. "Select SUB-0001". */
+    rowLabel: (row: T) => string;
+    /** Accessible name for the header checkbox, e.g. "Select all rows on this page". */
+    allLabel: string;
+  };
+}
+
+/** A header checkbox that shows "some selected" as indeterminate. */
+function SelectAll({
+  checked,
+  indeterminate,
+  label,
+  onChange,
+}: {
+  checked: boolean;
+  indeterminate: boolean;
+  label: string;
+  onChange: (checked: boolean) => void;
+}) {
+  const ref = React.useRef<HTMLInputElement>(null);
+  React.useEffect(() => {
+    if (ref.current) ref.current.indeterminate = indeterminate;
+  }, [indeterminate]);
+  return (
+    <label className="flex size-11 cursor-pointer items-center justify-center">
+      <input
+        ref={ref}
+        type="checkbox"
+        aria-label={label}
+        checked={checked}
+        onChange={(event) => onChange(event.target.checked)}
+        className="accent-primary size-5"
+      />
+    </label>
+  );
 }
 
 /** TanStack Table with sticky header and first column, sorting, resizing and virtualisation. */
@@ -59,6 +98,7 @@ export function DataTable<T>({
   maxHeight = 560,
   sortLabel,
   className,
+  selection,
 }: DataTableProps<T>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const scrollRef = React.useRef<HTMLDivElement>(null);
@@ -117,6 +157,27 @@ export function DataTable<T>({
   const padBottom =
     virtual && items.length ? virtualizer.getTotalSize() - items[items.length - 1]!.end : 0;
   const isNumeric = (meta: unknown) => (meta as { numeric?: boolean } | undefined)?.numeric;
+  const span = columns.length + (selection ? 1 : 0);
+  const pageIds = rows.map(rowId);
+  const selectedOnPage = selection ? pageIds.filter((id) => selection.selected.has(id)).length : 0;
+  const toggleAll = (checked: boolean) => {
+    if (!selection) return;
+    const next = new Set(selection.selected);
+    for (const id of pageIds) {
+      if (checked) next.add(id);
+      else next.delete(id);
+    }
+    selection.onChange(next);
+  };
+  const toggleRow = (id: string, checked: boolean) => {
+    if (!selection) return;
+    const next = new Set(selection.selected);
+    if (checked) next.add(id);
+    else next.delete(id);
+    selection.onChange(next);
+  };
+  // With a checkbox column first, the row header sticks just after it.
+  const stickyFirst = selection ? "sticky start-11 z-10" : "sticky start-0 z-10";
 
   return (
     <div className={className}>
@@ -136,6 +197,16 @@ export function DataTable<T>({
           <thead className="bg-surface-2 sticky top-0 z-20">
             {table.getHeaderGroups().map((group) => (
               <tr key={group.id}>
+                {selection && (
+                  <th scope="col" className="bg-surface-2 sticky start-0 z-10 w-11 border-b p-0">
+                    <SelectAll
+                      checked={pageIds.length > 0 && selectedOnPage === pageIds.length}
+                      indeterminate={selectedOnPage > 0 && selectedOnPage < pageIds.length}
+                      label={selection.allLabel}
+                      onChange={toggleAll}
+                    />
+                  </th>
+                )}
                 {group.headers.map((header, index) => {
                   const sorted = header.column.getIsSorted();
                   const numeric = isNumeric(header.column.columnDef.meta);
@@ -157,7 +228,7 @@ export function DataTable<T>({
                       className={cn(
                         "bg-surface-2 relative border-b px-3 py-2 font-semibold whitespace-nowrap",
                         numeric ? "text-end" : "text-start",
-                        index === 0 && "sticky start-0 z-10",
+                        index === 0 && stickyFirst,
                       )}
                     >
                       {header.column.getCanSort() ? (
@@ -201,6 +272,7 @@ export function DataTable<T>({
             {loading &&
               Array.from({ length: LOADING_ROWS }, (_, i) => (
                 <tr key={i}>
+                  {selection && <td className="border-b" />}
                   {columns.map((column) => (
                     <td key={column.id} className="border-b px-3 py-3">
                       <Skeleton className="h-4 w-full" />
@@ -210,22 +282,40 @@ export function DataTable<T>({
               ))}
             {!loading && tableRows.length === 0 && (
               <tr>
-                <td
-                  colSpan={columns.length}
-                  className="text-muted-foreground px-3 py-8 text-center"
-                >
+                <td colSpan={span} className="text-muted-foreground px-3 py-8 text-center">
                   {emptyLabel}
                 </td>
               </tr>
             )}
             {padTop > 0 && (
               <tr aria-hidden>
-                <td colSpan={columns.length} style={{ height: padTop }} />
+                <td colSpan={span} style={{ height: padTop }} />
               </tr>
             )}
             {!loading &&
               visible.map((row) => (
-                <tr key={row.id} className="hover:bg-surface-2" style={{ height: ROW_HEIGHT }}>
+                <tr
+                  key={row.id}
+                  aria-selected={selection ? selection.selected.has(row.id) : undefined}
+                  className={cn(
+                    "hover:bg-surface-2",
+                    selection?.selected.has(row.id) && "bg-surface-2",
+                  )}
+                  style={{ height: ROW_HEIGHT }}
+                >
+                  {selection && (
+                    <td className="bg-background sticky start-0 z-10 w-11 border-b p-0">
+                      <label className="flex size-11 cursor-pointer items-center justify-center">
+                        <input
+                          type="checkbox"
+                          aria-label={selection.rowLabel(row.original)}
+                          checked={selection.selected.has(row.id)}
+                          onChange={(event) => toggleRow(row.id, event.target.checked)}
+                          className="accent-primary size-5"
+                        />
+                      </label>
+                    </td>
+                  )}
                   {row.getVisibleCells().map((cell, index) => {
                     const numeric = isNumeric(cell.column.columnDef.meta);
                     // Called directly: flexRender would mount the inline cell function as a
@@ -237,7 +327,10 @@ export function DataTable<T>({
                       <th
                         key={cell.id}
                         scope="row"
-                        className="bg-background sticky start-0 z-10 border-b px-3 py-2 text-start font-normal"
+                        className={cn(
+                          "bg-background border-b px-3 py-2 text-start font-normal",
+                          stickyFirst,
+                        )}
                       >
                         {content}
                       </th>
@@ -254,7 +347,7 @@ export function DataTable<T>({
               ))}
             {padBottom > 0 && (
               <tr aria-hidden>
-                <td colSpan={columns.length} style={{ height: padBottom }} />
+                <td colSpan={span} style={{ height: padBottom }} />
               </tr>
             )}
           </tbody>

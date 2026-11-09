@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import { useState } from "react";
 import { expect, userEvent, within } from "@storybook/test";
 import { DataTable, type DataTableColumn } from "./data-table";
 
@@ -110,3 +111,41 @@ export const LongText: Story = {
 export const Rtl: Story = { parameters: { direction: "rtl" } };
 
 export const Mobile: Story = { parameters: { viewport: { defaultViewport: "mobile360" } } };
+
+function SelectableTable() {
+  const [selected, setSelected] = useState<Set<string>>(new Set());
+  return (
+    <>
+      <DataTable
+        caption="Regions"
+        columns={columns}
+        rows={rows}
+        rowId={(row) => row.code}
+        emptyLabel="No data"
+        sortLabel={(header) => `Sort by ${header}`}
+        selection={{
+          selected,
+          onChange: setSelected,
+          rowLabel: (row) => `Select ${row.name}`,
+          allLabel: "Select all rows on this page",
+        }}
+      />
+      <p role="status" className="mt-2 text-sm">{`${selected.size} selected`}</p>
+    </>
+  );
+}
+
+export const Selectable: Story = {
+  render: () => <SelectableTable />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole("checkbox", { name: "Select Dakar" }));
+    await expect(canvas.getByRole("status")).toHaveTextContent("1 selected");
+    const all = canvas.getByRole("checkbox", { name: "Select all rows on this page" });
+    await expect((all as HTMLInputElement).indeterminate).toBe(true);
+    await userEvent.click(all);
+    await expect(canvas.getByRole("status")).toHaveTextContent("8 selected");
+    await userEvent.click(all);
+    await expect(canvas.getByRole("status")).toHaveTextContent("0 selected");
+  },
+};

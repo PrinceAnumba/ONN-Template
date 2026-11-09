@@ -5,13 +5,21 @@ import type {
   AdminMe,
   AdminNotification,
   AdminOverview,
+  BulkTransitionResult,
   CalendarItem,
   DemoUser,
   Organisation,
+  QualityRule,
+  SubmissionAction,
+  SubmissionDetail,
+  SubmissionPage,
+  SubmissionRow,
+  SubmissionStatus,
   SubmissionSummary,
 } from "@onn/api-client/types";
 import { HttpResponse, type RequestHandler } from "msw";
 import type { AdminState, StoredSubmission, StoredUser } from "./admin-seed";
+import { qualityResults, rowIssues, type StoredRow } from "./admin-submissions";
 
 type Method = "get" | "post" | "put" | "patch" | "delete";
 
@@ -32,13 +40,55 @@ export interface AdminDeps {
   localise: <T>(value: unknown, locale: string) => T;
   problem: (status: number, title: string, detail?: string) => Response;
   state: AdminState;
+  /** Indicator and area names for submission rows (stored text, localised per request). */
+  names: { indicator: (code: string) => unknown; area: (code: string) => unknown };
+  /** The value before `row.period` in the published series, for the jump rule. */
+  previous: (row: StoredRow) => number | null;
+  /** Writes published rows into the public data and tells the apps to refresh. */
+  publish: (rows: StoredRow[], indicators: string[]) => void;
+}
+
+const STATUSES: SubmissionStatus[] = [
+  "draft",
+  "submitted",
+  "verified",
+  "approved",
+  "published",
+  "returned",
+];
+const DEFAULT_PAGE_SIZE = 25;
+const PAGE_SIZES = [25, 50, 100];
+
+/** Why a transition was refused. `type` lets the admin show a specific message. */
+interface Refusal {
+  status: 403 | 409 | 422;
+  type: "role" | "state" | "own-submission" | "errors" | "unjustified" | "comment" | "scope";
+  detail: string;
 }
 
 const DAY = 24 * 60 * 60 * 1000;
 const DEADLINE_DAYS = 30;
 const LIST_LIMIT = 5;
 
-export function createAdminHandlers({ route, localise, problem, state }: AdminDeps) {
+export function createAdminHandlers({
+  route,
+  localise,
+  problem,
+  state,
+  names,
+  previous,
+  publish,
+}: AdminDeps) {
+  const refuse = (refusal: Refusal) =>
+    HttpResponse.json(
+      {
+        type: refusal.type,
+        title: "Transition refused",
+        status: refusal.status,
+        detail: refusal.detail,
+      },
+      { status: refusal.status, headers: { "Content-Type": "application/problem+json" } },
+    );
   const orgName = (code: string, locale: string) => {
     const org = state.orgs.find((item) => item.code === code);
     return org ? localise<string>(org.name, locale) : code;
@@ -46,10 +96,116 @@ export function createAdminHandlers({ route, localise, problem, state }: AdminDe
   const userName = (id: string) => state.users.find((user) => user.id === id)?.name ?? id;
 
   const summary = (item: StoredSubmission, locale: string): SubmissionSummary => ({
-    ...item,
+    id: item.id,
+    org: item.org,
     orgName: orgName(item.org, locale),
+    indicators: item.indicators,
+    period: item.period,
+    channel: item.channel,
+    status: item.status,
     submittedBy: { id: item.submittedBy, name: userName(item.submittedBy) },
+    updated: item.updated,
   });
+
+  const issuesOf = (item: StoredSubmission) => rowIssues(item.rows, previous);
+
+  const detail = (item: StoredSubmission, locale: string): SubmissionDetail => {
+    const issues = issuesOf(item);
+    return {
+      ...summary(item, locale),
+      rows: item.rows.map((row): SubmissionRow => ({
+        ...row,
+        indicatorName: localise<string>(names.indicator(row.indicator), locale),
+        areaName: localise<string>(names.area(row.area), locale),
+        issues: issues.get(row.id) ?? [],
+      })),
+      quality: qualityResults(issues, item.justifications),
+      history: item.history.map((event) => ({
+        ...event,
+        actor: { id: event.actor, name: userName(event.actor) },
+      })),
+      ...(item.verifiedBy
+        ? { verifiedBy: { id: item.verifiedBy, name: userName(item.verifiedBy) } }
+        : {}),
+    };
+  };
+
+  /** Applies a workflow step, or says why the user can't take it (brief §7 workflow). */
+  const transition = (
+    item: StoredSubmission,
+    user: StoredUser,
+    action: SubmissionAction,
+    comment?: string,
+  ): Refusal | null => {
+    if (!user.orgs.includes(item.org)) {
+      return { status: 403, type: "scope", detail: "Not one of your organisations" };
+    }
+    const allowed: Record<SubmissionAction, SubmissionStatus[]> = {
+      submit: ["draft", "returned"],
+      verify: ["submitted"],
+      approve: ["verified"],
+      publish: ["approved"],
+      return: ["submitted", "verified", "approved"],
+    };
+    if (!can(user.roles, `submission.${action}`)) {
+      return { status: 403, type: "role", detail: `Your role can't ${action} submissions` };
+    }
+    if (!allowed[action].includes(item.status)) {
+      return {
+        status: 409,
+        type: "state",
+        detail: `A ${item.status} submission can't be ${action}ed`,
+      };
+    }
+    const issues = [...issuesOf(item).values()].flat();
+    if (action === "submit" && issues.some((issue) => issue.level === "error")) {
+      return { status: 422, type: "errors", detail: "Fix the errors before submitting" };
+    }
+    if (action === "verify") {
+      const unjustified = [
+        ...new Set(issues.filter((issue) => issue.level === "warning").map((issue) => issue.rule)),
+      ].filter((rule) => !item.justifications[rule]?.trim());
+      if (unjustified.length) {
+        return { status: 422, type: "unjustified", detail: `Justify: ${unjustified.join(", ")}` };
+      }
+    }
+    if (action === "approve" && item.submittedBy === user.id) {
+      return {
+        status: 409,
+        type: "own-submission",
+        detail: "You can't approve your own submission",
+      };
+    }
+    if (action === "return" && !comment?.trim()) {
+      return { status: 422, type: "comment", detail: "Say what needs to change" };
+    }
+
+    const to: Record<SubmissionAction, SubmissionStatus> = {
+      submit: "submitted",
+      verify: "verified",
+      approve: "approved",
+      publish: "published",
+      return: "returned",
+    };
+    const now = new Date().toISOString();
+    if (action === "publish") {
+      publish(item.rows, item.indicators);
+      for (const row of item.rows) row.published = row.value;
+    }
+    if (action === "verify") item.verifiedBy = user.id;
+    if (action === "submit") item.submittedBy = user.id;
+    item.history.push({
+      id: `${item.id}-h${item.history.length}-${Date.now()}`,
+      date: now,
+      from: item.status,
+      to: to[action],
+      actor: user.id,
+      ...(comment?.trim() ? { comment: comment.trim() } : {}),
+    });
+    item.status = to[action];
+    item.updated = now;
+    return null;
+  };
 
   /** The organisations a request covers: `?org=` if the user belongs to it, else all of theirs. */
   const scope = (user: StoredUser, q: URLSearchParams) => {
@@ -147,6 +303,117 @@ export function createAdminHandlers({ route, localise, problem, state }: AdminDe
         usage: can(user.roles, "usage.view") ? state.usage : [],
       };
       return HttpResponse.json(body);
+    }),
+
+    authed("get", "/submissions", ({ user, q, locale }) => {
+      const orgs = scope(user, q);
+      const text = q.get("q")?.trim().toLowerCase();
+      const channel = q.get("channel");
+      const inScope = state.submissions
+        .filter((item) => orgs.includes(item.org))
+        .filter((item) => !channel || item.channel === channel)
+        // Date range on the last update, inclusive (YYYY-MM-DD).
+        .filter((item) => !q.get("from") || item.updated.slice(0, 10) >= q.get("from")!)
+        .filter((item) => !q.get("to") || item.updated.slice(0, 10) <= q.get("to")!)
+        .filter(
+          (item) =>
+            !text ||
+            [item.id, orgName(item.org, locale), userName(item.submittedBy), ...item.indicators]
+              .join(" ")
+              .toLowerCase()
+              .includes(text),
+        )
+        .sort((a, b) => b.updated.localeCompare(a.updated));
+      const counts = Object.fromEntries(
+        STATUSES.map((status) => [status, inScope.filter((item) => item.status === status).length]),
+      ) as Record<SubmissionStatus, number>;
+      const status = STATUSES.find((item) => item === q.get("status"));
+      const rows = status ? inScope.filter((item) => item.status === status) : inScope;
+      const requested = Number(q.get("pageSize"));
+      const pageSize = PAGE_SIZES.includes(requested) ? requested : DEFAULT_PAGE_SIZE;
+      const pages = Math.max(1, Math.ceil(rows.length / pageSize));
+      const page = Math.min(Math.max(1, Number(q.get("page")) || 1), pages);
+      const body: SubmissionPage = {
+        items: rows
+          .slice((page - 1) * pageSize, page * pageSize)
+          .map((item) => summary(item, locale)),
+        meta: { total: rows.length, page, pageSize },
+        counts,
+      };
+      return HttpResponse.json(body);
+    }),
+
+    authed("post", "/submissions/bulk-transition", async ({ user, request }) => {
+      const body = (await request.json().catch(() => null)) as {
+        ids?: unknown;
+        action?: SubmissionAction;
+        comment?: string;
+      } | null;
+      const ids = Array.isArray(body?.ids) ? body.ids.filter((id) => typeof id === "string") : [];
+      const result: BulkTransitionResult = { done: [], failed: [] };
+      for (const id of ids) {
+        const item = state.submissions.find((entry) => entry.id === id);
+        if (!item) {
+          result.failed.push({ id, status: 404, detail: "Not found" });
+          continue;
+        }
+        const refused = transition(item, user, body?.action ?? "submit", body?.comment);
+        if (refused) result.failed.push({ id, status: refused.status, detail: refused.type });
+        else result.done.push(id);
+      }
+      return HttpResponse.json(result);
+    }),
+
+    authed("get", "/submissions/:id", ({ user, params, locale }) => {
+      const item = state.submissions.find((entry) => entry.id === params.id);
+      if (!item || !user.orgs.includes(item.org))
+        return problem(404, "Not found", `${params.id} does not exist`);
+      return HttpResponse.json(detail(item, locale));
+    }),
+
+    authed("post", "/submissions/:id/transition", async ({ user, params, request, locale }) => {
+      const item = state.submissions.find((entry) => entry.id === params.id);
+      if (!item || !user.orgs.includes(item.org))
+        return problem(404, "Not found", `${params.id} does not exist`);
+      const body = (await request.json().catch(() => null)) as {
+        action?: SubmissionAction;
+        comment?: string;
+      } | null;
+      const refused = transition(item, user, body?.action ?? "submit", body?.comment);
+      return refused ? refuse(refused) : HttpResponse.json(detail(item, locale));
+    }),
+
+    authed("put", "/submissions/:id/justifications", async ({ user, params, request, locale }) => {
+      const item = state.submissions.find((entry) => entry.id === params.id);
+      if (!item || !user.orgs.includes(item.org))
+        return problem(404, "Not found", `${params.id} does not exist`);
+      if (!can(user.roles, "submission.verify") && !can(user.roles, "submission.submit")) {
+        return refuse({ status: 403, type: "role", detail: "Your role can't justify warnings" });
+      }
+      const body = (await request.json().catch(() => null)) as {
+        justifications?: Partial<Record<QualityRule, unknown>>;
+      } | null;
+      for (const [rule, text] of Object.entries(body?.justifications ?? {})) {
+        if (typeof text !== "string") continue;
+        if (text.trim()) item.justifications[rule as QualityRule] = text.trim().slice(0, 1000);
+        else delete item.justifications[rule as QualityRule];
+      }
+      return HttpResponse.json(detail(item, locale));
+    }),
+
+    authed("get", "/calendar", ({ user, q, locale }) => {
+      const orgs = scope(user, q);
+      const month = /^\d{4}-\d{2}$/.test(q.get("month") ?? "") ? q.get("month")! : "";
+      return HttpResponse.json(
+        state.calendar
+          .filter((item) => orgs.includes(item.org) && (!month || item.deadline.startsWith(month)))
+          .sort((a, b) => a.deadline.localeCompare(b.deadline))
+          .map((item): CalendarItem => ({
+            ...item,
+            orgName: orgName(item.org, locale),
+            indicatorSet: localise<string>(item.indicatorSet, locale),
+          })),
+      );
     }),
 
     authed("get", "/notifications", ({ user, locale }) => {

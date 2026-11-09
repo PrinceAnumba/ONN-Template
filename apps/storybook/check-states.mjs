@@ -95,10 +95,36 @@ const COMPONENTS = {
   CodeInput: ["ui/components/code-input.stories.tsx", {}],
   StatusPill: [
     "ui/components/status-pill.stories.tsx",
-    { Loading: "a label has no loading state", Empty: "always has a label", Error: "a label has no error state" },
+    {
+      Loading: "a label has no loading state",
+      Empty: "always has a label",
+      Error: "a label has no error state",
+    },
+  ],
+  BulkActionBar: [
+    "ui/components/bulk-action-bar.stories.tsx",
+    {
+      Loading: "actions run on the page, which shows progress",
+      Error: "the page reports a failed action",
+    },
+  ],
+  EmptyState: [
+    "ui/components/empty-state.stories.tsx",
+    {
+      Loading: "shown only once data has loaded",
+      Empty: "is the empty state",
+      Error: "the page shows errors",
+    },
+  ],
+  StatusStepper: [
+    "ui/components/status-stepper.stories.tsx",
+    {
+      Loading: "renders with the page",
+      Empty: "always has steps",
+      Error: "has no data of its own",
+    },
   ],
 };
-
 let missing = 0;
 const skipped = [];
 for (const [name, [file, exempt]] of Object.entries(COMPONENTS)) {

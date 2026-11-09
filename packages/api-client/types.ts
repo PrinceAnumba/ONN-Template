@@ -367,3 +367,71 @@ export interface AdminOverview {
   feedback: FeedbackItem[];
   usage: { date: string; visits: number }[];
 }
+
+/** One value in a submission (brief §7 submission detail, *Data* and *Diff* tabs). */
+export interface SubmissionRow {
+  id: string;
+  indicator: string;
+  indicatorName: string;
+  area: string;
+  areaName: string;
+  period: string;
+  dims: Record<string, string>;
+  value: number | null;
+  unit: string;
+  status: ObsStatus;
+  /** The value currently published for the same key; null when the submission adds it. */
+  published: number | null;
+  /** Rule codes this row breaks; see `QualityResult`. */
+  issues: { rule: QualityRule; level: "error" | "warning" }[];
+}
+
+/** Validation rules. The admin writes each rule's explanation from its own messages. */
+export type QualityRule = "missing" | "negative" | "range" | "jump" | "duplicate";
+
+export interface QualityResult {
+  rule: QualityRule;
+  level: "error" | "warning";
+  status: "pass" | "fail";
+  /** Rows that break the rule. */
+  rowIds: string[];
+  /** Required for each failing warning before the submission can be verified. */
+  justification?: string;
+}
+
+export type SubmissionAction = "submit" | "verify" | "approve" | "publish" | "return";
+
+export interface SubmissionEvent {
+  id: string;
+  date: string;
+  /** Absent for the event that created the submission. */
+  from?: SubmissionStatus;
+  to: SubmissionStatus;
+  actor: { id: string; name: string };
+  comment?: string;
+}
+
+/** `GET /admin/submissions/{id}`. */
+export interface SubmissionDetail extends SubmissionSummary {
+  rows: SubmissionRow[];
+  quality: QualityResult[];
+  history: SubmissionEvent[];
+  /** Who verified it, when it has been verified. */
+  verifiedBy?: { id: string; name: string };
+}
+
+/** `GET /admin/submissions`: a page plus the count for each status tab. */
+export interface SubmissionPage extends Page<SubmissionSummary> {
+  counts: Record<SubmissionStatus, number>;
+}
+
+export interface TransitionInput {
+  action: SubmissionAction;
+  /** Required for "return". */
+  comment?: string;
+}
+
+export interface BulkTransitionResult {
+  done: string[];
+  failed: { id: string; status: number; detail: string }[];
+}

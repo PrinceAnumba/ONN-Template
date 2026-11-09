@@ -80,3 +80,30 @@ The brief names the admin endpoints per screen but defines no types. These are t
 | `GET /admin/demo-users` | `DemoUser[]` | Mock only: the demo role switcher. Not for the real API |
 
 Public `POST /feedback` submissions should appear in the admin feedback inbox (`FeedbackItem`, with `status` New / Planned / Done / Won't do).
+
+### Submissions and the workflow (Phase 7b)
+
+| Endpoint | Returns | Needed by |
+| --- | --- | --- |
+| `GET /admin/submissions?status=&q=&org=&channel=&from=&to=&page=&pageSize=` | `SubmissionPage`: a `Page<SubmissionSummary>` plus `counts` per status for the same filters without `status` (the tab counts). `q` matches id, organisation, indicator codes and names, and submitter; `from`/`to` filter the last update (YYYY-MM-DD, inclusive); `pageSize` is 25, 50 or 100. Only the user's organisations | §7 submissions list |
+| `GET /admin/submissions/:id` | `SubmissionDetail`: summary fields plus `rows` (each with the currently `published` value or null, and the rules it breaks), `quality` (one `QualityResult` per rule, with `rowIds` and any `justification`), `history` (`SubmissionEvent`s with actor, from/to status and comment) and `verifiedBy`. `404` outside the user's organisations | §7 detail: Data, Quality, Diff, History tabs |
+| `POST /admin/submissions/:id/transition` | body `TransitionInput` `{ action, comment? }`; returns the updated `SubmissionDetail` | §7 action bar |
+| `POST /admin/submissions/bulk-transition` | body `{ ids (≤ 100), action, comment? }`; returns `BulkTransitionResult` `{ done: id[], failed: { id, status, detail }[] }`. Each id is checked as if sent alone; one refusal doesn't stop the others | §7 bulk-action bar |
+| `PUT /admin/submissions/:id/justifications` | body `{ [rule]: text }` for failing warnings; returns `SubmissionDetail` | §7 Quality tab |
+| `GET /admin/calendar?month=YYYY-MM&org=` | `CalendarItem[]` with deadlines in that month: `status` `upcoming`, `received` or `overdue` | §7 collection calendar |
+
+**Transitions.** `submit` from draft or returned; `verify` from submitted; `approve` from verified; `publish` from approved; `return` from submitted, verified or approved (back to returned). Refusals are a `Problem` whose `type` the admin turns into a message:
+
+| `type` | Status | When |
+| --- | --- | --- |
+| `role` | 403 | the role may not take this action (`permissions.ts`) |
+| `scope` | 403 | the submission belongs to an organisation the user isn't in |
+| `state` | 409 | the action isn't allowed from the current status (e.g. someone else moved it first) |
+| `own-submission` | 409 | approving a submission you submitted (§7: an approver must not approve their own) |
+| `errors` | 422 | submitting while a quality rule at error level fails |
+| `unjustified` | 422 | verifying while a failing warning has no justification |
+| `comment` | 422 | returning without a comment |
+
+**Quality rules** (`QualityRule`): `missing` (null value, error), `negative` (error), `range` (percentage outside 0–100, error), `duplicate` (same indicator, area, period and breakdown, error), `jump` (over 30% from the published or previous value, warning). The backend may add rules; the admin needs a message for each new code.
+
+**Publish webhook.** Publishing must update the public endpoints and call each frontend's `POST /api/revalidate` with header `X-Revalidate-Secret` and body `{ tags: string[] }` (at most 100). The portal answers `401` on a wrong secret. The mock sends `indicator:<code>` for each published indicator plus `home`, `selector`, `profile`, `map`, `benchmark`, `query`, `catalogue`, `dashboards` and `datasets`; the URLs and secret come from `REVALIDATE_URLS` (comma-separated) and `REVALIDATE_SECRET`.

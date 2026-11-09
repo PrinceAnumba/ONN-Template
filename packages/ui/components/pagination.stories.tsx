@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Pagination } from "./pagination";
+import { PageSizeLinks, Pagination } from "./pagination";
 
 const meta = {
   title: "UI/Pagination",
@@ -40,3 +40,14 @@ export const LongText: Story = {
 export const Rtl: Story = { parameters: { direction: "rtl" } };
 
 export const Mobile: Story = { parameters: { viewport: { defaultViewport: "mobile360" } } };
+
+export const PageSizes: Story = {
+  render: () => (
+    <PageSizeLinks
+      sizes={[25, 50, 100]}
+      current={50}
+      href={(size) => `?size=${size}`}
+      label="Rows per page"
+    />
+  ),
+};

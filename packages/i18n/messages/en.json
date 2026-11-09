@@ -235,6 +235,14 @@
         "upcoming": "Upcoming",
         "received": "Received",
         "overdue": "Overdue"
+      },
+      "submission": {
+        "draft": "Draft",
+        "submitted": "Submitted",
+        "verified": "Verified",
+        "approved": "Approved",
+        "published": "Published",
+        "returned": "Returned"
       }
     },
     "error": {
@@ -248,6 +256,181 @@
       "title": "Page not found",
       "body": "This page doesn't exist, or your role doesn't give access to it.",
       "home": "Back to the dashboard"
+    },
+    "submissions": {
+      "title": "Submissions",
+      "newImport": "New import",
+      "tabsLabel": "Filter by status",
+      "tabAll": "All",
+      "filter": {
+        "label": "Filter submissions",
+        "search": "Search",
+        "searchPlaceholder": "ID, organisation, indicator or person",
+        "channel": "Channel",
+        "anyChannel": "Any channel",
+        "from": "Updated from",
+        "to": "Updated to",
+        "clear": "Clear"
+      },
+      "resultCount": "{count, plural, =0 {No submissions} one {# submission} other {# submissions}}",
+      "emptyFiltered": "No submissions match these filters.",
+      "emptyAll": "No submissions yet. Import a file or enter data to start one.",
+      "pageSize": "Rows per page",
+      "caption": "Submissions",
+      "empty": "No submissions",
+      "selectRow": "Select {id}",
+      "selectAll": "Select all submissions on this page",
+      "column": {
+        "id": "ID",
+        "org": "Organisation",
+        "indicators": "Indicators",
+        "period": "Period",
+        "channel": "Channel",
+        "status": "Status",
+        "submittedBy": "Submitted by",
+        "updated": "Updated",
+        "indicator": "Indicator",
+        "area": "Area",
+        "value": "Value",
+        "flag": "Flag",
+        "issues": "Issues",
+        "published": "Published",
+        "submitted": "Submitted",
+        "change": "Change"
+      },
+      "channel": {
+        "import": "File import",
+        "entry": "Data entry",
+        "connector": "Connector"
+      },
+      "bulk": {
+        "label": "Bulk actions",
+        "count": "{count, plural, one {# selected} other {# selected}}",
+        "clear": "Clear selection",
+        "failed": "The action didn't go through. Try again.",
+        "someFailed": "{count, plural, one {# submission was} other {# submissions were}} left unchanged: {ids}. Open each one to see why.",
+        "done": {
+          "verify": "{count, plural, one {# submission} other {# submissions}} verified.",
+          "approve": "{count, plural, one {# submission} other {# submissions}} approved.",
+          "publish": "{count, plural, one {# submission} other {# submissions}} published.",
+          "return": "{count, plural, one {# submission} other {# submissions}} returned.",
+          "submit": "{count, plural, one {# submission} other {# submissions}} submitted."
+        }
+      },
+      "action": {
+        "submit": "Submit",
+        "verify": "Verify",
+        "approve": "Approve",
+        "publish": "Publish",
+        "return": "Return"
+      },
+      "return": {
+        "title": "{count, plural, one {Return this submission} other {Return # submissions}}",
+        "description": "The contributor sees your comment in the history and can resubmit.",
+        "label": "What needs to change?",
+        "required": "Write a comment so the contributor knows what to fix.",
+        "cancel": "Cancel",
+        "confirm": "{count, plural, one {Return submission} other {Return # submissions}}"
+      },
+      "done": {
+        "submit": "{id} submitted for verification.",
+        "verify": "{id} verified.",
+        "approve": "{id} approved.",
+        "publish": "{id} published. The values now show on the portal.",
+        "return": "{id} returned to the contributor."
+      },
+      "refused": {
+        "role": "Your role can't do that.",
+        "state": "This submission has moved on since the page loaded. Refresh to see its status.",
+        "own-submission": "You can't approve your own submission. Ask another admin.",
+        "errors": "Fix the errors on the Quality tab before submitting.",
+        "unjustified": "Justify each warning on the Quality tab before verifying.",
+        "comment": "Write a comment to return the submission.",
+        "scope": "This submission belongs to an organisation you don't work for.",
+        "other": "The action didn't go through. Try again."
+      },
+      "ownSubmission": "You submitted this, so another admin must approve it.",
+      "back": "All submissions",
+      "summary": "{org} · {period} · {channel} · submitted by {name}",
+      "progress": "Submission progress",
+      "stepDone": "Done:",
+      "stepCurrent": "Current step:",
+      "tabsLabel2": "Submission sections",
+      "tab": {
+        "data": "Data",
+        "quality": "Quality",
+        "diff": "Diff",
+        "history": "History"
+      },
+      "issueSummary": "{errors, plural, =0 {No errors} one {# error} other {# errors}} and {warnings, plural, =0 {no warnings} one {# warning} other {# warnings}}.",
+      "seeQuality": "See the quality checks",
+      "issueError": "Error: {rule}",
+      "issueWarning": "Warning: {rule}",
+      "flag": {
+        "A": "Normal",
+        "E": "Estimate",
+        "P": "Provisional",
+        "B": "Break",
+        "F": "Forecast",
+        "M": "Missing"
+      },
+      "noRows": "This submission has no values yet.",
+      "sortBy": "Sort by {column}",
+      "legend": {
+        "error": "Error: must be fixed",
+        "warning": "Warning: needs a justification"
+      },
+      "diff": {
+        "new": "New",
+        "changed": "(changed)",
+        "none": "No differences from the published values."
+      },
+      "historyMove": "{from} → {to}",
+      "historyCreated": "Created",
+      "historyBy": "{name}, {date}"
+    },
+    "quality": {
+      "rule": {
+        "missing": "Missing value",
+        "negative": "Negative value",
+        "range": "Out of range",
+        "jump": "Large change",
+        "duplicate": "Duplicate row"
+      },
+      "ruleHelp": {
+        "missing": "Every row needs a value.",
+        "negative": "These indicators can't be below zero.",
+        "range": "Percentages must be between 0 and 100.",
+        "jump": "A change of more than 30% on the published or previous value.",
+        "duplicate": "The same indicator, area, period and breakdown appears twice."
+      },
+      "failError": "{count, plural, one {# row breaks this rule} other {# rows break this rule}}. Fix before submitting.",
+      "failWarning": "{count, plural, one {# row needs} other {# rows need}} a justification.",
+      "pass": "Passed",
+      "justification": "Justification: {text}",
+      "justifyTitle": "Justifications",
+      "noWarnings": "No warnings to justify.",
+      "justifyIntro": "Explain each warning. The verifier needs every warning justified.",
+      "justifyReadOnly": "Justifications are written by the contributor or the verifier while the submission is open.",
+      "justifyLabel": "Why is this expected? ({rule})",
+      "justifyHint": "For example, a source change, a new survey round or a known event.",
+      "save": "Save justifications",
+      "saved": "Saved.",
+      "saveFailed": "Couldn't save. Try again."
+    },
+    "calendar": {
+      "title": "Collection calendar",
+      "meta": "{org} · {period}",
+      "previous": "Previous month",
+      "next": "Next month",
+      "today": "This month",
+      "viewLabel": "View",
+      "view": {
+        "grid": "Month",
+        "list": "List"
+      },
+      "empty": "No deadlines this month.",
+      "gridCaption": "Deadlines in {month}"
     }
   },
   "Home": {

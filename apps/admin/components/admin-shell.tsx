@@ -312,7 +312,7 @@ export function AdminShell({
           >
             <MenuIcon aria-hidden className="size-5" />
           </Button>
-          <nav aria-label={t("breadcrumb")} className="min-w-0">
+          <nav aria-label={t("breadcrumb")} className="hidden min-w-0 sm:block">
             <ol className="flex items-center gap-1 text-sm">
               <li>
                 <Link href="/" className="text-muted-foreground rounded-sm">
@@ -332,7 +332,7 @@ export function AdminShell({
               )}
             </ol>
           </nav>
-          <div className="ms-auto flex items-center gap-1">
+          <div className="ms-auto flex min-w-0 items-center gap-1">
             {session.orgs.length > 1 && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -341,10 +341,12 @@ export function AdminShell({
                     aria-label={t("organisationCurrent", {
                       name: activeOrgName ?? t("allOrganisations"),
                     })}
-                    className="h-11 max-w-56"
+                    className="h-11 min-w-11 max-w-56 shrink"
                   >
                     <Building2Icon aria-hidden className="size-4 shrink-0" />
-                    <span className="truncate">{activeOrgName ?? t("allOrganisations")}</span>
+                    <span className="hidden truncate sm:inline">
+                      {activeOrgName ?? t("allOrganisations")}
+                    </span>
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">

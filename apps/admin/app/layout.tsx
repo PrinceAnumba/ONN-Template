@@ -3,6 +3,7 @@ import { isMockMode } from "@onn/api-client";
 import { country } from "@onn/config";
 import { pickMessages, type Messages } from "@onn/i18n";
 import { DemoRibbon } from "@onn/ui/components/demo-ribbon";
+import { Toaster } from "@onn/ui/components/toast";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
@@ -35,6 +36,7 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
         <NextIntlClientProvider messages={pickMessages(messages, ["Admin", "Common"])}>
           {isMockMode && <DemoRibbon label={t("demoData")} />}
           {children}
+          <Toaster closeLabel={t("close")} />
         </NextIntlClientProvider>
       </body>
     </html>

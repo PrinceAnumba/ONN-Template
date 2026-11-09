@@ -17,7 +17,24 @@ const iso3 = process.env.NEXT_PUBLIC_COUNTRY || "SEN";
 const port = Number(process.env.MOCK_PORT) || 4000;
 const latency = process.env.MOCK_LATENCY === "0" ? ([0, 0] as [number, number]) : undefined;
 
-const handlers = createHandlers(loadFixtures(iso3), { latency });
+// Apps that cache API data and accept the publish webhook (comma list).
+const revalidateUrls = (process.env.REVALIDATE_URLS ?? "http://localhost:3000/api/revalidate")
+  .split(",")
+  .map((url) => url.trim())
+  .filter(Boolean);
+const revalidateSecret = process.env.REVALIDATE_SECRET ?? "dev-revalidate";
+
+function onPublished(tags: string[]) {
+  for (const url of revalidateUrls) {
+    fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "X-Revalidate-Secret": revalidateSecret },
+      body: JSON.stringify({ tags }),
+    }).catch((error: unknown) => console.warn(`[mocks] revalidate ${url} failed:`, String(error)));
+  }
+}
+
+const handlers = createHandlers(loadFixtures(iso3), { latency, onPublished });
 
 function toRequest(req: IncomingMessage) {
   const url = `http://${req.headers.host ?? `localhost:${port}`}${req.url}`;

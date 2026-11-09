@@ -23,7 +23,7 @@ const loadParams = createLoader({ a: urlParsers.a, c: urlParsers.c });
 
 async function getDashboard(slug: string, locale: string) {
   return api
-    .dashboard({ locale, next: serverCache(`dashboard:${slug}`) }, slug)
+    .dashboard({ locale, next: serverCache(`dashboard:${slug}`, "dashboards") }, slug)
     .catch((error: unknown) => {
       if (error instanceof ApiError && error.status === 404) notFound();
       throw error;
@@ -51,7 +51,7 @@ export default async function DashboardPage({ params, searchParams }: PageProps)
   const areaNames = new Map(selector.areas.map((area) => [area.code, area.name]));
   const known = (code: string | null) => (code && areaNames.has(code) ? code : null);
   const models = await buildWidgets(dashboard.widgets, {
-    ctx: { locale, next: serverCache(`dashboard:${slug}`) },
+    ctx: { locale, next: serverCache(`dashboard:${slug}`, "dashboards") },
     locale,
     focus: known(state.a) ?? country.iso3,
     comparison: known(state.c),
