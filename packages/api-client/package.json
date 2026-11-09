@@ -6,7 +6,9 @@
   "exports": {
     ".": "./index.ts",
     "./hooks": "./hooks.ts",
-    "./types": "./types.ts"
+    "./types": "./types.ts",
+    "./admin": "./admin.ts",
+    "./permissions": "./permissions.ts"
   },
   "scripts": {
     "test": "vitest run",

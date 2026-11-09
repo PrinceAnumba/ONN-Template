@@ -38,7 +38,8 @@ const geoPath = /^\/geo\/([A-Z]{3})\/(adm[1-3])\.topo\.json$/;
 
 createServer(async (req, res) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Headers", "Accept-Language, Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Accept-Language, Authorization, Content-Type");
 
   const geo = geoPath.exec(req.url ?? "");
   if (geo) {

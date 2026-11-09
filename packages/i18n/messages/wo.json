@@ -126,7 +126,6 @@
     "language": "Langue",
     "mfa": "Paramètres MFA",
     "signOut": "Se déconnecter",
-    "role": "Rôle (démo)",
     "comingNext": "Cet écran sera construit dans une phase ultérieure.",
     "section": {
       "dashboard": "Tableau de bord",
@@ -155,6 +154,100 @@
       "editor": "Éditeur",
       "contributor": "Contributeur",
       "reader": "Lecteur"
+    },
+    "breadcrumb": "Fil d'Ariane",
+    "notificationsTitle": "Notifications",
+    "notificationsEmpty": "Vous êtes à jour.",
+    "unread": "Non lu :",
+    "markAllRead": "Tout marquer comme lu",
+    "notification": {
+      "verify": "{subject} attend votre vérification",
+      "approve": "{subject} est prête pour l'approbation",
+      "returned": "{subject} vous a été renvoyée pour correction",
+      "deadline": "{subject} a une soumission en retard",
+      "connector": "Le connecteur {subject} a échoué lors de sa dernière exécution",
+      "feedback": "Nouvel avis sur {subject}"
+    },
+    "allOrganisations": "Toutes les organisations",
+    "demoUser": "Utilisateur de démonstration",
+    "demoUserOption": "{name} ({role})",
+    "comingTitle": "Bientôt disponible",
+    "login": {
+      "title": "Connexion",
+      "intro": "Utilisez le compte de votre organisation pour ouvrir le back-office.",
+      "sso": "Se connecter avec {sso}",
+      "demoUser": "Se connecter en tant que",
+      "demoHint": "Mode démo : choisissez un utilisateur pour essayer chaque rôle.",
+      "mfaTitle": "Vérification en deux étapes",
+      "mfaIntro": "Saisissez le code à six chiffres de votre application d'authentification.",
+      "codeLabel": "Code de vérification",
+      "digit": "Chiffre {n} sur {total}",
+      "codeHint": "Vous pouvez coller le code entier dans la première case.",
+      "verify": "Vérifier",
+      "verifying": "Vérification…",
+      "codeError": {
+        "invalid": "Ce code n'est pas valide. Vérifiez votre application et réessayez.",
+        "incomplete": "Saisissez les six chiffres du code."
+      },
+      "error": {
+        "sso": "La connexion avec {sso} a échoué. Réessayez ou contactez votre administrateur.",
+        "expired": "Votre connexion a expiré. Recommencez."
+      },
+      "signedOut": "Vous êtes déconnecté.",
+      "back": "Utiliser un autre compte",
+      "pageTitle": "Connexion · back-office {site}"
+    },
+    "dashboard": {
+      "title": "Bonjour, {name}",
+      "intro": "Ce qui demande votre attention aujourd'hui.",
+      "tasks": "Mes tâches",
+      "allSubmissions": "Toutes les soumissions",
+      "noTasks": "Rien ne vous attend.",
+      "taskGroup": {
+        "verify": "À vérifier ({count})",
+        "approve": "À approuver ({count})",
+        "returned": "Renvoyées pour correction ({count})"
+      },
+      "taskLine": "{id} · {period}",
+      "deadlines": "Échéances à venir",
+      "calendar": "Calendrier",
+      "noDeadlines": "Aucune échéance dans les 30 prochains jours.",
+      "quality": "Taux de conformité qualité",
+      "qualityLink": "Qualité",
+      "qualityChange": "{change, plural, =0 {Identique au trimestre précédent} other {{change, number, ::+!} points par rapport au trimestre précédent}}",
+      "openWarnings": "{count, plural, =0 {Aucun avertissement ouvert} one {# avertissement ouvert} other {# avertissements ouverts}}",
+      "connectors": "Échecs de connecteurs",
+      "connectorsLink": "Connecteurs",
+      "noConnectorFailures": "Tous les connecteurs ont fonctionné.",
+      "lastRun": "Dernière exécution {date}",
+      "feedback": "Derniers avis",
+      "feedbackLink": "Boîte de réception",
+      "noFeedback": "Aucun avis pour l'instant.",
+      "rating": "{rating} sur 5",
+      "noRating": "Sans note",
+      "usage": "Fréquentation du site",
+      "usagePeriod": "Visites des 30 derniers jours",
+      "usageSummary": "Les visites quotidiennes sont passées de {first} à {last} sur la période.",
+      "metaLine": "{first} · {second}"
+    },
+    "status": {
+      "calendar": {
+        "upcoming": "À venir",
+        "received": "Reçue",
+        "overdue": "En retard"
+      }
+    },
+    "error": {
+      "title": "Cet écran n'a pas pu se charger",
+      "body": "Le reste du back-office fonctionne. Réessayez ou revenez dans quelques minutes.",
+      "reference": "Référence : {id}",
+      "retry": "Réessayer"
+    },
+    "organisationCurrent": "Organisation : {name}",
+    "notFound": {
+      "title": "Page introuvable",
+      "body": "Cette page n'existe pas, ou votre rôle n'y donne pas accès.",
+      "home": "Retour au tableau de bord"
     }
   },
   "Home": {

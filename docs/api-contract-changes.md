@@ -63,6 +63,20 @@ The brief lists these endpoints without a response shape: `GET /home` (`HomeData
 
 The config has a new `geography.boundaries` key (`attribution`, `url`, `official`) for the credit under every map; `official: false` adds a "not official boundaries" note.
 
-## Still to define
+## Back office (§7)
 
-Admin types, with their screens in Phase 7.
+The brief names the admin endpoints per screen but defines no types. These are the frontend's definitions, added batch by batch in Phase 7; types are in `packages/api-client/types.ts` and calls in `packages/api-client/admin.ts`.
+
+**Authentication.** Every `/admin/*` request carries `Authorization: Bearer <token>`. The frontend will get the token from Auth.js (OIDC); the mock reads it as a demo user id. Answer `401` with a `Problem` when the token is missing or expired; the admin then shows sign-in. Admin responses must not be cached.
+
+**Rights.** `packages/api-client/permissions.ts` lists which role may do what (an assumption awaiting confirmation). The backend should refuse the same actions with `403`; the admin hides them.
+
+| Endpoint | Returns | Needed by |
+| --- | --- | --- |
+| `GET /admin/me` | `AdminMe`: user, roles, organisations (localised names), MFA status | §4.5 shell, org switcher, role-aware screens |
+| `GET /admin/overview?org=` | `AdminOverview`: tasks (to verify, to approve, returned to me), deadlines in the next 30 days, quality pass rate, connector failures, latest feedback, 30 days of site usage, scoped to `org` or all of the user's organisations | §7 dashboard |
+| `GET /admin/notifications` | up to 20 `AdminNotification`s, newest first: `kind` (`verify`, `approve`, `returned`, `deadline`, `connector`, `feedback`), `subject`, `href` (admin path), `date`, `read` | §4.5 notifications bell. The admin writes the sentence from `kind` and `subject`, so the backend sends no display text |
+| `POST /admin/notifications/read` | body `{ ids: string[] }` | §4.5 "Mark all as read" |
+| `GET /admin/demo-users` | `DemoUser[]` | Mock only: the demo role switcher. Not for the real API |
+
+Public `POST /feedback` submissions should appear in the admin feedback inbox (`FeedbackItem`, with `status` New / Planned / Done / Won't do).

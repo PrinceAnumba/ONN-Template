@@ -48,7 +48,8 @@ export const WithRetry: Story = {
       within(body.getByRole("alert")).getByRole("button", { name: "Try again" }),
     );
     await waitFor(() => expect(body.queryByRole("alert")).toBeNull());
-    await expect(body.getByRole("status")).toHaveTextContent("Retrying…");
+    // The page has more than one status region, so find the new toast by its text.
+    await expect(await body.findByText("Retrying…")).toBeVisible();
   },
 };
 

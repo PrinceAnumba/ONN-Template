@@ -16,6 +16,8 @@ import type {
 } from "@onn/api-client/types";
 import { http, HttpResponse, type RequestHandler } from "msw";
 import type { Fixtures } from "./fixtures";
+import { createAdminHandlers, type RouteContext } from "./admin";
+import { buildAdminState } from "./admin-seed";
 import { openApiDocument, placeholderSvg } from "./openapi";
 
 const placeholderImage = (width: number, height: number) =>
@@ -140,19 +142,13 @@ function toCsv(rows: Observation[]) {
   return [header, ...lines].join("\n");
 }
 
-interface RouteContext {
-  url: URL;
-  q: URLSearchParams;
-  locale: string;
-  params: Record<string, string>;
-  request: Request;
-}
 type Resolver = (ctx: RouteContext) => Response | Promise<Response>;
 
 export function createHandlers(data: Fixtures, options: HandlerOptions = {}): RequestHandler[] {
   const { locales, defaultLocale, iso3 } = data.meta;
   const [minLatency, maxLatency] = options.latency ?? [150, 600];
   const localise = createLocaliser(locales, defaultLocale);
+  const adminState = buildAdminState(data);
   const exportJobs = new Map<
     string,
     { polls: number; resource: string; params: Record<string, string>; locale: string }
@@ -287,7 +283,11 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
     if (!peer || area === iso3) return undefined;
     return Object.keys(peer).map((period) => row(period, peer[period] ?? null));
   };
-  const route = (method: "get" | "post", path: string, resolver: Resolver) =>
+  const route = (
+    method: "get" | "post" | "put" | "patch" | "delete",
+    path: string,
+    resolver: Resolver,
+  ) =>
     http[method](`*/api/v1${path}`, async ({ request, params }) => {
       if (maxLatency > 0) {
         const wait = minLatency + Math.random() * (maxLatency - minLatency);
@@ -314,6 +314,8 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
     items.find((item) => item.slug === slug);
 
   return [
+    ...createAdminHandlers({ route, localise, problem, state: adminState }),
+
     route("get", "/pillars", ({ locale }) => {
       const pillars = data.pillars.map((pillar) => {
         const inPillar = data.indicators.filter((item) => item.pillar === pillar.code);
@@ -656,9 +658,19 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
       if (body?.rating === undefined && body?.useful === undefined && !body?.message) {
         errors.push({ path: "rating", message: "Give a rating or write a message" });
       }
-      return errors.length
-        ? problem(422, "Invalid input", undefined, errors)
-        : HttpResponse.json({ ok: true }, { status: 201 });
+      if (errors.length || !body) return problem(422, "Invalid input", undefined, errors);
+      // Kept for the admin feedback inbox (brief §7).
+      adminState.feedback.push({
+        id: `FB-${String(adminState.feedback.length + 1).padStart(4, "0")}`,
+        date: new Date().toISOString(),
+        rating: body.rating,
+        useful: body.useful,
+        message: body.message,
+        page: body.page,
+        errorId: body.errorId,
+        status: "new",
+      });
+      return HttpResponse.json({ ok: true }, { status: 201 });
     }),
 
     route("post", "/subscribers", async ({ request }) => {

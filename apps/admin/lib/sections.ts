@@ -31,6 +31,27 @@ export const SECTIONS = [
 
 export type SectionKey = (typeof SECTIONS)[number]["key"];
 
+/** The section a path belongs to, if any. */
+export function sectionFor(path: string) {
+  return SECTIONS.find((section) =>
+    section.href === "/"
+      ? path === "/"
+      : path === section.href || path.startsWith(`${section.href}/`),
+  );
+}
+
+/** Screens outside the sidebar that pages already link to. */
+export const PLANNED = ["/calendar", "/profile"];
+
+/** False for paths that don't exist and sections the role can't reach (both answer 404). */
+export function canOpen(path: string, roles: Role[]) {
+  // A Server Action posted from sign-in renders its redirect target under the sign-in path.
+  if (path === "/login" || path.startsWith("/login/")) return true;
+  const section = sectionFor(path);
+  if (section) return section.roles.some((role) => roles.includes(role));
+  return PLANNED.some((href) => path === href || path.startsWith(`${href}/`));
+}
+
 export function allowedSections(roles: Role[]) {
   return SECTIONS.filter((section) => section.roles.some((role) => roles.includes(role))).map(
     ({ key, href }) => ({ key, href }),

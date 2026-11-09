@@ -7,7 +7,8 @@
     ".": "./country.config.ts",
     "./schema": "./schema.ts",
     "./countries/*": "./countries/*.ts",
-    "./tokens": "./chart-tokens.ts"
+    "./tokens": "./chart-tokens.ts",
+    "./locale": "./locale.ts"
   },
   "scripts": {
     "build": "tsx generate.ts",

@@ -1,2 +1,2 @@
-export const ROLES = ["super_admin", "admin", "editor", "contributor", "reader"] as const;
-export type Role = (typeof ROLES)[number];
+export { ADMIN_ROLES as ROLES } from "@onn/api-client/permissions";
+export type { AdminRole as Role } from "@onn/api-client/types";

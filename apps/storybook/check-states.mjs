@@ -92,6 +92,11 @@ const COMPONENTS = {
     "ui/components/lite-mode-toggle.stories.tsx",
     { Loading: "has no data", Empty: "has no data", Error: "has no data" },
   ],
+  CodeInput: ["ui/components/code-input.stories.tsx", {}],
+  StatusPill: [
+    "ui/components/status-pill.stories.tsx",
+    { Loading: "a label has no loading state", Empty: "always has a label", Error: "a label has no error state" },
+  ],
 };
 
 let missing = 0;

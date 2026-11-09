@@ -126,7 +126,6 @@
     "language": "Language",
     "mfa": "MFA settings",
     "signOut": "Sign out",
-    "role": "Role (demo)",
     "comingNext": "This screen is built in a later phase.",
     "section": {
       "dashboard": "Dashboard",
@@ -155,6 +154,100 @@
       "editor": "Editor",
       "contributor": "Contributor",
       "reader": "Reader"
+    },
+    "breadcrumb": "Breadcrumb",
+    "notificationsTitle": "Notifications",
+    "notificationsEmpty": "You're all caught up.",
+    "unread": "Unread:",
+    "markAllRead": "Mark all as read",
+    "notification": {
+      "verify": "{subject} is waiting for your verification",
+      "approve": "{subject} is ready for approval",
+      "returned": "{subject} was returned to you for changes",
+      "deadline": "{subject} has an overdue submission",
+      "connector": "Connector {subject} failed on its last run",
+      "feedback": "New feedback on {subject}"
+    },
+    "allOrganisations": "All organisations",
+    "demoUser": "Demo user",
+    "demoUserOption": "{name} ({role})",
+    "comingTitle": "Coming soon",
+    "login": {
+      "title": "Sign in",
+      "intro": "Use your organisation account to open the back office.",
+      "sso": "Sign in with {sso}",
+      "demoUser": "Sign in as",
+      "demoHint": "Demo mode: choose a user to try each role.",
+      "mfaTitle": "Two-step verification",
+      "mfaIntro": "Enter the six-digit code from your authenticator app.",
+      "codeLabel": "Verification code",
+      "digit": "Digit {n} of {total}",
+      "codeHint": "You can paste the whole code into the first box.",
+      "verify": "Verify",
+      "verifying": "Verifying…",
+      "codeError": {
+        "invalid": "That code isn't valid. Check your app and try again.",
+        "incomplete": "Enter all six digits of the code."
+      },
+      "error": {
+        "sso": "Sign-in with {sso} didn't work. Try again or contact your administrator.",
+        "expired": "Your sign-in timed out. Start again."
+      },
+      "signedOut": "You're signed out.",
+      "back": "Use another account",
+      "pageTitle": "Sign in · {site} back office"
+    },
+    "dashboard": {
+      "title": "Hello, {name}",
+      "intro": "What needs your attention today.",
+      "tasks": "My tasks",
+      "allSubmissions": "All submissions",
+      "noTasks": "Nothing is waiting for you.",
+      "taskGroup": {
+        "verify": "To verify ({count})",
+        "approve": "To approve ({count})",
+        "returned": "Returned to you ({count})"
+      },
+      "taskLine": "{id} · {period}",
+      "deadlines": "Upcoming deadlines",
+      "calendar": "Calendar",
+      "noDeadlines": "No deadlines in the next 30 days.",
+      "quality": "Quality pass rate",
+      "qualityLink": "Quality",
+      "qualityChange": "{change, plural, =0 {Same as last quarter} other {{change, number, ::+!} points on last quarter}}",
+      "openWarnings": "{count, plural, =0 {No open warnings} one {# open warning} other {# open warnings}}",
+      "connectors": "Connector failures",
+      "connectorsLink": "Connectors",
+      "noConnectorFailures": "All connectors ran successfully.",
+      "lastRun": "Last run {date}",
+      "feedback": "Latest feedback",
+      "feedbackLink": "Inbox",
+      "noFeedback": "No feedback yet.",
+      "rating": "{rating} out of 5",
+      "noRating": "No rating",
+      "usage": "Site usage",
+      "usagePeriod": "Visits in the last 30 days",
+      "usageSummary": "Daily visits went from {first} to {last} over the period.",
+      "metaLine": "{first} · {second}"
+    },
+    "status": {
+      "calendar": {
+        "upcoming": "Upcoming",
+        "received": "Received",
+        "overdue": "Overdue"
+      }
+    },
+    "error": {
+      "title": "This screen couldn't load",
+      "body": "The rest of the back office still works. Try again, or come back in a few minutes.",
+      "reference": "Reference: {id}",
+      "retry": "Try again"
+    },
+    "organisationCurrent": "Organisation: {name}",
+    "notFound": {
+      "title": "Page not found",
+      "body": "This page doesn't exist, or your role doesn't give access to it.",
+      "home": "Back to the dashboard"
     }
   },
   "Home": {

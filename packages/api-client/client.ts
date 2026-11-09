@@ -39,11 +39,13 @@ export type QueryValue = string | number | boolean | undefined;
 export interface ApiFetchOptions {
   locale: string;
   query?: Record<string, QueryValue>;
-  method?: "GET" | "POST";
+  method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
   body?: unknown;
   signal?: AbortSignal;
   /** Next.js cache settings for Server Components. */
   next?: { revalidate?: number | false; tags?: string[] };
+  /** Back-office bearer token. Admin requests are never cached (brief §8). */
+  token?: string;
 }
 
 async function toApiError(response: Response) {
@@ -57,16 +59,17 @@ async function toApiError(response: Response) {
 }
 
 export async function apiFetchRaw(path: string, options: ApiFetchOptions): Promise<Response> {
-  const { locale, query, method = "GET", body, signal, next } = options;
+  const { locale, query, method = "GET", body, signal, next, token } = options;
   const url = apiUrl(path, query);
   const init = {
     method,
     headers: {
       "Accept-Language": locale,
       ...(body === undefined ? {} : { "Content-Type": "application/json" }),
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
     },
     body: body === undefined ? undefined : JSON.stringify(body),
-    next,
+    ...(token ? { cache: "no-store" as const } : { next }),
   };
 
   const attempt = () =>

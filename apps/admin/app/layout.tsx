@@ -6,11 +6,7 @@ import { DemoRibbon } from "@onn/ui/components/demo-ribbon";
 import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getMessages, getTranslations } from "next-intl/server";
-import { cookies } from "next/headers";
 import type { ReactNode } from "react";
-import { AdminShell } from "@/components/admin-shell";
-import { allowedSections } from "@/lib/sections";
-import { getSession } from "@/lib/session";
 import { sourceSans, sourceSansExt } from "./fonts";
 
 export const metadata: Metadata = {
@@ -22,8 +18,6 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
   const locale = await getLocale();
   const messages = (await getMessages()) as Messages;
   const t = await getTranslations("Common");
-  const session = await getSession();
-  const collapsed = (await cookies()).get("onn-sidebar")?.value === "1";
 
   return (
     <html
@@ -32,16 +26,15 @@ export default async function RootLayout({ children }: { children: ReactNode }) 
       className={`${sourceSans.variable} ${sourceSansExt.variable}`}
     >
       <body>
+        <a
+          href="#content"
+          className="bg-background sr-only rounded-md p-3 focus:not-sr-only focus:fixed focus:start-2 focus:top-2 focus:z-50"
+        >
+          {t("skipToContent")}
+        </a>
         <NextIntlClientProvider messages={pickMessages(messages, ["Admin", "Common"])}>
           {isMockMode && <DemoRibbon label={t("demoData")} />}
-          <AdminShell
-            session={session}
-            sections={allowedSections(session.roles)}
-            initialCollapsed={collapsed}
-            mockRoles={isMockMode}
-          >
-            {children}
-          </AdminShell>
+          {children}
         </NextIntlClientProvider>
       </body>
     </html>

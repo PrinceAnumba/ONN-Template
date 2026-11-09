@@ -277,3 +277,93 @@ export interface ApiKeyInput {
   intendedUse: string;
   acceptedTerms: boolean;
 }
+
+// ---------------------------------------------------------------------------------------------
+// Back office (brief §7). Every admin request carries `Authorization: Bearer <token>`; the mock
+// server reads the token as a demo user id. Added by the frontend; see docs/api-contract-changes.md.
+
+export type AdminRole = "super_admin" | "admin" | "editor" | "contributor" | "reader";
+
+export interface Organisation {
+  code: string;
+  name: string;
+  kind: "statistics" | "regulator" | "ministry" | "international" | "other";
+}
+
+/** `GET /admin/me`: who the bearer is, what they may do and for which organisations. */
+export interface AdminMe {
+  user: { id: string; name: string; email: string };
+  roles: AdminRole[];
+  orgs: Organisation[];
+  mfa: boolean;
+}
+
+/** Demo users for the role switcher. Mock only: `GET /admin/demo-users`. */
+export interface DemoUser {
+  id: string;
+  name: string;
+  roles: AdminRole[];
+}
+
+export type SubmissionStatus =
+  "draft" | "submitted" | "verified" | "approved" | "published" | "returned";
+export type SubmissionChannel = "import" | "entry" | "connector";
+
+export interface SubmissionSummary {
+  id: string;
+  org: string;
+  orgName: string;
+  indicators: string[];
+  period: string;
+  channel: SubmissionChannel;
+  status: SubmissionStatus;
+  submittedBy: { id: string; name: string };
+  updated: string;
+}
+
+export interface CalendarItem {
+  id: string;
+  org: string;
+  orgName: string;
+  indicatorSet: string;
+  period: string;
+  deadline: string;
+  status: "upcoming" | "received" | "overdue";
+}
+
+export interface AdminNotification {
+  id: string;
+  kind: "verify" | "approve" | "returned" | "deadline" | "connector" | "feedback";
+  /** What the notification is about (a submission id, organisation or connector name); the UI
+   * writes the sentence from its own messages. */
+  subject: string;
+  /** Admin path without the `/admin` base path, e.g. `/submissions/SUB-0012`. */
+  href: string;
+  date: string;
+  read: boolean;
+}
+
+export interface FeedbackItem {
+  id: string;
+  date: string;
+  rating?: number;
+  useful?: boolean;
+  message?: string;
+  page: string;
+  errorId?: string;
+  status: "new" | "planned" | "done" | "wont_do";
+}
+
+/** `GET /admin/overview`: data for the dashboard cards, scoped to the bearer's organisations. */
+export interface AdminOverview {
+  tasks: {
+    verify: SubmissionSummary[];
+    approve: SubmissionSummary[];
+    returned: SubmissionSummary[];
+  };
+  deadlines: CalendarItem[];
+  quality: { passRate: number; previous: number; openWarnings: number };
+  connectorFailures: { id: string; name: string; lastRun: string; error: string }[];
+  feedback: FeedbackItem[];
+  usage: { date: string; visits: number }[];
+}
