@@ -20,7 +20,7 @@
       "en": "Quarterly"
     },
     "lastUpdated": "2026-10-15",
-    "url": "/api/v1/data?indicator=CONN&format=csv"
+    "url": "/api/v1/datasets/CONN/file"
   },
   {
     "code": "ACCESS",
@@ -43,7 +43,7 @@
       "en": "Quarterly"
     },
     "lastUpdated": "2026-10-15",
-    "url": "/api/v1/data?indicator=ACCESS&format=csv"
+    "url": "/api/v1/datasets/ACCESS/file"
   },
   {
     "code": "MARKET",
@@ -66,7 +66,7 @@
       "en": "Quarterly"
     },
     "lastUpdated": "2026-10-15",
-    "url": "/api/v1/data?indicator=MARKET&format=csv"
+    "url": "/api/v1/datasets/MARKET/file"
   },
   {
     "code": "AFFORD",
@@ -89,7 +89,7 @@
       "en": "Quarterly"
     },
     "lastUpdated": "2026-10-15",
-    "url": "/api/v1/data?indicator=AFFORD&format=csv"
+    "url": "/api/v1/datasets/AFFORD/file"
   },
   {
     "code": "SKILLS",
@@ -112,7 +112,7 @@
       "en": "Quarterly"
     },
     "lastUpdated": "2026-10-15",
-    "url": "/api/v1/data?indicator=SKILLS&format=csv"
+    "url": "/api/v1/datasets/SKILLS/file"
   },
   {
     "code": "TRUST",
@@ -135,7 +135,7 @@
       "en": "Quarterly"
     },
     "lastUpdated": "2026-10-15",
-    "url": "/api/v1/data?indicator=TRUST&format=csv"
+    "url": "/api/v1/datasets/TRUST/file"
   },
   {
     "code": "GOV",
@@ -158,7 +158,7 @@
       "en": "Quarterly"
     },
     "lastUpdated": "2026-10-15",
-    "url": "/api/v1/data?indicator=GOV&format=csv"
+    "url": "/api/v1/datasets/GOV/file"
   },
   {
     "code": "ECON",
@@ -181,6 +181,28 @@
       "en": "Quarterly"
     },
     "lastUpdated": "2026-10-15",
-    "url": "/api/v1/data?indicator=ECON&format=csv"
+    "url": "/api/v1/datasets/ECON/file"
+  },
+  {
+    "code": "ALL",
+    "title": {
+      "fr": "Toutes les données",
+      "en": "All data"
+    },
+    "description": {
+      "fr": "Toutes les observations publiées, tous indicateurs et territoires confondus.",
+      "en": "Every published observation, for all indicators and areas."
+    },
+    "formats": [
+      "CSV",
+      "JSON"
+    ],
+    "licence": "CC BY 4.0",
+    "updateFrequency": {
+      "fr": "Trimestrielle",
+      "en": "Quarterly"
+    },
+    "lastUpdated": "2026-10-15",
+    "url": "/api/v1/datasets/ALL/file"
   }
 ]

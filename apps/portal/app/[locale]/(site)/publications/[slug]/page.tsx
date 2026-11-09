@@ -10,6 +10,7 @@ import { cache } from "react";
 import { Link } from "@/i18n/navigation";
 import { Citation } from "@/components/publications/citation";
 import { formatBytes, formatDate } from "@/lib/format";
+import { pick } from "@/lib/localised";
 import { siteOrigin } from "@/lib/origin";
 
 interface PageProps {
@@ -40,13 +41,11 @@ export default async function PublicationPage({ params }: PageProps) {
     getTranslations("Publications"),
     siteOrigin(),
   ]);
-  const pick = (text: Record<string, string>) =>
-    text[locale] ?? text.fr ?? Object.values(text)[0] ?? "";
   const citation = t("citationText", {
-    publisher: pick(country.owner.ministry),
+    publisher: pick(country.owner.ministry, locale),
     year: item.date.slice(0, 4),
     title: item.title,
-    site: pick(country.observatory.longName),
+    site: pick(country.observatory.longName, locale),
     url: `${origin}/${locale}/publications/${item.slug}`,
   });
   const date = formatDate(item.date, locale);

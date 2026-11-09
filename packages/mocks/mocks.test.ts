@@ -293,11 +293,57 @@ describe("portal endpoints", () => {
     await get(`/news/${news.items[0]?.slug}`);
   });
 
-  it("POST /feedback and /api-keys", async () => {
-    for (const path of ["/feedback", "/api-keys"]) {
-      const response = await call(path, "fr", { method: "POST", body: "{}" });
-      expect(response.status).toBe(201);
-    }
+  it("POST /feedback validates and accepts", async () => {
+    const post = (body: unknown) =>
+      call("/feedback", "fr", { method: "POST", body: JSON.stringify(body) });
+    expect((await post({ page: "/" })).status).toBe(422);
+    const bad = await post({ page: "/", rating: 4, email: "nope", message: "x".repeat(2001) });
+    expect(((await bad.json()) as Problem).errors?.map((e) => e.path)).toEqual([
+      "message",
+      "email",
+    ]);
+    expect((await post({ page: "/", rating: 5, message: "Merci" })).status).toBe(201);
+  });
+
+  it("POST /api-keys validates and accepts", async () => {
+    const post = (body: unknown) =>
+      call("/api-keys", "fr", { method: "POST", body: JSON.stringify(body) });
+    const bad = await post({ name: "A", email: "a@b" });
+    expect(((await bad.json()) as Problem).errors?.map((e) => e.path)).toEqual([
+      "organisation",
+      "intendedUse",
+      "email",
+      "acceptedTerms",
+    ]);
+    const good = {
+      name: "Awa",
+      email: "awa@example.org",
+      organisation: "Université",
+      intendedUse: "Research",
+      acceptedTerms: true,
+    };
+    expect((await post(good)).status).toBe(201);
+  });
+
+  it("serves dataset files, placeholder images and the OpenAPI document", async () => {
+    const csv = await (await call("/datasets/CONN/file")).text();
+    expect(csv.split("\n")[0]).toMatch(/^indicator,area,period/);
+    expect(
+      csv
+        .split("\n")
+        .slice(1, 20)
+        .every((line) => line.startsWith('"CONN.')),
+    ).toBe(true);
+    expect((await call("/datasets/ALL/file?format=json")).headers.get("content-type")).toContain(
+      "json",
+    );
+    expect((await call("/datasets/NOPE/file")).status).toBe(404);
+    expect((await call("/news/news-1/image.svg")).headers.get("content-type")).toBe(
+      "image/svg+xml",
+    );
+    const spec = await get<{ openapi: string; paths: Record<string, unknown> }>("/openapi.json");
+    expect(spec.openapi).toBe("3.1.0");
+    expect(Object.keys(spec.paths)).toContain("/data");
   });
 
   it("POST /subscribers validates the email", async () => {

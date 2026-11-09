@@ -237,4 +237,26 @@
     list-style: disc;
     padding-inline-start: var(--s-5);
   }
+
+  & ol {
+    list-style: decimal;
+    padding-inline-start: var(--s-5);
+  }
+
+  & :is(p, ul, ol, blockquote) + :is(p, ul, ol, blockquote) {
+    margin-top: var(--s-2);
+  }
+
+  & :is(h2, h3) {
+    margin-top: var(--s-5);
+    margin-bottom: var(--s-2);
+  }
+
+  & > :first-child {
+    margin-top: 0;
+  }
+
+  & li + li {
+    margin-top: var(--s-1);
+  }
 }

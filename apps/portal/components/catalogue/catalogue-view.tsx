@@ -407,7 +407,11 @@ export function CatalogueView({
           labels={metadataLabels}
           open={drawerOpen}
           onOpenChange={setDrawerOpen}
-          onReportIssue={() => router.push(`/feedback?page=/catalogue#${detail.indicator.code}`)}
+          onReportIssue={() =>
+            router.push(
+              `/feedback?page=${encodeURIComponent(`/catalogue?q=${detail.indicator.code}`)}`,
+            )
+          }
         />
       )}
     </div>

@@ -112,7 +112,7 @@ export const api = {
     get<Publication>(`/publications/${code(slug)}`, ctx),
   news: (
     ctx: RequestContext,
-    query: { kind?: string; tag?: string; q?: string; page?: number } = {},
+    query: { kind?: string; tag?: string; q?: string; page?: number; pageSize?: number } = {},
   ) => get<Page<NewsItem>>("/news", ctx, query),
   newsItem: (ctx: RequestContext, slug: string) => get<NewsItem>(`/news/${code(slug)}`, ctx),
   home: (ctx: RequestContext) => get<HomeData>("/home", ctx),

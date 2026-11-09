@@ -62,13 +62,13 @@ export interface IndicatorSummary extends MaybeFallback {
   latest?: LatestValue;
   status: IndicatorStatus;
   lastUpdated: string; // ISO date
+  nextRelease?: string; // YYYY-MM, for the release calendar
 }
 export interface Indicator extends IndicatorSummary {
   definition: string;
   computation?: string; // markdown, may contain $$LaTeX$$
   coverage: { from: string; to: string; areas: number };
   qualityNotes?: string;
-  nextRelease?: string;
   versions: { version: number; date: string; note: string }[];
   licence: string;
   related: string[];
@@ -213,6 +213,8 @@ export interface CmsBlock {
   src?: string;
   alt?: string;
   rows?: string[][];
+  /** Partner grid (`partners` blocks). */
+  partners?: { name: string; url?: string; logo?: string }[];
 }
 export interface CmsPage extends MaybeFallback {
   slug: string;

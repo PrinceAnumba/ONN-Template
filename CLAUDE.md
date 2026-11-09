@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project status
 
-Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Phase 5 has built home, the data explorer (area profile), the indicator page with its `/embed/chart` view, the map, dashboards with presentation mode, benchmark, the data query tool, the indicator catalogue and publications. The other public pages and the admin screens are still placeholders.
+Phases 1 to 4 of the build are done: monorepo, country config, tokens, API client, mock server, app shells with selector bar and URL state, and the §6 components and charts with Storybook. Phase 5 is done: every public page in §5, including news with its RSS feed, open data with `catalog.jsonld`, developers, feedback, and the CMS-driven about and legal pages. The admin screens are still placeholders.
 
 Sections below describe the system the brief specifies, so parts of it don't exist yet. As each phase lands, check this file against the code and replace anything that has drifted.
 
@@ -143,6 +143,10 @@ WCAG 2.2 AA: one h1 per page, skip link, `--onn-focus` on every interactive elem
 - Data query: the builder is client state until "Apply filters" pushes `i`, `a` (a comma list on this page only) and `y`; the server then renders the first 100 rows, so the preview works without JavaScript and isn't virtualised (`DataTable` virtualises above 200 rows). The API URL and snippets fall back to the request origin when `NEXT_PUBLIC_SITE_URL` is unset, so they stay absolute. `DataDownloadMenu` is shared with the indicator toolbar.
 - Catalogue: the page sends every indicator once and filters on the client with `lib/catalogue.ts`, which the server also uses to read the URL, so links and the no-JS form (repeated keys, `pillar=A&pillar=B`) give the same rows. The client writes comma lists back with `history.replaceState`; facets aren't in §4.4, so they use their own names (`q pillar source periodicity status sub`). Indicators that aren't published open a read-only `MetadataDrawer` whose metadata ships with the page. Hidden columns are a per-viewer `localStorage` choice. "Export XLSX" is an export job (`resource: "catalogue"`).
 - Publications: filters are a GET form (`FilterForm`) that works without JS; with JS any change navigates and empty fields stay out of the URL. A page past the end shows the last page. `Pagination` (`packages/ui`) is server-safe and takes the app's `Link` as `linkAs`. The PDF preview is a lazy `<iframe>` from `md` up; phones get "Open PDF". Citation URLs use `siteOrigin()` (`lib/origin.ts`).
+- CMS pages (about, methodology, partners, privacy, terms, accessibility) go through `CmsPageView` and `CmsBlocks` (`components/cms`). Rich text from the CMS and news is rendered on the server by `lib/rich-text.ts` (marked + sanitize-html, server-only), so it reads without JavaScript; the client `Markdown` component stays for indicator metadata with KaTeX. The privacy page adds the data protection law and authority from config above the CMS text. The release calendar on /about uses `IndicatorSummary.nextRelease`.
+- News: kind tabs (`?kind=watch`) and tag chips are links; `/[locale]/news/rss.xml` is an RSS 2.0 route handler. Share links are plain URLs, with no SDKs. Open data: `/[locale]/open-data/catalog.jsonld` is a DCAT catalogue built from `/datasets`; the middleware matcher skips `.jsonld` and `.xml`.
+- Forms (feedback, API key) are Server Actions with `useActionState`, so they submit without JavaScript. Validation runs on the server; `ErrorSummary` takes focus and links to each field, and field errors are wired through `aria-describedby`. `safePath()` keeps the feedback page context to site paths.
+- Developers: the Scalar API reference is about 1.3 MB gzipped (it bundles Vue), so it loads only from a button that states the size, never on scroll. `scalar-view.tsx` imports Scalar's stylesheet (the package doesn't), hides its toolbar, developer tools and AI agent, turns telemetry off, and marks its h1 as level 2. Scalar's collapsible sections fail axe `nested-interactive`; that is its own markup. `vue-demi`'s install script is denied in `pnpm-workspace.yaml`.
 - Presentation mode loads on demand and redraws charts with `buildOption(..., { dark: true })`. The slide is `?p=` (1-based). `PresentButton` calls `requestFullscreen` inside the click handler, because browsers refuse it later; a `?p=` link opens the overlay without fullscreen.
 - `packages/ui/base.css` has `@source "../charts"`; without it, chart classes aren't generated in the apps.
 - `packages/ui` and `packages/charts` stay free of next-intl: components take translated labels as props.
@@ -162,7 +166,7 @@ WCAG 2.2 AA: one h1 per page, skip link, `--onn-focus` on every interactive elem
 
 Trust measured downloads over the build table: at Phase 3 `next build` reported 115 KB for a home page that really downloaded 159 KB.
 
-Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. At Phase 5c: home 154 KB, `/data` profile 172 KB, indicator page 221 KB before ECharts (421 KB once the chart hydrates), `/map` 192 KB on first load and 217 KB after opening a panel and the list view (map budget 320 KB). At Phase 5d: dashboard pages 209 KB first load; home 156 KB. At Phase 5e: benchmark 181 KB, query 200 KB. At Phase 5f: catalogue 190 KB, publications list and detail 152 KB. Third-party code measured with esbuild:
+Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. At Phase 5c: home 154 KB, `/data` profile 172 KB, indicator page 221 KB before ECharts (421 KB once the chart hydrates), `/map` 192 KB on first load and 217 KB after opening a panel and the list view (map budget 320 KB). At Phase 5d: dashboard pages 209 KB first load; home 156 KB. At Phase 5e: benchmark 181 KB, query 200 KB. At Phase 5f: catalogue 190 KB, publications list and detail 152 KB. At Phase 5g: about and other CMS pages 152 KB, news 161 KB, open data 161 KB, developers 166 KB (1.3 MB once the API reference is loaded), feedback 166 KB. Third-party code measured with esbuild:
 
 | Code                                                            | Gzipped |
 | --------------------------------------------------------------- | ------- |
@@ -173,6 +177,7 @@ Measured gzipped JS at Phase 4: home 146 KB, data routes 161 KB. At Phase 5c: ho
 
 So the indicator budget (230 KB with ECharts) and map budget (320 KB with MapLibre) can't be met as specified. The user decided how to handle both; see Spec decisions.
 
+- Stop any local `next start` before building: rebuilding `.next` under a running server crashed the Togo admin build.
 - If `next build` fails with a missing `vendor-chunks/*` module after dependency changes, delete `apps/*/.next` (stale cache).
 
 - Don't use a route group with a client layout (a `(data)/layout.tsx`). Next merges its client code into the parent layout, so it reaches every page. Each selector route has a one-line `layout.tsx` exporting `DataShell` instead.

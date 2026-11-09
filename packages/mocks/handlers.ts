@@ -1,7 +1,9 @@
 import type {
   Area,
   ExportJob,
+  ApiKeyInput,
   ExportRequest,
+  FeedbackInput,
   Indicator,
   IndicatorSummary,
   LatestValue,
@@ -14,6 +16,10 @@ import type {
 } from "@onn/api-client/types";
 import { http, HttpResponse, type RequestHandler } from "msw";
 import type { Fixtures } from "./fixtures";
+import { openApiDocument, placeholderSvg } from "./openapi";
+
+const placeholderImage = (width: number, height: number) =>
+  new HttpResponse(placeholderSvg(width, height), { headers: { "Content-Type": "image/svg+xml" } });
 
 const SPARK_POINTS = 10;
 const POLLS_UNTIL_DONE = 2;
@@ -597,7 +603,54 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
       HttpResponse.json(data.datasets.map((item) => localise<Record<string, never>>(item, locale))),
     ),
 
-    route("post", "/feedback", () => HttpResponse.json({ ok: true }, { status: 201 })),
+    // Bulk download for a pillar dataset, or every observation for ALL (brief §5.9 open data).
+    route("get", "/datasets/:code/file", ({ params, q }) => {
+      const code = params.code as string;
+      if (!data.datasets.some((item) => item.code === code)) return notFound(`Dataset ${code}`);
+      const pillarOf = new Map(data.indicators.map((seed) => [seed.code, seed.pillar]));
+      const rows =
+        code === "ALL"
+          ? data.observations
+          : data.observations.filter((row) => pillarOf.get(row.indicator) === code);
+      const name = `onn-${code.toLowerCase()}`;
+      if (q.get("format") === "json") {
+        return HttpResponse.json(rows, {
+          headers: { "Content-Disposition": `attachment; filename="${name}.json"` },
+        });
+      }
+      return new HttpResponse(toCsv(rows), {
+        headers: {
+          "Content-Type": "text/csv; charset=utf-8",
+          "Content-Disposition": `attachment; filename="${name}.csv"`,
+        },
+      });
+    }),
+
+    // Placeholder pictures for news heroes and CMS image blocks.
+    route("get", "/news/:slug/image.svg", () => placeholderImage(1200, 630)),
+    route("get", "/pages/:slug/image.svg", () => placeholderImage(1200, 500)),
+
+    route("get", "/openapi.json", () => HttpResponse.json(openApiDocument())),
+
+    route("post", "/feedback", async ({ request }) => {
+      const body = (await request.json().catch(() => null)) as FeedbackInput | null;
+      const errors: { path: string; message: string }[] = [];
+      if (body?.rating !== undefined && !(body.rating >= 1 && body.rating <= 5)) {
+        errors.push({ path: "rating", message: "Choose a rating from 1 to 5" });
+      }
+      if ((body?.message ?? "").length > 2000) {
+        errors.push({ path: "message", message: "Keep the message under 2,000 characters" });
+      }
+      if (body?.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(body.email)) {
+        errors.push({ path: "email", message: "Enter a valid email address" });
+      }
+      if (body?.rating === undefined && body?.useful === undefined && !body?.message) {
+        errors.push({ path: "rating", message: "Give a rating or write a message" });
+      }
+      return errors.length
+        ? problem(422, "Invalid input", undefined, errors)
+        : HttpResponse.json({ ok: true }, { status: 201 });
+    }),
 
     route("post", "/subscribers", async ({ request }) => {
       const body = (await request.json().catch(() => null)) as { email?: string } | null;
@@ -609,7 +662,21 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
       return HttpResponse.json({ ok: true }, { status: 201 });
     }),
 
-    route("post", "/api-keys", () => HttpResponse.json({ ok: true }, { status: 201 })),
+    route("post", "/api-keys", async ({ request }) => {
+      const body = (await request.json().catch(() => null)) as Partial<ApiKeyInput> | null;
+      const errors = (["name", "organisation", "intendedUse"] as const)
+        .filter((key) => !body?.[key]?.trim())
+        .map((path) => ({ path, message: "Required" }));
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(body?.email ?? "")) {
+        errors.push({ path: "email", message: "Enter a valid email address" } as never);
+      }
+      if (body?.acceptedTerms !== true) {
+        errors.push({ path: "acceptedTerms", message: "Accept the terms" } as never);
+      }
+      return errors.length
+        ? problem(422, "Invalid input", undefined, errors)
+        : HttpResponse.json({ ok: true }, { status: 201 });
+    }),
 
     route("post", "/exports", async ({ request, locale }) => {
       const jobId = String(exportJobs.size + 1);

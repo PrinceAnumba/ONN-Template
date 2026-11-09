@@ -13,6 +13,8 @@ Changes to the contract in `onn-frontend-prompt.md` §3, for the backend team. `
 | `latest` | `status`, `sparkline` (up to 10 values) | §6 `KpiCard`, without one `/series` call per card |
 | `NewsItem` | `body` | §5.9 news detail page |
 | `Benchmark` | `history`, `retrievedAt` | §5.6 slope chart and peer data note |
+| `IndicatorSummary` | `nextRelease` (`YYYY-MM`, moved from `Indicator`) | §5.9 release calendar without one call per indicator |
+| `CmsBlock` | `partners: { name, url?, logo? }[]` | §5.9 partner grid block |
 
 ## Query parameters added
 
@@ -49,7 +51,11 @@ The brief lists these endpoints without a response shape: `GET /home` (`HomeData
 | --- | --- |
 | `GET /pages/{slug}` → `CmsPage` | §5.9 about, methodology, partners and legal pages |
 | `GET /datasets` → `Dataset[]` | §5.9 open data page |
-| `POST /api-keys` | §5.9 "Get an API key" form |
+| `POST /api-keys` | §5.9 "Get an API key" form; 422 `Problem` with `errors[].path` per field |
+| `GET /datasets/{code}/file?format=csv\|json` | §5.9 dataset downloads; `Dataset.url` points here and `ALL` is the full dump |
+| `GET /openapi.json` | §5.9 developers page (Scalar). The mock serves `packages/mocks/openapi.ts`, which describes the contract |
+
+`POST /feedback` returns a 422 `Problem` with `errors[].path` (`rating`, `message`, `email`) for invalid input, so the form can mark the right field. `GET /news` and `GET /publications` accept `pageSize`. The mock also serves placeholder SVGs for `NewsItem.imageUrl` and CMS image blocks; the backend serves real files.
 
 ## Boundaries
 

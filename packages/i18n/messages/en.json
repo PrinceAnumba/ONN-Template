@@ -606,5 +606,120 @@
     "copyFailed": "Couldn't copy. Select the text and copy it instead.",
     "back": "All publications",
     "published": "Published {date}"
+  },
+  "About": {
+    "sectionNav": "About the observatory",
+    "tableCaption": "{title}: table",
+    "calendar": "Release calendar",
+    "calendarIntro": "When each indicator is next expected to be updated, over the coming 12 months.",
+    "calendarIndicator": "Indicator",
+    "calendarMonth": "Expected",
+    "calendarEmpty": "No releases are scheduled for the next 12 months.",
+    "contact": "Contact",
+    "law": "Data protection law",
+    "authority": "Supervisory authority"
+  },
+  "News": {
+    "kinds": "News sections",
+    "kind": {
+      "news": "News",
+      "watch": "Technology watch"
+    },
+    "tags": "Topics",
+    "allTags": "All topics",
+    "results": "{count, plural, =0 {No items} one {# item} other {# items}}",
+    "empty": "Nothing has been published here yet.",
+    "error": "The news couldn't load. Try again in a moment.",
+    "rss": "RSS feed",
+    "feedDescription": "News and technology watch from {site}.",
+    "back": {
+      "news": "All news",
+      "watch": "All technology watch"
+    },
+    "source": "Read the original source",
+    "newTab": "(opens in a new tab)",
+    "share": "Share",
+    "shareOn": {
+      "email": "Email",
+      "linkedin": "LinkedIn",
+      "x": "X",
+      "whatsapp": "WhatsApp",
+      "facebook": "Facebook"
+    },
+    "related": "Related"
+  },
+  "OpenData": {
+    "intro": "Download the observatory's data in bulk, free to reuse under the licence shown. Each pillar has its own dataset; the full dump has everything.",
+    "catalog": "Data catalogue (DCAT, JSON-LD)",
+    "api": "Use the API",
+    "byPillar": "Datasets by pillar",
+    "licence": "Licence",
+    "frequency": "Updated",
+    "updated": "Last update",
+    "downloads": "Downloads",
+    "downloadAs": "Download {title} as {format}",
+    "error": "The datasets couldn't load. Try again in a moment."
+  },
+  "Feedback": {
+    "intro": "Tell us what works and what doesn't. Every message is read by the observatory team.",
+    "rating": "How would you rate this page?",
+    "stars": {
+      "1": "Very poor",
+      "2": "Poor",
+      "3": "Fair",
+      "4": "Good",
+      "5": "Excellent"
+    },
+    "message": "Your message (optional)",
+    "messageHint": "Up to {max} characters.",
+    "counter": "{count} / {max}",
+    "remaining": "{count, plural, one {# character left} other {# characters left}}",
+    "email": "Email (optional)",
+    "emailHint": "Only if you'd like a reply.",
+    "context": "About the page:",
+    "submit": "Send feedback",
+    "errorTitle": "There is a problem",
+    "failed": "Your feedback couldn't be sent. Check your connection and try again.",
+    "errors": {
+      "empty": "Choose a rating or write a message",
+      "rating": "Choose a rating from 1 to 5",
+      "tooLong": "Keep the message to 2,000 characters or fewer",
+      "email": "Enter an email address like name@example.org"
+    },
+    "thanks": "Thank you",
+    "thanksBody": "Your feedback has been sent to the observatory team.",
+    "back": "Back to where you were"
+  },
+  "Developers": {
+    "intro": "The observatory's data is available through a free REST API: the same data and metadata as this site, in JSON, CSV or SDMX-CSV.",
+    "quickStart": "Quick start",
+    "quickStartBody": "This request downloads Internet users for the country as CSV. Change the parameters to get other data.",
+    "example": "Example request",
+    "reference": "API reference",
+    "openapi": "OpenAPI file (JSON)",
+    "apiKey": "Get an API key",
+    "apiKeyBody": "A key raises your rate limit. We review each request and email the key to you.",
+    "fields": {
+      "name": "Full name",
+      "email": "Email",
+      "organisation": "Organisation",
+      "intendedUse": "How will you use the data?",
+      "acceptedTerms": "I accept the <terms>terms of use</terms>"
+    },
+    "intendedUseHint": "A sentence or two is enough, e.g. research, journalism or an app.",
+    "submit": "Request a key",
+    "errorTitle": "There is a problem",
+    "failed": "Your request couldn't be sent. Check your connection and try again.",
+    "errors": {
+      "name": "Enter your name",
+      "email": "Enter an email address like name@example.org",
+      "organisation": "Enter your organisation",
+      "intendedUse": "Say how you will use the data, in 1,000 characters or fewer",
+      "acceptedTerms": "Accept the terms of use to continue"
+    },
+    "confirmTitle": "Request received",
+    "confirmBody": "We'll review it and email your key to {email}, usually within two working days.",
+    "loadReference": "Load the interactive reference",
+    "loadReferenceHint": "Every endpoint with its parameters and responses, and a console to try requests. It downloads about {size} MB."
   }
 }

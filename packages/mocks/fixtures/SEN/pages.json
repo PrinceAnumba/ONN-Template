@@ -12,6 +12,28 @@
           "fr": "ONN : contenu de démonstration, à remplacer par le texte validé.",
           "en": "ONN: demo content, to be replaced with approved text."
         }
+      },
+      {
+        "type": "richText",
+        "body": {
+          "fr": "## Notre mission\n\nL'observatoire mesure la transformation numérique du pays avec des données ouvertes, comparables et documentées.",
+          "en": "## Our mission\n\nThe observatory measures the country's digital transformation with open, comparable and documented data."
+        }
+      },
+      {
+        "type": "callout",
+        "body": {
+          "fr": "Les chiffres affichés sur ce site sont des données de démonstration.",
+          "en": "The figures on this site are demo data."
+        }
+      },
+      {
+        "type": "image",
+        "src": "/api/v1/pages/about/image.svg",
+        "alt": {
+          "fr": "Illustration de démonstration",
+          "en": "Demo illustration"
+        }
       }
     ]
   },
@@ -28,6 +50,58 @@
           "fr": "ONN : contenu de démonstration, à remplacer par le texte validé.",
           "en": "ONN: demo content, to be replaced with approved text."
         }
+      },
+      {
+        "type": "richText",
+        "body": {
+          "fr": "## Production des indicateurs\n\nChaque indicateur suit les définitions de l'UIT lorsqu'elles existent.",
+          "en": "## How indicators are produced\n\nEach indicator follows the ITU definition where one exists."
+        }
+      },
+      {
+        "type": "table",
+        "rows": [
+          [
+            {
+              "fr": "Étape",
+              "en": "Step"
+            },
+            {
+              "fr": "Description",
+              "en": "Description"
+            }
+          ],
+          [
+            {
+              "fr": "Collecte",
+              "en": "Collection"
+            },
+            {
+              "fr": "Questionnaires et données administratives",
+              "en": "Questionnaires and administrative data"
+            }
+          ],
+          [
+            {
+              "fr": "Validation",
+              "en": "Validation"
+            },
+            {
+              "fr": "Contrôles de cohérence et revue",
+              "en": "Consistency checks and review"
+            }
+          ],
+          [
+            {
+              "fr": "Publication",
+              "en": "Publication"
+            },
+            {
+              "fr": "Mise en ligne avec les métadonnées",
+              "en": "Release with metadata"
+            }
+          ]
+        ]
       }
     ]
   },
@@ -44,6 +118,36 @@
           "fr": "ONN : contenu de démonstration, à remplacer par le texte validé.",
           "en": "ONN: demo content, to be replaced with approved text."
         }
+      },
+      {
+        "type": "partners",
+        "partners": [
+          {
+            "name": {
+              "fr": "Ministère chargé du numérique",
+              "en": "Ministry in charge of digital affairs"
+            }
+          },
+          {
+            "name": {
+              "fr": "Autorité de régulation",
+              "en": "Regulatory authority"
+            }
+          },
+          {
+            "name": {
+              "fr": "Institut national de la statistique",
+              "en": "National statistics office"
+            }
+          },
+          {
+            "name": {
+              "fr": "Union internationale des télécommunications",
+              "en": "International Telecommunication Union"
+            },
+            "url": "https://www.itu.int/"
+          }
+        ]
       }
     ]
   },
@@ -59,6 +163,13 @@
         "body": {
           "fr": "ONN : contenu de démonstration, à remplacer par le texte validé.",
           "en": "ONN: demo content, to be replaced with approved text."
+        }
+      },
+      {
+        "type": "richText",
+        "body": {
+          "fr": "## Données collectées\n\nLe site ne dépose pas de cookie de mesure d'audience. Les formulaires ne conservent que les informations que vous saisissez.",
+          "en": "## Data we collect\n\nThe site sets no analytics cookies. Forms keep only the information you enter."
         }
       }
     ]
@@ -76,6 +187,13 @@
           "fr": "ONN : contenu de démonstration, à remplacer par le texte validé.",
           "en": "ONN: demo content, to be replaced with approved text."
         }
+      },
+      {
+        "type": "richText",
+        "body": {
+          "fr": "## Réutilisation des données\n\nLes données sont publiées sous licence CC BY 4.0 : citez la source lorsque vous les réutilisez.",
+          "en": "## Reusing the data\n\nThe data is published under CC BY 4.0: cite the source when you reuse it."
+        }
       }
     ]
   },
@@ -91,6 +209,13 @@
         "body": {
           "fr": "ONN : contenu de démonstration, à remplacer par le texte validé.",
           "en": "ONN: demo content, to be replaced with approved text."
+        }
+      },
+      {
+        "type": "richText",
+        "body": {
+          "fr": "## Conformité\n\nCe site vise le niveau AA des WCAG 2.2. Signalez tout obstacle via le formulaire d'avis.",
+          "en": "## Compliance\n\nThis site aims for WCAG 2.2 level AA. Report any barrier through the feedback form."
         }
       }
     ]

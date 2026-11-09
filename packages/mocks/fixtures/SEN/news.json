@@ -10,14 +10,15 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème 5G.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about 5G.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-12-21",
     "tags": [
       "5G"
     ],
-    "kind": "news"
+    "kind": "news",
+    "imageUrl": "/api/v1/news/news-1/image.svg"
   },
   {
     "slug": "news-2",
@@ -30,8 +31,8 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème IA.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about IA.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-11-16",
     "tags": [
@@ -50,8 +51,8 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème cybersécurité.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about cybersécurité.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-10-14",
     "tags": [
@@ -71,8 +72,8 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème fibre.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about fibre.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-09-23",
     "tags": [
@@ -91,14 +92,15 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème inclusion.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about inclusion.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-08-17",
     "tags": [
       "inclusion"
     ],
-    "kind": "news"
+    "kind": "news",
+    "imageUrl": "/api/v1/news/news-5/image.svg"
   },
   {
     "slug": "watch-6",
@@ -111,8 +113,8 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème 5G.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about 5G.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-07-11",
     "tags": [
@@ -132,8 +134,8 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème IA.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about IA.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-06-07",
     "tags": [
@@ -152,8 +154,8 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème cybersécurité.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about cybersécurité.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-05-19",
     "tags": [
@@ -172,15 +174,16 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème fibre.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about fibre.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-04-26",
     "tags": [
       "fibre"
     ],
     "kind": "watch",
-    "sourceUrl": "https://example.org/"
+    "sourceUrl": "https://example.org/",
+    "imageUrl": "/api/v1/news/watch-9/image.svg"
   },
   {
     "slug": "news-10",
@@ -193,8 +196,8 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème inclusion.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about inclusion.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-03-26",
     "tags": [
@@ -213,8 +216,8 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème 5G.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about 5G.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-02-21",
     "tags": [
@@ -233,8 +236,8 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème IA.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about IA.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-01-22",
     "tags": [
@@ -254,14 +257,15 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème cybersécurité.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about cybersécurité.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-12-18",
     "tags": [
       "cybersécurité"
     ],
-    "kind": "news"
+    "kind": "news",
+    "imageUrl": "/api/v1/news/news-13/image.svg"
   },
   {
     "slug": "news-14",
@@ -274,8 +278,8 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème fibre.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about fibre.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-11-06",
     "tags": [
@@ -294,8 +298,8 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème inclusion.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about inclusion.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-10-05",
     "tags": [
@@ -315,8 +319,8 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème 5G.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about 5G.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-09-04",
     "tags": [
@@ -335,14 +339,15 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème IA.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about IA.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-08-25",
     "tags": [
       "IA"
     ],
-    "kind": "news"
+    "kind": "news",
+    "imageUrl": "/api/v1/news/news-17/image.svg"
   },
   {
     "slug": "watch-18",
@@ -355,8 +360,8 @@
       "en": "A piece of demo text."
     },
     "body": {
-      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.",
-      "en": "This demo content does not describe any real event."
+      "fr": "Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème cybersécurité.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.",
+      "en": "This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about cybersécurité.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office."
     },
     "date": "2025-07-20",
     "tags": [

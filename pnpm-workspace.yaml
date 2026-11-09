@@ -8,6 +8,7 @@ allowBuilds:
   esbuild: true
   msw: false
   sharp: true
+  vue-demi: false
 
 minimumReleaseAgeExclude:
   - "@tanstack/query-core@5.107.1"

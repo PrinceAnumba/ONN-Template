@@ -248,7 +248,7 @@ function buildPeers(config: CountryConfig, random: () => number): PeerFixture {
 }
 
 function buildIndicators(areaCount: number, dashboards: Fixtures["dashboards"]) {
-  return INDICATORS.map((seed) => {
+  return INDICATORS.map((seed, index) => {
     const siblings = INDICATORS.filter((i) => i.theme === seed.theme && i.code !== seed.code);
     const label = UNITS[seed.unit] ?? { fr: seed.unit, en: seed.unit };
     const hasData = seed.status !== "planned";
@@ -304,7 +304,11 @@ function buildIndicators(areaCount: number, dashboards: Fixtures["dashboards"]) 
         seed.method === "survey"
           ? { fr: "Marge d'erreur de ±2 points.", en: "Margin of error of ±2 points." }
           : undefined,
-      nextRelease: seed.status === "published" ? "2027-03" : undefined,
+      // Spread over the next year so the release calendar has something to show.
+      nextRelease:
+        seed.status === "published"
+          ? `${index % 12 < 2 ? 2026 : 2027}-${String(((index + 10) % 12) + 1).padStart(2, "0")}`
+          : undefined,
       versions: [
         {
           version: 1,
@@ -499,15 +503,123 @@ function buildNews(random: () => number): Fixtures["news"] {
       title: { fr: `Actualité de démonstration : ${topic}`, en: `Demo news item: ${topic}` },
       excerpt: { fr: "Un texte de démonstration.", en: "A piece of demo text." },
       body: {
-        fr: "Ce contenu de démonstration ne décrit aucun événement réel.",
-        en: "This demo content does not describe any real event.",
+        fr: `Ce contenu de démonstration ne décrit aucun événement réel.\n\n## Points clés\n\n- Premier point de démonstration sur le thème ${topic}.\n- Second point, à remplacer par le texte validé.\n\nLe texte définitif sera saisi dans le back-office.`,
+        en: `This demo content does not describe any real event.\n\n## Key points\n\n- A first demo point about ${topic}.\n- A second point, to be replaced with approved text.\n\nThe final text will be entered in the back office.`,
       },
       date: `2025-${month}-${String(1 + Math.floor(random() * 27)).padStart(2, "0")}`,
       tags: [topic],
       kind,
       sourceUrl: kind === "watch" ? "https://example.org/" : undefined,
+      imageUrl: i % 4 === 0 ? `/api/v1/news/${kind}-${i + 1}/image.svg` : undefined,
     };
   });
+}
+
+/** CMS pages (brief §5.9) with one example of each block type somewhere. */
+function buildPages(shortName: string): Fixtures["pages"] {
+  const demo = {
+    fr: `${shortName} : contenu de démonstration, à remplacer par le texte validé.`,
+    en: `${shortName}: demo content, to be replaced with approved text.`,
+  };
+  const text = (fr: string, en: string): CmsBlock => ({
+    type: "richText",
+    body: { fr, en } as never,
+  });
+  const page = (slug: string, fr: string, en: string, blocks: CmsBlock[]) => ({
+    slug,
+    title: { fr, en },
+    blocks: [{ type: "richText", body: demo as never }, ...blocks],
+  });
+  return [
+    page("about", "À propos", "About", [
+      text(
+        "## Notre mission\n\nL'observatoire mesure la transformation numérique du pays avec des données ouvertes, comparables et documentées.",
+        "## Our mission\n\nThe observatory measures the country's digital transformation with open, comparable and documented data.",
+      ),
+      {
+        type: "callout",
+        body: {
+          fr: "Les chiffres affichés sur ce site sont des données de démonstration.",
+          en: "The figures on this site are demo data.",
+        } as never,
+      },
+      {
+        type: "image",
+        src: "/api/v1/pages/about/image.svg",
+        alt: { fr: "Illustration de démonstration", en: "Demo illustration" } as never,
+      },
+    ]),
+    page("methodology", "Méthodologie", "Methodology", [
+      text(
+        "## Production des indicateurs\n\nChaque indicateur suit les définitions de l'UIT lorsqu'elles existent.",
+        "## How indicators are produced\n\nEach indicator follows the ITU definition where one exists.",
+      ),
+      {
+        type: "table",
+        rows: [
+          [
+            { fr: "Étape", en: "Step" },
+            { fr: "Description", en: "Description" },
+          ],
+          [
+            { fr: "Collecte", en: "Collection" },
+            {
+              fr: "Questionnaires et données administratives",
+              en: "Questionnaires and administrative data",
+            },
+          ],
+          [
+            { fr: "Validation", en: "Validation" },
+            { fr: "Contrôles de cohérence et revue", en: "Consistency checks and review" },
+          ],
+          [
+            { fr: "Publication", en: "Publication" },
+            { fr: "Mise en ligne avec les métadonnées", en: "Release with metadata" },
+          ],
+        ] as never,
+      },
+    ]),
+    page("partners", "Partenaires", "Partners", [
+      {
+        type: "partners",
+        partners: [
+          {
+            name: {
+              fr: "Ministère chargé du numérique",
+              en: "Ministry in charge of digital affairs",
+            },
+          },
+          { name: { fr: "Autorité de régulation", en: "Regulatory authority" } },
+          { name: { fr: "Institut national de la statistique", en: "National statistics office" } },
+          {
+            name: {
+              fr: "Union internationale des télécommunications",
+              en: "International Telecommunication Union",
+            },
+            url: "https://www.itu.int/",
+          },
+        ] as never,
+      },
+    ]),
+    page("privacy", "Confidentialité", "Privacy", [
+      text(
+        "## Données collectées\n\nLe site ne dépose pas de cookie de mesure d'audience. Les formulaires ne conservent que les informations que vous saisissez.",
+        "## Data we collect\n\nThe site sets no analytics cookies. Forms keep only the information you enter.",
+      ),
+    ]),
+    page("terms", "Conditions d'utilisation", "Terms of use", [
+      text(
+        "## Réutilisation des données\n\nLes données sont publiées sous licence CC BY 4.0 : citez la source lorsque vous les réutilisez.",
+        "## Reusing the data\n\nThe data is published under CC BY 4.0: cite the source when you reuse it.",
+      ),
+    ]),
+    page("accessibility", "Accessibilité", "Accessibility", [
+      text(
+        "## Conformité\n\nCe site vise le niveau AA des WCAG 2.2. Signalez tout obstacle via le formulaire d'avis.",
+        "## Compliance\n\nThis site aims for WCAG 2.2 level AA. Report any barrier through the feedback form.",
+      ),
+    ]),
+  ] as Fixtures["pages"];
 }
 
 function buildIndex(random: () => number): Fixtures["index"] {
@@ -709,37 +821,33 @@ export function generateFixtures(
       }),
     },
     index: buildIndex(random),
-    pages: [
-      ["about", pct("À propos", "About")],
-      ["methodology", pct("Méthodologie", "Methodology")],
-      ["partners", pct("Partenaires", "Partners")],
-      ["privacy", pct("Confidentialité", "Privacy")],
-      ["terms", pct("Conditions d'utilisation", "Terms of use")],
-      ["accessibility", pct("Accessibilité", "Accessibility")],
-    ].map(([slug, title]) => ({
-      slug: slug as string,
-      title: title as L,
-      blocks: [
-        {
-          type: "richText",
-          body: {
-            fr: `${shortName} : contenu de démonstration, à remplacer par le texte validé.`,
-            en: `${shortName}: demo content, to be replaced with approved text.`,
-          },
+    pages: buildPages(shortName),
+    datasets: [
+      ...PILLARS.map((pillar) => ({
+        code: pillar.code,
+        title: pillar.name,
+        description: pillar.description,
+        pillar: pillar.code,
+        formats: ["CSV", "JSON"],
+        licence: "CC BY 4.0",
+        updateFrequency: { fr: "Trimestrielle", en: "Quarterly" },
+        lastUpdated: GENERATED_ON,
+        url: `/api/v1/datasets/${pillar.code}/file`,
+      })),
+      {
+        code: "ALL",
+        title: { fr: "Toutes les données", en: "All data" },
+        description: {
+          fr: "Toutes les observations publiées, tous indicateurs et territoires confondus.",
+          en: "Every published observation, for all indicators and areas.",
         },
-      ],
-    })) as Fixtures["pages"],
-    datasets: PILLARS.map((pillar) => ({
-      code: pillar.code,
-      title: pillar.name,
-      description: pillar.description,
-      pillar: pillar.code,
-      formats: ["CSV", "JSON"],
-      licence: "CC BY 4.0",
-      updateFrequency: { fr: "Trimestrielle", en: "Quarterly" },
-      lastUpdated: GENERATED_ON,
-      url: `/api/v1/data?indicator=${pillar.code}&format=csv`,
-    })),
+        formats: ["CSV", "JSON"],
+        licence: "CC BY 4.0",
+        updateFrequency: { fr: "Trimestrielle", en: "Quarterly" },
+        lastUpdated: GENERATED_ON,
+        url: "/api/v1/datasets/ALL/file",
+      },
+    ],
     geo: buildGeometry(config, areas, boundaries),
   };
 }
