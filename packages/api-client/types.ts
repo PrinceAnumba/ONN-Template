@@ -1152,3 +1152,177 @@ export interface Subscriber {
   status: "active" | "unsubscribed";
   since: string;
 }
+
+// ---------------------------------------------------------------------------------------------
+// Phase 7g: users, organisations, feedback inbox, audit log and settings (brief §7).
+
+/** `invited` until the person first signs in. */
+export type UserStatus = "active" | "invited" | "deactivated";
+
+export interface AdminUser {
+  id: string;
+  name: string;
+  email: string;
+  roles: AdminRole[];
+  orgs: { code: string; name: string }[];
+  mfa: boolean;
+  status: UserStatus;
+  /** Absent until the first sign-in. */
+  lastLogin?: string;
+  invitedAt?: string;
+}
+
+/** `POST /admin/users`: the invitation (brief §7 "Invite (email, org, role)"). */
+export interface UserInviteInput {
+  name: string;
+  email: string;
+  role: AdminRole;
+  orgs: string[];
+}
+/** `PUT /admin/users/:id`: the email is the sign-in identity and doesn't change. */
+export type UserUpdateInput = Omit<UserInviteInput, "email">;
+
+/** `GET /admin/users`: a page of users, counts per status for the same search, and the
+ * organisations a user can be given. */
+export interface UserPage extends Page<AdminUser> {
+  counts: Record<UserStatus, number>;
+  orgs: { code: string; name: string }[];
+}
+
+export interface OrgContact {
+  name: string;
+  role: string;
+  email: string;
+  phone?: string;
+}
+
+export interface OrganisationAdminSummary extends Organisation {
+  indicators: number;
+  connectors: number;
+  users: number;
+  contact?: string;
+}
+
+/** What `PUT /admin/organisations/:code` saves. */
+export interface OrganisationRecord {
+  name: Localised;
+  kind: Organisation["kind"];
+  description: Localised;
+  website?: string;
+  contacts: OrgContact[];
+}
+
+export interface OrganisationAdmin extends OrganisationRecord {
+  code: string;
+  updated: string;
+  /** Indicators whose source is this organisation; changed in the indicator referential. */
+  indicators: { code: string; name: string; status: IndicatorStatus }[];
+  connectors: { id: string; name: string; lastStatus: ConnectorRunStatus; lastRun: string }[];
+  users: { id: string; name: string; roles: AdminRole[]; status: UserStatus }[];
+}
+
+/** One message in the inbox: the public item plus what only the back office sees. */
+export interface FeedbackAdminItem extends FeedbackItem {
+  email?: string;
+  /** Internal note, never shown to the sender. */
+  note?: string;
+  updated?: string;
+}
+
+export interface FeedbackPage extends Page<FeedbackAdminItem> {
+  counts: Record<FeedbackItem["status"], number>;
+}
+
+export type AuditAction =
+  | "create"
+  | "update"
+  | "delete"
+  | "publish"
+  | "unpublish"
+  | "transition"
+  | "invite"
+  | "deactivate"
+  | "reactivate"
+  | "send"
+  | "run";
+
+export type AuditEntity =
+  | "submission"
+  | "import"
+  | "connector"
+  | "indicator"
+  | "dashboard"
+  | "publication"
+  | "report"
+  | "news"
+  | "page"
+  | "alert"
+  | "newsletter"
+  | "user"
+  | "organisation"
+  | "feedback"
+  | "settings";
+
+/** One link of the audit chain: `hash` covers this entry and `prevHash`. */
+export interface AuditEntry {
+  seq: number;
+  date: string;
+  actor: { id: string; name: string };
+  action: AuditAction;
+  entity: AuditEntity;
+  entityId: string;
+  /** The record before and after, when the action changed one. */
+  before?: unknown;
+  after?: unknown;
+  prevHash: string;
+  hash: string;
+}
+
+export interface AuditPage extends Page<AuditEntry> {
+  /** Everyone who appears in the log, for the actor filter. */
+  actors: { id: string; name: string }[];
+}
+
+/** `POST /admin/audit/verify`: the whole chain recomputed. */
+export interface AuditVerification {
+  ok: boolean;
+  checked: number;
+  /** The first entry whose hash doesn't match. */
+  brokenAt?: number;
+  verifiedAt: string;
+}
+
+export type RuntimeSettingKey =
+  "contactEmail" | "exportMaxRows" | "sessionMinutes" | "cacheSeconds";
+export type FeatureKey = "newsWatch" | "smsSignup" | "chatbot" | "basemap";
+export type QuotaTier = "anonymous" | "registered" | "partner";
+
+export interface ApiQuota {
+  tier: QuotaTier;
+  perMinute: number;
+  perDay: number;
+}
+
+/** What `PUT /admin/settings` saves. */
+export interface SettingsInput {
+  /** `null` goes back to the deployment's default. */
+  overrides: Record<RuntimeSettingKey, string | null>;
+  features: Record<FeatureKey, boolean>;
+  quotas: ApiQuota[];
+}
+
+export interface ChannelTest {
+  ok: boolean;
+  date: string;
+  /** The gateway's own words when it failed. */
+  detail?: string;
+}
+
+export interface SettingsAdmin extends SettingsInput {
+  defaults: Record<RuntimeSettingKey, string>;
+  featureDefaults: Record<FeatureKey, boolean>;
+  smtp: { host: string; from: string; lastTest?: ChannelTest };
+  sms: { provider: string; sender: string; lastTest?: ChannelTest };
+  updated?: string;
+  updatedBy?: string;
+}

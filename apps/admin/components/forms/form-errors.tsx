@@ -118,6 +118,10 @@ const ERROR_CODES = [
   "empty",
   "positive",
   "shape",
+  "email",
+  "phone",
+  "range",
+  "order",
 ] as const;
 export type ErrorCode = (typeof ERROR_CODES)[number] | "invalid";
 

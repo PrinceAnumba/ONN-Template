@@ -1416,7 +1416,11 @@
         "empty": "The file is empty.",
         "positive": "Enter a number above zero.",
         "shape": "Every row needs the same number of cells.",
-        "invalid": "Check this value."
+        "invalid": "Check this value.",
+        "email": "Enter an email address, like name@example.org.",
+        "phone": "Enter a phone number with its country code, like +221 33 000 00 00.",
+        "range": "Enter a whole number within the allowed range.",
+        "order": "The daily limit can't be lower than the limit per minute."
       },
       "errorTitle": "{count, plural, one {Fix this error to save} other {Fix these # errors to save}}",
       "errorLine": "{field}: {message}",
@@ -1855,6 +1859,319 @@
         "since": "Since"
       },
       "allTopics": "All topics"
+    },
+    "users": {
+      "title": "Users",
+      "invite": "Invite a user",
+      "accessReview": "Access review (CSV)",
+      "tabsLabel": "Users by status",
+      "status": {
+        "active": "Active",
+        "invited": "Invited",
+        "deactivated": "Deactivated"
+      },
+      "filter": {
+        "search": "Name or email",
+        "role": "Role",
+        "org": "Organisation"
+      },
+      "count": "{count, plural, =0 {No users} one {# user} other {# users}}",
+      "empty": "No users yet.",
+      "emptyFiltered": "No users match these filters.",
+      "column": {
+        "name": "Name",
+        "email": "Email",
+        "role": "Role",
+        "orgs": "Organisations",
+        "mfa": "Two-step sign-in",
+        "lastLogin": "Last sign-in",
+        "status": "Status"
+      },
+      "orgCount": "{first} and {count, plural, one {# other} other {# others}}",
+      "mfaOn": "On",
+      "mfaOff": "Off",
+      "never": "Never",
+      "back": "Back to users",
+      "inviteTitle": "Invite a user",
+      "inviteIntro": "They receive an email with a link to sign in. Their access starts when they first sign in.",
+      "detailTitle": "User {id}",
+      "saved": "Changes saved.",
+      "invited": "Invitation sent to {email}.",
+      "done": {
+        "deactivate": "{name} can no longer sign in.",
+        "reactivate": "{name} can sign in again.",
+        "resend": "Invitation sent again to {name}."
+      },
+      "field": {
+        "name": "Full name",
+        "email": "Email",
+        "role": "Role",
+        "orgs": "Organisations"
+      },
+      "invitedOn": "Invited on",
+      "locked": "Only a super admin can change this user.",
+      "details": "User details",
+      "hint": {
+        "email": "The invitation goes to this address, and they sign in with it.",
+        "emailFixed": "The sign-in address can't be changed. Invite the new address instead.",
+        "ownRole": "You can't change your own role. Ask another administrator.",
+        "orgs": "They see and work on data from these organisations only."
+      },
+      "roleHelp": {
+        "super_admin": "Everything an admin can do, plus settings and other super admins.",
+        "admin": "Approves and publishes data, and manages users, organisations, indicators and connectors.",
+        "editor": "Verifies submissions and edits content: dashboards, publications, news, pages, alerts and the newsletter.",
+        "contributor": "Enters and submits data for their organisations.",
+        "reader": "Views the dashboard and data quality, without changing anything."
+      },
+      "sendInvite": "Send the invitation",
+      "resend": "Send the invitation again",
+      "reactivate": "Reactivate",
+      "deactivate": "Deactivate",
+      "ownAccount": "You can't deactivate your own account.",
+      "deactivateTitle": "Deactivate {name}?",
+      "deactivateHelp": "They are signed out and can't sign in again. Their past work stays in place, and you can reactivate them later."
+    },
+    "organisations": {
+      "title": "Organisations",
+      "intro": "The bodies that supply data. Each one comes from the source named on its indicators.",
+      "count": "{count, plural, =0 {No organisations} one {# organisation} other {# organisations}}",
+      "empty": "No organisations yet.",
+      "column": {
+        "name": "Organisation",
+        "kind": "Type",
+        "indicators": "Indicators",
+        "connectors": "Connectors",
+        "users": "Active users",
+        "contact": "Main contact"
+      },
+      "kind": {
+        "statistics": "Statistics office",
+        "regulator": "Regulator",
+        "ministry": "Ministry",
+        "international": "International body",
+        "other": "Other"
+      },
+      "noContact": "None",
+      "detailTitle": "Organisation {code}",
+      "back": "Back to organisations",
+      "codeUpdated": "Code {code}. Updated on {date}.",
+      "indicators": "Assigned indicators ({count})",
+      "indicatorsHelp": "An indicator belongs to the organisation named as its source. Change that in the indicator itself.",
+      "noIndicators": "No indicators are assigned to this organisation.",
+      "connectors": "Connectors ({count})",
+      "noConnectors": "This organisation has no connectors.",
+      "runOk": "Last run succeeded on {date}",
+      "runFailed": "Last run failed on {date}",
+      "users": "Users ({count})",
+      "noUsers": "No users work for this organisation.",
+      "saved": "Organisation saved.",
+      "contactN": "Contact {n}",
+      "contact": {
+        "name": "Name",
+        "role": "Role",
+        "email": "Email",
+        "phone": "Phone"
+      },
+      "field": {
+        "name": "Name",
+        "description": "Description",
+        "kind": "Type",
+        "website": "Website",
+        "contacts": "Contacts"
+      },
+      "contacts": "Contacts",
+      "noContacts": "No contacts yet.",
+      "removeContact": "Remove contact {n}",
+      "addContact": "Add a contact"
+    },
+    "feedback": {
+      "title": "Feedback",
+      "tabsLabel": "Feedback by status",
+      "status": {
+        "new": "New",
+        "planned": "Planned",
+        "done": "Done",
+        "wont_do": "Won't do"
+      },
+      "filter": {
+        "search": "Message or page",
+        "rating": "Rating"
+      },
+      "rating": "{rating} out of 5",
+      "count": "{count, plural, =0 {No messages} one {# message} other {# messages}}",
+      "empty": "No feedback yet. Messages sent from the portal arrive here.",
+      "emptyFiltered": "No messages match these filters.",
+      "useful": "Useful",
+      "notUseful": "Not useful",
+      "noRating": "No rating",
+      "column": {
+        "date": "Received",
+        "rating": "Rating",
+        "page": "Page",
+        "message": "Message",
+        "status": "Status",
+        "open": "Details"
+      },
+      "noMessage": "No message was written.",
+      "openLabel": "Open message {id}",
+      "open": "Open",
+      "bulk": {
+        "done": "{count, plural, one {# message} other {# messages}} set to {status}.",
+        "failed": "{count, plural, one {# message} other {# messages}} couldn't be changed.",
+        "count": "{count, plural, one {# message selected} other {# messages selected}}",
+        "label": "Set the status of the selected messages",
+        "clear": "Clear selection"
+      },
+      "saved": "Message updated.",
+      "selectRow": "Select message {id}",
+      "selectAll": "Select all messages on this page",
+      "detailTitle": "Message {id}",
+      "detailMeta": "Received on {date}. {rating}.",
+      "email": "Sender's email",
+      "errorId": "Error reference",
+      "note": "Internal note",
+      "noteHint": "Only the back-office team sees this."
+    },
+    "audit": {
+      "title": "Audit log",
+      "intro": "Every change made in the back office, newest first. Entries are chained, so an altered or removed entry can be detected.",
+      "verify": "Verify chain",
+      "verifyFailed": "The check couldn't run. Try again.",
+      "verifyOk": "{count, plural, one {The chain is intact: # entry checked at {time}.} other {The chain is intact: {number} entries checked at {time}.}}",
+      "verifyBroken": "The chain is broken at entry {seq}. That entry, or one before it, was changed after it was written.",
+      "filter": {
+        "actor": "Person",
+        "entity": "Record type",
+        "action": "Action",
+        "from": "From",
+        "to": "To"
+      },
+      "count": "{count, plural, =0 {No entries} one {# entry} other {# entries}}",
+      "empty": "Nothing has been recorded yet.",
+      "emptyFiltered": "No entries match these filters.",
+      "column": {
+        "seq": "No.",
+        "date": "Date",
+        "actor": "Person",
+        "action": "Action",
+        "entity": "Record type",
+        "id": "Record"
+      },
+      "action": {
+        "create": "Created",
+        "update": "Changed",
+        "delete": "Deleted",
+        "publish": "Published",
+        "unpublish": "Unpublished",
+        "transition": "Workflow step",
+        "invite": "Invited",
+        "deactivate": "Deactivated",
+        "reactivate": "Reactivated",
+        "send": "Sent",
+        "run": "Run"
+      },
+      "entity": {
+        "submission": "Submission",
+        "import": "Import",
+        "connector": "Connector",
+        "indicator": "Indicator",
+        "dashboard": "Dashboard",
+        "publication": "Publication",
+        "report": "Report",
+        "news": "News",
+        "page": "Page",
+        "alert": "Alert rule",
+        "newsletter": "Newsletter",
+        "user": "User",
+        "organisation": "Organisation",
+        "feedback": "Feedback",
+        "settings": "Settings"
+      },
+      "changes": "{count, plural, =0 {Entry {seq}: hashes only, no values recorded} one {Entry {seq}: # value changed} other {Entry {seq}: # values changed}}",
+      "changesCaption": "Values before and after entry {seq}",
+      "diff": {
+        "field": "Field",
+        "before": "Before",
+        "after": "After",
+        "whole": "(whole record)",
+        "added": "added",
+        "removed": "removed",
+        "changed": "changed"
+      },
+      "hashes": "Hash {hash}, after {prev}"
+    },
+    "settings": {
+      "title": "Settings",
+      "intro": "These apply to the whole observatory as soon as they are saved.",
+      "introUpdated": "These apply to the whole observatory as soon as they are saved. Last changed on {date} by {name}.",
+      "saved": "Settings saved.",
+      "overrides": "Runtime overrides",
+      "overridesHelp": "Leave a field empty to keep the value the site was deployed with.",
+      "override": {
+        "contactEmail": "Contact email",
+        "exportMaxRows": "Largest export, in rows",
+        "sessionMinutes": "Back-office session, in minutes",
+        "cacheSeconds": "Portal cache, in seconds"
+      },
+      "overrideHelp": {
+        "contactEmail": "Shown on the portal's contact and legal pages.",
+        "exportMaxRows": "From 1,000 to 1,000,000.",
+        "sessionMinutes": "From 5 to 720. People are signed out after this long without activity.",
+        "cacheSeconds": "From 0 to 86,400. How long the portal may show data before checking for newer values."
+      },
+      "defaultIs": "Default: {value}.",
+      "features": "Feature toggles",
+      "featuresHelp": "Turn parts of the portal on or off without a new deployment.",
+      "feature": {
+        "newsWatch": "News watch",
+        "smsSignup": "SMS alerts sign-up",
+        "chatbot": "Assistant",
+        "basemap": "Map basemap"
+      },
+      "featureHelp": {
+        "newsWatch": "Collects stories from the watch sources and shows approved ones on the portal.",
+        "smsSignup": "Lets visitors subscribe to alerts by SMS.",
+        "chatbot": "Shows the question-and-answer assistant on the portal.",
+        "basemap": "Adds the \"Show basemap\" option to maps, which loads map tiles from an outside provider."
+      },
+      "defaultOn": "On by default.",
+      "defaultOff": "Off by default.",
+      "quotas": "API quotas",
+      "quotasHelp": "How many requests each kind of API user may send. Requests over the limit are refused until the next minute or day.",
+      "tier": {
+        "anonymous": "Without a key",
+        "registered": "With a key",
+        "partner": "Partners"
+      },
+      "tierHelp": {
+        "anonymous": "Counted per IP address.",
+        "registered": "Counted per API key.",
+        "partner": "Keys marked as partner institutions."
+      },
+      "limit": {
+        "perMinute": "Requests per minute",
+        "perDay": "Requests per day"
+      },
+      "tests": "Email and SMS gateways",
+      "testsHelp": "Send one test message to check that each gateway works. The connection details are set at deployment.",
+      "smtp": {
+        "title": "Email (SMTP)",
+        "host": "Server",
+        "from": "Sender address",
+        "to": "Send a test email to",
+        "send": "Send test email"
+      },
+      "sms": {
+        "title": "SMS",
+        "provider": "Provider",
+        "sender": "Sender name",
+        "to": "Send a test SMS to",
+        "send": "Send test SMS"
+      },
+      "testOk": "Last test succeeded on {date} at {time}.",
+      "testFailed": "Last test failed on {date} at {time}. The gateway answered:",
+      "neverTested": "Not tested yet."
     }
   },
   "Home": {

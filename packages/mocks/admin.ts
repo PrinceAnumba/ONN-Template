@@ -29,6 +29,7 @@ import {
 import { createContentHandlers, type ContentDeps } from "./admin-content";
 import { createEditorialHandlers, type EditorialDeps } from "./admin-editorial";
 import { createOutreachHandlers, type OutreachDeps } from "./admin-outreach";
+import { auditRequest, createGovernanceHandlers } from "./admin-governance";
 import { qualityResults, rowIssues, type StoredRow } from "./admin-submissions";
 
 type Method = "get" | "post" | "put" | "patch" | "delete";
@@ -247,11 +248,18 @@ export function createAdminHandlers({
     path: string,
     resolver: (ctx: RouteContext & { user: StoredUser }) => Response | Promise<Response>,
   ) =>
-    route(method, `/admin${path}`, (ctx) => {
+    route(method, `/admin${path}`, async (ctx) => {
       const token = ctx.request.headers.get("Authorization")?.replace(/^Bearer\s+/i, "");
       const user = state.users.find((item) => item.id === token && item.active);
       if (!user) return problem(401, "Unauthorised", "Sign in again");
-      return resolver({ ...ctx, user });
+      // Every successful write gets an audit line; handlers that know the before and after
+      // record their own, which this then leaves alone.
+      const logged = state.governance.audit.length;
+      const response = await resolver({ ...ctx, user });
+      if (state.governance.audit.length === logged) {
+        await auditRequest(state, user, method, path, ctx.params, response);
+      }
+      return response;
     });
 
   const deadlines = (orgs: string[], locale: string, now: number): CalendarItem[] =>
@@ -337,10 +345,20 @@ export function createAdminHandlers({
       publicPublications: content.publicPublications,
     }),
 
+    ...createGovernanceHandlers({
+      authed,
+      localise,
+      problem,
+      state,
+      locales: referential.locales,
+      defaultLocale: referential.defaultLocale,
+    }),
+
     route("get", "/admin/demo-users", () =>
       HttpResponse.json(
         state.users
-          .filter((user) => user.active)
+          // People who haven't accepted their invitation can't sign in yet.
+          .filter((user) => user.active && user.lastLogin)
           .map((user): DemoUser => ({ id: user.id, name: user.name, roles: user.roles })),
       ),
     ),

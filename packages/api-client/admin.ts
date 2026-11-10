@@ -2,6 +2,18 @@
 import { apiFetch, type QueryValue } from "./client";
 import type {
   AdminMe,
+  AdminUser,
+  AuditAction,
+  AuditEntity,
+  AuditPage,
+  FeedbackItem,
+  FeedbackPage,
+  OrganisationAdmin,
+  OrganisationAdminSummary,
+  SettingsAdmin,
+  UserPage,
+  UserStatus,
+  AdminRole,
   AlertEvent,
   AlertRule,
   AlertRules,
@@ -235,6 +247,45 @@ export const adminApi = {
       pageSize?: number;
     } = {},
   ) => get<Page<Subscriber>>("/newsletter/subscribers", ctx, query),
+  users: (
+    ctx: AdminContext,
+    query: {
+      q?: string;
+      status?: UserStatus;
+      role?: AdminRole;
+      org?: string;
+      page?: number;
+      pageSize?: number;
+    } = {},
+  ) => get<UserPage>("/users", ctx, query),
+  user: (ctx: AdminContext, id: string) => get<AdminUser>(`/users/${encodeURIComponent(id)}`, ctx),
+  organisations: (ctx: AdminContext) => get<OrganisationAdminSummary[]>("/organisations", ctx),
+  organisation: (ctx: AdminContext, code: string) =>
+    get<OrganisationAdmin>(`/organisations/${encodeURIComponent(code)}`, ctx),
+  feedback: (
+    ctx: AdminContext,
+    query: {
+      q?: string;
+      status?: FeedbackItem["status"];
+      rating?: number;
+      page?: number;
+      pageSize?: number;
+    } = {},
+  ) => get<FeedbackPage>("/feedback", ctx, query),
+  audit: (
+    ctx: AdminContext,
+    query: {
+      q?: string;
+      actor?: string;
+      entity?: AuditEntity;
+      action?: AuditAction;
+      from?: string;
+      to?: string;
+      page?: number;
+      pageSize?: number;
+    } = {},
+  ) => get<AuditPage>("/audit", ctx, query),
+  settings: (ctx: AdminContext) => get<SettingsAdmin>("/settings", ctx),
   /** Mock only: the users the role switcher offers. Needs no token. */
   demoUsers: (locale: string) => apiFetch<DemoUser[]>("/admin/demo-users", { locale }),
 };

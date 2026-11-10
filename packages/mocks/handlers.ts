@@ -848,6 +848,7 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
         message: body.message,
         page: body.page,
         errorId: body.errorId,
+        ...(body.email ? { email: body.email } : {}),
         status: "new",
       });
       return HttpResponse.json({ ok: true }, { status: 201 });

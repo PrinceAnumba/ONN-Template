@@ -12,7 +12,8 @@ import type {
   IndicatorRecord,
   IntlRef,
   Periodicity,
-  FeedbackItem,
+  FeedbackAdminItem,
+  OrgContact,
   Organisation,
   SourceMethod,
   SubmissionChannel,
@@ -22,6 +23,7 @@ import type { QualityRule } from "@onn/api-client/types";
 import { seedContent, type ContentState } from "./admin-content";
 import { seedEditorial, type EditorialState } from "./admin-editorial";
 import { seedOutreach, type OutreachState } from "./admin-outreach";
+import { seedGovernance, type GovernanceState } from "./admin-governance";
 import { autoMatch, type StoredImport } from "./admin-intake";
 import { nextPeriod, type HistoryEvent, type StoredRow } from "./admin-submissions";
 import { createRandom, type Fixtures } from "./fixtures";
@@ -31,6 +33,10 @@ type Text = Record<string, string>;
 
 export interface StoredOrg extends Omit<Organisation, "name"> {
   name: Text;
+  description?: Text;
+  website?: string;
+  contacts?: OrgContact[];
+  updated?: string;
 }
 
 export interface StoredUser {
@@ -41,7 +47,9 @@ export interface StoredUser {
   orgs: string[];
   mfa: boolean;
   active: boolean;
+  /** Empty until the first sign-in. */
   lastLogin: string;
+  invitedAt?: string;
 }
 
 export interface StoredSubmission {
@@ -120,7 +128,7 @@ export interface AdminState {
   calendar: (Omit<CalendarItem, "orgName" | "indicatorSet"> & { indicatorSet: Text })[];
   connectors: StoredConnector[];
   indicators: StoredIndicator[];
-  feedback: FeedbackItem[];
+  feedback: FeedbackAdminItem[];
   usage: { date: string; visits: number }[];
   /** Notification ids each user has read. */
   read: Map<string, Set<string>>;
@@ -133,6 +141,8 @@ export interface AdminState {
   editorial: EditorialState;
   /** Alerts and the newsletter (Phase 7f). */
   outreach: OutreachState;
+  /** Audit log and settings (Phase 7g). */
+  governance: GovernanceState;
 }
 
 const DAY = 24 * 60 * 60 * 1000;
@@ -553,7 +563,7 @@ export function buildAdminState(data: Fixtures, now = new Date()): AdminState {
   });
 
   const pages = ["/data", "/map", "/dashboards", "/publications", "/", "/catalogue"];
-  const feedback: FeedbackItem[] = Array.from({ length: 8 }, (_, index) => ({
+  const feedback: FeedbackAdminItem[] = Array.from({ length: 8 }, (_, index) => ({
     id: `FB-${String(index + 1).padStart(4, "0")}`,
     date: iso(ago(index * 2.3 + random())),
     rating: 1 + Math.floor(random() * 5),
@@ -576,7 +586,7 @@ export function buildAdminState(data: Fixtures, now = new Date()): AdminState {
     };
   });
 
-  return {
+  const state = {
     orgs,
     users,
     submissions,
@@ -592,4 +602,5 @@ export function buildAdminState(data: Fixtures, now = new Date()): AdminState {
     editorial: seedEditorial(data, now),
     outreach: seedOutreach(data, users, now),
   };
+  return { ...state, governance: seedGovernance(state, data.meta.defaultLocale, now) };
 }

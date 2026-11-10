@@ -193,3 +193,34 @@ Types are in `packages/api-client/types.ts` (Phase 7f sections). Validation fail
 | `GET/POST /admin/newsletter`, `GET/PUT /admin/newsletter/:id`, `GET …/options`, `POST …/preview`, `POST …/:id/send` (`{ at? }`), `POST …/:id/unschedule`, `GET …/subscribers` | `CampaignSummary[]`, `Campaign`, `CampaignOptions`, `CampaignPreview` (the email HTML and audience size, for unsaved content), `Page<Subscriber>`. `409` `state` unless draft; `422` `empty` when nobody matches | Newsletter |
 
 **Changed:** `SubscriberInput.topics` (optional pillar codes). New rights `alert.manage` and `newsletter.manage` (super admin, admin, editor); news and pages use `content.edit`.
+
+### Users, organisations, feedback, audit log and settings (Phase 7g)
+
+Types are in `packages/api-client/types.ts` (Phase 7g section). Validation failures are `422` `validation` with `errors[]` paths; new message codes are `email`, `phone`, `range` and `order`.
+
+| Endpoint | Returns | Needed by |
+| --- | --- | --- |
+| `GET /admin/users?q=&status=&role=&org=&page=&pageSize=` | `UserPage`: a `Page<AdminUser>`, `counts` per status for the same search, and the `orgs` a user can be given. `status` is `invited` until the first sign-in | Users list |
+| `POST /admin/users` | body `UserInviteInput` (`name`, `email`, `role`, `orgs`); `201` `AdminUser` as `invited`, and the backend sends the invitation. Errors: `email` `email`/`duplicate`, `role` `unknown`, `orgs` `required`/`unknown` | Invite |
+| `GET /admin/users/:id`, `PUT /admin/users/:id` | `AdminUser`; PUT takes `UserUpdateInput` (the email doesn't change) | User detail |
+| `POST /admin/users/:id/deactivate`, `…/reactivate`, `…/resend` | `AdminUser`. Deactivating ends the user's sessions. `409` `state` when it doesn't apply | User detail |
+| `GET /admin/users/access-review` | CSV (UTF-8 with BOM, `Content-Disposition: attachment`): name, email, roles, organisations, status, MFA, last sign-in, invited | "Access review" export |
+| `GET /admin/organisations` | `OrganisationAdminSummary[]` with counts of indicators, connectors and active users | Organisations list |
+| `GET /admin/organisations/:code`, `PUT /admin/organisations/:code` | `OrganisationAdmin`: `OrganisationRecord` (`Localised` name and description, kind, website, up to 10 `OrgContact`s) plus the indicators it is the source of, its connectors and its users. PUT takes the record; paths such as `name.fr`, `website` (`url`), `contacts.0.email` | Organisation detail |
+| `GET /admin/feedback?q=&status=&rating=&page=&pageSize=` | `FeedbackPage`: `Page<FeedbackAdminItem>` (adds `email`, internal `note`, `updated`) and `counts` per status | Feedback inbox |
+| `PATCH /admin/feedback/:id` | body `{ status?, note? }`; the updated item | Message dialog |
+| `POST /admin/feedback/bulk` | body `{ ids (≤ 100), status }`; `{ done: id[], failed: { id, status, detail }[] }` | Bulk-action bar |
+| `GET /admin/audit?actor=&entity=&action=&from=&to=&page=&pageSize=` | `AuditPage`: `Page<AuditEntry>` newest first (`seq`, actor, `AuditAction`, `AuditEntity`, `entityId`, optional `before`/`after` JSON, `prevHash`, `hash`) and the `actors` in the log | Audit log |
+| `POST /admin/audit/verify` | `AuditVerification` `{ ok, checked, brokenAt?, verifiedAt }`: the whole chain recomputed on the server | "Verify chain" |
+| `GET /admin/settings`, `PUT /admin/settings` | `SettingsAdmin`: `overrides` (`RuntimeSettingKey` → string or `null` for the default), `features`, `quotas` per `QuotaTier`, with `defaults`, `featureDefaults`, read-only `smtp` and `sms` details and their `lastTest`. PUT takes `SettingsInput`; paths such as `overrides.exportMaxRows` (`range`), `quotas.0.perDay` (`range`, `order`) | Settings |
+| `POST /admin/settings/test/smtp`, `…/test/sms` | body `{ to }`; `ChannelTest` `{ ok, date, detail? }`. A refused message is `200` with `ok: false` and the gateway's words; `422` only for a malformed `to` | SMTP/SMS test buttons |
+
+**Rules the admin relies on** (Problem `type`): `role` (403) when a non-super-admin gives the super admin role or changes someone who has it; `self` (409) for changing your own role or deactivating yourself.
+
+**Rights** (`permissions.ts`): `user.manage`, `org.manage` and `audit.view` (super admin, admin), `feedback.manage` (super admin, admin, editor), `settings.manage` (super admin).
+
+**Audit.** The backend should record every admin write, with `before` and `after` where a record changed, and define the hash (the mock's is a stand-in). The frontend only displays `hash` and `prevHash` and asks the server to verify.
+
+**Open questions for the backend:** which runtime settings exist (the four keys are a proposal), whether feature toggles should reach the portal at runtime (today `features` is build-time config), and whether organisations can be created outside the catalogue's sources.
+
+**Changed:** `POST /feedback` keeps `email` for the inbox.

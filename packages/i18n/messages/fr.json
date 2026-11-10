@@ -1416,7 +1416,11 @@
         "empty": "Le fichier est vide.",
         "positive": "Saisissez un nombre supérieur à zéro.",
         "shape": "Chaque ligne doit avoir le même nombre de cellules.",
-        "invalid": "Vérifiez cette valeur."
+        "invalid": "Vérifiez cette valeur.",
+        "email": "Saisissez une adresse e-mail, comme nom@example.org.",
+        "phone": "Saisissez un numéro de téléphone avec l'indicatif du pays, comme +221 33 000 00 00.",
+        "range": "Saisissez un nombre entier dans la plage autorisée.",
+        "order": "La limite par jour ne peut pas être inférieure à la limite par minute."
       },
       "errorTitle": "{count, plural, one {Corrigez cette erreur pour enregistrer} other {Corrigez ces # erreurs pour enregistrer}}",
       "errorLine": "{field} : {message}",
@@ -1855,6 +1859,319 @@
         "since": "Depuis"
       },
       "allTopics": "Tous les thèmes"
+    },
+    "users": {
+      "title": "Utilisateurs",
+      "invite": "Inviter un utilisateur",
+      "accessReview": "Revue des accès (CSV)",
+      "tabsLabel": "Utilisateurs par statut",
+      "status": {
+        "active": "Actif",
+        "invited": "Invité",
+        "deactivated": "Désactivé"
+      },
+      "filter": {
+        "search": "Nom ou e-mail",
+        "role": "Rôle",
+        "org": "Organisation"
+      },
+      "count": "{count, plural, =0 {Aucun utilisateur} one {# utilisateur} other {# utilisateurs}}",
+      "empty": "Aucun utilisateur pour l'instant.",
+      "emptyFiltered": "Aucun utilisateur ne correspond à ces filtres.",
+      "column": {
+        "name": "Nom",
+        "email": "E-mail",
+        "role": "Rôle",
+        "orgs": "Organisations",
+        "mfa": "Connexion en deux étapes",
+        "lastLogin": "Dernière connexion",
+        "status": "Statut"
+      },
+      "orgCount": "{first} et {count, plural, one {# autre} other {# autres}}",
+      "mfaOn": "Activée",
+      "mfaOff": "Désactivée",
+      "never": "Jamais",
+      "back": "Retour aux utilisateurs",
+      "inviteTitle": "Inviter un utilisateur",
+      "inviteIntro": "La personne reçoit un e-mail avec un lien de connexion. Son accès commence à sa première connexion.",
+      "detailTitle": "Utilisateur {id}",
+      "saved": "Modifications enregistrées.",
+      "invited": "Invitation envoyée à {email}.",
+      "done": {
+        "deactivate": "{name} ne peut plus se connecter.",
+        "reactivate": "{name} peut de nouveau se connecter.",
+        "resend": "Invitation renvoyée à {name}."
+      },
+      "field": {
+        "name": "Nom complet",
+        "email": "E-mail",
+        "role": "Rôle",
+        "orgs": "Organisations"
+      },
+      "invitedOn": "Invité le",
+      "locked": "Seul un super administrateur peut modifier cet utilisateur.",
+      "details": "Détails de l'utilisateur",
+      "hint": {
+        "email": "L'invitation est envoyée à cette adresse, qui sert aussi à se connecter.",
+        "emailFixed": "L'adresse de connexion ne peut pas être modifiée. Invitez plutôt la nouvelle adresse.",
+        "ownRole": "Vous ne pouvez pas modifier votre propre rôle. Demandez à un autre administrateur.",
+        "orgs": "La personne ne voit et ne traite que les données de ces organisations."
+      },
+      "roleHelp": {
+        "super_admin": "Tout ce que peut faire un administrateur, plus les paramètres et les autres super administrateurs.",
+        "admin": "Approuve et publie les données, et gère les utilisateurs, les organisations, les indicateurs et les connecteurs.",
+        "editor": "Vérifie les soumissions et modifie les contenus : tableaux de bord, publications, actualités, pages, alertes et lettre d'information.",
+        "contributor": "Saisit et soumet les données de ses organisations.",
+        "reader": "Consulte le tableau de bord et la qualité des données, sans rien modifier."
+      },
+      "sendInvite": "Envoyer l'invitation",
+      "resend": "Renvoyer l'invitation",
+      "reactivate": "Réactiver",
+      "deactivate": "Désactiver",
+      "ownAccount": "Vous ne pouvez pas désactiver votre propre compte.",
+      "deactivateTitle": "Désactiver {name} ?",
+      "deactivateHelp": "La personne est déconnectée et ne peut plus se connecter. Son travail est conservé, et vous pourrez la réactiver plus tard."
+    },
+    "organisations": {
+      "title": "Organisations",
+      "intro": "Les organismes qui fournissent les données. Chacun correspond à la source indiquée sur ses indicateurs.",
+      "count": "{count, plural, =0 {Aucune organisation} one {# organisation} other {# organisations}}",
+      "empty": "Aucune organisation pour l'instant.",
+      "column": {
+        "name": "Organisation",
+        "kind": "Type",
+        "indicators": "Indicateurs",
+        "connectors": "Connecteurs",
+        "users": "Utilisateurs actifs",
+        "contact": "Contact principal"
+      },
+      "kind": {
+        "statistics": "Institut de statistique",
+        "regulator": "Régulateur",
+        "ministry": "Ministère",
+        "international": "Organisme international",
+        "other": "Autre"
+      },
+      "noContact": "Aucun",
+      "detailTitle": "Organisation {code}",
+      "back": "Retour aux organisations",
+      "codeUpdated": "Code {code}. Mis à jour le {date}.",
+      "indicators": "Indicateurs attribués ({count})",
+      "indicatorsHelp": "Un indicateur appartient à l'organisation indiquée comme sa source. Modifiez-la dans l'indicateur lui-même.",
+      "noIndicators": "Aucun indicateur n'est attribué à cette organisation.",
+      "connectors": "Connecteurs ({count})",
+      "noConnectors": "Cette organisation n'a pas de connecteur.",
+      "runOk": "Dernière exécution réussie le {date}",
+      "runFailed": "Dernière exécution en échec le {date}",
+      "users": "Utilisateurs ({count})",
+      "noUsers": "Aucun utilisateur ne travaille pour cette organisation.",
+      "saved": "Organisation enregistrée.",
+      "contactN": "Contact {n}",
+      "contact": {
+        "name": "Nom",
+        "role": "Fonction",
+        "email": "E-mail",
+        "phone": "Téléphone"
+      },
+      "field": {
+        "name": "Nom",
+        "description": "Description",
+        "kind": "Type",
+        "website": "Site web",
+        "contacts": "Contacts"
+      },
+      "contacts": "Contacts",
+      "noContacts": "Aucun contact pour l'instant.",
+      "removeContact": "Supprimer le contact {n}",
+      "addContact": "Ajouter un contact"
+    },
+    "feedback": {
+      "title": "Retours",
+      "tabsLabel": "Retours par statut",
+      "status": {
+        "new": "Nouveau",
+        "planned": "Planifié",
+        "done": "Traité",
+        "wont_do": "Non retenu"
+      },
+      "filter": {
+        "search": "Message ou page",
+        "rating": "Note"
+      },
+      "rating": "{rating} sur 5",
+      "count": "{count, plural, =0 {Aucun message} one {# message} other {# messages}}",
+      "empty": "Aucun retour pour l'instant. Les messages envoyés depuis le portail arrivent ici.",
+      "emptyFiltered": "Aucun message ne correspond à ces filtres.",
+      "useful": "Utile",
+      "notUseful": "Pas utile",
+      "noRating": "Sans note",
+      "column": {
+        "date": "Reçu le",
+        "rating": "Note",
+        "page": "Page",
+        "message": "Message",
+        "status": "Statut",
+        "open": "Détails"
+      },
+      "noMessage": "Aucun message n'a été rédigé.",
+      "openLabel": "Ouvrir le message {id}",
+      "open": "Ouvrir",
+      "bulk": {
+        "done": "{count, plural, one {# message passé} other {# messages passés}} à « {status} ».",
+        "failed": "{count, plural, one {# message n'a pas pu être modifié} other {# messages n'ont pas pu être modifiés}}.",
+        "count": "{count, plural, one {# message sélectionné} other {# messages sélectionnés}}",
+        "label": "Changer le statut des messages sélectionnés",
+        "clear": "Tout désélectionner"
+      },
+      "saved": "Message mis à jour.",
+      "selectRow": "Sélectionner le message {id}",
+      "selectAll": "Sélectionner tous les messages de cette page",
+      "detailTitle": "Message {id}",
+      "detailMeta": "Reçu le {date}. {rating}.",
+      "email": "E-mail de l'expéditeur",
+      "errorId": "Référence de l'erreur",
+      "note": "Note interne",
+      "noteHint": "Seule l'équipe du back-office voit cette note."
+    },
+    "audit": {
+      "title": "Journal d'audit",
+      "intro": "Toutes les modifications faites dans le back-office, les plus récentes d'abord. Les entrées sont chaînées, ce qui permet de détecter une entrée modifiée ou supprimée.",
+      "verify": "Vérifier la chaîne",
+      "verifyFailed": "La vérification n'a pas pu s'exécuter. Réessayez.",
+      "verifyOk": "{count, plural, one {La chaîne est intacte : # entrée vérifiée à {time}.} other {La chaîne est intacte : {number} entrées vérifiées à {time}.}}",
+      "verifyBroken": "La chaîne est rompue à l'entrée {seq}. Cette entrée, ou une entrée précédente, a été modifiée après son écriture.",
+      "filter": {
+        "actor": "Personne",
+        "entity": "Type d'élément",
+        "action": "Action",
+        "from": "Du",
+        "to": "Au"
+      },
+      "count": "{count, plural, =0 {Aucune entrée} one {# entrée} other {# entrées}}",
+      "empty": "Rien n'a encore été enregistré.",
+      "emptyFiltered": "Aucune entrée ne correspond à ces filtres.",
+      "column": {
+        "seq": "N°",
+        "date": "Date",
+        "actor": "Personne",
+        "action": "Action",
+        "entity": "Type d'élément",
+        "id": "Élément"
+      },
+      "action": {
+        "create": "Création",
+        "update": "Modification",
+        "delete": "Suppression",
+        "publish": "Publication",
+        "unpublish": "Dépublication",
+        "transition": "Étape du circuit",
+        "invite": "Invitation",
+        "deactivate": "Désactivation",
+        "reactivate": "Réactivation",
+        "send": "Envoi",
+        "run": "Exécution"
+      },
+      "entity": {
+        "submission": "Soumission",
+        "import": "Import",
+        "connector": "Connecteur",
+        "indicator": "Indicateur",
+        "dashboard": "Tableau de bord",
+        "publication": "Publication",
+        "report": "Rapport",
+        "news": "Actualité",
+        "page": "Page",
+        "alert": "Règle d'alerte",
+        "newsletter": "Lettre d'information",
+        "user": "Utilisateur",
+        "organisation": "Organisation",
+        "feedback": "Retour",
+        "settings": "Paramètres"
+      },
+      "changes": "{count, plural, =0 {Entrée {seq} : empreintes seules, aucune valeur enregistrée} one {Entrée {seq} : # valeur modifiée} other {Entrée {seq} : # valeurs modifiées}}",
+      "changesCaption": "Valeurs avant et après l'entrée {seq}",
+      "diff": {
+        "field": "Champ",
+        "before": "Avant",
+        "after": "Après",
+        "whole": "(élément entier)",
+        "added": "ajouté",
+        "removed": "supprimé",
+        "changed": "modifié"
+      },
+      "hashes": "Empreinte {hash}, à la suite de {prev}"
+    },
+    "settings": {
+      "title": "Paramètres",
+      "intro": "Ces réglages s'appliquent à tout l'observatoire dès leur enregistrement.",
+      "introUpdated": "Ces réglages s'appliquent à tout l'observatoire dès leur enregistrement. Dernière modification le {date} par {name}.",
+      "saved": "Paramètres enregistrés.",
+      "overrides": "Valeurs de remplacement",
+      "overridesHelp": "Laissez un champ vide pour garder la valeur définie au déploiement du site.",
+      "override": {
+        "contactEmail": "E-mail de contact",
+        "exportMaxRows": "Export maximal, en lignes",
+        "sessionMinutes": "Session du back-office, en minutes",
+        "cacheSeconds": "Cache du portail, en secondes"
+      },
+      "overrideHelp": {
+        "contactEmail": "Affiché sur les pages de contact et les pages légales du portail.",
+        "exportMaxRows": "De 1 000 à 1 000 000.",
+        "sessionMinutes": "De 5 à 720. La déconnexion intervient après cette durée sans activité.",
+        "cacheSeconds": "De 0 à 86 400. Durée pendant laquelle le portail peut afficher des données avant de vérifier s'il y en a de plus récentes."
+      },
+      "defaultIs": "Par défaut : {value}.",
+      "features": "Fonctionnalités",
+      "featuresHelp": "Activez ou désactivez des parties du portail sans nouveau déploiement.",
+      "feature": {
+        "newsWatch": "Veille d'actualité",
+        "smsSignup": "Inscription aux alertes SMS",
+        "chatbot": "Assistant",
+        "basemap": "Fond de carte"
+      },
+      "featureHelp": {
+        "newsWatch": "Collecte les articles des sources de veille et affiche sur le portail ceux qui sont approuvés.",
+        "smsSignup": "Permet aux visiteurs de s'abonner aux alertes par SMS.",
+        "chatbot": "Affiche l'assistant de questions-réponses sur le portail.",
+        "basemap": "Ajoute aux cartes l'option « Afficher le fond de carte », qui charge des tuiles depuis un fournisseur externe."
+      },
+      "defaultOn": "Activée par défaut.",
+      "defaultOff": "Désactivée par défaut.",
+      "quotas": "Quotas de l'API",
+      "quotasHelp": "Nombre de requêtes autorisées pour chaque type d'utilisateur de l'API. Au-delà, les requêtes sont refusées jusqu'à la minute ou au jour suivant.",
+      "tier": {
+        "anonymous": "Sans clé",
+        "registered": "Avec une clé",
+        "partner": "Partenaires"
+      },
+      "tierHelp": {
+        "anonymous": "Compté par adresse IP.",
+        "registered": "Compté par clé d'API.",
+        "partner": "Clés signalées comme institutions partenaires."
+      },
+      "limit": {
+        "perMinute": "Requêtes par minute",
+        "perDay": "Requêtes par jour"
+      },
+      "tests": "Passerelles e-mail et SMS",
+      "testsHelp": "Envoyez un message de test pour vérifier chaque passerelle. Les paramètres de connexion sont définis au déploiement.",
+      "smtp": {
+        "title": "E-mail (SMTP)",
+        "host": "Serveur",
+        "from": "Adresse d'expédition",
+        "to": "Envoyer un e-mail de test à",
+        "send": "Envoyer l'e-mail de test"
+      },
+      "sms": {
+        "title": "SMS",
+        "provider": "Fournisseur",
+        "sender": "Nom d'expéditeur",
+        "to": "Envoyer un SMS de test au",
+        "send": "Envoyer le SMS de test"
+      },
+      "testOk": "Dernier test réussi le {date} à {time}.",
+      "testFailed": "Dernier test en échec le {date} à {time}. Réponse de la passerelle :",
+      "neverTested": "Pas encore testé."
     }
   },
   "Home": {
