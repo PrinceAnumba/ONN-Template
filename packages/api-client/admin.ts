@@ -2,6 +2,21 @@
 import { apiFetch, type QueryValue } from "./client";
 import type {
   AdminMe,
+  AlertEvent,
+  AlertRule,
+  AlertRules,
+  Campaign,
+  CampaignOptions,
+  CampaignSummary,
+  HomeModulesAdmin,
+  NewsAdmin,
+  NewsAdminSummary,
+  NewsStatus,
+  PageAdmin,
+  PageAdminSummary,
+  Subscriber,
+  WatchQueue,
+  WatchStatus,
   DashboardAdmin,
   DashboardAdminSummary,
   DashboardCreateInput,
@@ -179,6 +194,47 @@ export const adminApi = {
     ctx: AdminContext,
     input: { template: ReportTemplate; period: string; title: string },
   ) => send<ReportAdmin>("POST", "/reports", ctx, input),
+  news: (
+    ctx: AdminContext,
+    query: {
+      q?: string;
+      status?: NewsStatus;
+      kind?: "news" | "watch";
+      page?: number;
+      pageSize?: number;
+    } = {},
+  ) => get<Page<NewsAdminSummary>>("/news", ctx, query),
+  newsItem: (ctx: AdminContext, slug: string) =>
+    get<NewsAdmin>(`/news/${encodeURIComponent(slug)}`, ctx),
+  /** Collected stories in one status, with the counts and the collector's settings. */
+  watchQueue: (ctx: AdminContext, status?: WatchStatus) =>
+    get<WatchQueue>("/news-watch", ctx, { status }),
+  pages: (ctx: AdminContext) => get<PageAdminSummary[]>("/pages", ctx),
+  page: (ctx: AdminContext, slug: string) =>
+    get<PageAdmin>(`/pages/${encodeURIComponent(slug)}`, ctx),
+  homeModules: (ctx: AdminContext) => get<HomeModulesAdmin>("/pages/home", ctx),
+  alerts: (ctx: AdminContext) => get<AlertRules>("/alerts", ctx),
+  alert: (ctx: AdminContext, id: string) =>
+    get<AlertRule>(`/alerts/${encodeURIComponent(id)}`, ctx),
+  alertEvents: (
+    ctx: AdminContext,
+    query: { rule?: string; page?: number; pageSize?: number } = {},
+  ) => get<Page<AlertEvent>>("/alerts/events", ctx, query),
+  campaigns: (ctx: AdminContext) => get<CampaignSummary[]>("/newsletter", ctx),
+  campaign: (ctx: AdminContext, id: string) =>
+    get<Campaign>(`/newsletter/${encodeURIComponent(id)}`, ctx),
+  /** Published items a newsletter can include, and the topics an audience can be narrowed to. */
+  campaignOptions: (ctx: AdminContext) => get<CampaignOptions>("/newsletter/options", ctx),
+  subscribers: (
+    ctx: AdminContext,
+    query: {
+      q?: string;
+      locale?: string;
+      status?: Subscriber["status"];
+      page?: number;
+      pageSize?: number;
+    } = {},
+  ) => get<Page<Subscriber>>("/newsletter/subscribers", ctx, query),
   /** Mock only: the users the role switcher offers. Needs no token. */
   demoUsers: (locale: string) => apiFetch<DemoUser[]>("/admin/demo-users", { locale }),
 };

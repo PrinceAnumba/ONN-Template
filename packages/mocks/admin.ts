@@ -27,6 +27,8 @@ import {
   type ReferentialDeps,
 } from "./admin-referential";
 import { createContentHandlers, type ContentDeps } from "./admin-content";
+import { createEditorialHandlers, type EditorialDeps } from "./admin-editorial";
+import { createOutreachHandlers, type OutreachDeps } from "./admin-outreach";
 import { qualityResults, rowIssues, type StoredRow } from "./admin-submissions";
 
 type Method = "get" | "post" | "put" | "patch" | "delete";
@@ -63,6 +65,10 @@ export interface AdminDeps {
   >;
   /** Public stores and lookups for dashboards, publications and reports. */
   content: Omit<ContentDeps, "authed" | "problem" | "state" | "locales" | "defaultLocale">;
+  /** Public stores for news, CMS pages and the home modules. */
+  editorial: Pick<EditorialDeps, "publicNews" | "publicPages" | "publicHome">;
+  /** Lookups for alert rules and the newsletter. */
+  outreach: Pick<OutreachDeps, "indicator" | "siteUrl">;
 }
 
 const STATUSES: SubmissionStatus[] = [
@@ -98,6 +104,8 @@ export function createAdminHandlers({
   intake,
   referential,
   content,
+  editorial,
+  outreach,
 }: AdminDeps) {
   const refuse = (refusal: Refusal) =>
     HttpResponse.json(
@@ -303,6 +311,30 @@ export function createAdminHandlers({
       state,
       locales: referential.locales,
       defaultLocale: referential.defaultLocale,
+    }),
+
+    ...createEditorialHandlers({
+      ...editorial,
+      authed,
+      problem,
+      state,
+      locales: referential.locales,
+      defaultLocale: referential.defaultLocale,
+      indicatorCodes: content.indicatorCodes,
+      revalidate: content.revalidate,
+    }),
+    ...createOutreachHandlers({
+      ...outreach,
+      authed,
+      localise,
+      problem,
+      state,
+      locales: referential.locales,
+      defaultLocale: referential.defaultLocale,
+      indicatorCodes: content.indicatorCodes,
+      pillars: referential.pillars,
+      publicNews: editorial.publicNews,
+      publicPublications: content.publicPublications,
     }),
 
     route("get", "/admin/demo-users", () =>

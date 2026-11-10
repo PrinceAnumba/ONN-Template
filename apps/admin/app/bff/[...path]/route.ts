@@ -53,4 +53,4 @@ function problem(status: number, title: string) {
   );
 }
 
-export { forward as GET, forward as POST, forward as PUT, forward as PATCH };
+export { forward as GET, forward as POST, forward as PUT, forward as PATCH, forward as DELETE };

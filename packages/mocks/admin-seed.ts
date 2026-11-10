@@ -20,6 +20,8 @@ import type {
 } from "@onn/api-client/types";
 import type { QualityRule } from "@onn/api-client/types";
 import { seedContent, type ContentState } from "./admin-content";
+import { seedEditorial, type EditorialState } from "./admin-editorial";
+import { seedOutreach, type OutreachState } from "./admin-outreach";
 import { autoMatch, type StoredImport } from "./admin-intake";
 import { nextPeriod, type HistoryEvent, type StoredRow } from "./admin-submissions";
 import { createRandom, type Fixtures } from "./fixtures";
@@ -127,6 +129,10 @@ export interface AdminState {
   imports: StoredImport[];
   /** Dashboards, publications and reports (Phase 7e). */
   content: ContentState;
+  /** News, watch queue, CMS pages and home modules (Phase 7f). */
+  editorial: EditorialState;
+  /** Alerts and the newsletter (Phase 7f). */
+  outreach: OutreachState;
 }
 
 const DAY = 24 * 60 * 60 * 1000;
@@ -583,5 +589,7 @@ export function buildAdminState(data: Fixtures, now = new Date()): AdminState {
     indicatorOrg: Object.fromEntries(orgOfIndicator),
     imports: [],
     content: seedContent(data, users, now),
+    editorial: seedEditorial(data, now),
+    outreach: seedOutreach(data, users, now),
   };
 }

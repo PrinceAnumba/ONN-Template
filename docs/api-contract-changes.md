@@ -175,3 +175,21 @@ Back-office text is `Localised` (`{ [locale]: string }`), as for indicators. `Co
 **Changed:** `ExportFormat` adds `docx`; `ExportJob.progress` is optional for every export. `content.edit` (super admin, admin, editor) covers all of the above.
 
 **Preview without publishing.** The admin previews draft widgets through the portal's `/[locale]/embed/preview?d=`, which carries the widgets in the URL (`@onn/api-client/preview`, base64url JSON, validated and capped at 24 widgets). No backend endpoint is involved; the portal fetches only public data.
+
+### News, pages, alerts and newsletter (Phase 7f)
+
+Types are in `packages/api-client/types.ts` (Phase 7f sections). Validation failures are `422` `validation` with `errors[]` paths, as in 7e.
+
+| Endpoint | Returns | Needed by |
+| --- | --- | --- |
+| `POST /admin/media` | multipart `image` (PNG, JPEG, WebP, ≤ 2 MB); `201` `MediaUpload` with a public `url` (`GET /media/:id`) | News picture, CMS image blocks |
+| `GET /admin/news?q=&status=&kind=&page=&pageSize=`, `POST /admin/news` | `Page<NewsAdminSummary>`; POST takes `NewsCreateInput`, returns a draft `NewsAdmin`. `body` is HTML | News list, editor |
+| `GET/PUT /admin/news/:slug` | `NewsAdmin`; saving a published item updates the portal at once | Editor |
+| `POST /admin/news/:slug/publish` (`{ at? }`), `…/unpublish` | A future `at` gives `scheduled` with `publishAt`; revalidates `news`, `news:<slug>`, `home` | Publish, schedule |
+| `GET /admin/news-watch?status=`, `PUT /admin/news-watch/settings`, `POST /admin/news-watch/:id/approve\|reject\|restore\|draft` | `WatchQueue` (items, counts, settings); `WatchSettings`; `WatchItem`. Approve publishes a `watch` news item; `draft` creates one to edit | Watch queue |
+| `GET /admin/pages`, `GET/PUT /admin/pages/:slug`, `POST …/publish` | `PageAdminSummary[]`, `PageAdmin` (`PageBlock[]`, `Localised` text, Markdown bodies) with `ContentStatus`; publish revalidates `page:<slug>` | Pages |
+| `GET/PUT /admin/pages/home`, `POST /admin/pages/home/publish` | `HomeModulesAdmin` (chips, featured, map and benchmark indicators); publish revalidates `home` | Home modules |
+| `GET/POST /admin/alerts`, `GET/PUT/DELETE /admin/alerts/:id`, `GET /admin/alerts/events?rule=&page=&pageSize=` | `AlertRules` (rules and `people`), `AlertRule`, `Page<AlertEvent>` | Alerts |
+| `GET/POST /admin/newsletter`, `GET/PUT /admin/newsletter/:id`, `GET …/options`, `POST …/preview`, `POST …/:id/send` (`{ at? }`), `POST …/:id/unschedule`, `GET …/subscribers` | `CampaignSummary[]`, `Campaign`, `CampaignOptions`, `CampaignPreview` (the email HTML and audience size, for unsaved content), `Page<Subscriber>`. `409` `state` unless draft; `422` `empty` when nobody matches | Newsletter |
+
+**Changed:** `SubscriberInput.topics` (optional pillar codes). New rights `alert.manage` and `newsletter.manage` (super admin, admin, editor); news and pages use `content.edit`.

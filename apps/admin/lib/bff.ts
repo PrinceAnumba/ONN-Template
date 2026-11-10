@@ -16,7 +16,11 @@ export const BFF = "/admin/bff";
 
 export async function bff<T>(
   path: string,
-  init: { method?: "GET" | "POST" | "PUT" | "PATCH"; body?: unknown; signal?: AbortSignal } = {},
+  init: {
+    method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+    body?: unknown;
+    signal?: AbortSignal;
+  } = {},
 ): Promise<T> {
   const response = await fetch(`${BFF}${path}`, {
     method: init.method ?? "GET",

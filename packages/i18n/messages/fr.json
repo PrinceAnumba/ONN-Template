@@ -1393,6 +1393,468 @@
         "quarterly": "trimestriel",
         "annual": "annuel"
       }
+    },
+    "forms": {
+      "languageGroup": "Langue du texte",
+      "languageErrors": "(contient des erreurs)",
+      "optional": "(facultatif)",
+      "required": "(obligatoire)",
+      "cancel": "Annuler",
+      "fieldIn": "{field} ({language})",
+      "errorIn": "{where}, {field}",
+      "error": {
+        "required": "Remplissez ce champ.",
+        "duplicate": "Cette valeur est déjà utilisée.",
+        "format": "Vérifiez le format.",
+        "url": "Saisissez une adresse web complète commençant par https://.",
+        "path": "Saisissez un chemin de ce site, commençant par /.",
+        "count": "Il y en a trop.",
+        "length": "Ce texte est trop long.",
+        "unknown": "Choisissez une valeur dans la liste.",
+        "type": "Ce type de fichier n'est pas accepté.",
+        "size": "Le fichier est trop volumineux.",
+        "empty": "Le fichier est vide.",
+        "positive": "Saisissez un nombre supérieur à zéro.",
+        "shape": "Chaque ligne doit avoir le même nombre de cellules.",
+        "invalid": "Vérifiez cette valeur."
+      },
+      "errorTitle": "{count, plural, one {Corrigez cette erreur pour enregistrer} other {Corrigez ces # erreurs pour enregistrer}}",
+      "errorLine": "{field} : {message}",
+      "saveFailed": "Enregistrement impossible. Vérifiez votre connexion et réessayez.",
+      "dateTime": "{date}, {time}",
+      "viewOnPortal": "Voir sur le portail",
+      "newWindow": "(s'ouvre dans une nouvelle fenêtre)",
+      "save": "Enregistrer les modifications",
+      "saveDraft": "Enregistrer le brouillon",
+      "publish": "Publier",
+      "unpublish": "Dépublier",
+      "unsaved": "Modifications non enregistrées.",
+      "saveFirst": "Enregistrez d'abord vos modifications.",
+      "changedNotice": "Le portail affiche encore la dernière version publiée.",
+      "draftSaved": "Brouillon enregistré. Le portail n'a pas changé.",
+      "publishedToast": "Publié. Le portail l'affichera à son prochain chargement.",
+      "status": {
+        "draft": "Brouillon",
+        "published": "Publié",
+        "changed": "Modifications non publiées"
+      },
+      "pageSize": "Lignes par page",
+      "all": "Tous",
+      "clearFilters": "Effacer les filtres"
+    },
+    "media": {
+      "prompt": "Glissez une image ici ou",
+      "browse": "choisissez un fichier",
+      "hint": "PNG, JPEG ou WebP, jusqu'à {size}.",
+      "remove": "Retirer l'image",
+      "progress": "Progression du téléversement",
+      "preview": "Image choisie",
+      "tooLarge": "Le fichier dépasse {size}.",
+      "failed": "L'image n'a pas pu être téléversée. Réessayez."
+    },
+    "news": {
+      "title": "Actualités et veille",
+      "new": "Nouvel article",
+      "back": "Retour aux actualités",
+      "newTitle": "Nouvel article",
+      "detailTitle": "Actualité {slug}",
+      "tabsLabel": "Vues des actualités",
+      "tab": {
+        "articles": "Articles",
+        "watch": "File de veille"
+      },
+      "filter": {
+        "search": "Titre ou mot-clé",
+        "status": "Statut",
+        "kind": "Type"
+      },
+      "count": "{count, plural, =0 {Aucun élément} one {# élément} other {# éléments}}",
+      "empty": "Aucun article pour l'instant.",
+      "emptyFiltered": "Aucun article ne correspond à ces filtres.",
+      "column": {
+        "name": "Titre",
+        "kind": "Type",
+        "status": "Statut",
+        "date": "Date",
+        "tags": "Mots-clés",
+        "updated": "Mis à jour"
+      },
+      "status": {
+        "draft": "Brouillon",
+        "scheduled": "Programmé",
+        "published": "Publié"
+      },
+      "kind": {
+        "news": "Article",
+        "watch": "Veille"
+      },
+      "field": {
+        "title": "Titre",
+        "excerpt": "Résumé",
+        "body": "Texte",
+        "tags": "Mots-clés",
+        "date": "Date affichée",
+        "sourceUrl": "Lien vers la source",
+        "slug": "Adresse",
+        "imageUrl": "Image",
+        "publishAt": "Publier le"
+      },
+      "hint": {
+        "excerpt": "Une ou deux phrases, affichées dans les listes et lors des partages.",
+        "tags": "Séparez les mots-clés par des virgules, {max} au maximum.",
+        "sourceUrl": "Pour la veille : l'adresse où l'information a été publiée.",
+        "slug": "Partie de l'adresse du portail : /news/adresse. Minuscules, chiffres et tirets.",
+        "publishAt": "Laissez vide pour publier maintenant. L'heure est celle du fuseau de votre appareil."
+      },
+      "create": "Enregistrer comme brouillon",
+      "created": "Brouillon enregistré. Publiez-le quand il est prêt.",
+      "saved": "Modifications enregistrées.",
+      "savedLive": "Modifications enregistrées. Le portail les affichera à son prochain chargement.",
+      "publishing": "Publication",
+      "liveHelp": "Cet élément est sur le portail. Chaque enregistrement le met à jour aussitôt.",
+      "scheduledFor": "Programmé pour le {when}",
+      "schedule": "Programmer",
+      "unschedule": "Annuler la programmation",
+      "publishNow": "Publier maintenant",
+      "publishedToast": "Publié. Le portail l'affichera à son prochain chargement.",
+      "scheduledToast": "Programmé. La mise en ligne se fera seule à cette heure.",
+      "unscheduledToast": "Programmation annulée. L'élément redevient un brouillon.",
+      "unpublishedToast": "Dépublié. Le portail ne l'affiche plus.",
+      "watch": {
+        "intro": "Informations collectées automatiquement à partir des sources ci-dessous. Approuvez-en une pour la publier dans la veille, ou modifiez-la d'abord.",
+        "statusLabel": "État de la file",
+        "status": {
+          "pending": "À examiner ({count})",
+          "approved": "Approuvées ({count})",
+          "rejected": "Rejetées ({count})"
+        },
+        "empty": {
+          "pending": "Rien à examiner. Les nouvelles informations apparaissent ici dès leur collecte.",
+          "approved": "Aucune information approuvée pour l'instant.",
+          "rejected": "Aucune information rejetée."
+        },
+        "listLabel": "Informations collectées",
+        "meta": "{source} · {language} · trouvé le {date} à {time}.",
+        "openSource": "Ouvrir la source",
+        "matched": "Mots-clés : {keywords}",
+        "openArticle": "Ouvrir l'élément de veille",
+        "action": {
+          "approve": "Approuver et publier",
+          "draft": "Modifier d'abord",
+          "reject": "Rejeter",
+          "restore": "Remettre dans la file"
+        },
+        "done": {
+          "approve": "Publié dans la veille.",
+          "draft": "Ouvert comme brouillon.",
+          "reject": "Rejeté. Vous pouvez le remettre depuis la liste des rejets.",
+          "restore": "Remis dans la file."
+        },
+        "settings": {
+          "title": "Paramètres de collecte",
+          "intro": "Le collecteur retient les informations de ces sources qui mentionnent l'un des mots-clés.",
+          "keywords": "Mots-clés",
+          "keywordsHint": "Un par ligne, ou séparés par des virgules.",
+          "sources": "Sources",
+          "noSources": "Aucune source pour l'instant.",
+          "sourceN": "Source {number}",
+          "sourceField": "Source {number}, {field}",
+          "source": {
+            "name": "Nom",
+            "url": "Adresse du flux ou de la page",
+            "enabled": "Collecter"
+          },
+          "removeSource": "Retirer {name}",
+          "addSource": "Ajouter une source",
+          "saved": "Paramètres de collecte enregistrés."
+        }
+      }
+    },
+    "pages": {
+      "title": "Pages",
+      "intro": "Les pages À propos et les pages légales, ainsi que les modules de la page d'accueil. Les modifications restent privées jusqu'à leur publication.",
+      "back": "Retour aux pages",
+      "detailTitle": "Page {slug}",
+      "column": {
+        "name": "Page",
+        "content": "Contenu",
+        "status": "Statut",
+        "updated": "Mis à jour"
+      },
+      "blockCount": "{count, plural, one {# bloc} other {# blocs}}",
+      "blocks": "Blocs",
+      "noBlocks": "Cette page n'a pas encore de bloc.",
+      "blockN": "Bloc {number} : {type}",
+      "type": {
+        "richText": "Texte",
+        "callout": "Encadré",
+        "image": "Image",
+        "table": "Tableau",
+        "partners": "Liste de partenaires"
+      },
+      "field": {
+        "title": "Titre de la page",
+        "type": "Type de bloc",
+        "body": "Texte",
+        "src": "Image",
+        "alt": "Texte de remplacement",
+        "rows": "Cellules du tableau",
+        "headerCell": "En-tête, colonne {number}",
+        "cell": "Ligne {row}, colonne {column}",
+        "partners": "Partenaires",
+        "partnerName": "Partenaire {number}, nom",
+        "partnerUrl": "Partenaire {number}, site web",
+        "name": "Nom",
+        "url": "Site web"
+      },
+      "hint": {
+        "markdown": "Markdown : ## titre, **gras**, *italique*, - liste, [lien](https://…).",
+        "alt": "Décrivez ce que montre l'image, pour les personnes qui ne la voient pas.",
+        "table": "La première ligne est l'en-tête."
+      },
+      "addBlock": "Ajouter un bloc",
+      "added": "{type} ajouté en position {position}.",
+      "removed": "Bloc supprimé.",
+      "moved": "Bloc déplacé en position {position} sur {count}.",
+      "moveUp": "Monter le bloc {number}",
+      "moveDown": "Descendre le bloc {number}",
+      "removeBlock": "Supprimer le bloc {number}",
+      "addRow": "Ajouter une ligne",
+      "addColumn": "Ajouter une colonne",
+      "removeColumn": "Supprimer la dernière colonne",
+      "removeRow": "Supprimer la ligne {number}",
+      "partnerN": "Partenaire {number}",
+      "addPartner": "Ajouter un partenaire",
+      "removePartner": "Retirer le partenaire {number}",
+      "home": {
+        "title": "Modules de la page d'accueil",
+        "summary": "{chips, plural, one {# exemple de recherche} other {# exemples de recherche}}, {indicators, plural, one {# indicateur à la une} other {# indicateurs à la une}}",
+        "intro": "Ce que la page d'accueil met en avant : les exemples de recherche sous le bandeau, les indicateurs à la une, et les indicateurs de l'aperçu de la carte et de la comparaison.",
+        "chips": "Exemples de recherche",
+        "chipsHelp": "De courtes suggestions sous la recherche de la page d'accueil. Chacune ouvre une page du portail.",
+        "chipN": "Exemple {number}",
+        "field": {
+          "label": "Libellé",
+          "href": "Ouvre",
+          "featuredIndicators": "Indicateurs à la une",
+          "mapTeaserIndicator": "Indicateur de l'aperçu de la carte",
+          "benchmarkIndicator": "Indicateur de l'aperçu de la comparaison"
+        },
+        "hrefHint": "« Ouvre » est un chemin du portail sans la langue, par exemple /data/CONN.4G_POP ou /map?i=CONN.4G_POP.",
+        "addChip": "Ajouter un exemple",
+        "removeChip": "Retirer l'exemple {number}",
+        "indicators": "Indicateurs"
+      }
+    },
+    "alerts": {
+      "title": "Alertes",
+      "new": "Nouvelle règle",
+      "back": "Retour aux alertes",
+      "newTitle": "Nouvelle règle d'alerte",
+      "newIntro": "Choisissez un indicateur, ce qu'il faut surveiller et qui doit en être informé.",
+      "detailTitle": "Règle d'alerte {id}",
+      "tabsLabel": "Vues des alertes",
+      "tab": {
+        "rules": "Règles",
+        "events": "Journal des événements"
+      },
+      "empty": "Aucune règle d'alerte pour l'instant.",
+      "column": {
+        "name": "Règle",
+        "indicator": "Indicateur",
+        "condition": "Se déclenche quand",
+        "notify": "Prévient",
+        "status": "Statut",
+        "last": "Dernier déclenchement"
+      },
+      "ruleText": {
+        "above": "Valeur supérieure à {value}",
+        "below": "Valeur inférieure à {value}",
+        "change": "Variation de plus de {value}"
+      },
+      "condition": {
+        "threshold": "Seuil",
+        "change": "Variation entre deux périodes",
+        "off_track": "Hors trajectoire pour sa cible",
+        "overdue": "Données en retard",
+        "anomaly": "Valeur inhabituelle"
+      },
+      "conditionHelp": {
+        "threshold": "Une valeur publiée passe au-dessus ou en dessous d'un nombre que vous fixez.",
+        "change": "Une valeur augmente ou baisse de plus d'un pourcentage par rapport à la période précédente.",
+        "off_track": "La dernière valeur prend du retard sur la trajectoire vers la cible de l'indicateur.",
+        "overdue": "L'échéance de collecte passe sans soumission.",
+        "anomaly": "Une valeur soumise échoue aux contrôles de saut ou de plage."
+      },
+      "notify": "{count, plural, one {# personne} other {# personnes}} par {channels}",
+      "channel": {
+        "email": "courriel",
+        "sms": "SMS",
+        "in_app": "notification du back-office"
+      },
+      "enabled": "Active",
+      "paused": "En pause",
+      "never": "Jamais",
+      "lastLink": "{date} : événements de {name}",
+      "lastTriggered": "Dernier déclenchement le {date}.",
+      "neverTriggered": "Ne s'est pas encore déclenchée.",
+      "viewEvents": "Voir ses événements",
+      "eventCount": "{count, plural, =0 {Aucun événement} one {# événement} other {# événements}}",
+      "eventCountFor": "{count, plural, =0 {Aucun événement} one {# événement} other {# événements}} pour {name}",
+      "noEvents": "Rien ne s'est encore déclenché.",
+      "eventColumn": {
+        "date": "Date",
+        "rule": "Règle",
+        "indicator": "Indicateur",
+        "what": "Ce qui s'est passé",
+        "sent": "Personnes prévenues",
+        "status": "Envoi"
+      },
+      "eventText": {
+        "threshold": "{value} {unit} en {period}",
+        "change": "Variation de {value} en {period}"
+      },
+      "eventStatus": {
+        "sent": "Envoyé",
+        "failed": "Échec"
+      },
+      "field": {
+        "name": "Nom de la règle",
+        "indicator": "Indicateur",
+        "condition": "Condition",
+        "operator": "Déclencher quand la valeur est",
+        "value": "Seuil",
+        "percent": "Variation, en pourcentage",
+        "recipients": "Destinataires",
+        "channels": "Canaux",
+        "enabled": "Active"
+      },
+      "operator": {
+        "below": "En dessous du seuil",
+        "above": "Au-dessus du seuil"
+      },
+      "hint": {
+        "value": "Dans l'unité de l'indicateur.",
+        "percent": "Par exemple 15 pour une variation de plus de 15 %, à la hausse ou à la baisse.",
+        "enabled": "Une règle en pause garde ses réglages et n'envoie rien."
+      },
+      "create": "Créer la règle",
+      "created": "Règle créée.",
+      "saved": "Règle enregistrée.",
+      "delete": "Supprimer la règle",
+      "deleteTitle": "Supprimer « {name} » ?",
+      "deleteHelp": "La règle n'enverra plus d'alertes. Ses événements passés restent dans le journal.",
+      "deleteConfirm": "Supprimer la règle",
+      "deleted": "Règle supprimée."
+    },
+    "newsletter": {
+      "title": "Lettre d'information",
+      "new": "Nouvelle lettre",
+      "back": "Retour à la lettre d'information",
+      "newTitle": "Nouvelle lettre d'information",
+      "detailTitle": "Lettre d'information {id}",
+      "tabsLabel": "Vues de la lettre d'information",
+      "tab": {
+        "campaigns": "Lettres",
+        "subscribers": "Abonnés"
+      },
+      "empty": "Aucune lettre pour l'instant.",
+      "column": {
+        "subject": "Objet",
+        "status": "Statut",
+        "date": "Date",
+        "recipients": "Destinataires",
+        "openRate": "Ouvertures",
+        "clickRate": "Clics"
+      },
+      "status": {
+        "draft": "Brouillon",
+        "scheduled": "Programmée",
+        "sent": "Envoyée"
+      },
+      "scheduledFor": "Programmée pour le {when}",
+      "sentOn": "Envoyée le {when}",
+      "editedOn": "Modifiée le {date}",
+      "scheduledHelp": "Elle partira seule à cette heure. Annulez la programmation pour la modifier.",
+      "unschedule": "Annuler la programmation",
+      "stat": {
+        "recipients": "Destinataires",
+        "openRate": "Ont ouvert",
+        "clickRate": "Ont cliqué sur un lien"
+      },
+      "content": "Contenu et audience",
+      "kind": {
+        "news": "Actualités",
+        "publication": "Publications"
+      },
+      "field": {
+        "subject": "Objet",
+        "intro": "Introduction",
+        "items": "Éléments",
+        "locales": "Langues des abonnés",
+        "topics": "Thèmes",
+        "sendAt": "Envoyer le"
+      },
+      "itemLimit": "{count} sur {max}",
+      "noItems": "Rien de choisi pour l'instant. Ajoutez ci-dessous des actualités ou des publications.",
+      "itemsRequired": "Ajoutez au moins un élément.",
+      "addItem": "Ajouter un élément publié",
+      "clear": "Effacer",
+      "noChoice": "Aucun élément publié ne correspond",
+      "moveUp": "Monter {title}",
+      "moveDown": "Descendre {title}",
+      "removeItem": "Retirer {title}",
+      "moved": "{title} déplacé en position {position} sur {count}.",
+      "audienceHelp": "Ne cochez rien pour envoyer à tout le monde. Les abonnés qui ne suivent aucun thème reçoivent chaque lettre.",
+      "reach": "{count, plural, =0 {Aucun abonné ne correspond à cette audience} one {Touche # abonné} other {Touche # abonnés}}",
+      "create": "Enregistrer comme brouillon",
+      "saveDraft": "Enregistrer le brouillon",
+      "created": "Brouillon enregistré.",
+      "saved": "Brouillon enregistré.",
+      "sending": "Envoi",
+      "sendNow": "Envoyer maintenant",
+      "schedule": "Programmer",
+      "hint": {
+        "sendAt": "Laissez vide pour envoyer maintenant. L'heure est celle du fuseau de votre appareil."
+      },
+      "preview": "Aperçu",
+      "previewWidth": "Largeur de l'aperçu",
+      "device": {
+        "desktop": "Ordinateur",
+        "mobile": "Téléphone"
+      },
+      "previewIn": "Tel que le reçoivent les abonnés en {language}.",
+      "subjectLine": "Objet :",
+      "noSubject": "(pas encore d'objet)",
+      "previewTitle": "Aperçu du courriel",
+      "confirmSend": "{count, plural, one {Envoyer à # abonné ?} other {Envoyer à # abonnés ?}}",
+      "confirmSendHelp": "La lettre part maintenant ; elle ne pourra être ni rappelée ni modifiée ensuite.",
+      "confirmSchedule": "Programmer pour le {when} ?",
+      "confirmScheduleHelp": "{count, plural, one {Elle touche # abonné aujourd'hui} other {Elle touche # abonnés aujourd'hui}} ; le décompte final se fait au moment de l'envoi. Vous pouvez annuler jusque-là.",
+      "sentToast": "{count, plural, one {Envoyée à # abonné.} other {Envoyée à # abonnés.}}",
+      "scheduledToast": "Programmée. Vous pouvez annuler jusqu'à l'envoi.",
+      "unscheduledToast": "Programmation annulée. La lettre redevient un brouillon.",
+      "noAudience": "Aucun abonné ne correspond à cette audience : rien n'a été envoyé.",
+      "filter": {
+        "search": "Adresse électronique",
+        "locale": "Langue",
+        "status": "Statut"
+      },
+      "subscriber": {
+        "active": "Abonné",
+        "unsubscribed": "Désabonné"
+      },
+      "subscriberCount": "{count, plural, =0 {Aucun abonné} one {# abonné} other {# abonnés}}",
+      "noSubscribers": "Personne ne s'est encore abonné.",
+      "noSubscribersFiltered": "Aucun abonné ne correspond à ces filtres.",
+      "subscriberColumn": {
+        "email": "Adresse électronique",
+        "locale": "Langue",
+        "topics": "Thèmes",
+        "status": "Statut",
+        "since": "Depuis"
+      },
+      "allTopics": "Tous les thèmes"
     }
   },
   "Home": {

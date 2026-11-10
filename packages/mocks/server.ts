@@ -34,7 +34,11 @@ function onPublished(tags: string[]) {
   }
 }
 
-const handlers = createHandlers(loadFixtures(iso3), { latency, onPublished });
+const handlers = createHandlers(loadFixtures(iso3), {
+  latency,
+  onPublished,
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+});
 
 function toRequest(req: IncomingMessage) {
   const url = `http://${req.headers.host ?? `localhost:${port}`}${req.url}`;

@@ -1,6 +1,7 @@
 "use client";
 
-import { forwardRef, useId } from "react";
+import { forwardRef, useId, useRef, useState } from "react";
+import { BffError } from "@/lib/bff";
 
 export type FieldError = { path: string; message: string };
 
@@ -65,4 +66,61 @@ export function focusField(id: string) {
     field?.focus();
     field?.scrollIntoView({ block: "center" });
   });
+}
+
+/** Classes for the admin's multi-line fields. */
+export const AREA = "border-input bg-background min-h-24 w-full rounded-md border px-3 py-2";
+
+/**
+ * Field errors from a 422, with the ids that link each message to its field and the summary that
+ * takes focus. `show` returns false when the error isn't a field error, so the caller can toast.
+ */
+export function useFormErrors() {
+  const id = useId();
+  const [errors, setErrors] = useState<FieldError[]>([]);
+  const summary = useRef<HTMLDivElement>(null);
+  const fieldId = (path: string) => `${id}-${path.replace(/\W/g, "-")}`;
+  const errorFor = (path: string) => errors.find((error) => error.path === path);
+  return {
+    errors,
+    summary,
+    fieldId,
+    errorFor,
+    clear: () => setErrors([]),
+    describedBy: (path: string, hint?: string) =>
+      [hint, errorFor(path) ? `${fieldId(path)}-error` : undefined].filter(Boolean).join(" ") ||
+      undefined,
+    show: (error: unknown) => {
+      const found =
+        error instanceof BffError && error.status === 422 && error.errors.length
+          ? error.errors
+          : null;
+      if (!found) return false;
+      setErrors(found);
+      requestAnimationFrame(() => summary.current?.focus());
+      return true;
+    },
+  };
+}
+
+/** Codes the forms have a sentence for (`Admin.forms.error.*`); anything else reads "invalid". */
+const ERROR_CODES = [
+  "required",
+  "duplicate",
+  "format",
+  "url",
+  "path",
+  "count",
+  "length",
+  "unknown",
+  "type",
+  "size",
+  "empty",
+  "positive",
+  "shape",
+] as const;
+export type ErrorCode = (typeof ERROR_CODES)[number] | "invalid";
+
+export function errorCode(message: string): ErrorCode {
+  return (ERROR_CODES as readonly string[]).includes(message) ? (message as ErrorCode) : "invalid";
 }

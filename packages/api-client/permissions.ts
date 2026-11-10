@@ -22,6 +22,8 @@ const RIGHTS = {
   "indicator.view": ["super_admin", "admin", "editor"],
   "indicator.edit": ["super_admin", "admin"],
   "content.edit": ["super_admin", "admin", "editor"],
+  "alert.manage": ["super_admin", "admin", "editor"],
+  "newsletter.manage": ["super_admin", "admin", "editor"],
   "feedback.view": ["super_admin", "admin", "editor"],
   "usage.view": ["super_admin", "admin", "editor", "reader"],
 } as const satisfies Record<string, readonly AdminRole[]>;

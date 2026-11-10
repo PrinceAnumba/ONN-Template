@@ -19,6 +19,7 @@ import { http, HttpResponse, type RequestHandler } from "msw";
 import type { Fixtures } from "./fixtures";
 import { createAdminHandlers, type RouteContext } from "./admin";
 import { MINIMAL_PDF, placeholderCover } from "./admin-content";
+import { subscribe } from "./admin-outreach";
 import { buildAdminState } from "./admin-seed";
 import { applyRows } from "./admin-submissions";
 import { openApiDocument, placeholderSvg } from "./openapi";
@@ -37,6 +38,8 @@ export interface HandlerOptions {
   /** Called with cache tags after the back office publishes values (the backend's publish
    * webhook, which calls each app's revalidateTag). */
   onPublished?: (tags: string[]) => void;
+  /** The portal's address, for links in newsletter previews. Empty gives site-relative links. */
+  siteUrl?: string;
 }
 
 /** Portal cache tags that show published values (see serverCache calls in apps/portal). */
@@ -457,6 +460,14 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
         publicPublications: data.publications,
         revalidate: (tags) => options.onPublished?.(tags),
       },
+      editorial: { publicNews: data.news, publicPages: data.pages, publicHome: data.home },
+      outreach: {
+        indicator: (code) => {
+          const seed = indicatorSeed(code);
+          return seed ? { name: seed.name, unit: seed.unit } : undefined;
+        },
+        siteUrl: (options.siteUrl ?? "").replace(/\/$/, ""),
+      },
       publish: (rows, indicators) => {
         const touched = applyRows(data.observations, rows, (code) => {
           const sample = data.observations.find((item) => item.indicator === code);
@@ -737,6 +748,7 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
     }),
 
     route("get", "/news", ({ url, q, locale }) => {
+      adminState.editorial.tick();
       const items = data.news
         .filter(
           (item) =>
@@ -750,6 +762,7 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
     }),
 
     route("get", "/news/:slug", ({ params, locale }) => {
+      adminState.editorial.tick();
       const item = findBySlug(data.news, params.slug as string);
       return item
         ? HttpResponse.json(localise<Record<string, never>>(item, locale))
@@ -798,6 +811,16 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
     route("get", "/news/:slug/image.svg", () => placeholderImage(1200, 630)),
     route("get", "/pages/:slug/image.svg", () => placeholderImage(1200, 500)),
 
+    // Pictures uploaded in the back office (news heroes, CMS image blocks).
+    route("get", "/media/:id", ({ params }) => {
+      const file = adminState.editorial.media.get(params.id as string);
+      return file
+        ? new HttpResponse(file.data.slice().buffer as ArrayBuffer, {
+            headers: { "Content-Type": file.type },
+          })
+        : notFound(`Media ${params.id}`);
+    }),
+
     route("get", "/openapi.json", () => HttpResponse.json(openApiDocument())),
 
     route("post", "/feedback", async ({ request }) => {
@@ -830,9 +853,25 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
       return HttpResponse.json({ ok: true }, { status: 201 });
     }),
 
-    route("post", "/subscribers", async ({ request }) => {
-      const body = (await request.json().catch(() => null)) as { email?: string } | null;
-      if (!body?.email?.includes("@")) {
+    route("post", "/subscribers", async ({ request, locale }) => {
+      const body = (await request.json().catch(() => null)) as {
+        email?: string;
+        locale?: string;
+        topics?: unknown;
+      } | null;
+      // Kept for the admin subscriber list (brief §7).
+      const added =
+        typeof body?.email === "string" &&
+        subscribe(adminState.outreach, {
+          email: body.email,
+          locale: locales.includes(body.locale ?? "") ? body.locale! : locale,
+          topics: Array.isArray(body.topics)
+            ? body.topics.filter((topic): topic is string =>
+                data.pillars.some((pillar) => pillar.code === topic),
+              )
+            : undefined,
+        });
+      if (!added) {
         return problem(422, "Invalid input", undefined, [
           { path: "email", message: "Enter a valid email address" },
         ]);

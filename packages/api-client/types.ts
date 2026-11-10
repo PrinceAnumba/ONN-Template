@@ -271,6 +271,8 @@ export interface FeedbackInput {
 export interface SubscriberInput {
   email: string;
   locale: Locale;
+  /** Pillar codes to follow; none means everything. */
+  topics?: string[];
 }
 export interface ApiKeyInput {
   name: string;
@@ -901,4 +903,252 @@ export interface ReportSummary {
   blockCount: number;
   openComments: number;
   updated: string;
+}
+
+// ---- Editorial: news, watch queue, CMS pages, home modules (Phase 7f) ----
+
+/** An uploaded picture (`POST /admin/media`); `url` is public and goes into the content. */
+export interface MediaUpload {
+  url: string;
+  name: string;
+  bytes: number;
+}
+
+export type NewsStatus = "draft" | "scheduled" | "published";
+
+export interface NewsRecord {
+  title: Localised;
+  excerpt: Localised;
+  /** Rich text as HTML from the editor. */
+  body: Localised;
+  tags: string[];
+  /** Date shown on the portal, YYYY-MM-DD. */
+  date: string;
+  /** Watch items link to where the story came from. */
+  sourceUrl?: string;
+  imageUrl?: string;
+}
+
+export interface NewsAdmin extends NewsRecord {
+  slug: string;
+  kind: NewsItem["kind"];
+  status: NewsStatus;
+  /** When a scheduled article goes live (ISO date-time). */
+  publishAt?: string;
+  updated: string;
+}
+
+export interface NewsAdminSummary {
+  slug: string;
+  title: string;
+  kind: NewsItem["kind"];
+  status: NewsStatus;
+  date: string;
+  tags: string[];
+  publishAt?: string;
+  updated: string;
+}
+
+export interface NewsCreateInput extends NewsRecord {
+  slug: string;
+}
+
+export type WatchStatus = "pending" | "approved" | "rejected";
+
+/** A story the collector found (brief §7 *Watch queue*). */
+export interface WatchItem {
+  id: string;
+  title: string;
+  excerpt: string;
+  /** Language of the story, as found. */
+  lang: string;
+  source: string;
+  sourceUrl: string;
+  /** Keywords that matched. */
+  keywords: string[];
+  found: string;
+  status: WatchStatus;
+  /** The news item made from it, once approved or opened for editing. */
+  article?: string;
+}
+
+export interface WatchSource {
+  name: string;
+  url: string;
+  enabled: boolean;
+}
+
+export interface WatchSettings {
+  keywords: string[];
+  sources: WatchSource[];
+}
+
+export interface WatchQueue {
+  items: WatchItem[];
+  counts: Record<WatchStatus, number>;
+  settings: WatchSettings;
+}
+
+/** A CMS block with its text in every language. Rich text and callouts are Markdown. */
+export interface PageBlock {
+  type: CmsBlock["type"];
+  body?: Localised;
+  src?: string;
+  alt?: Localised;
+  /** The first row is the header. */
+  rows?: Localised[][];
+  partners?: { name: Localised; url?: string; logo?: string }[];
+}
+
+export interface PageRecord {
+  title: Localised;
+  blocks: PageBlock[];
+}
+
+export interface PageAdmin extends PageRecord {
+  slug: string;
+  status: ContentStatus;
+  updated: string;
+}
+
+export interface PageAdminSummary {
+  slug: string;
+  title: string;
+  blockCount: number;
+  status: ContentStatus;
+  updated: string;
+}
+
+/** The home page modules an editor sets (brief §7 *Pages*). */
+export interface HomeModules {
+  exampleChips: { label: Localised; href: string }[];
+  featuredIndicators: string[];
+  mapTeaserIndicator: string;
+  benchmarkIndicator: string;
+}
+
+export interface HomeModulesAdmin extends HomeModules {
+  status: ContentStatus;
+  updated: string;
+}
+
+// ---- Alerts and newsletter (Phase 7f) ----
+
+export type AlertCondition = "threshold" | "change" | "off_track" | "overdue" | "anomaly";
+export type AlertChannel = "email" | "sms" | "in_app";
+
+export interface AlertRuleInput {
+  name: string;
+  indicator: string;
+  condition: AlertCondition;
+  /** `threshold` only: fire when the value is above or below `value`. */
+  operator?: "above" | "below";
+  /** `threshold`: in the indicator's unit. `change`: percent against the previous period. */
+  value?: number;
+  /** Back-office user ids. */
+  recipients: string[];
+  channels: AlertChannel[];
+  enabled: boolean;
+}
+
+export interface AlertRule extends AlertRuleInput {
+  id: string;
+  indicatorName: string;
+  lastTriggered?: string;
+  updated: string;
+}
+
+export interface AlertRules {
+  rules: AlertRule[];
+  /** People a rule can notify. */
+  people: { id: string; name: string }[];
+}
+
+export interface AlertEvent {
+  id: string;
+  rule: string;
+  ruleName: string;
+  indicator: string;
+  indicatorName: string;
+  condition: AlertCondition;
+  date: string;
+  /** What set it off, where the condition has a value. */
+  value?: number;
+  unit?: string;
+  period?: string;
+  channels: AlertChannel[];
+  recipients: number;
+  status: "sent" | "failed";
+}
+
+export type CampaignStatus = "draft" | "scheduled" | "sent";
+
+export interface CampaignItem {
+  kind: "news" | "publication";
+  slug: string;
+}
+
+/** Empty lists mean everyone. */
+export interface CampaignAudience {
+  locales: string[];
+  topics: string[];
+}
+
+export interface CampaignInput {
+  subject: Localised;
+  intro: Localised;
+  items: CampaignItem[];
+  audience: CampaignAudience;
+}
+
+export interface Campaign extends CampaignInput {
+  id: string;
+  status: CampaignStatus;
+  sendAt?: string;
+  sentAt?: string;
+  /** Subscribers the audience matches now, or who received it once sent. */
+  recipients: number;
+  opens: number;
+  clicks: number;
+  updated: string;
+}
+
+export interface CampaignSummary {
+  id: string;
+  subject: string;
+  status: CampaignStatus;
+  sendAt?: string;
+  sentAt?: string;
+  recipients: number;
+  /** 0–1; null until it's sent. */
+  openRate: number | null;
+  clickRate: number | null;
+  updated: string;
+}
+
+/** A published item a newsletter can include. */
+export interface CampaignChoice extends CampaignItem {
+  title: string;
+  date: string;
+}
+
+export interface CampaignOptions {
+  choices: CampaignChoice[];
+  /** Topics subscribers can follow (the pillars). */
+  topics: { code: string; name: string }[];
+}
+
+export interface CampaignPreview {
+  subject: string;
+  /** The email as the backend would send it. */
+  html: string;
+  recipients: number;
+}
+
+export interface Subscriber {
+  email: string;
+  locale: Locale;
+  topics: string[];
+  status: "active" | "unsubscribed";
+  since: string;
 }

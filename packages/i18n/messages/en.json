@@ -1393,6 +1393,468 @@
         "quarterly": "Quarterly",
         "annual": "Annual"
       }
+    },
+    "forms": {
+      "languageGroup": "Language of the text",
+      "languageErrors": "(has errors)",
+      "optional": "(optional)",
+      "required": "(required)",
+      "cancel": "Cancel",
+      "fieldIn": "{field} ({language})",
+      "errorIn": "{where}, {field}",
+      "error": {
+        "required": "Fill in this field.",
+        "duplicate": "This is already used.",
+        "format": "Check the format.",
+        "url": "Enter a full web address starting with https://.",
+        "path": "Enter a path on this site, starting with /.",
+        "count": "There are too many.",
+        "length": "This is too long.",
+        "unknown": "Pick a value from the list.",
+        "type": "This file type isn't accepted.",
+        "size": "The file is too large.",
+        "empty": "The file is empty.",
+        "positive": "Enter a number above zero.",
+        "shape": "Every row needs the same number of cells.",
+        "invalid": "Check this value."
+      },
+      "errorTitle": "{count, plural, one {Fix this error to save} other {Fix these # errors to save}}",
+      "errorLine": "{field}: {message}",
+      "saveFailed": "Couldn't save. Check your connection and try again.",
+      "dateTime": "{date}, {time}",
+      "viewOnPortal": "View on the portal",
+      "newWindow": "(opens in a new window)",
+      "save": "Save changes",
+      "saveDraft": "Save draft",
+      "publish": "Publish",
+      "unpublish": "Unpublish",
+      "unsaved": "Changes not saved yet.",
+      "saveFirst": "Save your changes first.",
+      "changedNotice": "The portal still shows the last published version.",
+      "draftSaved": "Draft saved. The portal hasn't changed.",
+      "publishedToast": "Published. The portal shows it on its next load.",
+      "status": {
+        "draft": "Draft",
+        "published": "Published",
+        "changed": "Unpublished changes"
+      },
+      "pageSize": "Rows per page",
+      "all": "All",
+      "clearFilters": "Clear filters"
+    },
+    "media": {
+      "prompt": "Drag a picture here or",
+      "browse": "choose a file",
+      "hint": "PNG, JPEG or WebP, up to {size}.",
+      "remove": "Remove the picture",
+      "progress": "Upload progress",
+      "preview": "Chosen picture",
+      "tooLarge": "The file is over {size}.",
+      "failed": "The picture couldn't be uploaded. Try again."
+    },
+    "news": {
+      "title": "News and watch",
+      "new": "New article",
+      "back": "Back to news",
+      "newTitle": "New article",
+      "detailTitle": "News item {slug}",
+      "tabsLabel": "News views",
+      "tab": {
+        "articles": "Articles",
+        "watch": "Watch queue"
+      },
+      "filter": {
+        "search": "Title or tag",
+        "status": "Status",
+        "kind": "Type"
+      },
+      "count": "{count, plural, =0 {No items} one {# item} other {# items}}",
+      "empty": "No articles yet.",
+      "emptyFiltered": "No article matches these filters.",
+      "column": {
+        "name": "Title",
+        "kind": "Type",
+        "status": "Status",
+        "date": "Date",
+        "tags": "Tags",
+        "updated": "Updated"
+      },
+      "status": {
+        "draft": "Draft",
+        "scheduled": "Scheduled",
+        "published": "Published"
+      },
+      "kind": {
+        "news": "Article",
+        "watch": "Watch item"
+      },
+      "field": {
+        "title": "Title",
+        "excerpt": "Summary",
+        "body": "Text",
+        "tags": "Tags",
+        "date": "Date shown",
+        "sourceUrl": "Source link",
+        "slug": "Address",
+        "imageUrl": "Picture",
+        "publishAt": "Publish on"
+      },
+      "hint": {
+        "excerpt": "One or two sentences, shown in lists and when the article is shared.",
+        "tags": "Separate tags with commas, up to {max}.",
+        "sourceUrl": "For watch items: where the story was first published.",
+        "slug": "Part of the portal address: /news/address. Lowercase letters, digits and hyphens.",
+        "publishAt": "Leave empty to publish now. The time is in your device's time zone."
+      },
+      "create": "Save as draft",
+      "created": "Draft saved. Publish it when it's ready.",
+      "saved": "Changes saved.",
+      "savedLive": "Changes saved. The portal shows them on its next load.",
+      "publishing": "Publishing",
+      "liveHelp": "This item is on the portal. Saving changes updates it at once.",
+      "scheduledFor": "Scheduled for {when}",
+      "schedule": "Schedule",
+      "unschedule": "Cancel the schedule",
+      "publishNow": "Publish now",
+      "publishedToast": "Published. The portal shows it on its next load.",
+      "scheduledToast": "Scheduled. It goes live on its own at that time.",
+      "unscheduledToast": "Schedule cancelled. The item is a draft again.",
+      "unpublishedToast": "Unpublished. The portal no longer shows it.",
+      "watch": {
+        "intro": "Stories collected automatically from the sources below. Approve one to publish it as a watch item, or edit it first.",
+        "statusLabel": "Queue status",
+        "status": {
+          "pending": "To review ({count})",
+          "approved": "Approved ({count})",
+          "rejected": "Rejected ({count})"
+        },
+        "empty": {
+          "pending": "Nothing to review. New stories appear here as they are collected.",
+          "approved": "No story has been approved yet.",
+          "rejected": "No story has been rejected."
+        },
+        "listLabel": "Collected stories",
+        "meta": "{source} · {language} · found on {date} at {time}.",
+        "openSource": "Open the source",
+        "matched": "Keywords: {keywords}",
+        "openArticle": "Open the watch item",
+        "action": {
+          "approve": "Approve and publish",
+          "draft": "Edit first",
+          "reject": "Reject",
+          "restore": "Put back in the queue"
+        },
+        "done": {
+          "approve": "Published as a watch item.",
+          "draft": "Opened as a draft.",
+          "reject": "Rejected. You can put it back from the Rejected list.",
+          "restore": "Back in the queue."
+        },
+        "settings": {
+          "title": "Collection settings",
+          "intro": "The collector keeps stories from these sources that mention one of the keywords.",
+          "keywords": "Keywords",
+          "keywordsHint": "One per line, or separated by commas.",
+          "sources": "Sources",
+          "noSources": "No sources yet.",
+          "sourceN": "Source {number}",
+          "sourceField": "Source {number}, {field}",
+          "source": {
+            "name": "Name",
+            "url": "Feed or page address",
+            "enabled": "Collect"
+          },
+          "removeSource": "Remove {name}",
+          "addSource": "Add a source",
+          "saved": "Collection settings saved."
+        }
+      }
+    },
+    "pages": {
+      "title": "Pages",
+      "intro": "The About and legal pages, and the modules of the home page. Changes stay private until you publish them.",
+      "back": "Back to pages",
+      "detailTitle": "Page {slug}",
+      "column": {
+        "name": "Page",
+        "content": "Content",
+        "status": "Status",
+        "updated": "Updated"
+      },
+      "blockCount": "{count, plural, one {# block} other {# blocks}}",
+      "blocks": "Blocks",
+      "noBlocks": "This page has no blocks yet.",
+      "blockN": "Block {number}: {type}",
+      "type": {
+        "richText": "Text",
+        "callout": "Callout",
+        "image": "Picture",
+        "table": "Table",
+        "partners": "Partner list"
+      },
+      "field": {
+        "title": "Page title",
+        "type": "Block type",
+        "body": "Text",
+        "src": "Picture",
+        "alt": "Text alternative",
+        "rows": "Table cells",
+        "headerCell": "Header, column {number}",
+        "cell": "Row {row}, column {column}",
+        "partners": "Partners",
+        "partnerName": "Partner {number}, name",
+        "partnerUrl": "Partner {number}, website",
+        "name": "Name",
+        "url": "Website"
+      },
+      "hint": {
+        "markdown": "Markdown: ## heading, **bold**, *italic*, - list, [link](https://…).",
+        "alt": "Say what the picture shows, for people who can't see it.",
+        "table": "The first row is the header."
+      },
+      "addBlock": "Add a block",
+      "added": "{type} added in position {position}.",
+      "removed": "Block removed.",
+      "moved": "Block moved to position {position} of {count}.",
+      "moveUp": "Move block {number} up",
+      "moveDown": "Move block {number} down",
+      "removeBlock": "Remove block {number}",
+      "addRow": "Add a row",
+      "addColumn": "Add a column",
+      "removeColumn": "Remove the last column",
+      "removeRow": "Remove row {number}",
+      "partnerN": "Partner {number}",
+      "addPartner": "Add a partner",
+      "removePartner": "Remove partner {number}",
+      "home": {
+        "title": "Home page modules",
+        "summary": "{chips, plural, one {# example chip} other {# example chips}}, {indicators, plural, one {# featured indicator} other {# featured indicators}}",
+        "intro": "What the home page puts forward: the example searches under the hero, the featured indicators, and the indicators behind the map and benchmark teasers.",
+        "chips": "Example chips",
+        "chipsHelp": "Short suggestions under the home page search. Each one opens a page of the portal.",
+        "chipN": "Chip {number}",
+        "field": {
+          "label": "Label",
+          "href": "Opens",
+          "featuredIndicators": "Featured indicators",
+          "mapTeaserIndicator": "Map teaser indicator",
+          "benchmarkIndicator": "Benchmark teaser indicator"
+        },
+        "hrefHint": "\"Opens\" is a path on the portal without the language, such as /data/CONN.4G_POP or /map?i=CONN.4G_POP.",
+        "addChip": "Add a chip",
+        "removeChip": "Remove chip {number}",
+        "indicators": "Indicators"
+      }
+    },
+    "alerts": {
+      "title": "Alerts",
+      "new": "New rule",
+      "back": "Back to alerts",
+      "newTitle": "New alert rule",
+      "newIntro": "Choose an indicator, what to watch for, and who should hear about it.",
+      "detailTitle": "Alert rule {id}",
+      "tabsLabel": "Alert views",
+      "tab": {
+        "rules": "Rules",
+        "events": "Event log"
+      },
+      "empty": "No alert rules yet.",
+      "column": {
+        "name": "Rule",
+        "indicator": "Indicator",
+        "condition": "Fires when",
+        "notify": "Notifies",
+        "status": "Status",
+        "last": "Last fired"
+      },
+      "ruleText": {
+        "above": "Value above {value}",
+        "below": "Value below {value}",
+        "change": "Changes by more than {value}"
+      },
+      "condition": {
+        "threshold": "Threshold",
+        "change": "Change between periods",
+        "off_track": "Off track for its target",
+        "overdue": "Data overdue",
+        "anomaly": "Unusual value"
+      },
+      "conditionHelp": {
+        "threshold": "A published value goes above or below a number you set.",
+        "change": "A value rises or falls by more than a percentage against the previous period.",
+        "off_track": "The latest value falls behind the path to the indicator's target.",
+        "overdue": "The collection deadline passes without a submission.",
+        "anomaly": "A submitted value fails the jump or range checks."
+      },
+      "notify": "{count, plural, one {# person} other {# people}} by {channels}",
+      "channel": {
+        "email": "email",
+        "sms": "SMS",
+        "in_app": "back-office notification"
+      },
+      "enabled": "Active",
+      "paused": "Paused",
+      "never": "Never",
+      "lastLink": "{date}: events for {name}",
+      "lastTriggered": "Last fired on {date}.",
+      "neverTriggered": "Hasn't fired yet.",
+      "viewEvents": "View its events",
+      "eventCount": "{count, plural, =0 {No events} one {# event} other {# events}}",
+      "eventCountFor": "{count, plural, =0 {No events} one {# event} other {# events}} for {name}",
+      "noEvents": "Nothing has fired yet.",
+      "eventColumn": {
+        "date": "Date",
+        "rule": "Rule",
+        "indicator": "Indicator",
+        "what": "What happened",
+        "sent": "Notified",
+        "status": "Delivery"
+      },
+      "eventText": {
+        "threshold": "{value} {unit} in {period}",
+        "change": "{value} change in {period}"
+      },
+      "eventStatus": {
+        "sent": "Sent",
+        "failed": "Failed"
+      },
+      "field": {
+        "name": "Rule name",
+        "indicator": "Indicator",
+        "condition": "Condition",
+        "operator": "Fire when the value is",
+        "value": "Threshold",
+        "percent": "Change, in percent",
+        "recipients": "Recipients",
+        "channels": "Channels",
+        "enabled": "Active"
+      },
+      "operator": {
+        "below": "Below the threshold",
+        "above": "Above the threshold"
+      },
+      "hint": {
+        "value": "In the indicator's unit.",
+        "percent": "For example 15 for a change of more than 15 %, up or down.",
+        "enabled": "A paused rule keeps its settings and sends nothing."
+      },
+      "create": "Create the rule",
+      "created": "Rule created.",
+      "saved": "Rule saved.",
+      "delete": "Delete the rule",
+      "deleteTitle": "Delete \"{name}\"?",
+      "deleteHelp": "The rule stops sending alerts. Its past events stay in the log.",
+      "deleteConfirm": "Delete the rule",
+      "deleted": "Rule deleted."
+    },
+    "newsletter": {
+      "title": "Newsletter",
+      "new": "New newsletter",
+      "back": "Back to the newsletter",
+      "newTitle": "New newsletter",
+      "detailTitle": "Newsletter {id}",
+      "tabsLabel": "Newsletter views",
+      "tab": {
+        "campaigns": "Newsletters",
+        "subscribers": "Subscribers"
+      },
+      "empty": "No newsletters yet.",
+      "column": {
+        "subject": "Subject",
+        "status": "Status",
+        "date": "Date",
+        "recipients": "Recipients",
+        "openRate": "Opened",
+        "clickRate": "Clicked"
+      },
+      "status": {
+        "draft": "Draft",
+        "scheduled": "Scheduled",
+        "sent": "Sent"
+      },
+      "scheduledFor": "Scheduled for {when}",
+      "sentOn": "Sent on {when}",
+      "editedOn": "Edited on {date}",
+      "scheduledHelp": "It goes out on its own at that time. Cancel the schedule to edit it.",
+      "unschedule": "Cancel the schedule",
+      "stat": {
+        "recipients": "Recipients",
+        "openRate": "Opened",
+        "clickRate": "Clicked a link"
+      },
+      "content": "Content and audience",
+      "kind": {
+        "news": "News",
+        "publication": "Publications"
+      },
+      "field": {
+        "subject": "Subject",
+        "intro": "Introduction",
+        "items": "Items",
+        "locales": "Subscriber languages",
+        "topics": "Topics",
+        "sendAt": "Send on"
+      },
+      "itemLimit": "{count} of {max}",
+      "noItems": "Nothing chosen yet. Add published news or publications below.",
+      "itemsRequired": "Add at least one item.",
+      "addItem": "Add a published item",
+      "clear": "Clear",
+      "noChoice": "No published item matches",
+      "moveUp": "Move {title} up",
+      "moveDown": "Move {title} down",
+      "removeItem": "Remove {title}",
+      "moved": "{title} moved to position {position} of {count}.",
+      "audienceHelp": "Tick nothing to send to everyone. Subscribers who follow no topic receive every newsletter.",
+      "reach": "{count, plural, =0 {No subscriber matches this audience} one {Reaches # subscriber} other {Reaches # subscribers}}",
+      "create": "Save as draft",
+      "saveDraft": "Save draft",
+      "created": "Draft saved.",
+      "saved": "Draft saved.",
+      "sending": "Sending",
+      "sendNow": "Send now",
+      "schedule": "Schedule",
+      "hint": {
+        "sendAt": "Leave empty to send now. The time is in your device's time zone."
+      },
+      "preview": "Preview",
+      "previewWidth": "Preview width",
+      "device": {
+        "desktop": "Desktop",
+        "mobile": "Phone"
+      },
+      "previewIn": "Shown as {language} subscribers receive it.",
+      "subjectLine": "Subject:",
+      "noSubject": "(no subject yet)",
+      "previewTitle": "Email preview",
+      "confirmSend": "{count, plural, one {Send to # subscriber?} other {Send to # subscribers?}}",
+      "confirmSendHelp": "The newsletter goes out now and can't be recalled or edited afterwards.",
+      "confirmSchedule": "Schedule for {when}?",
+      "confirmScheduleHelp": "{count, plural, one {It reaches # subscriber today} other {It reaches # subscribers today}}; the final count is taken when it goes out. You can cancel until then.",
+      "sentToast": "{count, plural, one {Sent to # subscriber.} other {Sent to # subscribers.}}",
+      "scheduledToast": "Scheduled. You can cancel until it goes out.",
+      "unscheduledToast": "Schedule cancelled. The newsletter is a draft again.",
+      "noAudience": "No subscriber matches this audience, so nothing was sent.",
+      "filter": {
+        "search": "Email address",
+        "locale": "Language",
+        "status": "Status"
+      },
+      "subscriber": {
+        "active": "Subscribed",
+        "unsubscribed": "Unsubscribed"
+      },
+      "subscriberCount": "{count, plural, =0 {No subscribers} one {# subscriber} other {# subscribers}}",
+      "noSubscribers": "Nobody has subscribed yet.",
+      "noSubscribersFiltered": "No subscriber matches these filters.",
+      "subscriberColumn": {
+        "email": "Email address",
+        "locale": "Language",
+        "topics": "Topics",
+        "status": "Status",
+        "since": "Since"
+      },
+      "allTopics": "All topics"
     }
   },
   "Home": {
