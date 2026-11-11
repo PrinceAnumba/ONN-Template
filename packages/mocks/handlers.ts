@@ -480,6 +480,18 @@ export function createHandlers(data: Fixtures, options: HandlerOptions = {}): Re
           list.sort((a, b) => a.period.localeCompare(b.period));
           byIndicatorArea.set(key, list);
         }
+        // A published period past the catalogue's coverage extends it, or the portal's year
+        // range would stop before the new value (the latest-value card would show it, the chart
+        // and table wouldn't).
+        const today = new Date().toISOString().slice(0, 10);
+        for (const row of touched) {
+          const indicator = data.indicators.find((item) => item.code === row.indicator);
+          if (!indicator) continue;
+          const coverage = indicator.coverage as { from: string; to: string };
+          if (row.period > coverage.to) coverage.to = row.period;
+          if (!coverage.from || row.period < coverage.from) coverage.from = row.period;
+          indicator.lastUpdated = today;
+        }
         options.onPublished?.([...indicators.map((code) => `indicator:${code}`), ...PUBLISH_TAGS]);
       },
     }),

@@ -17,7 +17,11 @@
     "mocks:gen": "pnpm --filter @onn/mocks gen",
     "storybook": "pnpm --filter @onn/config --filter @onn/charts build && pnpm --filter @onn/storybook storybook",
     "build-storybook": "pnpm --filter @onn/config --filter @onn/charts build && pnpm --filter @onn/storybook build-storybook",
-    "check:stories": "pnpm --filter @onn/storybook check-states"
+    "check:stories": "pnpm --filter @onn/storybook check-states",
+    "e2e": "pnpm --filter @onn/e2e e2e",
+    "visual": "pnpm --filter @onn/e2e visual",
+    "budgets": "pnpm --filter @onn/e2e budgets",
+    "lhci": "pnpm --filter @onn/e2e lhci"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.5",

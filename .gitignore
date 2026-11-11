@@ -17,3 +17,13 @@ apps/*/public/vendor
 apps/portal/public/sw.js
 apps/portal/public/sw.js.map
 apps/portal/public/swe-worker-*.js
+
+# Playwright, Lighthouse CI (e2e)
+e2e/test-results
+e2e/playwright-report
+e2e/visual-report
+e2e/lhci-report
+e2e/.lighthouseci
+# Visual baselines are committed for Linux (CI) only; other platforms stay local.
+e2e/visual/__screenshots__/win32
+e2e/visual/__screenshots__/darwin

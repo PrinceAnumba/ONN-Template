@@ -55,6 +55,8 @@ export interface ChartFrameProps {
   fileName?: string;
   /** No title row or actions: a dashboard widget supplies its own header and menu. */
   bare?: boolean;
+  /** Level of the title heading, so it follows the page outline (default 3, under a section h2). */
+  headingLevel?: 2 | 3;
   /** Optional view switch, e.g. absolute / 100 % on a stacked bar. */
   toggle?: { label: string; options: { value: string; label: string }[]; field: "mode" };
   className?: string;
@@ -128,8 +130,10 @@ export function ChartFrame({
   fileName = "chart",
   toggle,
   bare,
+  headingLevel = 3,
   className,
 }: ChartFrameProps) {
+  const Heading = headingLevel === 2 ? "h2" : "h3";
   const containerRef = React.useRef<HTMLDivElement>(null);
   const chartRef = React.useRef<HTMLDivElement>(null);
   const instance = React.useRef<import("echarts/core").ECharts | null>(null);
@@ -322,9 +326,9 @@ export function ChartFrame({
       )}
       {bare ? (
         <>
-          <h3 id={`${id}-title`} className="sr-only">
+          <Heading id={`${id}-title`} className="sr-only">
             {title}
-          </h3>
+          </Heading>
           {toggleControl && status === "ready" && (
             <div className="mb-2 flex justify-end">{toggleControl}</div>
           )}
@@ -332,7 +336,9 @@ export function ChartFrame({
       ) : (
         <div className="flex flex-wrap items-start justify-between gap-2">
           <div className="min-w-0">
-            <h3 id={`${id}-title`}>{title}</h3>
+            <Heading id={`${id}-title`} className="text-h3">
+              {title}
+            </Heading>
             {subtitle && <p className="text-muted-foreground text-sm">{subtitle}</p>}
           </div>
           {status === "ready" && (

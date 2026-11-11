@@ -19,8 +19,14 @@ interface LayoutProps {
 export async function generateMetadata({ params }: LayoutProps): Promise<Metadata> {
   const { locale } = await params;
   const suffix = `${country.observatory.shortName} ${country.name[locale] ?? ""}`;
+  const t = await getTranslations({ locale, namespace: "Pages" });
   return {
     title: { template: `%s — ${suffix}`, default: suffix },
+    // Default for every page; pages with their own text (home, indicators, news…) override it.
+    description: t("siteDescription", {
+      observatory: country.observatory.longName[locale] ?? country.observatory.shortName,
+      country: country.name[locale] ?? country.iso3,
+    }),
     icons: { icon: country.brand.favicon },
   };
 }

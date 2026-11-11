@@ -58,7 +58,7 @@ export async function SiteFooter() {
   return (
     <footer className="bg-foreground pt-12 pb-8 text-white">
       <div className="onn-container">
-        <div className="grid gap-8 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-4">
           <div>
             <Image
               src={country.brand.logo}

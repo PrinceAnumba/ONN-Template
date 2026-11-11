@@ -1,0 +1,127 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NEXT_TELEMETRY_DISABLED: "1"
+  TURBO_TELEMETRY_DISABLED: "1"
+  MOCK_LATENCY: "0"
+  PLAYWRIGHT_VERSION: "1.65.0"
+
+jobs:
+  checks:
+    name: Lint, types, unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm format:check
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm check:stories
+
+  storybook:
+    name: Storybook (build, interaction + axe, visual)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium
+        working-directory: e2e
+      - run: pnpm build-storybook
+      - name: Interaction and axe tests
+        run: |
+          node e2e/visual/serve.mjs &
+          for i in $(seq 1 30); do curl -sf http://localhost:6006/index.json > /dev/null && break; sleep 1; done
+          pnpm --filter @onn/storybook test-storybook --url http://localhost:6006
+          kill %1
+      - name: Visual regression (360 / 768 / 1280)
+        run: pnpm visual
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: visual-diffs
+          path: |
+            e2e/test-results/visual
+            e2e/visual/__screenshots__/linux
+      - uses: actions/upload-pages-artifact@v3
+        with: { path: apps/storybook/storybook-static }
+
+  publish-storybook:
+    name: Publish Storybook
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: storybook
+    runs-on: ubuntu-latest
+    permissions: { pages: write, id-token: write }
+    environment: { name: github-pages, url: "${{ steps.deploy.outputs.page_url }}" }
+    steps:
+      - id: deploy
+        uses: actions/deploy-pages@v4
+
+  e2e:
+    name: E2E journeys, budgets, Lighthouse (SEN)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec playwright install --with-deps chromium webkit
+        working-directory: e2e
+      - run: pnpm build
+      - name: Journeys (Chromium, WebKit, Pixel 5) with axe
+        run: pnpm e2e
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with: { name: e2e-report, path: "e2e/playwright-report\ne2e/test-results" }
+      - name: Start mock and portal for budgets and Lighthouse
+        run: |
+          pnpm --filter @onn/mocks start > mock.log 2>&1 &
+          pnpm --filter @onn/portal start > portal.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf http://localhost:3000/en > /dev/null && break; sleep 2; done
+      - name: Budgets (§9)
+        run: pnpm budgets
+      - name: Lighthouse CI
+        run: pnpm lhci
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with: { name: lighthouse, path: e2e/lhci-report }
+
+  togo:
+    name: Country switch (TGO build and smoke)
+    runs-on: ubuntu-latest
+    env:
+      NEXT_PUBLIC_COUNTRY: TGO
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22, cache: pnpm }
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm build
+      - name: Smoke the Togo portal and admin
+        run: |
+          pnpm --filter @onn/mocks start > mock.log 2>&1 &
+          pnpm --filter @onn/portal start > portal.log 2>&1 &
+          pnpm --filter @onn/admin start > admin.log 2>&1 &
+          for i in $(seq 1 60); do curl -sf http://localhost:3000/fr > /dev/null && break; sleep 2; done
+          for path in /fr /fr/data /fr/map /fr/catalogue /en/about; do
+            curl -sf -o page.html "http://localhost:3000$path"
+            grep -q "Togo" page.html || { echo "No Togo content on $path"; exit 1; }
+          done
+          curl -sf -o /dev/null http://localhost:3001/admin/login

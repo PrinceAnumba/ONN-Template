@@ -217,6 +217,8 @@ export async function ChartView({ view }: { view: IndicatorView }) {
         width={CHART_WIDTH}
         lite={lite}
         showShare={false}
+        // Directly under the page h1, so the chart title is the first h2.
+        headingLevel={2}
         fileName={view.indicator.code}
         logoUrl={country.brand.logo}
       />

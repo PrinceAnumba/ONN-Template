@@ -277,7 +277,7 @@ async function BenchmarkBlocks({
           // Scrollable region must be reachable by keyboard.
           // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
           tabIndex={0}
-          className="mt-4 overflow-x-auto rounded-lg border"
+          className="relative mt-4 overflow-x-auto rounded-lg border"
         >
           <table className="w-full text-sm">
             <thead className="bg-surface-2">

@@ -192,7 +192,7 @@ function MapStep({ job, onDone }: { job: ImportJob; onDone: (job: ImportJob) => 
   };
 
   return (
-    <div className="mt-4 grid gap-8">
+    <div className="mt-4 grid grid-cols-1 gap-8">
       <p className="text-muted-foreground max-w-3xl">{t("map.intro")}</p>
       {errors.length > 0 && (
         <div
@@ -429,7 +429,7 @@ function ValidateStep({
   ] as const;
 
   return (
-    <div className="mt-4 grid gap-6">
+    <div className="mt-4 grid grid-cols-1 gap-6">
       <dl className="grid grid-cols-2 gap-3 md:grid-cols-4">
         {stats.map((stat) => (
           <div

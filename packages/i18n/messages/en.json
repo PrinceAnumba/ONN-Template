@@ -98,7 +98,8 @@
     "benchmark": "Benchmark",
     "dashboards": "Dashboards",
     "comingNext": "This page is built in a later phase.",
-    "query": "Data query"
+    "query": "Data query",
+    "siteDescription": "{observatory} ({country}): official figures on digital development, with indicators, maps, dashboards and open data."
   },
   "NotFound": {
     "title": "Page not found",

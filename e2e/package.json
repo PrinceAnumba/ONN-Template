@@ -1,0 +1,21 @@
+{
+  "name": "@onn/e2e",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "e2e": "playwright test",
+    "visual": "playwright test -c visual.config.ts",
+    "visual:update": "playwright test -c visual.config.ts --update-snapshots",
+    "budgets": "node budgets.mjs",
+    "lhci": "lhci autorun --config=lighthouserc.cjs",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@lhci/cli": "^0.16.0",
+    "@playwright/test": "1.65.0",
+    "@types/node": "^24.19.2",
+    "typescript": "~5.9.3"
+  }
+}

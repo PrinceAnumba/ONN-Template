@@ -98,7 +98,8 @@
     "benchmark": "Comparaisons",
     "dashboards": "Tableaux de bord",
     "comingNext": "Cette page sera construite dans une phase ultérieure.",
-    "query": "Requête de données"
+    "query": "Requête de données",
+    "siteDescription": "{observatory} ({country}) : chiffres officiels du développement du numérique, avec indicateurs, cartes, tableaux de bord et données ouvertes."
   },
   "NotFound": {
     "title": "Page introuvable",

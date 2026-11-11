@@ -224,3 +224,10 @@ Types are in `packages/api-client/types.ts` (Phase 7g section). Validation failu
 **Open questions for the backend:** which runtime settings exist (the four keys are a proposal), whether feature toggles should reach the portal at runtime (today `features` is build-time config), and whether organisations can be created outside the catalogue's sources.
 
 **Changed:** `POST /feedback` keeps `email` for the inbox.
+
+## Phase 8: behaviour the end-to-end tests rely on
+
+No new endpoints. The journeys found two behaviours the backend must match:
+
+- **Publishing extends coverage.** When a published value's period is past an indicator's `coverage.to` (or before `coverage.from`), the indicator's coverage must move to include it, and `lastUpdated` should change. The portal clamps its year range to `coverage`, so without this the latest-value card shows the new value but the chart and table stop a year short.
+- **Public text is never an empty object.** A localised field left blank in the admin (for example a dashboard's description) must reach the public API as `""` (or the field must be omitted where the type allows it), never as `{}`. An object in place of text failed the portal page with a 500.

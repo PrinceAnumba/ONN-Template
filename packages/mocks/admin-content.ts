@@ -388,10 +388,13 @@ export function createContentHandlers(deps: ContentDeps) {
   };
 
   const writePublicDashboard = (item: StoredDashboard) => {
+    // A description left blank is stored as `{}`, which the public localiser can't resolve and
+    // which reached React as an object (the portal page failed with a 500). Publish it as "".
+    const description = Object.keys(item.description ?? {}).length ? item.description : "";
     const entry = {
       slug: item.slug,
       title: item.title,
-      description: item.description,
+      description,
       audience: item.audience,
       widgets: item.widgets,
     } as unknown as Fixtures["dashboards"][number];

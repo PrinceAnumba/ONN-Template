@@ -137,6 +137,25 @@ describe("dashboards", () => {
     const empty = await call("/admin/dashboards/regions/publish", "u-editor", { method: "POST" });
     expect((await json<Problem>(empty)).type).toBe("empty");
   });
+
+  it("publishes a new dashboard with no description as an empty string", async () => {
+    await call("/admin/dashboards", "u-editor", {
+      body: { slug: "no-description", title: { fr: "Sans description" }, audience: "public" },
+    });
+    const draft = await json<DashboardAdmin>(
+      await call("/admin/dashboards/no-description", "u-editor"),
+    );
+    const widget = { id: "w1", type: "kpi", title: { fr: "Indicateur" }, span: 1 };
+    const indicators = [draft.widgets[0]?.indicators[0] ?? "ACCESS.INTERNET_USERS"];
+    await call("/admin/dashboards/no-description", "u-editor", {
+      method: "PUT",
+      body: { ...draft, widgets: [{ ...widget, indicators }] },
+    });
+    await call("/admin/dashboards/no-description/publish", "u-editor", { method: "POST" });
+    const live = await json<Dashboard>(await call("/dashboards/no-description", null));
+    expect(live.description).toBe("");
+    expect(live.title).toBe("Sans description");
+  });
 });
 
 describe("publications", () => {

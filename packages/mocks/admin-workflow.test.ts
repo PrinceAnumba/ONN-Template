@@ -144,6 +144,11 @@ describe("workflow", () => {
     const point = series[0]!.points.find((p) => p.period === row.period);
     expect(point?.value).toBe(row.value);
     expect(published.at(-1)).toContain(`indicator:${row.indicator}`);
+    // The catalogue's coverage reaches the published period, so the portal's year range does too.
+    const indicator = await json<{ coverage: { to: string } }>(
+      await call(`/indicators/${row.indicator}`),
+    );
+    expect(indicator.coverage.to >= row.period).toBe(true);
   });
 
   it("applies bulk transitions one by one and reports failures", async () => {
